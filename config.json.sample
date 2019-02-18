@@ -1,0 +1,11 @@
+{
+    "gmail": [
+        {
+            "mail": "",
+            "password": "",
+            "port": 587,
+            "server": "smtp.gmail.com"
+        }
+    ],
+    "mail_to": ""
+}
