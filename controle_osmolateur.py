@@ -157,11 +157,17 @@ try:
             functions.mail(message, body)
             last_day = day
 
+except KeyboardInterrupt:
+    print('End')
+    GPIO.cleanup()
+    sys.exit()
+
 except:
     message = "Osmolateur - ERREUR SCRIPT"
     body = "<p style='color:red;text-transform:uppercase;'>" + message + "</p>"
     print(message)
     functions.mail(message, body)
     functions.stoppump(relais)
+    print "Unexpected error:", sys.exc_info()[0]
 
     raise
