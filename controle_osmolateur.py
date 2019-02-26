@@ -168,6 +168,5 @@ except:
     print(message)
     functions.mail(message, body)
     functions.stoppump(relais)
-    print "Unexpected error:", sys.exc_info()[0]
 
     raise

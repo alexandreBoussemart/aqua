@@ -245,6 +245,5 @@ except:
     body = "<p style='color:red;text-transform:uppercase;'>"+message+"</p>"
     print(message)
     functions.mail(message, body)
-    print "Unexpected error:", sys.exc_info()[0]
 
     raise

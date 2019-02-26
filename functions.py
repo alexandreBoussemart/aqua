@@ -50,3 +50,18 @@ def stoppump(r):
     GPIO.setup(r, GPIO.OUT)
     GPIO.output(r, 0)
     GPIO.cleanup(r)
+
+
+def read_file(emplacement):
+    file = open(emplacement)
+    content = file.read()
+    file.close()
+    return content
+
+
+def get_temp(content):
+    second_line = content.split("\n")[1]
+    temp = second_line.split(" ")[9]
+    temperature = float(temp[2:])
+    temperature = temperature / 1000
+    return temperature
