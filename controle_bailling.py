@@ -1,17 +1,13 @@
 #! /usr/bin/python
 # -*-coding:Latin-1 -*
-import smtplib
 import datetime
 import sys
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from time import sleep
 import functions
 
-import RPi.GPIO as GPIO, time
+import RPi.GPIO as GPIO
 
 last_day = 0
-
 bailling_1 = 5
 bailling_2 = 6
 bailling_3 = 13
@@ -237,7 +233,6 @@ try:
 
 except KeyboardInterrupt:
     print('End')
-    GPIO.cleanup()
     sys.exit()
 
 except:

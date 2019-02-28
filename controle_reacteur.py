@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#flowsensor.py
+# -*-coding:Latin-1 -*
 import RPi.GPIO as GPIO
 import time, sys
 import functions
@@ -92,7 +92,6 @@ while True:
 
     except KeyboardInterrupt:
         print('End')
-        GPIO.cleanup()
         sys.exit()
 
     except:

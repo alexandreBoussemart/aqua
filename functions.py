@@ -1,11 +1,8 @@
 #! /usr/bin/python
 # -*-coding:Latin-1 -*
-
 import json
-import sys
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from pprint import pprint
 import RPi.GPIO as GPIO
 import smtplib
 
@@ -65,3 +62,4 @@ def get_temp(content):
     temperature = float(temp[2:])
     temperature = temperature / 1000
     return temperature
+

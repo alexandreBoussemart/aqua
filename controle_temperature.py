@@ -1,10 +1,7 @@
 #! /usr/bin/python
 # -*-coding:Latin-1 -*
-import smtplib
 import datetime
 import sys
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from time import sleep
 import functions
 
