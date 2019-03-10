@@ -146,7 +146,6 @@ try:
             # niveau bailling 1 bas
             if state_current == '011':
                 time_bailling_1 = time_bailling_1 + 1
-                print("1",time_bailling_1)
 
                 # rappel 30 minutes
                 if time_bailling_1 > 180000:
@@ -156,7 +155,6 @@ try:
             # niveau bailling 1 et 2 bas
             elif state_current == '001':
                 time_bailling_1_2 = time_bailling_1_2 + 1
-                print("12", time_bailling_1_2)
 
                 # rappel 30 minutes
                 if time_bailling_1_2 > 180000:
@@ -166,7 +164,6 @@ try:
             # niveau bailling 1 et 3 bas
             elif state_current == '010':
                 time_bailling_1_3 = time_bailling_1_3 + 1
-                print("13", time_bailling_1_3)
 
                 # rappel 30 minutes
                 if time_bailling_1_3 > 180000:
@@ -176,7 +173,6 @@ try:
             # niveau bailling 2 et 3 bas
             elif state_current == '100':
                 time_bailling_2_3 = time_bailling_2_3 + 1
-                print("23", time_bailling_2_3)
 
                 # rappel 30 minutes
                 if time_bailling_2_3 > 180000:
@@ -186,7 +182,6 @@ try:
             # niveau bailling 1, 2 et 3 bas
             elif state_current == '000':
                 time_bailling_1_2_3 = time_bailling_1_2_3 + 1
-                print("123", time_bailling_1_2_3)
 
                 # rappel 30 minutes
                 if time_bailling_1_2_3 > 180000:
@@ -196,7 +191,6 @@ try:
             # niveau bailling 2 bas
             elif state_current == '101':
                 time_bailling_2 = time_bailling_2 + 1
-                print("2", time_bailling_2)
 
                 # rappel 30 minutes
                 if time_bailling_2 > 180000:
@@ -206,7 +200,6 @@ try:
             # niveau bailling 3 bas
             elif state_current == '110':
                 time_bailling_3 = time_bailling_3 + 1
-                print("3", time_bailling_3)
 
                 # rappel 30 minutes
                 if time_bailling_3 > 180000:
