@@ -69,7 +69,7 @@ try:
         day = datetime.datetime.now().strftime('%d')
 
         if now == '0800' and last_day != day:
-            message = "Temperature - controle 8h OK "+str(temperature)+"°C"
+            message = "Temperature - controle 8h OK - "+str(temperature)+"°C"
             body = "<p style='color:blue;'>" + message + "</p>"
             print(message)
             functions.mail(message, body)
