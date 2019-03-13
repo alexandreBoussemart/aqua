@@ -34,6 +34,7 @@ try:
     GPIO.setup(level_ok, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     LEVEL_OK_STATE = 0
 
+    time_off = 0
     state = '2222'
     message = ''
     body = ''
@@ -88,6 +89,13 @@ try:
                 functions.stoppump(relais)
                 time_to_low = 0
 
+            # osmolateur off
+            elif state_current == '1111':
+                message = "Osmolateur - ERREUR - off"
+                body = "<p style='color:red;'>" + message + "</p>"
+                functions.stoppump(relais)
+                time_to_low = 0
+
             else:
                 state = '2222'
                 continue
@@ -134,6 +142,15 @@ try:
                 if time_to_low > 180000:
                     message = "Osmolateur - RAPPEL ERREUR - niveau d'eau TO LOW"
                     time_to_low = 0
+
+            # osmolateur off
+            elif state_current == '1111':
+                time_off = time_off + 1
+
+                # rappel 30 minutes
+                if time_off > 540000:
+                    message = "Osmolateur - RAPPEL ERREUR - off"
+                    time_off = 0
 
             if message != "":
                 print(message)
