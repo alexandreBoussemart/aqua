@@ -18,6 +18,9 @@ try:
         temperature = functions.get_temp(content)
         message = ""
 
+        if temperature is False:
+            continue
+
         if temperature < 23:
             temp_ok = False
 
@@ -27,7 +30,7 @@ try:
             error_min = True
             time_error_min = time_error_min + 1
 
-            if time_error_min > 8 and error_min is True:
+            if time_error_min > 180000 and error_min is True:
                 time_error_min = 0
                 message = "Temperature - RAPPEL ERREUR - trop froid "+str(temperature)+"°C"
 
@@ -40,7 +43,7 @@ try:
             error_max = True
             time_error_max = time_error_max + 1
 
-            if time_error_max > 8 and error_max is True:
+            if time_error_max > 180000 and error_max is True:
                 time_error_max = 0
                 message = "Temperature - RAPPEL ERREUR - trop chaud "+str(temperature)+"°C"
 

@@ -59,7 +59,11 @@ def read_file(emplacement):
 def get_temp(content):
     second_line = content.split("\n")[1]
     temp = second_line.split(" ")[9]
-    temperature = float(temp[2:])
+    temperature = temp[2:]
+    if temperature == 85000:
+        return False
+
+    temperature = float(temperature)
     temperature = temperature / 1000
     return temperature
 
