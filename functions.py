@@ -60,7 +60,7 @@ def get_temp(content):
     second_line = content.split("\n")[1]
     temp = second_line.split(" ")[9]
     temperature = temp[2:]
-    if temperature == 85000:
+    if temperature == "85000":
         return False
 
     temperature = float(temperature)
