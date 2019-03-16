@@ -91,20 +91,20 @@ try:
 
             # osmolateur off
             elif state_current == '1111':
-                message = "Osmolateur - ERREUR - off"
-                body = "<p style='color:red;'>" + message + "</p>"
+                message = ""
                 functions.stoppump(relais)
-                time_to_low = 0
+                time_off = 0
 
             else:
                 state = '2222'
                 continue
 
             state = state_current
-            print(message)
 
-            # envoie mail changement du statut
-            functions.mail(message, body)
+            if message != "":
+                print(message)
+                # envoie mail changement du statut
+                functions.mail(message, body)
 
         # si pas de changement de statut
         else:
@@ -146,6 +146,10 @@ try:
             # osmolateur off
             elif state_current == '1111':
                 time_off = time_off + 1
+
+                # alert off a partir de 5 secondes en off
+                if time_off == 500:
+                    message = "Osmolateur - ERREUR - off"
 
                 # rappel 30 minutes
                 if time_off > 540000:
