@@ -96,7 +96,6 @@ try:
                 time_off = 0
 
             else:
-                state = '2222'
                 continue
 
             state = state_current
