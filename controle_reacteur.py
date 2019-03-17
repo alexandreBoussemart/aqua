@@ -5,7 +5,7 @@ import time, sys
 import functions
 import datetime
 
-FLOW_SENSOR = 4
+FLOW_SENSOR = 17
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(FLOW_SENSOR, GPIO.IN, pull_up_down = GPIO.PUD_UP)
@@ -15,15 +15,17 @@ count = 0
 time_to_0 = 0
 time_to_low = 0
 last_day = 0
-in_to_0 = False
-in_to_low = False
+in_to_0 = True
+in_to_low = True
 
-def countPulse(channel):
-   global count
-   if start_counter == 1:
-      count = count+1
 
-GPIO.add_event_detect(FLOW_SENSOR, GPIO.FALLING, callback=countPulse)
+def countpulse(channel):
+    global count
+    if start_counter == 1:
+        count = count + 1
+
+
+GPIO.add_event_detect(FLOW_SENSOR, GPIO.FALLING, callback=countpulse)
 
 while True:
     try:
@@ -31,16 +33,20 @@ while True:
         start_counter = 1
         time.sleep(1)
         start_counter = 0
-        flow = int(round((count * 60 * 2.25 / 1000)))
-        #print("The flow is: %.3f Liter/min" % (flow))
-
-        print(flow)
+        flow = int(round((count * 60 * 7.5 / 10)))
 
         if flow > 0:
             time_to_0 = 0
             in_to_0 = False
 
-        if flow > 50:
+        if flow > 1050:
+            if in_to_low is True or in_to_0 is True:
+                message = "Reacteur - debit reacteur OK"
+                body = "<p style='color:green;'>" + message + "</p>"
+                print(message)
+                functions.mail(message, body)
+                message = ""
+
             time_to_low = 0
             in_to_low = False
 
@@ -56,7 +62,7 @@ while True:
                 message = "Reacteur - RAPPEL ERREUR - debit reacteur = 0"
                 time_to_0 = 0
 
-        elif flow < 50:
+        elif flow < 1050:
 
             if time_to_low == 0 and in_to_low is False:
                 message = "Reacteur - ERREUR - debit reacteur faible"
@@ -80,9 +86,8 @@ while True:
         day = datetime.datetime.now().strftime('%d')
 
         if now == '0800' and last_day != day:
-            message = "Reacteur - controle 8h OK"
-            text = "The flow is: %.3f Liter/min" % flow
-            body = "<p style='color:blue;'>" + text + "</p>"
+            message = "Reacteur - controle 8h OK - " + flow
+            body = "<p style='color:blue;'>" + message + "</p>"
             print(message)
             functions.mail(message, body)
             last_day = day
