@@ -57,6 +57,10 @@ def read_file(emplacement):
 
 
 def get_temp(content):
+    first_line = content.split("\n")[0]
+    if first_line.find('NO') != -1:
+        return False
+
     second_line = content.split("\n")[1]
     temp = second_line.split(" ")[9]
     temperature = temp[2:]

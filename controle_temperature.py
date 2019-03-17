@@ -11,61 +11,65 @@ error_max = False
 time_error_max = 0
 last_day = 0
 temp_ok = False
+second = 5
+temperature = 1
 
 try:
     while True:
-        content = functions.read_file("/sys/bus/w1/devices/28-01142f1e02d2/w1_slave")
-        temperature = functions.get_temp(content)
-        message = ""
+        if second == 5:
+            second = 1
+            content = functions.read_file("/sys/bus/w1/devices/28-01142f1e02d2/w1_slave")
+            temperature = functions.get_temp(content)
+            message = ""
 
-        if temperature is False:
-            continue
+            if temperature is False:
+                continue
 
-        if temperature < 23:
-            temp_ok = False
+            if temperature < 23:
+                temp_ok = False
 
-            if error_min is False:
-                message = "Temperature - ERREUR - trop froid "+str(temperature)+"°C"
+                if error_min is False:
+                    message = "Temperature - ERREUR - trop froid "+str(temperature)+"°C"
 
-            error_min = True
-            time_error_min = time_error_min + 1
+                error_min = True
+                time_error_min = time_error_min + 1
 
-            if time_error_min > 180000 and error_min is True:
+                if time_error_min > 180000 and error_min is True:
+                    time_error_min = 0
+                    message = "Temperature - RAPPEL ERREUR - trop froid "+str(temperature)+"°C"
+
+            elif temperature > 28:
+                temp_ok = False
+
+                if error_max is False:
+                    message = "Temperature - ERREUR - trop chaud "+str(temperature)+"°C"
+
+                error_max = True
+                time_error_max = time_error_max + 1
+
+                if time_error_max > 180000 and error_max is True:
+                    time_error_max = 0
+                    message = "Temperature - RAPPEL ERREUR - trop chaud "+str(temperature)+"°C"
+
+            else:
+                if temp_ok is False:
+                    message = "Temperature - OK -  " + str(temperature) + "°C"
+
+                temp_ok = True
+                error_min = False
                 time_error_min = 0
-                message = "Temperature - RAPPEL ERREUR - trop froid "+str(temperature)+"°C"
-
-        elif temperature > 28:
-            temp_ok = False
-
-            if error_max is False:
-                message = "Temperature - ERREUR - trop chaud "+str(temperature)+"°C"
-
-            error_max = True
-            time_error_max = time_error_max + 1
-
-            if time_error_max > 180000 and error_max is True:
+                error_max = False
                 time_error_max = 0
-                message = "Temperature - RAPPEL ERREUR - trop chaud "+str(temperature)+"°C"
 
-        else:
-            if temp_ok is False:
-                message = "Temperature - OK -  " + str(temperature) + "°C"
+            if message != "" and temp_ok is False:
+                print(message)
+                body = "<p style='color:red;text-transform:uppercase;'>" + message + "</p>"
+                functions.mail(message, body)
 
-            temp_ok = True
-            error_min = False
-            time_error_min = 0
-            error_max = False
-            time_error_max = 0
-
-        if message != "" and temp_ok is False:
-            print(message)
-            body = "<p style='color:red;text-transform:uppercase;'>" + message + "</p>"
-            functions.mail(message, body)
-
-        if message != "" and temp_ok is True:
-            print(message)
-            body = "<p style='color:green;'>" + message + "</p>"
-            functions.mail(message, body)
+            if message != "" and temp_ok is True:
+                print(message)
+                body = "<p style='color:green;'>" + message + "</p>"
+                functions.mail(message, body)
 
         # on envoie un mail de controle tous les jours  8h
         now = datetime.datetime.now().strftime('%H%M')
@@ -78,6 +82,7 @@ try:
             functions.mail(message, body)
             last_day = day
 
+        second = second + 1
         sleep(1)
 
 except KeyboardInterrupt:
