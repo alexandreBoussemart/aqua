@@ -1,3 +1,4 @@
 config.json
 .idea/
 raspberry.txt
+__pycache__/
