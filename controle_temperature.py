@@ -26,30 +26,47 @@ try:
                 continue
 
             if temperature < 23:
-                temp_ok = False
 
-                if error_min is False:
-                    message = "Temperature - ERREUR - trop froid "+str(temperature)+"°C"
+                temp_min = temperature * 0.85
+                temp_max = temperature * 1.15
 
-                error_min = True
-                time_error_min = time_error_min + 1
+                content = functions.read_file("/sys/bus/w1/devices/28-01142f1e02d2/w1_slave")
+                temperature = functions.get_temp(content)
 
-                if time_error_min > 180000 and error_min is True:
-                    time_error_min = 0
-                    message = "Temperature - RAPPEL ERREUR - trop froid "+str(temperature)+"°C"
+                if temp_min < temperature < temp_max:
+                    temp_ok = False
+
+                    if error_min is False:
+                        message = "Temperature - ERREUR - trop froid "+str(temperature)+"°C"
+
+                    error_min = True
+                    time_error_min = time_error_min + 1
+
+                    if time_error_min > 180000 and error_min is True:
+                        time_error_min = 0
+                        message = "Temperature - RAPPEL ERREUR - trop froid "+str(temperature)+"°C"
 
             elif temperature > 28:
-                temp_ok = False
 
-                if error_max is False:
-                    message = "Temperature - ERREUR - trop chaud "+str(temperature)+"°C"
+                temp_min = temperature * 0.85
+                temp_max = temperature * 1.15
 
-                error_max = True
-                time_error_max = time_error_max + 1
+                content = functions.read_file("/sys/bus/w1/devices/28-01142f1e02d2/w1_slave")
+                temperature = functions.get_temp(content)
 
-                if time_error_max > 180000 and error_max is True:
-                    time_error_max = 0
-                    message = "Temperature - RAPPEL ERREUR - trop chaud "+str(temperature)+"°C"
+                if temp_min < temperature < temp_max:
+
+                    temp_ok = False
+
+                    if error_max is False:
+                        message = "Temperature - ERREUR - trop chaud "+str(temperature)+"°C"
+
+                    error_max = True
+                    time_error_max = time_error_max + 1
+
+                    if time_error_max > 180000 and error_max is True:
+                        time_error_max = 0
+                        message = "Temperature - RAPPEL ERREUR - trop chaud "+str(temperature)+"°C"
 
             else:
                 if temp_ok is False:
