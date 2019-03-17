@@ -15,8 +15,9 @@ count = 0
 time_to_0 = 0
 time_to_low = 0
 last_day = 0
-in_to_0 = True
-in_to_low = True
+in_to_0 = False
+in_to_low = False
+is_first = True
 
 
 def countpulse(channel):
@@ -40,7 +41,8 @@ while True:
             in_to_0 = False
 
         if flow > 1050:
-            if in_to_low is True or in_to_0 is True:
+            if in_to_low is True or in_to_0 is True or is_first is True:
+                is_first = False
                 message = "Reacteur - debit reacteur OK"
                 body = "<p style='color:green;'>" + message + "</p>"
                 print(message)
@@ -51,7 +53,6 @@ while True:
             in_to_low = False
 
         if flow == 0:
-
             if time_to_0 == 0 and in_to_0 is False:
                 message = "Reacteur - ERREUR - debit reacteur = 0"
                 in_to_0 = True
