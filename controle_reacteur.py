@@ -87,7 +87,7 @@ while True:
         day = datetime.datetime.now().strftime('%d')
 
         if now == '0800' and last_day != day:
-            message = "Reacteur - controle 8h OK - " + flow
+            message = "Reacteur - controle 8h OK - " + str(flow)
             body = "<p style='color:blue;'>" + message + "</p>"
             print(message)
             functions.mail(message, body)
