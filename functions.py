@@ -8,7 +8,7 @@ import smtplib
 
 
 def mail(m, b):
-    with open('./config.json') as f:
+    with open('/home/pi/Desktop/aqua/config.json') as f:
         data = json.load(f)
 
     fromaddr = data["gmail"][0]["mail"]
