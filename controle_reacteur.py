@@ -21,7 +21,6 @@ last_day4 = 0
 in_to_0 = False
 in_to_low = False
 is_first = True
-start_counter = 0
 
 
 def countpulse(channel):
@@ -39,8 +38,11 @@ while True:
 
     try:
         message = ""
+        start_counter = 1
         time.sleep(1)
+        start_counter = 0
         flow = int(round((count * 60 * 7.5 / 10)))
+
         functions.setdebit(flow)
 
         if flow > 0:
