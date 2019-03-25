@@ -8,6 +8,7 @@ import functions
 import RPi.GPIO as GPIO
 
 last_day = 0
+last_day2 = 0
 relais = 21
 to_high = 23
 level_ok = 24
@@ -170,12 +171,17 @@ try:
         now = datetime.datetime.now().strftime('%H%M')
         day = datetime.datetime.now().strftime('%d')
 
+        if now == '0759' and last_day2 != day:
+            functions.deletecontrole('controle_osmolateur')
+            last_day2 = day
+
         if now == '0800' and last_day != day:
             message = "Osmolateur - controle 8h OK"
             body = "<p style='color:blue;'>" + message + "</p>"
             print(message)
             functions.mail(message, body)
             last_day = day
+            functions.setcontrole('controle_osmolateur')
 
 except KeyboardInterrupt:
     print('End')

@@ -10,6 +10,7 @@ time_error_min = 0
 error_max = False
 time_error_max = 0
 last_day = 0
+last_day2 = 0
 temp_ok = False
 second = 10
 temperature = 1
@@ -100,12 +101,17 @@ try:
         now = datetime.datetime.now().strftime('%H%M')
         day = datetime.datetime.now().strftime('%d')
 
+        if now == '0759' and last_day2 != day:
+            functions.deletecontrole('controle_temperature')
+            last_day2 = day
+
         if now == '0800' and last_day != day:
             message = "Temperature - controle 8h OK - "+str(temperature)+"°C"
             body = "<p style='color:blue;'>" + message + "</p>"
             print(message)
             functions.mail(message, body)
             last_day = day
+            functions.setcontrole('controle_temperature')
 
         second = second + 1
         sleep(1)

@@ -60,6 +60,48 @@ def settemperature(value):
         raise
 
 
+def setcontrole(value):
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        val = str(value)
+
+        sql = "INSERT INTO `controle`( `value`) VALUES (" + val + ")"
+        mycursor.execute(sql)
+
+        mydb.commit()
+        mydb.close()
+
+    except Exception as e:
+        message = "SQL - ERREUR setcontrole"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+
+        raise
+
+
+def deletecontrole(value):
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        val = str(value)
+
+        sql = "DELETE FROM `controle` WHERE value='" + val + "'"
+        mycursor.execute(sql)
+
+        mydb.commit()
+        mydb.close()
+
+    except Exception as e:
+        message = "SQL - ERREUR deletecontrole"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+
+        raise
+
+
 def setdebit(value):
     try:
         mydb = connect()

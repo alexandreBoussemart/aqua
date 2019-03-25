@@ -8,6 +8,7 @@ import functions
 import RPi.GPIO as GPIO
 
 last_day = 0
+last_day2 = 0
 port = 18
 
 GPIO.setmode(GPIO.BCM)
@@ -80,12 +81,17 @@ try:
         now = datetime.datetime.now().strftime('%H%M')
         day = datetime.datetime.now().strftime('%d')
 
+        if now == '0759' and last_day2 != day:
+            functions.deletecontrole('controle_ecumeur')
+            last_day2 = day
+
         if now == '0800' and last_day != day:
             message = "Ecumeur - controle 8h OK"
             body = "<p style='color:blue;'>" + message + "</p>"
             print(message)
             functions.mail(message, body)
             last_day = day
+            functions.setcontrole('controle_ecumeur')
 
 except KeyboardInterrupt:
     print('End')

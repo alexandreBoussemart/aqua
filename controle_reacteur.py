@@ -15,6 +15,7 @@ count = 0
 time_to_0 = 0
 time_to_low = 0
 last_day = 0
+last_day2 = 0
 in_to_0 = False
 in_to_low = False
 is_first = True
@@ -92,12 +93,17 @@ while True:
         now = datetime.datetime.now().strftime('%H%M')
         day = datetime.datetime.now().strftime('%d')
 
+        if now == '0759' and last_day2 != day:
+            functions.deletecontrole('controle_reacteur')
+            last_day2 = day
+
         if now == '0800' and last_day != day:
             message = "Reacteur - controle 8h OK - " + str(flow)
             body = "<p style='color:blue;'>" + message + "</p>"
             print(message)
             functions.mail(message, body)
             last_day = day
+            functions.setcontrole('controle_reacteur')
 
         count = 0
         time.sleep(5)

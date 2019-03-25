@@ -8,6 +8,7 @@ import functions
 import RPi.GPIO as GPIO
 
 last_day = 0
+last_day2 = 0
 bailling_1 = 5
 bailling_2 = 6
 bailling_3 = 13
@@ -221,12 +222,17 @@ try:
         now = datetime.datetime.now().strftime('%H%M')
         day = datetime.datetime.now().strftime('%d')
 
+        if now == '0759' and last_day2 != day:
+            functions.deletecontrole('controle_bailling')
+            last_day2 = day
+
         if now == '0800' and last_day != day:
             message = "Bailling - controle 8h OK"
             body = "<p style='color:blue;'>" + message + "</p>"
             print(message)
             functions.mail(message, body)
             last_day = day
+            functions.setcontrole('controle_bailling')
 
 except KeyboardInterrupt:
     print('End')
