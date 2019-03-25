@@ -14,9 +14,9 @@ def connect():
 
     return mysql.connector.connect(
         host=data["database"][0]["host"],
-        user=["database"][0]["user"],
-        passwd=["database"][0]["passwd"],
-        database=["database"][0]["database"]
+        user=data["database"][0]["user"],
+        passwd=data["database"][0]["passwd"],
+        database=data["database"][0]["database"]
     )
 
 
@@ -24,13 +24,13 @@ def getstatus(value):
     try:
         mydb = connect()
         mycursor = mydb.cursor()
-        mycursor.execute("SELECT `value` FROM `config` WHERE `name` = '"+value+"' LIMIT 1")
+        mycursor.execute("SELECT `value` FROM `config` WHERE `name` = '" + value + "' LIMIT 1")
         myresult = mycursor.fetchone()[0]
         mydb.close()
 
         return myresult
 
-    except Exception, e:
+    except Exception as e:
         message = "SQL - ERREUR getstatus"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
@@ -43,14 +43,15 @@ def settemperature(value):
     try:
         mydb = connect()
         mycursor = mydb.cursor()
+        temp = str(value)
 
-        sql = "INSERT INTO `temperature`( `value`) VALUES ("+value+")"
+        sql = "INSERT INTO `temperature`( `value`) VALUES (" + temp + ")"
         mycursor.execute(sql)
 
         mydb.commit()
         mydb.close()
 
-    except Exception, e:
+    except Exception as e:
         message = "SQL - ERREUR settemperature"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
@@ -63,14 +64,15 @@ def setdebit(value):
     try:
         mydb = connect()
         mycursor = mydb.cursor()
+        debit = str(value)
 
-        sql = "INSERT INTO `reacteur`( `value`) VALUES ("+value+")"
+        sql = "INSERT INTO `reacteur`( `value`) VALUES (" + debit + ")"
         mycursor.execute(sql)
 
         mydb.commit()
         mydb.close()
 
-    except Exception, e:
+    except Exception as e:
         message = "SQL - ERREUR setdebit"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
@@ -141,4 +143,3 @@ def get_temp(content):
     temperature = float(temperature)
     temperature = temperature / 1000
     return temperature
-
