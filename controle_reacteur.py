@@ -16,6 +16,8 @@ time_to_0 = 0
 time_to_low = 0
 last_day = 0
 last_day2 = 0
+last_day3 = 0
+last_day4 = 0
 in_to_0 = False
 in_to_low = False
 is_first = True
@@ -92,6 +94,14 @@ while True:
         # on envoie un mail de controle tous les jours  8h
         now = datetime.datetime.now().strftime('%H%M')
         day = datetime.datetime.now().strftime('%d')
+
+        if now == '1759' and last_day3 != day:
+            functions.deletecontrole('controle_reacteur')
+            last_day3 = day
+
+        if now == '1800' and last_day4 != day:
+            functions.setcontrole('controle_reacteur')
+            last_day4 = day
 
         if now == '0759' and last_day2 != day:
             functions.deletecontrole('controle_reacteur')

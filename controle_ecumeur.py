@@ -9,6 +9,8 @@ import RPi.GPIO as GPIO
 
 last_day = 0
 last_day2 = 0
+last_day3 = 0
+last_day4 = 0
 port = 18
 
 GPIO.setmode(GPIO.BCM)
@@ -80,6 +82,14 @@ try:
         # on envoie un mail de controle tous les jours  8h
         now = datetime.datetime.now().strftime('%H%M')
         day = datetime.datetime.now().strftime('%d')
+
+        if now == '1759' and last_day3 != day:
+            functions.deletecontrole('controle_ecumeur')
+            last_day3 = day
+
+        if now == '1800' and last_day4 != day:
+            functions.setcontrole('controle_ecumeur')
+            last_day4 = day
 
         if now == '0759' and last_day2 != day:
             functions.deletecontrole('controle_ecumeur')
