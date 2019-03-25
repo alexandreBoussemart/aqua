@@ -5,6 +5,77 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import RPi.GPIO as GPIO
 import smtplib
+import mysql.connector
+
+
+def connect():
+    with open('/home/pi/Desktop/aqua/config.json') as f:
+        data = json.load(f)
+
+    return mysql.connector.connect(
+        host=data["database"][0]["host"],
+        user=["database"][0]["user"],
+        passwd=["database"][0]["passwd"],
+        database=["database"][0]["database"]
+    )
+
+
+def getstatus(value):
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        mycursor.execute("SELECT `value` FROM `config` WHERE `name` = '"+value+"' LIMIT 1")
+        myresult = mycursor.fetchone()[0]
+        mydb.close()
+
+        return myresult
+
+    except Exception, e:
+        message = "SQL - ERREUR getstatus"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+
+        raise
+
+
+def settemperature(value):
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+
+        sql = "INSERT INTO `temperature`( `value`) VALUES ("+value+")"
+        mycursor.execute(sql)
+
+        mydb.commit()
+        mydb.close()
+
+    except Exception, e:
+        message = "SQL - ERREUR settemperature"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+
+        raise
+
+
+def setdebit(value):
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+
+        sql = "INSERT INTO `reacteur`( `value`) VALUES ("+value+")"
+        mycursor.execute(sql)
+
+        mydb.commit()
+        mydb.close()
+
+    except Exception, e:
+        message = "SQL - ERREUR setdebit"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+        raise
 
 
 def mail(m, b):

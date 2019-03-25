@@ -41,6 +41,10 @@ try:
     body = ''
 
     while True:
+        status = functions.getstatus('controle_bailling')
+        if status == 0:
+            continue
+
         sleep(1 / 100)
 
         # lecture GPIO bailling_1

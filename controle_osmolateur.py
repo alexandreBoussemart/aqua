@@ -40,6 +40,10 @@ try:
     body = ''
 
     while True:
+        status = functions.getstatus('controle_osmolateur')
+        if status == 0:
+            continue
+
         sleep(1 / 100)
 
         # lecture GPIO led to high

@@ -29,12 +29,18 @@ def countpulse(channel):
 GPIO.add_event_detect(FLOW_SENSOR, GPIO.FALLING, callback=countpulse)
 
 while True:
+    status = functions.getstatus('controle_reacteur')
+    if status == 0:
+        continue
+
     try:
         message = ""
         start_counter = 1
         time.sleep(1)
         start_counter = 0
         flow = int(round((count * 60 * 7.5 / 10)))
+
+        functions.setdebit(flow)
 
         if flow > 0:
             time_to_0 = 0

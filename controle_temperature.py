@@ -16,6 +16,10 @@ temperature = 1
 
 try:
     while True:
+        status = functions.getstatus('controle_temperature')
+        if status == 0:
+            continue
+
         if second == 10:
             second = 1
             content = functions.read_file("/sys/bus/w1/devices/28-01142f1e02d2/w1_slave")
@@ -31,6 +35,8 @@ try:
 
                 content = functions.read_file("/sys/bus/w1/devices/28-01142f1e02d2/w1_slave")
                 temperature2 = functions.get_temp(content)
+
+                functions.settemperature(temperature2)
 
                 if temp_min < temperature2 < temp_max:
                     temp_ok = False
@@ -52,6 +58,8 @@ try:
                 content = functions.read_file("/sys/bus/w1/devices/28-01142f1e02d2/w1_slave")
                 temperature2 = functions.get_temp(content)
 
+                functions.settemperature(temperature2)
+
                 if temp_min < temperature2 < temp_max:
 
                     temp_ok = False
@@ -69,6 +77,8 @@ try:
             else:
                 if temp_ok is False:
                     message = "Temperature - OK -  " + str(temperature) + "°C"
+
+                functions.settemperature(temperature)
 
                 temp_ok = True
                 error_min = False

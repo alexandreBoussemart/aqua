@@ -7,5 +7,13 @@
             "server": "smtp.gmail.com"
         }
     ],
-    "mail_to": ""
+    "mail_to": "",
+    "database": [
+        {
+            "host": "",
+            "user": "",
+            "passwd": "",
+            "database": ""
+        }
+    ]
 }
