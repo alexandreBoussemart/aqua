@@ -21,6 +21,7 @@ last_day4 = 0
 in_to_0 = False
 in_to_low = False
 is_first = True
+start_counter = 0
 
 
 def countpulse(channel):
