@@ -53,7 +53,7 @@ def settemperature(value):
 
     except Exception as e:
         message = "SQL - ERREUR settemperature"
-        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + sql + "</p>"
         print(message)
         mail(message, body)
 
@@ -67,6 +67,7 @@ def setcontrole(value):
         val = str(value)
 
         sql = "INSERT INTO `controle`( `value`) VALUES (" + val + ")"
+        print(sql)
         mycursor.execute(sql)
 
         mydb.commit()
@@ -74,7 +75,7 @@ def setcontrole(value):
 
     except Exception as e:
         message = "SQL - ERREUR setcontrole"
-        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + sql + "</p>"
         print(message)
         mail(message, body)
 

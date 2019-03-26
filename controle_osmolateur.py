@@ -197,9 +197,9 @@ except KeyboardInterrupt:
     print('End')
     sys.exit()
 
-except:
+except Exception as e:
     message = "Osmolateur - ERREUR SCRIPT"
-    body = "<p style='color:red;text-transform:uppercase;'>" + message + "</p>"
+    body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
     print(message)
     functions.mail(message, body)
     functions.stoppump(relais)

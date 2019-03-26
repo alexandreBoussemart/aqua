@@ -22,6 +22,7 @@ in_to_0 = False
 in_to_low = False
 is_first = True
 start_counter = 0
+indentator = 0
 
 
 def countpulse(channel):
@@ -44,7 +45,13 @@ while True:
         start_counter = 0
         flow = int(round((count * 60 * 7.5 / 10)))
 
-        functions.setdebit(flow)
+        if indentator == 0:
+            functions.setdebit(flow)
+        else:
+            indentator = indentator + 1
+
+        if indentator == 4:
+            indentator = 0
 
         if flow > 0:
             time_to_0 = 0
@@ -123,9 +130,9 @@ while True:
         print('End')
         sys.exit()
 
-    except:
+    except Exception as e:
         message = "Reacteur - ERREUR SCRIPT"
-        body = "<p style='color:red;text-transform:uppercase;'>" + message + "</p>"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         functions.mail(message, body)
 
