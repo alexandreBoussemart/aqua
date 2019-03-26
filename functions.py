@@ -123,28 +123,36 @@ def setdebit(value):
 
 
 def mail(m, b):
-    with open('/home/pi/Desktop/aqua/config.json') as f:
-        data = json.load(f)
+    try:
+        with open('/home/pi/Desktop/aqua/config.json') as f:
+            data = json.load(f)
 
-    fromaddr = data["gmail"][0]["mail"]
-    password = data["gmail"][0]["password"]
-    port = data["gmail"][0]["port"]
-    server = data["gmail"][0]["server"]
-    toaddr = data["mail_to"]
+        fromaddr = data["gmail"][0]["mail"]
+        password = data["gmail"][0]["password"]
+        port = data["gmail"][0]["port"]
+        server = data["gmail"][0]["server"]
+        toaddr = data["mail_to"]
 
-    server = smtplib.SMTP(server, port)
-    server.starttls()
-    server.login(fromaddr, password)
+        server = smtplib.SMTP(server, port)
+        server.starttls()
+        server.login(fromaddr, password)
 
-    msg = MIMEMultipart()
-    msg['From'] = fromaddr
-    msg['To'] = toaddr
+        msg = MIMEMultipart()
+        msg['From'] = fromaddr
+        msg['To'] = toaddr
 
-    msg.attach(MIMEText(b, 'html'))
-    msg['Subject'] = m
-    text = msg.as_string()
-    server.sendmail(fromaddr, toaddr, text)
-    server.quit()
+        msg.attach(MIMEText(b, 'html'))
+        msg['Subject'] = m
+        text = msg.as_string()
+        server.sendmail(fromaddr, toaddr, text)
+        server.quit()
+
+    except Exception as e:
+        message = "Mail - ERREUR mail"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+        raise
 
 
 def offled(led):
@@ -184,4 +192,5 @@ def get_temp(content):
 
     temperature = float(temperature)
     temperature = temperature / 1000
+
     return temperature

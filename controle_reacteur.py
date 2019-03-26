@@ -23,6 +23,7 @@ in_to_low = False
 is_first = True
 start_counter = 0
 indentator = 0
+init = 0
 
 
 def countpulse(channel):
@@ -123,6 +124,11 @@ while True:
             functions.mail(message, body)
             last_day = day
             functions.setcontrole('controle_reacteur')
+
+        if init == 0:
+            functions.deletecontrole('controle_reacteur')
+            functions.setcontrole('controle_reacteur')
+            init = 1
 
         count = 0
         time.sleep(5)

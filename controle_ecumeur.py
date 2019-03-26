@@ -12,6 +12,7 @@ last_day2 = 0
 last_day3 = 0
 last_day4 = 0
 port = 18
+init = 0
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -102,6 +103,11 @@ try:
             functions.mail(message, body)
             last_day = day
             functions.setcontrole('controle_ecumeur')
+
+        if init == 0:
+            functions.deletecontrole('controle_ecumeur')
+            functions.setcontrole('controle_ecumeur')
+            init = 1
 
 except KeyboardInterrupt:
     print('End')

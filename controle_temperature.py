@@ -16,6 +16,7 @@ last_day4 = 0
 temp_ok = False
 second = 10
 temperature = 1
+init = 0
 
 try:
     while True:
@@ -122,6 +123,11 @@ try:
             functions.mail(message, body)
             last_day = day
             functions.setcontrole('controle_temperature')
+
+        if init == 0:
+            functions.deletecontrole('controle_temperature')
+            functions.setcontrole('controle_temperature')
+            init = 1
 
         second = second + 1
         sleep(1)

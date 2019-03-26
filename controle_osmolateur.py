@@ -16,6 +16,7 @@ to_high = 23
 level_ok = 24
 pump_on = 25
 to_low = 27
+init = 0
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -192,6 +193,11 @@ try:
             functions.mail(message, body)
             last_day = day
             functions.setcontrole('controle_osmolateur')
+
+        if init == 0:
+            functions.deletecontrole('controle_osmolateur')
+            functions.setcontrole('controle_osmolateur')
+            init = 1
 
 except KeyboardInterrupt:
     print('End')

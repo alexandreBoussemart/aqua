@@ -17,6 +17,7 @@ bailling_3 = 13
 bailling_1_led = 19
 bailling_2_led = 26
 bailling_3_led = 12
+init = 0
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -243,6 +244,11 @@ try:
             functions.mail(message, body)
             last_day = day
             functions.setcontrole('controle_bailling')
+
+        if init == 0:
+            functions.deletecontrole('controle_bailling')
+            functions.setcontrole('controle_bailling')
+            init = 1
 
 except KeyboardInterrupt:
     print('End')
