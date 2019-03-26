@@ -66,8 +66,7 @@ def setcontrole(value):
         mycursor = mydb.cursor()
         val = str(value)
 
-        sql = "INSERT INTO `controle`( `value`) VALUES (" + val + ")"
-        print(sql)
+        sql = "INSERT INTO `controle`( `value`) VALUES ('" + val + "')"
         mycursor.execute(sql)
 
         mydb.commit()

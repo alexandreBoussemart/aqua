@@ -220,7 +220,7 @@ try:
                 # envoie mail rappel
                 functions.mail(message, body)
 
-        # on envoie un mail de controle tous les jours  8h
+        # on envoie un mail de controle tous les jours à 8h et on et un controle à 18h
         now = datetime.datetime.now().strftime('%H%M')
         day = datetime.datetime.now().strftime('%d')
 

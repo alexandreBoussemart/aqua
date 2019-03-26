@@ -50,7 +50,7 @@ while True:
         else:
             indentator = indentator + 1
 
-        if indentator == 4:
+        if indentator == 10:
             indentator = 0
 
         if flow > 0:
@@ -99,7 +99,7 @@ while True:
             # envoie mail erreur
             functions.mail(message, body)
 
-        # on envoie un mail de controle tous les jours  8h
+        # on envoie un mail de controle tous les jours à 8h et on et un controle à 18h
         now = datetime.datetime.now().strftime('%H%M')
         day = datetime.datetime.now().strftime('%d')
 
