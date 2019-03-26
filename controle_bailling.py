@@ -75,6 +75,9 @@ try:
                 functions.onled(bailling_2_led)
                 functions.onled(bailling_3_led)
 
+                functions.deletestate('bailling')
+                functions.setstate('bailling',state_current)
+
             # niveau bailling 1 et 2 bas
             elif state_current == '001':
                 message = "Bailling - ERREUR - niveau 1 et 2 bas"
@@ -83,6 +86,9 @@ try:
                 functions.offled(bailling_1_led)
                 functions.offled(bailling_2_led)
                 functions.onled(bailling_3_led)
+
+                functions.deletestate('bailling')
+                functions.setstate('bailling', state_current)
 
             # niveau bailling 1 et 3 bas
             elif state_current == '010':
@@ -93,6 +99,9 @@ try:
                 functions.onled(bailling_2_led)
                 functions.offled(bailling_3_led)
 
+                functions.deletestate('bailling')
+                functions.setstate('bailling', state_current)
+
             # niveau bailling 2 et 3 bas
             elif state_current == '100':
                 message = "Bailling - ERREUR - niveau 2 et 3 bas"
@@ -101,6 +110,9 @@ try:
                 functions.onled(bailling_1_led)
                 functions.offled(bailling_2_led)
                 functions.offled(bailling_3_led)
+
+                functions.deletestate('bailling')
+                functions.setstate('bailling', state_current)
 
             # niveau bailling 1, 2 et 3 bas
             elif state_current == '000':
@@ -111,6 +123,9 @@ try:
                 functions.offled(bailling_2_led)
                 functions.offled(bailling_3_led)
 
+                functions.deletestate('bailling')
+                functions.setstate('bailling', state_current)
+
             # niveau bailling 2 bas
             elif state_current == '101':
                 message = "Bailling - ERREUR - niveau 2 bas"
@@ -119,6 +134,9 @@ try:
                 functions.onled(bailling_1_led)
                 functions.offled(bailling_2_led)
                 functions.onled(bailling_3_led)
+
+                functions.deletestate('bailling')
+                functions.setstate('bailling', state_current)
 
             # niveau bailling 3 bas
             elif state_current == '110':
@@ -129,6 +147,9 @@ try:
                 functions.onled(bailling_2_led)
                 functions.offled(bailling_3_led)
 
+                functions.deletestate('bailling')
+                functions.setstate('bailling', state_current)
+
             # niveau des 3 ok
             elif state_current == '111':
                 message = "Bailling - OK"
@@ -136,6 +157,9 @@ try:
                 functions.onled(bailling_1_led)
                 functions.onled(bailling_2_led)
                 functions.onled(bailling_3_led)
+
+                functions.deletestate('bailling')
+                functions.setstate('bailling', state_current)
 
             else:
                 state = '222'
@@ -159,6 +183,8 @@ try:
                 if time_bailling_1 > 180000:
                     message = "Bailling - RAPPEL ERREUR - niveau 1 bas"
                     time_bailling_1 = 0
+                    functions.deletestate('bailling')
+                    functions.setstate('bailling', state_current)
 
             # niveau bailling 1 et 2 bas
             elif state_current == '001':
@@ -168,6 +194,8 @@ try:
                 if time_bailling_1_2 > 180000:
                     message = "Bailling - RAPPEL ERREUR - niveau 1 et 2 bas"
                     time_bailling_1_2 = 0
+                    functions.deletestate('bailling')
+                    functions.setstate('bailling', state_current)
 
             # niveau bailling 1 et 3 bas
             elif state_current == '010':
@@ -177,6 +205,8 @@ try:
                 if time_bailling_1_3 > 180000:
                     message = "Bailling - RAPPEL ERREUR - niveau 1 et 3 bas"
                     time_bailling_1_3 = 0
+                    functions.deletestate('bailling')
+                    functions.setstate('bailling', state_current)
 
             # niveau bailling 2 et 3 bas
             elif state_current == '100':
@@ -186,6 +216,8 @@ try:
                 if time_bailling_2_3 > 180000:
                     message = "Bailling - RAPPEL ERREUR - niveau 2 et 3 bas"
                     time_bailling_2_3 = 0
+                    functions.deletestate('bailling')
+                    functions.setstate('bailling', state_current)
 
             # niveau bailling 1, 2 et 3 bas
             elif state_current == '000':
@@ -195,6 +227,8 @@ try:
                 if time_bailling_1_2_3 > 180000:
                     message = "Bailling - RAPPEL ERREUR - niveau 1, 2 et 3 bas"
                     time_bailling_1_2_3 = 0
+                    functions.deletestate('bailling')
+                    functions.setstate('bailling', state_current)
 
             # niveau bailling 2 bas
             elif state_current == '101':
@@ -204,6 +238,8 @@ try:
                 if time_bailling_2 > 180000:
                     message = "Bailling - RAPPEL ERREUR - niveau 2 bas"
                     time_bailling_2 = 0
+                    functions.deletestate('bailling')
+                    functions.setstate('bailling', state_current)
 
             # niveau bailling 3 bas
             elif state_current == '110':
@@ -213,6 +249,8 @@ try:
                 if time_bailling_3 > 180000:
                     message = "Bailling - RAPPEL ERREUR - niveau 3 bas"
                     time_bailling_3 = 0
+                    functions.deletestate('bailling')
+                    functions.setstate('bailling', state_current)
 
             if message != "":
                 print(message)

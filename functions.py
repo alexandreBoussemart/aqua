@@ -53,7 +53,7 @@ def settemperature(value):
 
     except Exception as e:
         message = "SQL - ERREUR settemperature"
-        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + sql + "</p>"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         mail(message, body)
 
@@ -74,7 +74,7 @@ def setcontrole(value):
 
     except Exception as e:
         message = "SQL - ERREUR setcontrole"
-        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + sql + "</p>"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         mail(message, body)
 
@@ -95,6 +95,49 @@ def deletecontrole(value):
 
     except Exception as e:
         message = "SQL - ERREUR deletecontrole"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+
+        raise
+
+
+def deletestate(path):
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        path = str(path)
+
+        sql = "DELETE FROM `state` WHERE value='" + path + "'"
+        mycursor.execute(sql)
+
+        mydb.commit()
+        mydb.close()
+
+    except Exception as e:
+        message = "SQL - ERREUR deletestate"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+
+        raise
+
+
+def setstate(path, value):
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        path = str(path)
+        value = str(value)
+
+        sql = "INSERT INTO `state`( `path`,`value`) VALUES ('" + path + "', '" + value + "')"
+        mycursor.execute(sql)
+
+        mydb.commit()
+        mydb.close()
+
+    except Exception as e:
+        message = "SQL - ERREUR setstate"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         mail(message, body)

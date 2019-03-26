@@ -43,12 +43,16 @@ try:
                 message = "Ecumeur - ERREUR - niveau godet trop haut"
                 body = "<p style='color:red;'>" + message + "</p>"
                 time_error = 0
+                functions.deletestate('ecumeur')
+                functions.setstate('ecumeur', state_current)
 
             # niveau eau ok
             elif state_current == '1':
                 message = "Ecumeur - niveau godet OK"
                 body = "<p style='color:green;'>" + message + "</p>"
                 time_error = 0
+                functions.deletestate('ecumeur')
+                functions.setstate('ecumeur', state_current)
 
             else:
                 state = '2'
@@ -72,6 +76,8 @@ try:
                 if time_error > 180000:
                     message = "Ecumeur - RAPPEL ERREUR - niveau godet trop haut"
                     time_error = 0
+                    functions.deletestate('ecumeur')
+                    functions.setstate('ecumeur', state_current)
 
             if message != "":
                 print(message)
