@@ -47,10 +47,11 @@ while True:
 
         if indentator == 0:
             functions.setdebit(flow)
+            indentator = indentator + 1
         else:
             indentator = indentator + 1
 
-        if indentator == 30:
+        if indentator == 5:
             indentator = 0
 
         if flow > 0:
