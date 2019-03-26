@@ -108,7 +108,7 @@ def deletestate(path):
         mycursor = mydb.cursor()
         path = str(path)
 
-        sql = "DELETE FROM `state` WHERE value='" + path + "'"
+        sql = "DELETE FROM `state` WHERE path='" + path + "'"
         mycursor.execute(sql)
 
         mydb.commit()
