@@ -145,6 +145,27 @@ def setstate(path, value):
         raise
 
 
+def setosmolateur(state):
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        state = str(state)
+
+        sql = "INSERT INTO `osmolateur`( `state`) VALUES ('" + state + "')"
+        mycursor.execute(sql)
+
+        mydb.commit()
+        mydb.close()
+
+    except Exception as e:
+        message = "SQL - ERREUR setosmolateur"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+
+        raise
+
+
 def setdebit(value):
     try:
         mydb = connect()

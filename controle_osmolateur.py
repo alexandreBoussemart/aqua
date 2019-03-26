@@ -74,6 +74,7 @@ try:
                 body = "<p style='color:red;'>" + message + "</p>"
                 functions.stoppump(relais)
                 time_to_high = 0
+                functions.setosmolateur("to_high")
 
             # niveau d'eau OK
             elif state_current == '1011':
@@ -81,6 +82,7 @@ try:
                 body = "<p style='color:green;'>" + message + "</p>"
                 functions.stoppump(relais)
                 state_relais = False
+                functions.setosmolateur("ok")
 
             # remplissage en cours
             elif state_current == '1101':
@@ -89,6 +91,7 @@ try:
                 GPIO.setup(relais, GPIO.OUT)
                 GPIO.output(relais, 1)
                 time_pump_on = 0
+                functions.setosmolateur("pump_on")
 
             # niveau d'eau TO LOW
             elif state_current == '1110':
@@ -96,6 +99,7 @@ try:
                 body = "<p style='color:red;'>" + message + "</p>"
                 functions.stoppump(relais)
                 time_to_low = 0
+                functions.setosmolateur("to_low")
 
             # osmolateur off
             elif state_current == '1111':
@@ -125,6 +129,7 @@ try:
                 if time_to_high > 180000:
                     message = "Osmolateur - RAPPEL ERREUR - niveau d'eau TO HIGH"
                     time_to_high = 0
+                    functions.setosmolateur("to_high_rappel")
 
             # remplissage en cours
             elif state_current == '1101':
@@ -135,11 +140,13 @@ try:
                     state_relais = True
                     message = "Osmolateur - ERREUR - pompe allumée plus de 20 secondes"
                     functions.stoppump(relais)
+                    functions.setosmolateur("pump_on_20")
 
                 # si pompe allumé depuis plus de 20secondes rappel 30 minutes
                 if time_pump_on > 180000:
                     message = "Osmolateur - RAPPEL ERREUR - pompe allumée plus de 20 secondes"
                     time_pump_on = 0
+                    functions.setosmolateur("pump_on_20_rappel")
 
             # niveau d'eau TO LOW
             elif state_current == '1110':
@@ -149,6 +156,7 @@ try:
                 if time_to_low > 180000:
                     message = "Osmolateur - RAPPEL ERREUR - niveau d'eau TO LOW"
                     time_to_low = 0
+                    functions.setosmolateur("to_low_rappel")
 
             # osmolateur off
             elif state_current == '1111':
@@ -157,11 +165,13 @@ try:
                 # alert off a partir de 5 secondes en off
                 if time_off == 500:
                     message = "Osmolateur - ERREUR - off"
+                    functions.setosmolateur("off")
 
                 # rappel 30 minutes
                 if time_off > 540000:
                     message = "Osmolateur - RAPPEL ERREUR - off"
                     time_off = 0
+                    functions.setosmolateur("off_rappel")
 
             if message != "":
                 print(message)
