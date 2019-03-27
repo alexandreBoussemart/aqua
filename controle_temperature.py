@@ -17,6 +17,7 @@ temp_ok = False
 second = 10
 temperature = 1
 init = 0
+indentator = 0
 
 try:
     while True:
@@ -82,7 +83,14 @@ try:
                 if temp_ok is False:
                     message = "Temperature - OK -  " + str(temperature) + "°C"
 
-                functions.settemperature(temperature)
+                if indentator == 0:
+                    functions.settemperature(temperature)
+                    indentator = indentator + 1
+                else:
+                    indentator = indentator + 1
+
+                if indentator == 20:
+                    indentator = 0
 
                 temp_ok = True
                 error_min = False
