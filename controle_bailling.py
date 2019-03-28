@@ -66,8 +66,6 @@ try:
         # si changement de statut
         if state_current != state:
 
-            print(state_current)
-
             # niveau bailling 1 bas
             if state_current == '011':
                 message = "Bailling - ERREUR - niveau 1 bas"
