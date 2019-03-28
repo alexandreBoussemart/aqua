@@ -43,6 +43,9 @@ try:
 
                 functions.settemperature(temperature2)
 
+                functions.deletecontrole('controle_temperature')
+                functions.setcontrole('controle_temperature')
+
                 if temp_min < temperature2 < temp_max:
                     temp_ok = False
 
@@ -64,6 +67,9 @@ try:
                 temperature2 = functions.get_temp(content)
 
                 functions.settemperature(temperature2)
+
+                functions.deletecontrole('controle_temperature')
+                functions.setcontrole('controle_temperature')
 
                 if temp_min < temperature2 < temp_max:
 

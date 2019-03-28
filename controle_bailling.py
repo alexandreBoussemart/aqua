@@ -66,6 +66,8 @@ try:
         # si changement de statut
         if state_current != state:
 
+            print(state_current)
+
             # niveau bailling 1 bas
             if state_current == '011':
                 message = "Bailling - ERREUR - niveau 1 bas"
@@ -77,6 +79,9 @@ try:
 
                 functions.deletestate('bailling')
                 functions.setstate('bailling',state_current)
+
+                functions.deletecontrole('controle_bailling')
+                functions.setcontrole('controle_bailling')
 
             # niveau bailling 1 et 2 bas
             elif state_current == '001':
@@ -90,6 +95,9 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
 
+                functions.deletecontrole('controle_bailling')
+                functions.setcontrole('controle_bailling')
+
             # niveau bailling 1 et 3 bas
             elif state_current == '010':
                 message = "Bailling - ERREUR - niveau 1 et 3 bas"
@@ -101,6 +109,9 @@ try:
 
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
+
+                functions.deletecontrole('controle_bailling')
+                functions.setcontrole('controle_bailling')
 
             # niveau bailling 2 et 3 bas
             elif state_current == '100':
@@ -114,6 +125,9 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
 
+                functions.deletecontrole('controle_bailling')
+                functions.setcontrole('controle_bailling')
+
             # niveau bailling 1, 2 et 3 bas
             elif state_current == '000':
                 message = "Bailling - ERREUR - niveau 1, 2 et 3 bas"
@@ -125,6 +139,9 @@ try:
 
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
+
+                functions.deletecontrole('controle_bailling')
+                functions.setcontrole('controle_bailling')
 
             # niveau bailling 2 bas
             elif state_current == '101':
@@ -138,6 +155,9 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
 
+                functions.deletecontrole('controle_bailling')
+                functions.setcontrole('controle_bailling')
+
             # niveau bailling 3 bas
             elif state_current == '110':
                 message = "Bailling - ERREUR - niveau 3 bas"
@@ -150,6 +170,9 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
 
+                functions.deletecontrole('controle_bailling')
+                functions.setcontrole('controle_bailling')
+
             # niveau des 3 ok
             elif state_current == '111':
                 message = "Bailling - OK"
@@ -160,6 +183,9 @@ try:
 
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
+
+                functions.deletecontrole('controle_bailling')
+                functions.setcontrole('controle_bailling')
 
             else:
                 state = '222'
@@ -186,6 +212,9 @@ try:
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
 
+                    functions.deletecontrole('controle_bailling')
+                    functions.setcontrole('controle_bailling')
+
             # niveau bailling 1 et 2 bas
             elif state_current == '001':
                 time_bailling_1_2 = time_bailling_1_2 + 1
@@ -196,6 +225,9 @@ try:
                     time_bailling_1_2 = 0
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
+
+                    functions.deletecontrole('controle_bailling')
+                    functions.setcontrole('controle_bailling')
 
             # niveau bailling 1 et 3 bas
             elif state_current == '010':
@@ -208,6 +240,9 @@ try:
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
 
+                    functions.deletecontrole('controle_bailling')
+                    functions.setcontrole('controle_bailling')
+
             # niveau bailling 2 et 3 bas
             elif state_current == '100':
                 time_bailling_2_3 = time_bailling_2_3 + 1
@@ -218,6 +253,9 @@ try:
                     time_bailling_2_3 = 0
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
+
+                    functions.deletecontrole('controle_bailling')
+                    functions.setcontrole('controle_bailling')
 
             # niveau bailling 1, 2 et 3 bas
             elif state_current == '000':
@@ -230,6 +268,9 @@ try:
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
 
+                    functions.deletecontrole('controle_bailling')
+                    functions.setcontrole('controle_bailling')
+
             # niveau bailling 2 bas
             elif state_current == '101':
                 time_bailling_2 = time_bailling_2 + 1
@@ -241,6 +282,9 @@ try:
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
 
+                    functions.deletecontrole('controle_bailling')
+                    functions.setcontrole('controle_bailling')
+
             # niveau bailling 3 bas
             elif state_current == '110':
                 time_bailling_3 = time_bailling_3 + 1
@@ -251,6 +295,9 @@ try:
                     time_bailling_3 = 0
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
+
+                    functions.deletecontrole('controle_bailling')
+                    functions.setcontrole('controle_bailling')
 
             if message != "":
                 print(message)

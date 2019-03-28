@@ -48,6 +48,10 @@ while True:
 
         if indentator == 0:
             functions.setdebit(flow)
+
+            functions.deletecontrole('controle_reacteur')
+            functions.setcontrole('controle_reacteur')
+
             indentator = indentator + 1
         else:
             indentator = indentator + 1

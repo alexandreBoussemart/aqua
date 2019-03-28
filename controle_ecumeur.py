@@ -46,6 +46,9 @@ try:
                 functions.deletestate('ecumeur')
                 functions.setstate('ecumeur', state_current)
 
+                functions.deletecontrole('controle_ecumeur')
+                functions.setcontrole('controle_ecumeur')
+
             # niveau eau ok
             elif state_current == '1':
                 message = "Ecumeur - niveau godet OK"
@@ -53,6 +56,9 @@ try:
                 time_error = 0
                 functions.deletestate('ecumeur')
                 functions.setstate('ecumeur', state_current)
+
+                functions.deletecontrole('controle_ecumeur')
+                functions.setcontrole('controle_ecumeur')
 
             else:
                 state = '2'
