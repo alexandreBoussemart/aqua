@@ -52,7 +52,7 @@ while True:
         else:
             indentator = indentator + 1
 
-        if indentator == 20:
+        if indentator == 50:
             indentator = 0
 
         if flow > 0:
