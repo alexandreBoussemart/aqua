@@ -65,8 +65,6 @@ try:
         # on fait la chaine de caractère du statut
         state_current = TO_HIGH_STATE + LEVEL_OK_STATE + PUMP_ON_STATE + TO_LOW_STATE
 
-        print(state_current)
-
         # si changement de statut
         if state_current != state:
 
