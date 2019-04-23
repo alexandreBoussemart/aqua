@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 import RPi.GPIO as GPIO
 import smtplib
 import mysql.connector
+import os
 
 
 def connect():
@@ -237,10 +238,14 @@ def stoppump(r):
 
 
 def read_file(emplacement):
-    file = open(emplacement)
-    content = file.read()
-    file.close()
-    return content
+    exists = os.path.isfile(emplacement)
+    if exists:
+        file = open(emplacement)
+        content = file.read()
+        file.close()
+        return content
+    else:
+        return False
 
 
 def get_temp(content):

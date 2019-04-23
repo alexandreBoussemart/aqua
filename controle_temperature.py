@@ -28,6 +28,10 @@ try:
         if second == 50:
             second = 1
             content = functions.read_file("/sys/bus/w1/devices/28-01142f1e02d2/w1_slave")
+
+            if content is False:
+                continue
+
             temperature = functions.get_temp(content)
             message = ""
 
