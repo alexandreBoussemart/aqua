@@ -42,7 +42,7 @@ try:
                 temp_min = temperature * 0.95
                 temp_max = temperature * 1.05
 
-                content = functions.read_file("/sys/bus/w1/devices/28-01142f1e02d2/w1_slave")
+                content = functions.read_file("/sys/bus/w1/devices/28-0213191aabaa/w1_slave")
                 temperature2 = functions.get_temp(content)
 
                 functions.settemperature(temperature2)
@@ -67,7 +67,7 @@ try:
                 temp_min = temperature * 0.95
                 temp_max = temperature * 1.05
 
-                content = functions.read_file("/sys/bus/w1/devices/28-01142f1e02d2/w1_slave")
+                content = functions.read_file("/sys/bus/w1/devices/28-0213191aabaa/w1_slave")
                 temperature2 = functions.get_temp(content)
 
                 functions.settemperature(temperature2)
