@@ -39,7 +39,7 @@ try:
         if state_current != state:
 
             # niveau écumeur eau trop eau
-            if state_current == '0':
+            if state_current == '1':
                 message = "Ecumeur - ERREUR - niveau godet trop haut"
                 body = "<p style='color:red;'>" + message + "</p>"
                 time_error = 0
@@ -50,7 +50,7 @@ try:
                 functions.setcontrole('controle_ecumeur')
 
             # niveau eau ok
-            elif state_current == '1':
+            elif state_current == '0':
                 message = "Ecumeur - niveau godet OK"
                 body = "<p style='color:green;'>" + message + "</p>"
                 time_error = 0
@@ -75,7 +75,7 @@ try:
             message = ""
 
             # niveau d'eau TO HIGHT
-            if state_current == '0':
+            if state_current == '1':
                 time_error = time_error + 1
 
                 # rappel 30 minutes
