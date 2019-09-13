@@ -197,7 +197,7 @@ try:
                 # rappel 30 minutes
                 if time_off > 540000:
                     message = "Osmolateur - RAPPEL ERREUR - off"
-                    time_off = 0
+                    time_off = 501
                     functions.setosmolateur("off_rappel")
 
                     functions.deletecontrole('controle_osmolateur')
