@@ -1,16 +1,17 @@
 <?php
 
-require_once __DIR__.'/lib/swift_required.php';
+require_once 'vendor/autoload.php';
 
-$transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl")
-  ->setUsername('raspberrypi.recifal@gmail.com')
-  ->setPassword('raspberrypi1!');
+$transport = new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl');
+$transport->setUsername('raspberrypi.recifal@gmail.com')->setPassword('Trex450pro');
 
-$mailer = Swift_Mailer::newInstance($transport);
+$mailer = new Swift_Mailer($transport);
 
-$message = Swift_Message::newInstance('Test Subject')
-  ->setFrom(array('alexandre.boussemart94@gmail.com' => 'ABC'))
-  ->setTo(array('alexandre.boussemart94@gmail.com'))
-  ->setBody('This is a test mail.');
+$message = new Swift_Message('Test message');
+$message
+   ->setFrom(['raspberrypi.recifal@gmail.com' => 'raspberrypi.recifal'])
+   ->setTo(['alexandre.boussemart94@gmail.com' => 'Recipient'])
+   ->setSubject('Test message')
+   ->setBody('Test Message', 'text/html');
 
 $result = $mailer->send($message);
