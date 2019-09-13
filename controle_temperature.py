@@ -19,11 +19,16 @@ temperature = 1
 init = 0
 indentator = 0
 file = "/sys/bus/w1/devices/28-0213191aabaa/w1_slave"
+minute = datetime.datetime.now().strftime('%M')
 
 try:
     while True:
-        functions.deletecontrole('controle_temperature')
-        functions.setcontrole('controle_temperature')
+
+        current = datetime.datetime.now().strftime('%M')
+        if minute != current:
+            functions.deletecontrole('controle_temperature')
+            functions.setcontrole('controle_temperature')
+            minute = current
 
         status = functions.getstatus('controle_temperature')
         if status == 0:

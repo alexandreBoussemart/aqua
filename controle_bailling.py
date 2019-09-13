@@ -18,6 +18,7 @@ bailling_1_led = 19
 bailling_2_led = 26
 bailling_3_led = 12
 init = 0
+minute = datetime.datetime.now().strftime('%M')
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -45,8 +46,12 @@ try:
     body = ''
 
     while True:
-        functions.deletecontrole('controle_bailling')
-        functions.setcontrole('controle_bailling')
+
+        current = datetime.datetime.now().strftime('%M')
+        if minute != current:
+            functions.deletecontrole('controle_bailling')
+            functions.setcontrole('controle_bailling')
+            minute = current
 
         status = functions.getstatus('controle_bailling')
         if status == 0:

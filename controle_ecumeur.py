@@ -13,6 +13,7 @@ last_day3 = 0
 last_day4 = 0
 port = 18
 init = 0
+minute = datetime.datetime.now().strftime('%M')
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -26,8 +27,12 @@ try:
     body = ''
 
     while True:
-        functions.deletecontrole('controle_ecumeur')
-        functions.setcontrole('controle_ecumeur')
+
+        current = datetime.datetime.now().strftime('%M')
+        if minute != current:
+            functions.deletecontrole('controle_ecumeur')
+            functions.setcontrole('controle_ecumeur')
+            minute = current
 
         status = functions.getstatus('controle_ecumeur')
         if status == 0:

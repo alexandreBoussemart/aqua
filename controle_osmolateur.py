@@ -17,6 +17,7 @@ level_ok = 24
 pump_on = 25
 to_low = 27
 init = 0
+minute = datetime.datetime.now().strftime('%M')
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -44,8 +45,12 @@ try:
     body = ''
 
     while True:
-        functions.deletecontrole('controle_osmolateur')
-        functions.setcontrole('controle_osmolateur')
+
+        current = datetime.datetime.now().strftime('%M')
+        if minute != current:
+            functions.deletecontrole('controle_osmolateur')
+            functions.setcontrole('controle_osmolateur')
+            minute = current
 
         status = functions.getstatus('controle_osmolateur')
         if status == 0:
