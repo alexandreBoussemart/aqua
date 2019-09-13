@@ -16,7 +16,6 @@ last_day4 = 0
 temp_ok = False
 second = 10
 temperature = 1
-init = 0
 indentator = 0
 file = "/sys/bus/w1/devices/28-0213191aabaa/w1_slave"
 minute = datetime.datetime.now().strftime('%M')
@@ -126,35 +125,6 @@ try:
                 print(message)
                 body = "<p style='color:green;'>" + message + "</p>"
                 functions.mail(message, body)
-
-        # on envoie un mail de controle tous les jours à 8h et on et un controle à 18h
-        now = datetime.datetime.now().strftime('%H%M')
-        day = datetime.datetime.now().strftime('%d')
-
-        if now == '1759' and last_day3 != day:
-            functions.deletecontrole('controle_temperature')
-            last_day3 = day
-
-        if now == '1800' and last_day4 != day:
-            functions.setcontrole('controle_temperature')
-            last_day4 = day
-
-        if now == '0759' and last_day2 != day:
-            functions.deletecontrole('controle_temperature')
-            last_day2 = day
-
-        if now == '0800' and last_day != day:
-            message = "Temperature - controle 8h OK - "+str(temperature)+"°C"
-            body = "<p style='color:blue;'>" + message + "</p>"
-            print(message)
-            functions.mail(message, body)
-            last_day = day
-            functions.setcontrole('controle_temperature')
-
-        if init == 0:
-            functions.deletecontrole('controle_temperature')
-            functions.setcontrole('controle_temperature')
-            init = 1
 
         second = second + 1
         sleep(1)

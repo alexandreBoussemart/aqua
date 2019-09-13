@@ -17,7 +17,6 @@ bailling_3 = 13
 bailling_1_led = 19
 bailling_2_led = 26
 bailling_3_led = 12
-init = 0
 minute = datetime.datetime.now().strftime('%M')
 
 GPIO.setmode(GPIO.BCM)
@@ -312,34 +311,6 @@ try:
                 # envoie mail rappel
                 functions.mail(message, body)
 
-        # on envoie un mail de controle tous les jours à 8h et on et un controle à 18h
-        now = datetime.datetime.now().strftime('%H%M')
-        day = datetime.datetime.now().strftime('%d')
-
-        if now == '1759' and last_day3 != day:
-            functions.deletecontrole('controle_bailling')
-            last_day3 = day
-
-        if now == '1800' and last_day4 != day:
-            functions.setcontrole('controle_bailling')
-            last_day4 = day
-
-        if now == '0759' and last_day2 != day:
-            functions.deletecontrole('controle_bailling')
-            last_day2 = day
-
-        if now == '0800' and last_day != day:
-            message = "Bailling - controle 8h OK"
-            body = "<p style='color:blue;'>" + message + "</p>"
-            print(message)
-            functions.mail(message, body)
-            last_day = day
-            functions.setcontrole('controle_bailling')
-
-        if init == 0:
-            functions.deletecontrole('controle_bailling')
-            functions.setcontrole('controle_bailling')
-            init = 1
 
 except KeyboardInterrupt:
     print('End')
