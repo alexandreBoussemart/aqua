@@ -22,6 +22,9 @@ file = "/sys/bus/w1/devices/28-0213191aabaa/w1_slave"
 
 try:
     while True:
+        functions.deletecontrole('controle_temperature')
+        functions.setcontrole('controle_temperature')
+
         status = functions.getstatus('controle_temperature')
         if status == 0:
             continue

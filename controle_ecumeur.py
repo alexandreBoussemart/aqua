@@ -26,6 +26,9 @@ try:
     body = ''
 
     while True:
+        functions.deletecontrole('controle_ecumeur')
+        functions.setcontrole('controle_ecumeur')
+
         status = functions.getstatus('controle_ecumeur')
         if status == 0:
             continue

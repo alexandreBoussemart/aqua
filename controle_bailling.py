@@ -45,6 +45,9 @@ try:
     body = ''
 
     while True:
+        functions.deletecontrole('controle_bailling')
+        functions.setcontrole('controle_bailling')
+
         status = functions.getstatus('controle_bailling')
         if status == 0:
             continue

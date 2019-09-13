@@ -44,6 +44,9 @@ try:
     body = ''
 
     while True:
+        functions.deletecontrole('controle_osmolateur')
+        functions.setcontrole('controle_osmolateur')
+
         status = functions.getstatus('controle_osmolateur')
         if status == 0:
             continue

@@ -35,6 +35,9 @@ def countpulse(channel):
 GPIO.add_event_detect(FLOW_SENSOR, GPIO.FALLING, callback=countpulse)
 
 while True:
+    functions.deletecontrole('controle_reacteur')
+    functions.setcontrole('controle_reacteur')
+
     status = functions.getstatus('controle_reacteur')
     if status == 0:
         continue
