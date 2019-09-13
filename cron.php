@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-$strJsonFileContents = file_get_contents("config.json");
+$strJsonFileContents = file_get_contents(__DIR__ ."/config.json");
 $data = json_decode($strJsonFileContents, true);
 
 $transport = new Swift_SmtpTransport($data['gmail'][0]['server'], $data['gmail'][0]['port_php'], 'ssl');
