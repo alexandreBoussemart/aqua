@@ -33,21 +33,34 @@ try {
 
     $periode = "-1 minute";
 
+    //date now - 1 minute
     $date = new DateTime();
     $today = $date->format('Y-m-d H:i:59');
     $date->modify($periode);
     $yesterday = $date->format('Y-m-d H:i:00');
 
-    foreach ($array_verif as $verif) {
-        $sql = "SELECT * FROM `controle` where `value` = '" . $verif . "' and  `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' limit 1";
-        $controle = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($controle);
+    //date now -30 minutes
+    $date = new DateTime();
+    $date->modify("-30 minutes");
+    $today_30 = $date->format('Y-m-d H:i:59');
 
-        if ($row == NULL) {
+    //date now -31 minutes
+    $date = new DateTime();
+    $date->modify("-31 minutes");
+    $yesterday_30 = $date->format('Y-m-d H:i:00');
+
+    foreach ($array_verif as $verif) {
+        //on prend les lignes avec mail send datant de 30 minutes
+        $sql = "SELECT * FROM `controle` where `mail_send` = 1 and `value` = '" . $verif . "' and `created_at` >= '" . $yesterday_30 . "' and `created_at` <= '" . $today_30 . "' limit 1";
+        $controle = mysqli_query($link, $sql);
+        $row_send = mysqli_fetch_assoc($controle);
+
+        if ($row_send != NULL) {
             $mailer = new Swift_Mailer($transport);
 
             if (array_key_exists($verif, $message_body)) {
                 $text = strval($message_body[$verif]);
+                $text = str_replace('Erreur', 'RAPPEL Erreur',$text);
                 $body = "<p style='color:red;text-transform:uppercase;'>" . $text . "</p>";
 
                 $message = new Swift_Message($text);
@@ -58,7 +71,51 @@ try {
                     ->setBody($body, 'text/html');
 
                 $result = $mailer->send($message);
+
+                //on set new date a now
+                $d = new DateTime();
+                $new_date = $d->format('Y-m-d H:i:s');
+                $sql = "UPDATE `controle` SET `created_at` = '".$new_date."' WHERE `controle`.`value` = '".$verif."';";
+                $link->query($sql);
             }
+
+            $row = NULL;
+        }
+
+        /*------------------------------------------------------------------------------------------------------------*/
+
+        //on prend que les lignes avec mail datant de -1 minutes, et on verifie que pas de mail send avant envoie
+        $sql = "SELECT * FROM `controle` where `value` = '" . $verif . "' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' limit 1";
+        $controle = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($controle);
+
+        if ($row == NULL) {
+            $sql = "SELECT * FROM `controle` where `value` = '" . $verif . "' and `mail_send` = 1 limit 1";
+            $controle = mysqli_query($link, $sql);
+            $row = mysqli_fetch_assoc($controle);
+
+            if ($row == NULL) {
+                $mailer = new Swift_Mailer($transport);
+
+                if (array_key_exists($verif, $message_body)) {
+                    $text = strval($message_body[$verif]);
+                    $body = "<p style='color:red;text-transform:uppercase;'>" . $text . "</p>";
+
+                    $message = new Swift_Message($text);
+                    $message
+                        ->setFrom([$data['gmail'][0]['mail'] => $data['gmail'][0]['name']])
+                        ->setTo([$data['mail_to']])
+                        ->setSubject($text)
+                        ->setBody($body, 'text/html');
+
+                    $result = $mailer->send($message);
+
+                    //on set mail send à 1
+                    $sql = "UPDATE `controle` SET `mail_send` = '1' WHERE `controle`.`value` = '".$verif."';";
+                    $link->query($sql);
+                }
+            }
+            $row = " ";
         }
     }
 
