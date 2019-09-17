@@ -4,7 +4,9 @@
             "mail": "",
             "password": "",
             "port": 587,
-            "server": "smtp.gmail.com"
+            "server": "smtp.gmail.com",
+            "port_php": 465,
+            "name": ""
         }
     ],
     "mail_to": "",
