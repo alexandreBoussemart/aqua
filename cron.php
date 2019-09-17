@@ -31,12 +31,10 @@ try {
         'controle_temperature' => 'Cron - Erreur script température'
     ];
 
-    $periode = "-1 minute";
-
     //date now - 1 minute
     $date = new DateTime();
     $today = $date->format('Y-m-d H:i:59');
-    $date->modify($periode);
+    $date->modify("-1 minute");
     $yesterday = $date->format('Y-m-d H:i:00');
 
     //date now -30 minutes
@@ -56,13 +54,12 @@ try {
         $row_send = mysqli_fetch_assoc($controle);
 
         if ($row_send != NULL) {
-            $mailer = new Swift_Mailer($transport);
-
             if (array_key_exists($verif, $message_body)) {
                 $text = strval($message_body[$verif]);
                 $text = str_replace('Erreur', 'RAPPEL Erreur',$text);
                 $body = "<p style='color:red;text-transform:uppercase;'>" . $text . "</p>";
 
+                $mailer = new Swift_Mailer($transport);
                 $message = new Swift_Message($text);
                 $message
                     ->setFrom([$data['gmail'][0]['mail'] => $data['gmail'][0]['name']])
@@ -78,8 +75,6 @@ try {
                 $sql = "UPDATE `controle` SET `created_at` = '".$new_date."' WHERE `controle`.`value` = '".$verif."';";
                 $link->query($sql);
             }
-
-            $row = NULL;
         }
 
         /*------------------------------------------------------------------------------------------------------------*/
@@ -90,32 +85,40 @@ try {
         $row = mysqli_fetch_assoc($controle);
 
         if ($row == NULL) {
-            $sql = "SELECT * FROM `controle` where `value` = '" . $verif . "' and `mail_send` = 1 limit 1";
+            //on fait une deuxième verif au bout de 10 secondes
+            sleep(10);
+            $sql = "SELECT * FROM `controle` where `value` = '" . $verif . "' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' limit 1";
             $controle = mysqli_query($link, $sql);
             $row = mysqli_fetch_assoc($controle);
 
             if ($row == NULL) {
-                $mailer = new Swift_Mailer($transport);
+                // on regarde qu'un mail n'a pas été envoyé deja (mail_send a avec le code)
+                $sql = "SELECT * FROM `controle` where `value` = '" . $verif . "' and `mail_send` = 1 limit 1";
+                $controle = mysqli_query($link, $sql);
+                $row = mysqli_fetch_assoc($controle);
 
-                if (array_key_exists($verif, $message_body)) {
-                    $text = strval($message_body[$verif]);
-                    $body = "<p style='color:red;text-transform:uppercase;'>" . $text . "</p>";
+                if ($row == NULL) {
+                    $mailer = new Swift_Mailer($transport);
 
-                    $message = new Swift_Message($text);
-                    $message
-                        ->setFrom([$data['gmail'][0]['mail'] => $data['gmail'][0]['name']])
-                        ->setTo([$data['mail_to']])
-                        ->setSubject($text)
-                        ->setBody($body, 'text/html');
+                    if (array_key_exists($verif, $message_body)) {
+                        $text = strval($message_body[$verif]);
+                        $body = "<p style='color:red;text-transform:uppercase;'>" . $text . "</p>";
 
-                    $result = $mailer->send($message);
+                        $message = new Swift_Message($text);
+                        $message
+                            ->setFrom([$data['gmail'][0]['mail'] => $data['gmail'][0]['name']])
+                            ->setTo([$data['mail_to']])
+                            ->setSubject($text)
+                            ->setBody($body, 'text/html');
 
-                    //on set mail send à 1
-                    $sql = "UPDATE `controle` SET `mail_send` = '1' WHERE `controle`.`value` = '".$verif."';";
-                    $link->query($sql);
+                        $result = $mailer->send($message);
+
+                        //on set mail send à 1
+                        $sql = "UPDATE `controle` SET `mail_send` = '1' WHERE `controle`.`value` = '".$verif."';";
+                        $link->query($sql);
+                    }
                 }
             }
-            $row = " ";
         }
     }
 
