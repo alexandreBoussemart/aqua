@@ -39,13 +39,13 @@ try {
     ];
 
     $rappel = [
-        "Mon" => "",
-        "Tue" => "",
-        "Wed" => "",
-        "Thu" => "",
-        "Fri" => "",
-        "Sat" => "",
-        "Sun" => ""
+        "Mon" => '<p style="color: #3a87ad;">Nourriture congelée</p><p style="color: #E74C3C">Nourriture coraux</p><p style="color: #9B59B6">Bactérie</p><p style="color:#1ABB9C ">Algue</p>',
+        "Tue" => '<p style="color: #3a87ad;">Nourriture congelée</p>',
+        "Wed" => '<p style="color: #3a87ad;">Nourriture congelée</p><p style="color: #E74C3C">Nourriture coraux</p><p style="color:#1ABB9C ">Algue</p>',
+        "Thu" => '<p style="color: #3a87ad;">Nourriture congelée</p>',
+        "Fri" => '<p style="color: #3a87ad;">Nourriture congelée</p><p style="color: #E74C3C">Nourriture coraux</p><p style="color:#1ABB9C ">Algue</p>',
+        "Sat" => '<p style="color: #3a87ad;">Nourriture congelée</p>',
+        "Sun" => '<p style="color: #3a87ad;">Nourriture congelée</p>'
     ];
 
     //date now - 1 minute
