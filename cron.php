@@ -139,10 +139,9 @@ try {
         }
     }
 
-    $current = $date->format('Y-m-d H:i:00');
-
     //controle 8h
     $date = new DateTime();
+    $current = $date->format('Y-m-d H:i:00');
     $huit = $date->format('Y-m-d 08:00:00');
 
     if ($current == $huit) {
@@ -159,12 +158,17 @@ try {
 
     //rappel ajout à 19h
     $date = new DateTime();
+    $current = $date->format('Y-m-d H:i:00');
     $dixneuf = $date->format('Y-m-d 19:00:00');
+    $body = "";
 
     if ($current == $dixneuf) {
         $mailer = new Swift_Mailer($transport);
         $message = new Swift_Message("Rappel - ajout à faire");
-        $body = $rappel[date('D')];
+
+        if($rappel[date('D')]){
+            $body = $rappel[date('D')];
+        }
 
         $message
             ->setFrom([$data['gmail'][0]['mail'] => $data['gmail'][0]['name']])
