@@ -23,6 +23,15 @@ try {
         $result = $mailer->send($message);
     }
 
+    //si cron désactivé on quitte le script
+    $sql = "SELECT `value` FROM `config` WHERE `name` = 'cron'";
+    $controle = mysqli_query($link, $sql);
+    $row = mysqli_fetch_assoc($controle);
+
+    if($row && $row['value'] === "0") {
+        return false;
+    }
+
     $array_verif = [
         'controle_bailling',
         'controle_ecumeur',
