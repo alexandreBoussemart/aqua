@@ -1,0 +1,11 @@
+{
+    "database": [
+        {
+            "host": "",
+            "user": "",
+            "passwd": "",
+            "database": "",
+            "cron": ""
+        }
+    ]
+}

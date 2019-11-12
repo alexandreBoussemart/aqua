@@ -40,27 +40,6 @@ def getstatus(value):
         raise
 
 
-def settemperature(value):
-    try:
-        mydb = connect()
-        mycursor = mydb.cursor()
-        temp = str(value)
-
-        sql = "INSERT INTO `temperature`( `value`) VALUES (" + temp + ")"
-        mycursor.execute(sql)
-
-        mydb.commit()
-        mydb.close()
-
-    except Exception as e:
-        message = "SQL - ERREUR settemperature"
-        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        print(message)
-        mail(message, body)
-
-        raise
-
-
 def setcontrole(value):
     try:
         mydb = connect()
@@ -247,19 +226,3 @@ def read_file(emplacement):
     else:
         return False
 
-
-def get_temp(content):
-    first_line = content.split("\n")[0]
-    if first_line.find('NO') != -1:
-        return False
-
-    second_line = content.split("\n")[1]
-    temp = second_line.split(" ")[9]
-    temperature = temp[2:]
-    if temperature == "85000":
-        return False
-
-    temperature = float(temperature)
-    temperature = temperature / 1000
-
-    return temperature
