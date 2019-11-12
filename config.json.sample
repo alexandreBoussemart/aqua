@@ -15,7 +15,8 @@
             "host": "",
             "user": "",
             "passwd": "",
-            "database": ""
+            "database": "",
+            "base_url": "/"
         }
     ]
 }
