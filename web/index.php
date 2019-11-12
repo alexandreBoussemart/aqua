@@ -14,13 +14,12 @@
     </head>
 
     <?php
-    $strJsonFileContents = file_get_contents(__DIR__ . "/../config.json");
-    $data = json_decode($strJsonFileContents, true);
+    require 'functions.php';
 
-    $link = new mysqli($data['database'][0]['host'], $data['database'][0]['user'], $data['database'][0]['passwd'], $data['database'][0]['database']);
-    if ($link->connect_error) {
-        die('Connect Error (' . $link->connect_errno . ') ' . $link->connect_error);
-    }
+    $last_debit = $last_temp = 0;
+    $date = new DateTime();
+    $date_debit = $date_temp = $date->format('Y-m-d H:i:s');
+
     $period = 1;
     if (isset($_GET['period'])) {
         $period = $_GET['period'];
@@ -69,47 +68,15 @@
         $date_bailling = $date_bailling->format('d/m/Y à H:i:s');
     }
 
-    $sql = "SELECT `value` FROM `config` WHERE `name` = 'controle_osmolateur'";
-    $controle_osmolateur = mysqli_query($link, $sql);
-    while ($obj = $controle_osmolateur->fetch_object()) {
-        $osmolateur_c = $obj->value;
-    }
 
-    $sql = "SELECT `value` FROM `config` WHERE `name` = 'controle_bailling'";
-    $controle_bailling = mysqli_query($link, $sql);
-    while ($obj = $controle_bailling->fetch_object()) {
-        $bailling_c = $obj->value;
-    }
+    $osmolateur_c = getControle($link, 'controle_osmolateur');
+    $bailling_c = getControle($link, 'controle_bailling');
+    $temperature_c = getControle($link, 'controle_temperature');
+    $reacteur_c = getControle($link, 'controle_reacteur');
+    $ventilateur_reacteur = getControle($link, 'ventilateur_reacteur');
+    $cron = getControle($link, 'cron');
+    $ecumeur_c = getControle($link, 'controle_ecumeur');
 
-    $sql = "SELECT `value` FROM `config` WHERE `name` = 'controle_temperature'";
-    $controle_temperature = mysqli_query($link, $sql);
-    while ($obj = $controle_temperature->fetch_object()) {
-        $temperature_c = $obj->value;
-    }
-
-    $sql = "SELECT `value` FROM `config` WHERE `name` = 'controle_reacteur'";
-    $controle_reacteur = mysqli_query($link, $sql);
-    while ($obj = $controle_reacteur->fetch_object()) {
-        $reacteur_c = $obj->value;
-    }
-
-    $sql = "SELECT `value` FROM `config` WHERE `name` = 'ventilateur_reacteur'";
-    $controle_reacteur_ventilateur = mysqli_query($link, $sql);
-    while ($obj = $controle_reacteur_ventilateur->fetch_object()) {
-        $ventilateur_reacteur = $obj->value;
-    }
-
-    $sql = "SELECT `value` FROM `config` WHERE `name` = 'cron'";
-    $controle_reacteur_ventilateur = mysqli_query($link, $sql);
-    while ($obj = $controle_reacteur_ventilateur->fetch_object()) {
-        $cron = $obj->value;
-    }
-
-    $sql = "SELECT `value` FROM `config` WHERE `name` = 'controle_ecumeur'";
-    $controle_ecumeur = mysqli_query($link, $sql);
-    while ($obj = $controle_ecumeur->fetch_object()) {
-        $ecumeur_c = $obj->value;
-    }
 
     if (isset($_POST['submit'])) {
         if (isset($_POST['bailling'])) {
@@ -238,23 +205,7 @@
         $date_temp = $log->format('d/m/Y à H:i:s');
     }
 
-    function getLabel($key)
-    {
-        $array = [
-            'off' => "Off",
-            'ok' => "Niveau d'eau OK",
-            "pump_on" => "En cours de remplissage",
-            "to_low" => "Niveau d'eau bas",
-            "to_high" => "Niveau d'eau haut",
-            "off_rappel" => "RAPPEL - Off",
-            "to_low_rappel" => "RAPPEL - Niveau d'eau bas",
-            "pump_on_20" => "Pompe allumée plus de 20 secondes",
-            "pump_on_20_rappel" => "RAPPEL - Pompe allumée plus de 20 secondes",
-            "to_high_rappel" => "RAPPEL - Niveau d'eau haut"
-        ];
 
-        return $array[$key];
-    }
 
     ?>
 
