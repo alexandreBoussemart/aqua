@@ -4,27 +4,31 @@
 require 'functions.php';
 
 try {
+    // on set comme quoi on est bien passé dans la cron
+    setControle($link, 'controle_temperature');
+
     //check si la cron est activé
     if (!getConfig($link, 'cron_temperature')) {
         return false;
     }
 
+    // on défini le chemin du fichier
     if (!defined("THERMOMETER_SENSOR_PATH")) {
-        define("THERMOMETER_SENSOR_PATH", "/sys/bus/w1/devices/28-0213191aabaa/w1_slave");
+        define("THERMOMETER_SENSOR_PATH", $data['file_temperature']);
     }
 
-    // Open resource file for thermometer
-    $thermometer = fopen(THERMOMETER_SENSOR_PATH, "r");
-    $content = fread($thermometer, filesize(THERMOMETER_SENSOR_PATH));
-    fclose($thermometer);
-
+    // première lecture, on quitte si résultat pas ok
+    $content = readFileTemperature($data, $transport);
     $temperature1 = readTemperature($content);
     if ($temperature1 == false) {
         return false;
     }
 
+    // on attend 20 secondes
     sleep(20);
 
+    // deuxième lecture, on quitte si résultat pas ok
+    $content = readFileTemperature($data, $transport);
     $temperature2 = readTemperature($content);
     if ($temperature2 == false) {
         return false;
@@ -36,18 +40,25 @@ try {
     // si les deux temperatures on moins de 10% d'écart
     if ($temp_min < $temperature2 && $temperature2 < $temp_max) {
 
+        // on insère la temperature en bdd
+        insertTemperature($link, $temperature2);
         $erreur = false;
+        $state = "";
+
         if ($temperature2 < 23) {
             //trop froid
             $message = "Temperature - ERREUR - trop froid " . $temperature2 . "°C";
             $erreur = true;
+            $state = "state_1";
         } elseif ($temperature2 > 28) {
             //trop chaud
             $message = "Temperature - ERREUR - trop chaud " . $temperature2 . "°C";
             $erreur = true;
+            $state = "state_2";
         } else {
             //ok
             $message = "Temperature - OK -  " . $temperature2 . "°C";
+            $state = "state_3";
         }
 
         if ($erreur) {
@@ -56,8 +67,7 @@ try {
             $body = "<p style='color:green;'>" . $message . "</p>";
         }
 
-        insertTemperature($link, $temperature2);
-        setControle($link, 'controle_temperature');
+
         sendMail($data, $transport, $message, $body);
         print_r($message);
 

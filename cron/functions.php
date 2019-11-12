@@ -53,6 +53,25 @@ function insertTemperature($link, $temp) {
 }
 
 /**
+ * @param $data
+ * @param $transport
+ * @return bool|string
+ */
+function readFileTemperature($data, $transport) {
+    // on récupère le contenu du fichier
+    if(file_exists(THERMOMETER_SENSOR_PATH)) {
+        $thermometer = fopen(THERMOMETER_SENSOR_PATH, "r");
+        $content = fread($thermometer, filesize(THERMOMETER_SENSOR_PATH));
+        fclose($thermometer);
+    } else {
+        sendMail($data, $transport, "Cron temperature - ERREUR", "Le fichier : ".THERMOMETER_SENSOR_PATH." n'existe pas.");
+        exit;
+    }
+
+    return $content;
+}
+
+/**
  * @param $content
  *
  * @return bool|false|float|int
