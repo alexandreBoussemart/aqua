@@ -1,7 +1,7 @@
 <?php
 
 require_once '../vendor/autoload.php';
-require '../cron/bdd.php';
+require '../cron/helper/bdd.php';
 
 /**
  * @param $key

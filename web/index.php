@@ -68,7 +68,6 @@
         $date_bailling = $date_bailling->format('d/m/Y à H:i:s');
     }
 
-
     $osmolateur_c = getControle($link, 'controle_osmolateur');
     $bailling_c = getControle($link, 'controle_bailling');
     $temperature_c = getControle($link, 'controle_temperature');
@@ -76,7 +75,6 @@
     $ventilateur_reacteur = getControle($link, 'ventilateur_reacteur');
     $cron = getControle($link, 'cron');
     $ecumeur_c = getControle($link, 'controle_ecumeur');
-
 
     if (isset($_POST['submit'])) {
         if (isset($_POST['bailling'])) {
@@ -199,7 +197,7 @@
     $sql = "SELECT `value`,`created_at` FROM `temperature` ORDER BY `temperature`.`id` DESC LIMIT 1";
     $request = mysqli_query($link, $sql);
     while ($obj = $request->fetch_object()) {
-        $last_temp = round($obj->value, 1);
+        $last_temp = round($obj->value, 2);
         $log = $obj->created_at;
         $log = new DateTime($log);
         $date_temp = $log->format('d/m/Y à H:i:s');
@@ -401,7 +399,7 @@
                 <div class="row tile_count">
                     <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if ($last_debit < 1200) echo 'error'; ?>">
                         <span class="count_top"><i class="fa fa-power-off"></i> Réacteur</span>
-                        <div class="count"><?php if ($last_debit < 1200) echo 'ERREUR <small>'.$last_debit.' l/m</small>'; else echo 'OK <small>'.$last_debit.' l/m</small>'; ?></div>
+                        <div class="count"><?php if ($last_debit < 1200) echo 'ERREUR <small>'.$last_debit.' l/m</small>'; else echo 'OK <small>'.$last_debit.' l/min</small>'; ?></div>
                         <span class="count_bottom">Dernière mise à jour le <?= $date_debit ?></span>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if ($last_temp > 28 || $last_temp < 23) echo 'error'; ?>">

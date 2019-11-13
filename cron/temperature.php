@@ -1,6 +1,12 @@
 <?php
 
-require 'functions.php';
+/**
+ * Toutes les 5 minutes
+ *
+ * /sys/bus/w1/devices/28-0213191aabaa/w1_slave
+ */
+
+require 'helper/functions.php';
 
 try {
     //check si la cron est activé
@@ -22,7 +28,7 @@ try {
     }
 
     // on attend 20 secondes
-    sleep(2);
+    sleep(20);
 
     // deuxième lecture, on quitte si résultat pas ok
     $content = readFileTemperature($link);
@@ -54,8 +60,6 @@ try {
             $message = "Temperature - OK -  " . $temperature2 . "°C";
             setState($link, 'temperature','state_7',0, $message);
         }
-
-        print_r($message);
 
 	    // on set comme quoi on est bien passé dans la cron
     	setControle($link, 'controle_temperature');
