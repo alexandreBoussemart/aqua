@@ -1,12 +1,8 @@
-#!/usr/bin/env php
 <?php
 
 require 'functions.php';
 
 try {
-    // on set comme quoi on est bien passé dans la cron
-    setControle($link, 'controle_temperature');
-
     //check si la cron est activé
     if (!getConfig($link, 'cron_temperature')) {
         return false;
@@ -18,19 +14,21 @@ try {
     }
 
     // première lecture, on quitte si résultat pas ok
-    $content = readFileTemperature($data, $transport);
+    $content = readFileTemperature($link);
     $temperature1 = readTemperature($content);
     if ($temperature1 == false) {
+        setState($link, 'temperature','state_2',true,"Cron temperature - ERREUR - Format du fichier incorrect");
         return false;
     }
 
     // on attend 20 secondes
-    sleep(20);
+    sleep(2);
 
     // deuxième lecture, on quitte si résultat pas ok
-    $content = readFileTemperature($data, $transport);
+    $content = readFileTemperature($link);
     $temperature2 = readTemperature($content);
     if ($temperature2 == false) {
+        setState($link, 'temperature','state_2',true, "Cron temperature - ERREUR - Format du fichier incorrect");
         return false;
     }
 
@@ -42,40 +40,32 @@ try {
 
         // on insère la temperature en bdd
         insertTemperature($link, $temperature2);
-        $erreur = false;
-        $state = "";
 
         if ($temperature2 < 23) {
             //trop froid
-            $message = "Temperature - ERREUR - trop froid " . $temperature2 . "°C";
-            $erreur = true;
-            $state = "state_1";
+            $message = "Temperature - ERREUR - Trop froid " . $temperature2 . "°C";
+            setState($link, 'temperature','state_5',true, $message);
         } elseif ($temperature2 > 28) {
             //trop chaud
-            $message = "Temperature - ERREUR - trop chaud " . $temperature2 . "°C";
-            $erreur = true;
-            $state = "state_2";
+            $message = "Temperature - ERREUR - Trop chaud " . $temperature2 . "°C";
+            setState($link, 'temperature','state_6',true, $message);
         } else {
             //ok
             $message = "Temperature - OK -  " . $temperature2 . "°C";
-            $state = "state_3";
+            setState($link, 'temperature','state_7',0, $message);
         }
 
-        if ($erreur) {
-            $body = "<p style='color:red;text-transform:uppercase;'>" . $message . "</p>";
-        } else {
-            $body = "<p style='color:green;'>" . $message . "</p>";
-        }
-
-
-        sendMail($data, $transport, $message, $body);
         print_r($message);
 
+	    // on set comme quoi on est bien passé dans la cron
+    	setControle($link, 'controle_temperature');
+
     } else {
+        setState($link, 'temperature','state_3',true, "Cron temperature - ERREUR - Plus de 10% d'écart");
         return false;
     }
 
 } catch (Exception $e) {
-    sendMail($data, $transport, "Cron temperature - ERREUR", $e->getMessage());
+    setState($link, 'temperature','state_4',true,"Cron temperature - ERREUR - ".$e->getMessage());
 }
 

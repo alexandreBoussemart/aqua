@@ -4,13 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9077d1d86f954577b0b001032d97abd9
+class ComposerStaticInita087cd26ddc811e0eac0284eacfcf6bb
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
-        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
     );
 
@@ -62,8 +62,8 @@ class ComposerStaticInit9077d1d86f954577b0b001032d97abd9
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9077d1d86f954577b0b001032d97abd9::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9077d1d86f954577b0b001032d97abd9::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita087cd26ddc811e0eac0284eacfcf6bb::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita087cd26ddc811e0eac0284eacfcf6bb::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

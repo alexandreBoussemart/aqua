@@ -1,6 +1,6 @@
 <?php
 
-require_once '../vendor/autoload.php';
+require_once __DIR__ .'/../vendor/autoload.php';
 require 'bdd.php';
 
 /**
@@ -48,23 +48,23 @@ function getConfig($link, $name) {
  * @param $temp
  */
 function insertTemperature($link, $temp) {
-    $sql = "INSERT INTO `temperature`( `value`) VALUES (" + $temp + ")";
+    $sql = 'INSERT INTO `temperature` ( `value`) VALUES ("' . strval($temp) . '")';
     $link->query($sql);
 }
 
 /**
- * @param $data
- * @param $transport
- * @return bool|string
+ * @param $link
+ *
+ * @return false|string
  */
-function readFileTemperature($data, $transport) {
+function readFileTemperature($link) {
     // on récupère le contenu du fichier
     if(file_exists(THERMOMETER_SENSOR_PATH)) {
         $thermometer = fopen(THERMOMETER_SENSOR_PATH, "r");
         $content = fread($thermometer, filesize(THERMOMETER_SENSOR_PATH));
         fclose($thermometer);
     } else {
-        sendMail($data, $transport, "Cron temperature - ERREUR", "Le fichier : ".THERMOMETER_SENSOR_PATH." n'existe pas.");
+        setState($link, 'temperature','state_1',true, "Cron temperature - ERREUR - Le fichier : ".THERMOMETER_SENSOR_PATH." n'existe pas.");
         exit;
     }
 
@@ -78,13 +78,13 @@ function readFileTemperature($data, $transport) {
  */
 function readTemperature($content) {
     $lines = preg_split("/\n/", $content);
-    $temperature = preg_match("/t=(.+)/", $lines[1], $matches);
+     preg_match("/t=(.+)/", $lines[1], $matches);
 
-    if (strpos($lines[0],'NO') !== false || $temperature == "85000") {
+    if (strpos($lines[0],'NO') !== false || $matches[1] == "85000") {
         return False;
     }
 
-    $temperature = floatval($temperature);
+    $temperature = floatval($matches[1]);
     $temperature = $temperature / 1000;
 
     return $temperature;
@@ -106,6 +106,36 @@ function setControle($link, $value) {
  */
 function deleteControle($link, $value) {
     $sql = "DELETE FROM `controle` WHERE value='" . $value . "'";
+    $link->query($sql);
+}
+
+/**
+ * @param $link
+ * @param $path
+ * @param $value
+ * @param $error
+ * @param $message
+ */
+function setState($link, $path, $value, $error, $message) {
+    //on vérifie qu'on est pas déja dans cet état
+    $sql = "SELECT count(*) as count FROM `state` WHERE `path` = '".$path."' AND `value` = '".$value."'";
+    $request = mysqli_query($link, $sql);
+    $result = mysqli_fetch_assoc($request);
+
+    if($result['count'] == "0" || $result['count'] == 0) {
+        deleteState($link, $path);
+        $sql = 'INSERT INTO `state`( `path`,`value`,`error`,`message`) VALUES ("' . $path . '","' . $value . '","' . $error . '","' . $message . '")';
+        $link->query($sql);
+    }
+
+}
+
+/**
+ * @param $link
+ * @param $path
+ */
+function deleteState($link, $path) {
+    $sql = "DELETE FROM `state` WHERE `path`='" . $path . "'";
     $link->query($sql);
 }
 

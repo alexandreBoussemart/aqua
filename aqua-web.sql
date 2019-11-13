@@ -1,16 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le :  mar. 12 nov. 2019 à 22:30
--- Version du serveur :  5.7.27
--- Version de PHP :  7.1.26
+-- Client :  localhost:3306
+-- Généré le :  Mer 13 Novembre 2019 à 14:17
+-- Version du serveur :  5.7.27-0ubuntu0.18.04.1
+-- Version de PHP :  7.2.24-0ubuntu0.18.04.1
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -36,7 +33,7 @@ CREATE TABLE `config` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `config`
+-- Contenu de la table `config`
 --
 
 INSERT INTO `config` (`id`, `name`, `value`) VALUES
@@ -62,7 +59,7 @@ CREATE TABLE `controle` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `controle`
+-- Contenu de la table `controle`
 --
 
 INSERT INTO `controle` (`id`, `created_at`, `value`) VALUES
@@ -70,7 +67,7 @@ INSERT INTO `controle` (`id`, `created_at`, `value`) VALUES
 (139783, '2019-09-17 17:25:00', 'controle_osmolateur'),
 (139784, '2019-09-17 17:25:00', 'controle_bailling'),
 (139786, '2019-09-17 17:25:04', 'controle_reacteur'),
-(139796, '2019-11-12 23:28:07', 'controle_temperature');
+(139812, '2019-11-13 14:15:12', 'controle_temperature');
 
 -- --------------------------------------------------------
 
@@ -106,16 +103,20 @@ CREATE TABLE `state` (
   `id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `path` varchar(255) NOT NULL,
-  `value` varchar(5) NOT NULL
+  `value` varchar(255) NOT NULL,
+  `error` tinyint(1) NOT NULL,
+  `message` text NOT NULL,
+  `mail_send` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `state`
+-- Contenu de la table `state`
 --
 
-INSERT INTO `state` (`id`, `created_at`, `path`, `value`) VALUES
-(881, '2019-09-15 21:02:21', 'ecumeur', '1'),
-(883, '2019-09-17 16:56:33', 'bailling', '111');
+INSERT INTO `state` (`id`, `created_at`, `path`, `value`, `error`, `message`, `mail_send`) VALUES
+(881, '2019-09-15 21:02:21', 'ecumeur', '1', 0, '', 0),
+(883, '2019-09-17 16:56:33', 'bailling', '111', 0, '', 0),
+(912, '2019-11-13 14:14:36', 'temperature', 'state_6', 1, 'Temperature - ERREUR - Trop chaud 28.456Â°C', 0);
 
 -- --------------------------------------------------------
 
@@ -130,7 +131,32 @@ CREATE TABLE `temperature` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Index pour les tables déchargées
+-- Contenu de la table `temperature`
+--
+
+INSERT INTO `temperature` (`id`, `created_at`, `value`) VALUES
+(1, '2019-11-13 14:01:47', 20.187),
+(2, '2019-11-13 14:02:30', 25.187),
+(3, '2019-11-13 14:03:07', 25.187),
+(4, '2019-11-13 14:03:17', 25.187),
+(5, '2019-11-13 14:03:40', 25.187),
+(6, '2019-11-13 14:04:04', 25.187),
+(7, '2019-11-13 14:04:18', 28.187),
+(8, '2019-11-13 14:05:47', 23.456),
+(9, '2019-11-13 14:09:14', 23.456),
+(10, '2019-11-13 14:09:24', 23.456),
+(11, '2019-11-13 14:11:12', 23.456),
+(12, '2019-11-13 14:11:25', 23.456),
+(13, '2019-11-13 14:12:14', 22.456),
+(14, '2019-11-13 14:12:52', 22.456),
+(15, '2019-11-13 14:14:00', 22.456),
+(16, '2019-11-13 14:14:05', 22.456),
+(17, '2019-11-13 14:14:14', 22.456),
+(18, '2019-11-13 14:14:36', 28.456),
+(19, '2019-11-13 14:15:12', 28.456);
+
+--
+-- Index pour les tables exportées
 --
 
 --
@@ -170,7 +196,7 @@ ALTER TABLE `temperature`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT pour les tables exportées
 --
 
 --
@@ -178,39 +204,31 @@ ALTER TABLE `temperature`
 --
 ALTER TABLE `config`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
 --
 -- AUTO_INCREMENT pour la table `controle`
 --
 ALTER TABLE `controle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139797;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139813;
 --
 -- AUTO_INCREMENT pour la table `osmolateur`
 --
 ALTER TABLE `osmolateur`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT pour la table `reacteur`
 --
 ALTER TABLE `reacteur`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT pour la table `state`
 --
 ALTER TABLE `state`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=884;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=913;
 --
 -- AUTO_INCREMENT pour la table `temperature`
 --
 ALTER TABLE `temperature`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-SET FOREIGN_KEY_CHECKS=1;
-COMMIT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
