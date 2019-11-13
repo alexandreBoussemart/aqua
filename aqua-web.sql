@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Mer 13 Novembre 2019 à 14:17
+-- Généré le :  Mer 13 Novembre 2019 à 14:41
 -- Version du serveur :  5.7.27-0ubuntu0.18.04.1
 -- Version de PHP :  7.2.24-0ubuntu0.18.04.1
 
@@ -72,6 +72,18 @@ INSERT INTO `controle` (`id`, `created_at`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `log`
+--
+
+CREATE TABLE `log` (
+  `id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `message` text CHARACTER SET utf8
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `osmolateur`
 --
 
@@ -104,8 +116,8 @@ CREATE TABLE `state` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `path` varchar(255) NOT NULL,
   `value` varchar(255) NOT NULL,
-  `error` tinyint(1) NOT NULL,
-  `message` text NOT NULL,
+  `error` tinyint(1) NOT NULL DEFAULT '0',
+  `message` text,
   `mail_send` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -172,6 +184,12 @@ ALTER TABLE `controle`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `log`
+--
+ALTER TABLE `log`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `osmolateur`
 --
 ALTER TABLE `osmolateur`
@@ -209,6 +227,11 @@ ALTER TABLE `config`
 --
 ALTER TABLE `controle`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139813;
+--
+-- AUTO_INCREMENT pour la table `log`
+--
+ALTER TABLE `log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `osmolateur`
 --

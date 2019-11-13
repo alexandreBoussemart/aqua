@@ -126,6 +126,10 @@ function setState($link, $path, $value, $error, $message) {
         deleteState($link, $path);
         $sql = 'INSERT INTO `state`( `path`,`value`,`error`,`message`) VALUES ("' . $path . '","' . $value . '","' . $error . '","' . $message . '")';
         $link->query($sql);
+
+	// met ligne dans table log
+	$sql = 'INSERT INTO `log`(`message`) VALUES ("' . $message . '")';
+        $link->query($sql);
     }
 
 }
