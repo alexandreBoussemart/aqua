@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  jeu. 14 nov. 2019 à 21:51
+-- Généré le :  jeu. 14 nov. 2019 à 22:00
 -- Version du serveur :  5.7.27
 -- Version de PHP :  7.1.26
 
@@ -174,7 +174,7 @@ INSERT INTO `status` (`id`, `name`, `value`, `label`) VALUES
 (5, 'temperature', 1, 'Température'),
 (6, 'reacteur_ventilateur', 1, 'Ventilateur réacteur'),
 (7, 'reacteur_eclairage', 1, 'Éclairage réacteur'),
-(8, 'cron_controle', 1, 'Cron contrôle'),
+(8, 'cron_controle', 1, 'Cron check contrôle'),
 (9, 'cron_temperature', 1, 'Cron température'),
 (10, 'cron_rappel', 1, 'Cron rappel'),
 (11, 'cron_mail', 1, 'Cron email');
