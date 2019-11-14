@@ -68,13 +68,13 @@
         $date_bailling = $date_bailling->format('d/m/Y à H:i:s');
     }
 
-    $osmolateur_c = getControle($link, 'controle_osmolateur');
-    $bailling_c = getControle($link, 'controle_bailling');
-    $temperature_c = getControle($link, 'controle_temperature');
-    $reacteur_c = getControle($link, 'controle_reacteur');
-    $ventilateur_reacteur = getControle($link, 'ventilateur_reacteur');
-    $cron = getControle($link, 'cron');
-    $ecumeur_c = getControle($link, 'controle_ecumeur');
+    $osmolateur_c = getStatus($link, 'osmolateur');
+    $bailling_c = getStatus($link, 'bailling');
+    $temperature_c = getStatus($link, 'temperature');
+    $reacteur_c = getStatus($link, 'reacteur');
+    $ventilateur_reacteur = getStatus($link, 'reacteur');
+    $cron = getStatus($link, 'cron');
+    $ecumeur_c = getStatus($link, 'ecumeur');
 
     if (isset($_POST['submit'])) {
         if (isset($_POST['bailling'])) {
@@ -82,7 +82,7 @@
         } else {
             $value_bailling = 0;
         }
-        $sql = "UPDATE `config` SET `value`='" . $value_bailling . "' WHERE `name` = 'controle_bailling'";
+        $sql = "UPDATE `status` SET `value`='" . $value_bailling . "' WHERE `name` = 'bailling'";
         $link->query($sql);
 
         if (isset($_POST['osmolateur'])) {
@@ -90,7 +90,7 @@
         } else {
             $value_osmolateur = 0;
         }
-        $sql = "UPDATE `config` SET `value`='" . $value_osmolateur . "' WHERE `name` = 'controle_osmolateur'";
+        $sql = "UPDATE `status` SET `value`='" . $value_osmolateur . "' WHERE `name` = 'osmolateur'";
         $link->query($sql);
 
         if (isset($_POST['ecumeur'])) {
@@ -98,7 +98,7 @@
         } else {
             $value_ecumeur = 0;
         }
-        $sql = "UPDATE `config` SET `value`='" . $value_ecumeur . "' WHERE `name` = 'controle_ecumeur'";
+        $sql = "UPDATE `status` SET `value`='" . $value_ecumeur . "' WHERE `name` = 'ecumeur'";
         $link->query($sql);
 
         if (isset($_POST['temperature'])) {
@@ -106,7 +106,7 @@
         } else {
             $value_temperature = 0;
         }
-        $sql = "UPDATE `config` SET `value`='" . $value_temperature . "' WHERE `name` = 'controle_temperature'";
+        $sql = "UPDATE `status` SET `value`='" . $value_temperature . "' WHERE `name` = 'temperature'";
         $link->query($sql);
 
         if (isset($_POST['reacteur'])) {
@@ -114,7 +114,7 @@
         } else {
             $value_reacteur = 0;
         }
-        $sql = "UPDATE `config` SET `value`='" . $value_reacteur . "' WHERE `name` = 'controle_reacteur'";
+        $sql = "UPDATE `status` SET `value`='" . $value_reacteur . "' WHERE `name` = 'reacteur'";
         $link->query($sql);
 
         if (isset($_POST['ventilateur_reacteur'])) {
@@ -122,7 +122,7 @@
         } else {
             $value_reacteur_ventilateur = 0;
         }
-        $sql = "UPDATE `config` SET `value`='" . $value_reacteur_ventilateur . "' WHERE `name` = 'ventilateur_reacteur'";
+        $sql = "UPDATE `status` SET `value`='" . $value_reacteur_ventilateur . "' WHERE `name` = 'reacteur'";
         $link->query($sql);
 
         if (isset($_POST['cron'])) {
@@ -130,7 +130,7 @@
         } else {
             $value_cron = 0;
         }
-        $sql = "UPDATE `config` SET `value`='" . $value_cron . "' WHERE `name` = 'cron'";
+        $sql = "UPDATE `status` SET `value`='" . $value_cron . "' WHERE `name` = 'cron'";
         $link->query($sql);
 
         header('Location: '.$data['database'][0]['base_url']); ///aqua-web

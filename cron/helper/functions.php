@@ -55,10 +55,10 @@ function sendMail($data, $transport, $subject, $content) {
  *
  * @return bool
  */
-function getConfig($link, $name) {
+function getStatus($link, $name) {
     $result = true;
 
-    $sql = "SELECT `value` FROM `config` WHERE `name` = '".$name."'";
+    $sql = "SELECT `value` FROM `status` WHERE `name` = '".$name."'";
     $controle = mysqli_query($link, $sql);
     $row = mysqli_fetch_assoc($controle);
 

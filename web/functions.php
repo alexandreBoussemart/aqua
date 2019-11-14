@@ -30,9 +30,9 @@ function getLabel($key)
  * @param $code
  * @return mixed
  */
-function getControle($link, $code)
+function getStatus($link, $code)
 {
-    $sql = "SELECT `value` FROM `config` WHERE `name` = '" . $code . "' LIMIT 1";
+    $sql = "SELECT `value` FROM `status` WHERE `name` = '" . $code . "' LIMIT 1";
     $request = mysqli_query($link, $sql);
     return mysqli_fetch_assoc($request)['value'];
 }

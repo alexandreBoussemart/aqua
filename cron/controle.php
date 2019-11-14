@@ -8,7 +8,7 @@ require 'helper/functions.php';
 
 try {
     //check si la cron est activé
-    if (!getConfig($link, 'cron')) {
+    if (!getStatus($link, 'cron')) {
         return false;
     }
 

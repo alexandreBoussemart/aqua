@@ -25,30 +25,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `config`
+-- Structure de la table `status`
 --
 
-CREATE TABLE `config` (
+CREATE TABLE `status` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `value` tinyint(1) DEFAULT NULL COMMENT 'Activé/Désactivé'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `config`
+-- Déchargement des données de la table `status`
 --
 
-INSERT INTO `config` (`id`, `name`, `value`) VALUES
-(1, 'controle_osmolateur', 1),
-(2, 'controle_ecumeur', 1),
-(3, 'controle_bailling', 1),
-(4, 'controle_reacteur', 1),
-(5, 'controle_temperature', 1),
-(6, 'ventilateur_reacteur', 1),
-(7, 'cron', 1),
-(8, 'cron_temperature', 1),
-(9, 'cron_rappel', 1),
-(10, 'cron_mail', 1);
+INSERT INTO `status` (`id`, `name`, `value`) VALUES
+(1, 'osmolateur', 1),
+(2, 'ecumeur', 1),
+(3, 'bailling', 1),
+(4, 'reacteur', 1),
+(5, 'temperature', 1),
+(6, 'reacteur_ventilateur', 1),
+(7, 'reacteur_eclairage', 1),
+(8, 'cron', 1),
+(9, 'cron_temperature', 1),
+(10, 'cron_rappel', 1),
+(11, 'cron_mail', 1);
 
 -- --------------------------------------------------------
 
@@ -221,9 +222,9 @@ INSERT INTO `temperature` (`id`, `created_at`, `value`) VALUES
 --
 
 --
--- Index pour la table `config`
+-- Index pour la table `status`
 --
-ALTER TABLE `config`
+ALTER TABLE `status`
   ADD PRIMARY KEY (`id`);
 
 --
