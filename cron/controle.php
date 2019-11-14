@@ -8,7 +8,7 @@ require 'helper/functions.php';
 
 try {
     //check si la cron est activé
-    if (!getStatus($link, 'cron')) {
+    if (!getStatus($link, 'cron_controle')) {
         return false;
     }
 
@@ -63,7 +63,7 @@ try {
         sendMail($data, $transport, "Cron - contrôle 8h - OK", $content);
     }
 
-    setState($link, 'controle', 'state_1', 0, "Cron controle - OK");
+    setState($link, 'controle', 'state_1', 0, "Cron controle - OK", true);
 
 } catch (Exception $e) {
     setState($link, 'controle', 'state_2', 1, "Cron controle - ERREUR - " . $e->getMessage());

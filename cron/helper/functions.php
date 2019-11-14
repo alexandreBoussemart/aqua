@@ -104,7 +104,7 @@ function readFileTemperature($link) {
  */
 function readTemperature($content) {
     $lines = preg_split("/\n/", $content);
-     preg_match("/t=(.+)/", $lines[1], $matches);
+    preg_match("/t=(.+)/", $lines[1], $matches);
 
     if (strpos($lines[0],'NO') !== false || $matches[1] == "85000") {
         return False;
@@ -121,17 +121,7 @@ function readTemperature($content) {
  * @param $value
  */
 function setControle($link, $value) {
-    deleteControle($link, $value);
-    $sql = "INSERT INTO `controle`( `value`) VALUES ('" . $value . "')";
-    $link->query($sql);
-}
-
-/**
- * @param $link
- * @param $value
- */
-function deleteControle($link, $value) {
-    $sql = "DELETE FROM `controle` WHERE value='" . $value . "'";
+    $sql = "UPDATE `controle` set `value`='" . $value . "', `created_at`=now() WHERE `value`='" . $value . "'";
     $link->query($sql);
 }
 
@@ -141,31 +131,28 @@ function deleteControle($link, $value) {
  * @param $value
  * @param $error
  * @param $message
+ * @param bool $force_log
  */
-function setState($link, $path, $value, $error, $message) {
+function setState($link, $path, $value, $error, $message, $force_log = false) {
     //on vérifie qu'on est pas déja dans cet état
     $sql = "SELECT count(*) as count FROM `state` WHERE `path` = '".$path."' AND `value` = '".$value."'";
     $request = mysqli_query($link, $sql);
     $result = mysqli_fetch_assoc($request);
 
     if($result['count'] == "0" || $result['count'] == 0) {
-        deleteState($link, $path);
-        $sql = 'INSERT INTO `state`( `path`,`value`,`error`,`message`) VALUES ("' . $path . '","' . $value . '","' . $error . '","' . $message . '")';
+        $sql = "UPDATE `state` set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0 WHERE `path`='" . $path . "'";
         $link->query($sql);
 
-	// met ligne dans table log
-	$sql = 'INSERT INTO `log`(`message`) VALUES ("' . $message . '")';
+	    // met ligne dans table log
+	    $sql = 'INSERT INTO `log`(`message`) VALUES ("' . $message . '")';
         $link->query($sql);
     }
-}
 
-/**
- * @param $link
- * @param $path
- */
-function deleteState($link, $path) {
-    $sql = "DELETE FROM `state` WHERE `path`='" . $path . "'";
-    $link->query($sql);
+    if($force_log) {
+        // met ligne dans table log
+        $sql = 'INSERT INTO `log`(`message`) VALUES ("' . $message . '")';
+        $link->query($sql);
+    }
 }
 
 

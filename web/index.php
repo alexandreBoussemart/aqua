@@ -73,7 +73,7 @@
     $temperature_c = getStatus($link, 'temperature');
     $reacteur_c = getStatus($link, 'reacteur');
     $ventilateur_reacteur = getStatus($link, 'reacteur');
-    $cron = getStatus($link, 'cron');
+    $cron = getStatus($link, 'cron_controle');
     $ecumeur_c = getStatus($link, 'ecumeur');
 
     if (isset($_POST['submit'])) {
@@ -130,7 +130,7 @@
         } else {
             $value_cron = 0;
         }
-        $sql = "UPDATE `status` SET `value`='" . $value_cron . "' WHERE `name` = 'cron'";
+        $sql = "UPDATE `status` SET `value`='" . $value_cron . "' WHERE `name` = 'cron_controle'";
         $link->query($sql);
 
         header('Location: '.$data['database'][0]['base_url']); ///aqua-web
