@@ -31,6 +31,5 @@ try {
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
-
 }
 
