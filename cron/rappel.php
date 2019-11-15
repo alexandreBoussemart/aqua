@@ -12,13 +12,25 @@ try {
         return false;
     }
 
-    if($rappel[date('D')]){
+    $body = "";
+    if ($rappel[date('D')]) {
         $body = $rappel[date('D')];
     }
 
-    sendMail($data, $transport, "Rappel - ajout à faire", $body);
+    // on envoie le mail
+    try {
+        sendMail($data, $transport, "Rappel - ajout à faire", $body);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
 
 } catch (Exception $e) {
-    sendMail($data, $transport, "Cron erreur - ERREUR - ", $e->getMessage());
+    // on envoie le mail
+    try {
+        sendMail($data, $transport, "Cron erreur - ERREUR - ", $e->getMessage());
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+
 }
 

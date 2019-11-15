@@ -42,31 +42,10 @@ try {
         }
     }
 
-    //controle 8h
-    $date = new DateTime();
-    $current = $date->format('Y-m-d H:i:00');
-    $huit = $date->format('Y-m-d 08:00:00');
-
-    if ($current == $huit) {
-        $content = "<p style='color:green;text-transform:none;'>Cron - contrôle 8h - OK</p>";
-
-        $sql = "SELECT `value` FROM `reacteur` ORDER BY `reacteur`.`id`  DESC LIMIT 1";
-        $controle = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($controle);
-        $content .= "<p>Dernier débit enregistré : " . $row['value'] . " l/min</p>";
-
-        $sql = "SELECT `value` FROM `temperature` ORDER BY `temperature`.`id`  DESC LIMIT 1";
-        $controle = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($controle);
-        $content .= "<p>Dernière température enregistrée : " . round($row['value'], 2) . "°C</p>";
-
-        sendMail($data, $transport, "Cron - contrôle 8h - OK", $content);
-    }
-
-    setState($link, 'controle', 'state_1', 0, "Cron controle - OK", true);
+    setState($link, 'controle', 'state_1', 0, "Cron controle - OK", 1, 1);
 
 } catch (Exception $e) {
-    setState($link, 'controle', 'state_2', 1, "Cron controle - ERREUR - " . $e->getMessage());
+    setState($link, 'controle', 'state_2', 1, "Cron controle - ERREUR - " . $e->getMessage(), 0, 0);
 }
 
 
