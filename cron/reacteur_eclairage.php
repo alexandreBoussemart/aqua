@@ -8,27 +8,31 @@ require 'helper/functions.php';
 
 try {
     $date = new DateTime();
-    $today = $date->format('Y-m-d H:i:s');
+    $now = $date->format('Y-m-d H:i:s');
 
     //check si on doit allumer l'éclairage
     if (getStatus($link, 'reacteur_eclairage')) {
         //check les horaires
-        /*
-            22h30 à 23h30
-            23h40 à 00h40
-            00h50 à 01h50
-            02h00 à 03h00
-            03h10 à 04h10
-            04h20 à 05h20
-            05h30 à 06h30
-            06h40 à 07h40
-            07h50 à 08h50
-            08h00 à 10h00
-        */
+        if(
+            ($now >= $date->format('Y-m-d 22:30:00') && $now < $date->format('Y-m-d 23:30:00')) ||
+            ($now >= $date->format('Y-m-d 23:40:00') || $now < $date->format('Y-m-d 00:40:00')) ||
+            ($now >= $date->format('Y-m-d 00:50:00') && $now < $date->format('Y-m-d 01:50:00')) ||
+            ($now >= $date->format('Y-m-d 02:00:00') && $now < $date->format('Y-m-d 03:00:00')) ||
+            ($now >= $date->format('Y-m-d 03:10:00') && $now < $date->format('Y-m-d 04:10:00')) ||
+            ($now >= $date->format('Y-m-d 04:20:00') && $now < $date->format('Y-m-d 05:20:00')) ||
+            ($now >= $date->format('Y-m-d 05:30:00') && $now < $date->format('Y-m-d 06:30:00')) ||
+            ($now >= $date->format('Y-m-d 06:40:00') && $now < $date->format('Y-m-d 07:40:00')) ||
+            ($now >= $date->format('Y-m-d 07:50:00') && $now < $date->format('Y-m-d 08:50:00')) ||
+            ($now >= $date->format('Y-m-d 09:00:00') && $now < $date->format('Y-m-d 10:00:00'))
+        ) {
+            // on allume
 
-    } else {
-        // on éteind
+            return true;
+        }
     }
+
+    // on éteind
+
 
 } catch (Exception $e) {
     setLog($link, $e->getMessage());
