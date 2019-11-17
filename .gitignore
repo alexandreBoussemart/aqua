@@ -2,3 +2,4 @@ config.json
 .idea/
 raspberry.txt
 __pycache__/
+composer.phar
