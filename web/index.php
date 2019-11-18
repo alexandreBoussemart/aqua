@@ -14,197 +14,7 @@
     </head>
 
     <?php
-    require 'functions.php';
-
-    $last_debit = $last_temp = 0;
-    $date = new DateTime();
-    $date_debit = $date_temp = $date->format('Y-m-d H:i:s');
-
-    $period = 1;
-    if (isset($_GET['period'])) {
-        $period = $_GET['period'];
-    }
-
-    $day_name = date('D');
-
-    if ($period == 1) {
-        $periode = '-1 day';
-    } elseif ($period == 2) {
-        $periode = '-2 days';
-    } elseif ($period == 7) {
-        $periode = '-7 days';
-    } else {
-        $periode = '-1 day';
-    }
-
-    $date = new DateTime();
-    $today = $date->format('Y-m-d H:i:s');
-    $date->modify($periode);
-    $yesterday = $date->format('Y-m-d H:i:s');
-
-    $sql = "SELECT * FROM `temperature` where `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "'";
-    $temperature = mysqli_query($link, $sql);
-
-    $sql = "SELECT * FROM `reacteur` where `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "'";
-    $reacteur = mysqli_query($link, $sql);
-
-    $sql = "SELECT * FROM `state` WHERE `path` = 'ecumeur'";
-    $ecumeur = mysqli_query($link, $sql);
-
-    while ($obj = $ecumeur->fetch_object()) {
-        $state_ecumeur = $obj->value;
-        $date_ecumeur = $obj->created_at;
-        $date_ecumeur = new DateTime($date_ecumeur);
-        $date_ecumeur = $date_ecumeur->format('d/m/Y à H:i:s');
-    }
-
-    $sql = "SELECT * FROM `state` WHERE `path` = 'bailling'";
-    $bailling = mysqli_query($link, $sql);
-
-    while ($obj = $bailling->fetch_object()) {
-        $state_bailling = str_split($obj->value);
-        $date_bailling = $obj->created_at;
-        $date_bailling = new DateTime($date_bailling);
-        $date_bailling = $date_bailling->format('d/m/Y à H:i:s');
-    }
-
-    $osmolateur_c = getStatus($link, 'osmolateur');
-    $bailling_c = getStatus($link, 'bailling');
-    $temperature_c = getStatus($link, 'temperature');
-    $reacteur_c = getStatus($link, 'reacteur');
-    $ventilateur_reacteur = getStatus($link, 'reacteur');
-    $cron = getStatus($link, 'cron_controle');
-    $ecumeur_c = getStatus($link, 'ecumeur');
-
-    if (isset($_POST['submit'])) {
-        if (isset($_POST['bailling'])) {
-            $value_bailling = 1;
-        } else {
-            $value_bailling = 0;
-        }
-        $sql = "UPDATE `status` SET `value`='" . $value_bailling . "' WHERE `name` = 'bailling'";
-        $link->query($sql);
-
-        if (isset($_POST['osmolateur'])) {
-            $value_osmolateur = 1;
-        } else {
-            $value_osmolateur = 0;
-        }
-        $sql = "UPDATE `status` SET `value`='" . $value_osmolateur . "' WHERE `name` = 'osmolateur'";
-        $link->query($sql);
-
-        if (isset($_POST['ecumeur'])) {
-            $value_ecumeur = 1;
-        } else {
-            $value_ecumeur = 0;
-        }
-        $sql = "UPDATE `status` SET `value`='" . $value_ecumeur . "' WHERE `name` = 'ecumeur'";
-        $link->query($sql);
-
-        if (isset($_POST['temperature'])) {
-            $value_temperature = 1;
-        } else {
-            $value_temperature = 0;
-        }
-        $sql = "UPDATE `status` SET `value`='" . $value_temperature . "' WHERE `name` = 'temperature'";
-        $link->query($sql);
-
-        if (isset($_POST['reacteur'])) {
-            $value_reacteur = 1;
-        } else {
-            $value_reacteur = 0;
-        }
-        $sql = "UPDATE `status` SET `value`='" . $value_reacteur . "' WHERE `name` = 'reacteur'";
-        $link->query($sql);
-
-        if (isset($_POST['ventilateur_reacteur'])) {
-            $value_reacteur_ventilateur = 1;
-        } else {
-            $value_reacteur_ventilateur = 0;
-        }
-        $sql = "UPDATE `status` SET `value`='" . $value_reacteur_ventilateur . "' WHERE `name` = 'reacteur'";
-        $link->query($sql);
-
-        if (isset($_POST['cron'])) {
-            $value_cron = 1;
-        } else {
-            $value_cron = 0;
-        }
-        $sql = "UPDATE `status` SET `value`='" . $value_cron . "' WHERE `name` = 'cron_controle'";
-        $link->query($sql);
-
-        header('Location: '.$data['database'][0]['base_url']); ///aqua-web
-    }
-
-    $sql = "SELECT `created_at` FROM `controle` WHERE `value` = 'controle_osmolateur'";
-    $request = mysqli_query($link, $sql);
-    while ($obj = $request->fetch_object()) {
-        $log = $obj->created_at;
-        $log = new DateTime($log);
-        $log_osmolateur = $log->format('d/m/Y à H:i:s');
-    }
-
-    $sql = "SELECT `created_at` FROM `controle` WHERE `value` = 'controle_temperature'";
-    $request = mysqli_query($link, $sql);
-    while ($obj = $request->fetch_object()) {
-        $log = $obj->created_at;
-        $log = new DateTime($log);
-        $log_temperature = $log->format('d/m/Y à H:i:s');
-    }
-
-    $sql = "SELECT `created_at` FROM `controle` WHERE `value` = 'controle_bailling'";
-    $request = mysqli_query($link, $sql);
-    while ($obj = $request->fetch_object()) {
-        $log = $obj->created_at;
-        $log = new DateTime($log);
-        $log_bailling = $log->format('d/m/Y à H:i:s');
-    }
-
-    $sql = "SELECT `created_at` FROM `controle` WHERE `value` = 'controle_reacteur'";
-    $request = mysqli_query($link, $sql);
-    while ($obj = $request->fetch_object()) {
-        $log = $obj->created_at;
-        $log = new DateTime($log);
-        $log_reacteur = $log->format('d/m/Y à H:i:s');
-    }
-
-    $sql = "SELECT `created_at` FROM `controle` WHERE `value` = 'controle_ecumeur'";
-    $request = mysqli_query($link, $sql);
-    while ($obj = $request->fetch_object()) {
-        $log = $obj->created_at;
-        $log = new DateTime($log);
-        $log_ecumeur = $log->format('d/m/Y à H:i:s');
-    }
-
-    $sql = "SELECT * FROM `osmolateur` where `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' order by created_at DESC";
-    $osmo = mysqli_query($link, $sql);
-
-    $sql = "SELECT count(*) as somme FROM `osmolateur` WHERE `state` = 'pump_on' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "'";
-    $count = mysqli_query($link, $sql);
-    while ($obj = $count->fetch_object()) {
-        $somme = $obj->somme;
-    }
-
-    $sql = "SELECT `value`,`created_at` FROM `reacteur` ORDER BY `reacteur`.`id`  DESC LIMIT 1";
-    $request = mysqli_query($link, $sql);
-    while ($obj = $request->fetch_object()) {
-        $last_debit = $obj->value;
-        $log = $obj->created_at;
-        $log = new DateTime($log);
-        $date_debit = $log->format('d/m/Y à H:i:s');
-    }
-
-    $sql = "SELECT `value`,`created_at` FROM `temperature` ORDER BY `temperature`.`id` DESC LIMIT 1";
-    $request = mysqli_query($link, $sql);
-    while ($obj = $request->fetch_object()) {
-        $last_temp = round($obj->value, 2);
-        $log = $obj->created_at;
-        $log = new DateTime($log);
-        $date_temp = $log->format('d/m/Y à H:i:s');
-    }
-
-
-
+    require 'header.php';
     ?>
 
     <body class="nav-md">
@@ -508,17 +318,6 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-md-6 col-sm-6 col-xs-6">Température</label>
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <div class="">
-                                                <label>
-                                                    <input name="temperature" type="checkbox"
-                                                           class="js-switch" <?php if ($temperature_c == '1') echo 'checked'; ?>/>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <label class="control-label col-md-6 col-sm-6 col-xs-6">Bailling</label>
                                         <div class="col-md-6 col-sm-6 col-xs-6">
                                             <div class="">
@@ -541,27 +340,19 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-md-6 col-sm-6 col-xs-6">Ventilateur réacteur</label>
+                                        <label class="control-label col-md-6 col-sm-6 col-xs-6">Température</label>
                                         <div class="col-md-6 col-sm-6 col-xs-6">
                                             <div class="">
                                                 <label>
-                                                    <input name="ventilateur_reacteur" type="checkbox"
-                                                           class="js-switch" <?php if ($ventilateur_reacteur == '1') echo 'checked'; ?>/>
+                                                    <input name="temperature" type="checkbox"
+                                                           class="js-switch" <?php if ($temperature_c == '1') echo 'checked'; ?>/>
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-6 col-sm-6 col-xs-6">Cron</label>
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <div class="">
-                                                <label>
-                                                    <input name="cron" type="checkbox"
-                                                           class="js-switch" <?php if ($cron == '1') echo 'checked'; ?>/>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
+
+
+
                                     <div class="ln_solid"></div>
                                     <div class="form-group">
                                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
