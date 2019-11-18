@@ -49,12 +49,6 @@ $row = mysqli_fetch_assoc($bailling);
 $state_bailling = str_split($row['value']);
 $date_bailling = getFormattedDate($row['created_at']);
 
-$status_osmolateur = getStatus($link, 'osmolateur');
-$status_ecumeur = getStatus($link, 'ecumeur');
-$status_bailling = getStatus($link, 'bailling');
-$status_reacteur = getStatus($link, 'reacteur');
-$status_temperature = getStatus($link, 'temperature');
-
 if (isset($_POST['submit'])) {
     setStatus($link, $_POST['osmolateur'], 'osmolateur');
     setStatus($link, $_POST['ecumeur'], 'ecumeur');
@@ -70,12 +64,6 @@ if (isset($_POST['submit'])) {
 
     header('Location: '.$data['database'][0]['base_url']); ///aqua-web
 }
-
-$log_osmolateur = getValueControle($link, 'controle_osmolateur');
-$log_temperature = getValueControle($link, 'controle_temperature');
-$log_bailling = getValueControle($link, 'controle_bailling');
-$log_reacteur = getValueControle($link, 'controle_reacteur');
-$log_ecumeur = getValueControle($link, 'controle_ecumeur');
 
 $sql = "SELECT count(*) as somme FROM `osmolateur` WHERE `state` = 'pump_on' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "'";
 $count = mysqli_query($link, $sql);

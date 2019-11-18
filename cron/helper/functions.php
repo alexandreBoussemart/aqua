@@ -196,23 +196,6 @@ function getLabel($key)
 }
 
 /**
- * @param $link
- * @param $code
- *
- * @return string
- * @throws Exception
- */
-function getValueControle($link, $code)
-{
-    $sql = "SELECT `created_at` FROM `controle` WHERE `value` = '$code'";
-    $request = mysqli_query($link, $sql);
-    $row = mysqli_fetch_assoc($request);
-    $log = new DateTime($row['created_at']);
-
-    return $log->format('d/m/Y à H:i:s');
-}
-
-/**
  * @param $date
  *
  * @return string
