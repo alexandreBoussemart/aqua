@@ -94,3 +94,8 @@ $listes_status = mysqli_query($link, $sql);
 //liste des controles
 $sql = "SELECT * FROM `controle`";
 $listes_controles = mysqli_query($link, $sql);
+
+//dernier osmo
+$sql = "SELECT * FROM `osmolateur` ORDER BY `osmolateur`.`id` DESC LIMIT 1";
+$request = mysqli_query($link, $sql);
+$last_omo = mysqli_fetch_assoc($request);

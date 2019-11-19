@@ -1442,7 +1442,7 @@ span.right {
 
 .tile_count .tile_stats_count {
   border-bottom: 1px solid #D9DEE4;
-  padding: 0 10px 0 20px;
+  padding: 10px 10px 10px 20px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -3951,7 +3951,7 @@ ul.notifications {
   color: #B33A3A; }
 
 .row.tile_count {
-  margin: 15px 0; }
+  margin: 0; }
 
 .log .quick-list {
   width: 100%;
@@ -4037,3 +4037,27 @@ ul.notifications {
         .calendrier .days .contenu .event.bacterie {
           background: #9B59B6;
           border-color: #9B59B6; }
+
+.first-bloc {
+  margin-top: 10px; }
+
+.tile_stats_count.osmolateur .count {
+  line-height: 5px;
+  display: block;
+  margin: 2px 0 10px; }
+  .tile_stats_count.osmolateur .count p {
+    margin-bottom: 0;
+    display: inline-block;
+    line-height: 25px; }
+.tile_stats_count.osmolateur.pump_on .tile_count .tile_stats_count i {
+  color: #FFA500; }
+.tile_stats_count.osmolateur.pump_on .count p, .tile_stats_count.osmolateur.pump_on .count small {
+  color: #FFA500; }
+.tile_stats_count.osmolateur.to_high .tile_count .tile_stats_count i, .tile_stats_count.osmolateur.to_low .tile_count .tile_stats_count i {
+  color: #B33A3A; }
+.tile_stats_count.osmolateur.to_high .count p, .tile_stats_count.osmolateur.to_high .count small, .tile_stats_count.osmolateur.to_low .count p, .tile_stats_count.osmolateur.to_low .count small {
+  color: #B33A3A; }
+.tile_stats_count.osmolateur.ok .tile_count .tile_stats_count i {
+  color: #4BB543; }
+.tile_stats_count.osmolateur.ok .count p, .tile_stats_count.osmolateur.ok .count small {
+  color: #4BB543; }
