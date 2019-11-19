@@ -10,11 +10,17 @@ try {
     //check si on doit allumer l'éclairage
     if (getStatus($link, 'reacteur_ventilateur')) {
         //check les horaires
+        if(isOn()) {
+            // on allume
+            exec("python ".__DIR__."/../scripts/on_reacteur_ventilateur.py");
 
-    } else {
-        // on éteind
-
+            return true;
+        }
     }
 
+    // on éteind
+    exec("python ".__DIR__."/../scripts/off_reacteur_ventilateur.py");
 
-} catch (Exception $e) { }
+} catch (Exception $e) {
+    setLog($link, $e->getMessage());
+}

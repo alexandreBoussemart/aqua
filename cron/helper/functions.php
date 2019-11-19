@@ -208,6 +208,11 @@ function getFormattedDate($date)
     return $format->format('d/m/Y à H:i:s');
 }
 
+/**
+ * @param $link
+ * @param $data
+ * @param $code
+ */
 function setStatus($link, $data, $code){
     if (isset($data)) {
         $value = 1;
@@ -216,4 +221,31 @@ function setStatus($link, $data, $code){
     }
     $sql = "UPDATE `status` SET `value`='" . $value . "' WHERE `name` = '$code'";
     $link->query($sql);
+}
+
+/**
+ * @return bool
+ * @throws Exception
+ */
+function isOn()
+{
+    $date = new DateTime();
+    $now = $date->format('Y-m-d H:i:s');
+
+    if (
+        ($now >= $date->format('Y-m-d 22:30:00') && $now < $date->format('Y-m-d 23:30:00')) ||
+        ($now >= $date->format('Y-m-d 23:40:00') || $now < $date->format('Y-m-d 00:40:00')) ||
+        ($now >= $date->format('Y-m-d 00:50:00') && $now < $date->format('Y-m-d 01:50:00')) ||
+        ($now >= $date->format('Y-m-d 02:00:00') && $now < $date->format('Y-m-d 03:00:00')) ||
+        ($now >= $date->format('Y-m-d 03:10:00') && $now < $date->format('Y-m-d 04:10:00')) ||
+        ($now >= $date->format('Y-m-d 04:20:00') && $now < $date->format('Y-m-d 05:20:00')) ||
+        ($now >= $date->format('Y-m-d 05:30:00') && $now < $date->format('Y-m-d 06:30:00')) ||
+        ($now >= $date->format('Y-m-d 06:40:00') && $now < $date->format('Y-m-d 07:40:00')) ||
+        ($now >= $date->format('Y-m-d 07:50:00') && $now < $date->format('Y-m-d 08:50:00')) ||
+        ($now >= $date->format('Y-m-d 09:00:00') && $now < $date->format('Y-m-d 10:00:00'))
+    ) {
+        return true;
+    }
+
+    return false;
 }
