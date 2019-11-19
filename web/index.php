@@ -14,7 +14,7 @@
     </head>
 
     <?php
-    require 'header.php';
+    require 'blocs/header.php';
     ?>
 
     <body class="nav-md">
@@ -71,9 +71,9 @@
                 <div class="right_col" role="main">
 
                     <?php
-                    require 'bloc/days.php';
-                    require 'bloc/calendrier.php';
-                    require 'bloc/state.php';
+                    require 'blocs/days.php';
+                    require 'blocs/calendrier.php';
+                    require 'blocs/state.php';
                     ?>
 
                     <div class="row first-bloc">
