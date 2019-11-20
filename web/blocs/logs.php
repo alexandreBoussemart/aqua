@@ -44,13 +44,13 @@
                             <input name="value" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
                         </div>
                     </div>
-
-                    <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                             <button type="submit" class="btn btn-success">Enregistrer</button>
                         </div>
                     </div>
+                    <div class="ln_solid"></div>
+
                 </form>
 
                 <table id="datatable-eau" class="table table-striped table-bordered">
@@ -68,8 +68,12 @@
                             <td><?= $changement["id"] ?></td>
                             <td><?= getFormattedDate($changement["created_at"]) ?></td>
                             <td><?= $changement["value"] ?> Litres</td>
-                            <td>
-                                <i class="fa fa-close"></i>
+                            <td class="action_grid">
+                                <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
+                                    <input type="hidden" name="submit_delete_eau" value="1"/>
+                                    <input type="hidden" name="id" value="<?= $changement["id"] ?>"/>
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-close"></i>Supprimer</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>

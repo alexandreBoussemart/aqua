@@ -5181,3 +5181,13 @@ ul.notifications {
 .dataTables_filter {
   width: 100%;
 }
+
+.action_grid {
+  button{
+    margin: 0;
+
+    i {
+      margin-right: 10px;
+    }
+  }
+}

@@ -121,7 +121,7 @@ if (isset($_POST['submit_eau'])) {
 }
 
 //delete value changement d'eau
-if (isset($_POST['delete_eau'])) {
+if (isset($_POST['submit_delete_eau'])) {
     if (isset($_POST['id']) && is_numeric($_POST['id'])) {
         $sql = 'DELETE FROM `changement_eau` WHERE `id` LIKE '.$_POST['id'].';';
         $link->query($sql);
