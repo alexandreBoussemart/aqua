@@ -5142,7 +5142,7 @@ ul.notifications {
   }
 
   &.pump_on {
-    .tile_count .tile_stats_count i {
+    .count_top i {
       color: #FFA500;
     }
 
@@ -5154,7 +5154,7 @@ ul.notifications {
   }
 
   &.to_high, &.to_low {
-    .tile_count .tile_stats_count i {
+    .count_top i {
       color: #B33A3A;
     }
 
@@ -5166,7 +5166,7 @@ ul.notifications {
   }
 
   &.ok {
-    .tile_count .tile_stats_count i {
+    .count_top i {
       color: #4BB543;
     }
 

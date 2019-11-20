@@ -1649,7 +1649,7 @@ h4.graph_title {
 .tile-stats .count {
   font-size: 38px;
   font-weight: bold;
-  line-height: 1.65857143; }
+  line-height: 1.65857; }
 
 .tile-stats .count, .tile-stats h3, .tile-stats p {
   position: relative;
@@ -3353,7 +3353,7 @@ header {
   border: 1px solid #cccccc;
   padding: 4px;
   box-sizing: content-box;
-  box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.07451) 0px 1px 1px 0px inset;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
@@ -4049,15 +4049,15 @@ ul.notifications {
     margin-bottom: 0;
     display: inline-block;
     line-height: 25px; }
-.tile_stats_count.osmolateur.pump_on .tile_count .tile_stats_count i {
+.tile_stats_count.osmolateur.pump_on .count_top i {
   color: #FFA500; }
 .tile_stats_count.osmolateur.pump_on .count p, .tile_stats_count.osmolateur.pump_on .count small {
   color: #FFA500; }
-.tile_stats_count.osmolateur.to_high .tile_count .tile_stats_count i, .tile_stats_count.osmolateur.to_low .tile_count .tile_stats_count i {
+.tile_stats_count.osmolateur.to_high .count_top i, .tile_stats_count.osmolateur.to_low .count_top i {
   color: #B33A3A; }
 .tile_stats_count.osmolateur.to_high .count p, .tile_stats_count.osmolateur.to_high .count small, .tile_stats_count.osmolateur.to_low .count p, .tile_stats_count.osmolateur.to_low .count small {
   color: #B33A3A; }
-.tile_stats_count.osmolateur.ok .tile_count .tile_stats_count i {
+.tile_stats_count.osmolateur.ok .count_top i {
   color: #4BB543; }
 .tile_stats_count.osmolateur.ok .count p, .tile_stats_count.osmolateur.ok .count small {
   color: #4BB543; }

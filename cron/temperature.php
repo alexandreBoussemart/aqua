@@ -20,11 +20,11 @@ try {
     //si on est pas toutes les 5 minutes on quitte
     $date = new DateTime();
     $minute = $date->format('i');
-    /* if($minute%5 != 0){
+    if($minute%5 != 0){
          // mais on set comme quoi on est bien passé dans la cron
          setControle($link, 'controle_temperature');
          return false;
-     }*/
+    }
 
     // on défini le chemin du fichier
     if (!defined("THERMOMETER_SENSOR_PATH")) {
