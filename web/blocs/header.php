@@ -99,3 +99,33 @@ $listes_controles = mysqli_query($link, $sql);
 $sql = "SELECT * FROM `osmolateur` ORDER BY `osmolateur`.`id` DESC LIMIT 1";
 $request = mysqli_query($link, $sql);
 $last_omo = mysqli_fetch_assoc($request);
+
+// logs
+$sql = "SELECT * FROM `log` ORDER BY `id` DESC LIMIT 30;";
+$request = mysqli_query($link, $sql);
+$logs = mysqli_query($link, $sql);
+
+// changement eau
+$sql = "SELECT * FROM `changement_eau` ORDER BY `id` DESC LIMIT 30;";
+$request = mysqli_query($link, $sql);
+$changements = mysqli_query($link, $sql);
+
+// form changement d'eau
+if (isset($_POST['submit_eau'])) {
+    if (isset($_POST['value']) && is_numeric($_POST['value'])) {
+        $sql = 'INSERT INTO `changement_eau` ( `value`) VALUES ("' . strval($_POST['value']) . '")';
+        $link->query($sql);
+    }
+
+    header('Location: '.$data['database'][0]['base_url']); ///aqua-web
+}
+
+//delete value changement d'eau
+if (isset($_POST['delete_eau'])) {
+    if (isset($_POST['id']) && is_numeric($_POST['id'])) {
+        $sql = 'DELETE FROM `changement_eau` WHERE `id` LIKE '.$_POST['id'].';';
+        $link->query($sql);
+    }
+
+    header('Location: '.$data['database'][0]['base_url']); ///aqua-web
+}

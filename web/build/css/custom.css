@@ -4061,3 +4061,6 @@ ul.notifications {
   color: #4BB543; }
 .tile_stats_count.osmolateur.ok .count p, .tile_stats_count.osmolateur.ok .count small {
   color: #4BB543; }
+
+.dataTables_filter {
+  width: 100%; }
