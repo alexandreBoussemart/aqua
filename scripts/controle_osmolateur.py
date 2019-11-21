@@ -51,7 +51,7 @@ try:
             functions.setcontrole('controle_osmolateur')
             minute = current
 
-        status = functions.getstatus('controle_osmolateur')
+        status = functions.getstatus('osmolateur')
         if status == 0:
             continue
 

@@ -52,7 +52,7 @@ try:
             functions.setcontrole('controle_bailling')
             minute = current
 
-        status = functions.getstatus('controle_bailling')
+        status = functions.getstatus('bailling')
         if status == 0:
             continue
 

@@ -42,7 +42,7 @@ while True:
         functions.setcontrole('controle_reacteur')
         minute = current
 
-    status = functions.getstatus('controle_reacteur')
+    status = functions.getstatus('reacteur')
     if status == 0:
         continue
 

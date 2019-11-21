@@ -33,7 +33,7 @@ try:
             functions.setcontrole('controle_ecumeur')
             minute = current
 
-        status = functions.getstatus('controle_ecumeur')
+        status = functions.getstatus('ecumeur')
         if status == 0:
             continue
 
