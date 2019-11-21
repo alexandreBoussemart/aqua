@@ -10,7 +10,7 @@ import os
 
 
 def connect():
-    with open('/home/pi/Desktop/aqua/config.json') as f:
+    with open('/home/pi/Desktop/www/aqua/config.json') as f:
         data = json.load(f)
 
     return mysql.connector.connect(
