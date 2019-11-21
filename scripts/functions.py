@@ -25,7 +25,7 @@ def getstatus(value):
     try:
         mydb = connect()
         mycursor = mydb.cursor()
-        mycursor.execute("SELECT `value` FROM `config` WHERE `name` = '" + value + "' LIMIT 1")
+        mycursor.execute("SELECT `value` FROM `status` WHERE `name` = '" + value + "' LIMIT 1")
         myresult = mycursor.fetchone()[0]
         mydb.close()
 
