@@ -27,7 +27,7 @@ try {
         return true;
     }
 
-    // on eteind
+    // on eteint
     exec("python ".__DIR__."/../scripts/off_refroidissement.py");
 
 } catch (Exception $e) {

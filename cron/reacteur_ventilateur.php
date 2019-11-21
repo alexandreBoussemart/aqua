@@ -18,7 +18,7 @@ try {
         }
     }
 
-    // on éteind
+    // on éteint
     exec("python ".__DIR__."/../scripts/off_reacteur_ventilateur.py");
 
 } catch (Exception $e) {
