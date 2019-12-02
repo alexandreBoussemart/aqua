@@ -42,7 +42,7 @@ try {
         }
     }
 
-    setState($link, 'controle', 'state_1', 0, "Cron controle - OK", 1, 1);
+    setState($link, 'controle', 'state_1', 0, "Cron controle - OK", 1, 0);
 
 } catch (Exception $e) {
     setState($link, 'controle', 'state_2', 1, "Cron controle - ERREUR - " . $e->getMessage(), 0, 0);
