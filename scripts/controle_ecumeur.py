@@ -29,7 +29,6 @@ try:
 
         current = datetime.datetime.now().strftime('%M')
         if minute != current:
-            functions.deletecontrole('controle_ecumeur')
             functions.setcontrole('controle_ecumeur')
             minute = current
 
@@ -53,7 +52,6 @@ try:
                 functions.deletestate('ecumeur')
                 functions.setstate('ecumeur', state_current)
 
-                functions.deletecontrole('controle_ecumeur')
                 functions.setcontrole('controle_ecumeur')
 
             # niveau eau ok
@@ -64,7 +62,6 @@ try:
                 functions.deletestate('ecumeur')
                 functions.setstate('ecumeur', state_current)
 
-                functions.deletecontrole('controle_ecumeur')
                 functions.setcontrole('controle_ecumeur')
 
             else:

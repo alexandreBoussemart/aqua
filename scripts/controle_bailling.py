@@ -48,7 +48,6 @@ try:
 
         current = datetime.datetime.now().strftime('%M')
         if minute != current:
-            functions.deletecontrole('controle_bailling')
             functions.setcontrole('controle_bailling')
             minute = current
 
@@ -85,7 +84,6 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling',state_current)
 
-                functions.deletecontrole('controle_bailling')
                 functions.setcontrole('controle_bailling')
 
             # niveau bailling 1 et 2 bas
@@ -100,7 +98,6 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
 
-                functions.deletecontrole('controle_bailling')
                 functions.setcontrole('controle_bailling')
 
             # niveau bailling 1 et 3 bas
@@ -115,7 +112,6 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
 
-                functions.deletecontrole('controle_bailling')
                 functions.setcontrole('controle_bailling')
 
             # niveau bailling 2 et 3 bas
@@ -130,7 +126,6 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
 
-                functions.deletecontrole('controle_bailling')
                 functions.setcontrole('controle_bailling')
 
             # niveau bailling 1, 2 et 3 bas
@@ -145,7 +140,6 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
 
-                functions.deletecontrole('controle_bailling')
                 functions.setcontrole('controle_bailling')
 
             # niveau bailling 2 bas
@@ -160,7 +154,6 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
 
-                functions.deletecontrole('controle_bailling')
                 functions.setcontrole('controle_bailling')
 
             # niveau bailling 3 bas
@@ -175,7 +168,6 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
 
-                functions.deletecontrole('controle_bailling')
                 functions.setcontrole('controle_bailling')
 
             # niveau des 3 ok
@@ -189,7 +181,6 @@ try:
                 functions.deletestate('bailling')
                 functions.setstate('bailling', state_current)
 
-                functions.deletecontrole('controle_bailling')
                 functions.setcontrole('controle_bailling')
 
             else:
@@ -217,7 +208,6 @@ try:
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
 
-                    functions.deletecontrole('controle_bailling')
                     functions.setcontrole('controle_bailling')
 
             # niveau bailling 1 et 2 bas
@@ -231,7 +221,6 @@ try:
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
 
-                    functions.deletecontrole('controle_bailling')
                     functions.setcontrole('controle_bailling')
 
             # niveau bailling 1 et 3 bas
@@ -245,7 +234,6 @@ try:
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
 
-                    functions.deletecontrole('controle_bailling')
                     functions.setcontrole('controle_bailling')
 
             # niveau bailling 2 et 3 bas
@@ -259,7 +247,6 @@ try:
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
 
-                    functions.deletecontrole('controle_bailling')
                     functions.setcontrole('controle_bailling')
 
             # niveau bailling 1, 2 et 3 bas
@@ -273,7 +260,6 @@ try:
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
 
-                    functions.deletecontrole('controle_bailling')
                     functions.setcontrole('controle_bailling')
 
             # niveau bailling 2 bas
@@ -287,7 +273,6 @@ try:
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
 
-                    functions.deletecontrole('controle_bailling')
                     functions.setcontrole('controle_bailling')
 
             # niveau bailling 3 bas
@@ -301,7 +286,6 @@ try:
                     functions.deletestate('bailling')
                     functions.setstate('bailling', state_current)
 
-                    functions.deletecontrole('controle_bailling')
                     functions.setcontrole('controle_bailling')
 
             if message != "":

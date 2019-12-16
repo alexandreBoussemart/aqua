@@ -38,7 +38,6 @@ while True:
 
     current = datetime.datetime.now().strftime('%M')
     if minute != current:
-        functions.deletecontrole('controle_reacteur')
         functions.setcontrole('controle_reacteur')
         minute = current
 
@@ -56,7 +55,6 @@ while True:
         if indentator == 0:
             functions.setdebit(flow)
 
-            functions.deletecontrole('controle_reacteur')
             functions.setcontrole('controle_reacteur')
 
             indentator = indentator + 1

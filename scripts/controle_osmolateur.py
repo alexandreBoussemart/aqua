@@ -47,7 +47,6 @@ try:
 
         current = datetime.datetime.now().strftime('%M')
         if minute != current:
-            functions.deletecontrole('controle_osmolateur')
             functions.setcontrole('controle_osmolateur')
             minute = current
 
@@ -83,7 +82,6 @@ try:
                 time_to_high = 0
                 functions.setosmolateur("to_high")
 
-                functions.deletecontrole('controle_osmolateur')
                 functions.setcontrole('controle_osmolateur')
 
             # niveau d'eau OK
@@ -94,7 +92,6 @@ try:
                 state_relais = False
                 functions.setosmolateur("ok")
 
-                functions.deletecontrole('controle_osmolateur')
                 functions.setcontrole('controle_osmolateur')
 
             # remplissage en cours
@@ -106,7 +103,6 @@ try:
                 time_pump_on = 0
                 functions.setosmolateur("pump_on")
 
-                functions.deletecontrole('controle_osmolateur')
                 functions.setcontrole('controle_osmolateur')
 
             # niveau d'eau TO LOW
@@ -117,7 +113,6 @@ try:
                 time_to_low = 0
                 functions.setosmolateur("to_low")
 
-                functions.deletecontrole('controle_osmolateur')
                 functions.setcontrole('controle_osmolateur')
 
             # osmolateur off
@@ -150,7 +145,6 @@ try:
                     time_to_high = 0
                     functions.setosmolateur("to_high_rappel")
 
-                    functions.deletecontrole('controle_osmolateur')
                     functions.setcontrole('controle_osmolateur')
 
             # remplissage en cours
@@ -164,7 +158,6 @@ try:
                     functions.stoppump(relais)
                     functions.setosmolateur("pump_on_20")
 
-                    functions.deletecontrole('controle_osmolateur')
                     functions.setcontrole('controle_osmolateur')
 
                 # si pompe allumé depuis plus de 20secondes rappel 30 minutes
@@ -173,7 +166,6 @@ try:
                     time_pump_on = 0
                     functions.setosmolateur("pump_on_20_rappel")
 
-                    functions.deletecontrole('controle_osmolateur')
                     functions.setcontrole('controle_osmolateur')
 
             # niveau d'eau TO LOW
@@ -186,7 +178,6 @@ try:
                     time_to_low = 0
                     functions.setosmolateur("to_low_rappel")
 
-                    functions.deletecontrole('controle_osmolateur')
                     functions.setcontrole('controle_osmolateur')
 
             # osmolateur off
@@ -198,7 +189,6 @@ try:
                     message = "Osmolateur - ERREUR - off"
                     functions.setosmolateur("off")
 
-                    functions.deletecontrole('controle_osmolateur')
                     functions.setcontrole('controle_osmolateur')
 
                 # rappel 30 minutes
@@ -207,7 +197,6 @@ try:
                     time_off = 501
                     functions.setosmolateur("off_rappel")
 
-                    functions.deletecontrole('controle_osmolateur')
                     functions.setcontrole('controle_osmolateur')
 
             if message != "":
