@@ -4053,9 +4053,9 @@ ul.notifications {
   color: #FFA500; }
 .tile_stats_count.osmolateur.pump_on .count p, .tile_stats_count.osmolateur.pump_on .count small {
   color: #FFA500; }
-.tile_stats_count.osmolateur.to_high .count_top i, .tile_stats_count.osmolateur.to_low .count_top i {
+.tile_stats_count.osmolateur.to_high .count_top i, .tile_stats_count.osmolateur.to_low .count_top i, .tile_stats_count.osmolateur.off .count_top i {
   color: #B33A3A; }
-.tile_stats_count.osmolateur.to_high .count p, .tile_stats_count.osmolateur.to_high .count small, .tile_stats_count.osmolateur.to_low .count p, .tile_stats_count.osmolateur.to_low .count small {
+.tile_stats_count.osmolateur.to_high .count p, .tile_stats_count.osmolateur.to_high .count small, .tile_stats_count.osmolateur.to_low .count p, .tile_stats_count.osmolateur.to_low .count small, .tile_stats_count.osmolateur.off .count p, .tile_stats_count.osmolateur.off .count small {
   color: #B33A3A; }
 .tile_stats_count.osmolateur.ok .count_top i {
   color: #4BB543; }
