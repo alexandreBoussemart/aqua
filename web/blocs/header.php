@@ -130,27 +130,39 @@ if (isset($_POST['submit_delete_eau'])) {
     header('Location: '.$data['database'][0]['base_url']); ///aqua-web
 }
 
-$sql = "SELECT `created_at`, `error` FROM `state` WHERE `path` = 'controle_bailling' LIMIT 1";
-$ecumeur = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($ecumeur);
+$sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_bailling' LIMIT 1";
+$result = mysqli_query($link, $sql);
+$row = mysqli_fetch_assoc($result);
 $state_controle_bailling = $row['error'];
+$sql = "SELECT `created_at` FROM `controle` WHERE `path` = 'controle_bailling' LIMIT 1";
+$result = mysqli_query($link, $sql);
+$row = mysqli_fetch_assoc($result);
 $state_controle_bailling_date = getFormattedDate($row['created_at']);
 
 $sql = "SELECT `created_at`, `error` FROM `state` WHERE `path` = 'controle_osmolateur' LIMIT 1";
-$ecumeur = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($ecumeur);
+$result = mysqli_query($link, $sql);
+$row = mysqli_fetch_assoc($result);
 $state_controle_osmolateur = $row['error'];
+$sql = "SELECT `created_at` FROM `controle` WHERE `path` = 'controle_osmolateur' LIMIT 1";
+$result = mysqli_query($link, $sql);
+$row = mysqli_fetch_assoc($result);
 $state_controle_osmolateur_date = getFormattedDate($row['created_at']);
 
 $sql = "SELECT `created_at`, `error` FROM `state` WHERE `path` = 'controle_reacteur' LIMIT 1";
-$ecumeur = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($ecumeur);
+$result = mysqli_query($link, $sql);
+$row = mysqli_fetch_assoc($result);
 $state_controle_reacteur = $row['error'];
+$sql = "SELECT `created_at` FROM `controle` WHERE `path` = 'controle_reacteur' LIMIT 1";
+$result = mysqli_query($link, $sql);
+$row = mysqli_fetch_assoc($result);
 $state_controle_reacteur_date = getFormattedDate($row['created_at']);
 
 $sql = "SELECT `created_at`, `error` FROM `state` WHERE `path` = 'controle_ecumeur' LIMIT 1";
-$ecumeur = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($ecumeur);
+$result = mysqli_query($link, $sql);
+$row = mysqli_fetch_assoc($result);
 $state_controle_ecumeur = $row['error'];
+$sql = "SELECT `created_at` FROM `controle` WHERE `path` = 'controle_ecumeur' LIMIT 1";
+$result = mysqli_query($link, $sql);
+$row = mysqli_fetch_assoc($result);
 $state_controle_ecumeur_date = getFormattedDate($row['created_at']);
 
