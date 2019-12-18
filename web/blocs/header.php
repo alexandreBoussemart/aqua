@@ -139,7 +139,7 @@ $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_bailling_date = getFormattedDate($row['created_at']);
 
-$sql = "SELECT `created_at`, `error` FROM `state` WHERE `path` = 'controle_osmolateur' LIMIT 1";
+$sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_osmolateur' LIMIT 1";
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_osmolateur = $row['error'];
@@ -148,7 +148,7 @@ $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_osmolateur_date = getFormattedDate($row['created_at']);
 
-$sql = "SELECT `created_at`, `error` FROM `state` WHERE `path` = 'controle_reacteur' LIMIT 1";
+$sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_reacteur' LIMIT 1";
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_reacteur = $row['error'];
@@ -157,7 +157,7 @@ $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_reacteur_date = getFormattedDate($row['created_at']);
 
-$sql = "SELECT `created_at`, `error` FROM `state` WHERE `path` = 'controle_ecumeur' LIMIT 1";
+$sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_ecumeur' LIMIT 1";
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_ecumeur = $row['error'];
