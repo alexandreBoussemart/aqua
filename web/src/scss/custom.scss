@@ -5153,7 +5153,7 @@ ul.notifications {
     }
   }
 
-  &.to_high, &.to_low, &.off {
+  &.to_high, &.to_low, &.to_high_rappel, &.to_low_rappel, &.off, &.off_rappel {
     .count_top i {
       color: #B33A3A;
     }
