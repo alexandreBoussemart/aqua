@@ -104,8 +104,7 @@ function readFileTemperature($link)
 
 /**
  * @param $content
- *
- * @return bool|false|float|int
+ * @return bool|float|int
  */
 function readTemperature($content)
 {
@@ -118,6 +117,7 @@ function readTemperature($content)
 
     $temperature = floatval($matches[1]);
     $temperature = $temperature / 1000;
+    $temperature += 1;
 
     return $temperature;
 }
