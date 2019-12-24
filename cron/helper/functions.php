@@ -117,7 +117,6 @@ function readTemperature($content)
 
     $temperature = floatval($matches[1]);
     $temperature = $temperature / 1000;
-    $temperature += 1;
 
     return $temperature;
 }
