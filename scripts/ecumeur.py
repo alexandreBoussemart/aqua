@@ -23,12 +23,12 @@ try:
     # niveau écumeur eau trop eau
     if state_current == '0':
         message = "Ecumeur - ERREUR - niveau godet trop haut"
-        setcompletestate(path, 'state_1', 1, message, 0, 0)
+        functions.setcompletestate(path, 'state_1', 1, message, 0, 0)
 
     # niveau eau ok
     elif state_current == '1':
         message = "Ecumeur - niveau godet OK"
-        setcompletestate(path, 'state_2', 0, message, 0, 0)
+        functions.setcompletestate(path, 'state_2', 0, message, 0, 0)
 
     sys.exit()
 
@@ -37,5 +37,6 @@ except Exception as e:
     body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
     setcompletestate(path, 'state_3', 1, message + ' - ' + str(e), 0, 0)
     functions.mail(message, body)
+    functions.setlog(message + ' - ' + str(e))
 
     raise

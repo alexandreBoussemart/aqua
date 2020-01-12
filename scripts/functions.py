@@ -230,6 +230,9 @@ def setcompletestate(path, value, error, message, exclude, force_log):
 
             setlog(message)
 
+        if force_log == 1:
+            setlog(message)
+
     except Exception as e:
         message = "SQL - ERREUR - setcompletestate"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"

@@ -7,10 +7,6 @@ import functions
 
 import RPi.GPIO as GPIO
 
-last_day = 0
-last_day2 = 0
-last_day3 = 0
-last_day4 = 0
 relais = 21
 to_high = 23
 level_ok = 24
