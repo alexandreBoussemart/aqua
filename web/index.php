@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="production/images/favicon.ico" type="./production/image/ico"/>
+        <link rel="icon" href="src/images/favicon.ico" type="./src/image/ico"/>
         <title>Aquarium</title>
         <link href="./vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="./vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
