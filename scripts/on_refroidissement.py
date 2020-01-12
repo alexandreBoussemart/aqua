@@ -11,3 +11,4 @@ relais = 20
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 functions.onled(relais)
+sys.exit()

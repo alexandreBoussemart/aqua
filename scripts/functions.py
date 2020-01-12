@@ -32,7 +32,7 @@ def getstatus(value):
         return myresult
 
     except Exception as e:
-        message = "SQL - ERREUR getstatus"
+        message = "SQL - ERREUR - getstatus"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         mail(message, body)
@@ -53,7 +53,7 @@ def setcontrole(value):
         mydb.close()
 
     except Exception as e:
-        message = "SQL - ERREUR setcontrole" + value
+        message = "SQL - ERREUR - setcontrole" + value
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         mail(message, body)
@@ -74,7 +74,7 @@ def deletestate(path):
         mydb.close()
 
     except Exception as e:
-        message = "SQL - ERREUR deletestate"
+        message = "SQL - ERREUR - deletestate"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         mail(message, body)
@@ -96,7 +96,7 @@ def setstate(path, value):
         mydb.close()
 
     except Exception as e:
-        message = "SQL - ERREUR setstate"
+        message = "SQL - ERREUR - setstate"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         mail(message, body)
@@ -117,7 +117,7 @@ def setosmolateur(state):
         mydb.close()
 
     except Exception as e:
-        message = "SQL - ERREUR setosmolateur"
+        message = "SQL - ERREUR - setosmolateur"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         mail(message, body)
@@ -138,7 +138,7 @@ def setdebit(value):
         mydb.close()
 
     except Exception as e:
-        message = "SQL - ERREUR setdebit"
+        message = "SQL - ERREUR - setdebit"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         mail(message, body)
@@ -171,7 +171,7 @@ def mail(m, b):
         server.quit()
 
     except Exception as e:
-        message = "Mail - ERREUR mail"
+        message = "Mail - ERREUR - mail"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         mail(message, body)
@@ -205,3 +205,56 @@ def read_file(emplacement):
     else:
         return False
 
+
+def setcompletestate(path, value, error, message, exclude, force_log):
+    try:
+        path = str(path)
+        value = str(value)
+        message = str(message)
+
+        # on vérifie qu'on est pas déja dans cet état
+        mydb = connect()
+        ycursor = mydb.cursor()
+        mycursor.execute(
+            "SELECT count(*) as count FROM `state` WHERE `path` = '" + path + "' AND `value` = '" + value + "'")
+        myresult = mycursor.fetchone()[0]
+        mydb.close()
+
+        if myresult == 0:
+            mydb = connect()
+            mycursor = mydb.cursor()
+            sql = "UPDATE `state` set `value`='" + value + "',`error`='" + error + "',`message`='" + message + "', `created_at`=now(), `mail_send`=0, `exclude_check`='" + exclude + "' WHERE `path`='" + path + "'"
+            mycursor.execute(sql)
+            mydb.commit()
+            mydb.close()
+
+            setlog(message)
+
+    except Exception as e:
+        message = "SQL - ERREUR - setcompletestate"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+
+        raise
+
+
+def setlog(message):
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        message = str(message)
+
+        sql = "INSERT INTO `log`( `message`) VALUES ('" + message + "')"
+        mycursor.execute(sql)
+
+        mydb.commit()
+        mydb.close()
+
+    except Exception as e:
+        message = "SQL - ERREUR - setlog"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+
+        raise

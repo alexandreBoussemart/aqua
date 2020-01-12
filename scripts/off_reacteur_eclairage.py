@@ -11,3 +11,4 @@ relais = 6
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 functions.offled(relais)
+sys.exit()
