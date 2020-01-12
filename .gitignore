@@ -3,4 +3,5 @@ config.json
 raspberry.txt
 __pycache__/
 composer.phar
-./scripts/functions.pyc
+scripts/functions.pyc
+*.pyc
