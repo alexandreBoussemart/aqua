@@ -1,17 +1,17 @@
 <div class="row tile_count">
-    <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if ($state_bailling[0] == '0') echo 'error'; ?>">
+    <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if (in_array($state_bailling, $errorBailling1)) echo 'error'; ?>">
         <span class="count_top"><i class="fa fa-power-off"></i> Bailling 1</span>
-        <div class="count"><?php if ($state_bailling[0] == '0') echo 'ERREUR'; else echo 'OK'; ?></div>
+        <div class="count"><?php if (in_array($state_bailling, $errorBailling1)) echo 'ERREUR'; else echo 'OK'; ?></div>
         <span class="count_bottom">Dernière mise à jour le <?= $date_bailling ?></span>
     </div>
-    <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if ($state_bailling[1] == '0') echo 'error'; ?>">
+    <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if (in_array($state_bailling, $errorBailling2)) echo 'error'; ?>">
         <span class="count_top"><i class="fa fa-power-off"></i> Bailling 2</span>
-        <div class="count"><?php if ($state_bailling[1] == '0') echo 'ERREUR'; else echo 'OK'; ?></div>
+        <div class="count"><?php if (in_array($state_bailling, $errorBailling2)) echo 'ERREUR'; else echo 'OK'; ?></div>
         <span class="count_bottom">Dernière mise à jour le <?= $date_bailling ?></span>
     </div>
-    <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if ($state_bailling[2] == '0') echo 'error'; ?>">
+    <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if (in_array($state_bailling, $errorBailling3)) echo 'error'; ?>">
         <span class="count_top"><i class="fa fa-power-off"></i> Bailling 3</span>
-        <div class="count"><?php if ($state_bailling[2] == '0') echo 'ERREUR'; else echo 'OK'; ?></div>
+        <div class="count"><?php if (in_array($state_bailling, $errorBailling3)) echo 'ERREUR'; else echo 'OK'; ?></div>
         <span class="count_bottom">Dernière mise à jour le <?= $date_bailling ?></span>
     </div>
     <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if ($state_ecumeur == 'state_1') echo 'error'; ?>">

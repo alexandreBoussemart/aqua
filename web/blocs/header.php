@@ -52,7 +52,7 @@ $date_ecumeur = getFormattedDate($row['created_at']);
 $sql = "SELECT * FROM `state` WHERE `path` = 'bailling'";
 $bailling = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($bailling);
-$state_bailling = str_split($row['value']);
+$state_bailling = $row['value'];
 $date_bailling = getFormattedDate($row['created_at']);
 
 // form statut
@@ -166,3 +166,6 @@ $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_ecumeur_date = getFormattedDate($row['created_at']);
 
+$errorBailling1 = ['state_1','state_2','state_3','state_5','state_9','state_10'];
+$errorBailling2 = ['state_2','state_4','state_5','state_6','state_9','state_10'];
+$errorBailling3 = ['state_3','state_4','state_5','state_7','state_9','state_10'];
