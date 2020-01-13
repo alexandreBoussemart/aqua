@@ -210,6 +210,7 @@ def setcompletestate(path, value, error, message, exclude, force_log):
     try:
         path = str(path)
         value = str(value)
+        error = str(error)
         message = str(message)
         exclude = str(exclude)
         force_log = str(force_log)
