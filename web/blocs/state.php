@@ -14,6 +14,8 @@
         <div class="count"><?php if ($state_bailling[2] == '0') echo 'ERREUR'; else echo 'OK'; ?></div>
         <span class="count_bottom">Dernière mise à jour le <?= $date_bailling ?></span>
     </div>
+    <?php var_dump($state_ecumeur); ?>
+
     <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if ($state_ecumeur == '0') echo 'error'; ?>">
         <span class="count_top"><i class="fa fa-power-off"></i> Écumeur</span>
         <div class="count"><?php if ($state_ecumeur == '0') echo 'ERREUR'; else echo 'OK'; ?></div>
@@ -22,7 +24,6 @@
 </div>
 
 <div class="row tile_count">
-    <?php var_dump($state_controle_ecumeur); ?>
     <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if ($state_controle_ecumeur == '1') echo 'error'; ?>">
         <span class="count_top"><i class="fa fa-power-off"></i> Script écumeur</span>
         <div class="count"><?php if ($state_controle_ecumeur == '1') echo 'ERREUR'; else echo 'OK'; ?></div>
