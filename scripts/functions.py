@@ -214,7 +214,7 @@ def setcompletestate(path, value, error, message, exclude, force_log):
 
         # on vérifie qu'on est pas déja dans cet état
         mydb = connect()
-        ycursor = mydb.cursor()
+        mycursor = mydb.cursor()
         mycursor.execute(
             "SELECT count(*) as count FROM `state` WHERE `path` = '" + path + "' AND `value` = '" + value + "'")
         myresult = mycursor.fetchone()[0]
