@@ -211,6 +211,8 @@ def setcompletestate(path, value, error, message, exclude, force_log):
         path = str(path)
         value = str(value)
         message = str(message)
+        exclude = str(exclude)
+        force_log = str(force_log)
 
         # on vérifie qu'on est pas déja dans cet état
         mydb = connect()
