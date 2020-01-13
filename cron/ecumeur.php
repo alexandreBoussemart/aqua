@@ -21,6 +21,8 @@ try {
         usleep(500000);
     }
 
+    setControle($link, 'controle_ecumeur');
+
 } catch (Exception $e) {
     setState($link, 'ecumeur', 'state_4', 1, "Cron ecumeur - ERREUR - " . $e->getMessage());
     setLog($link, $e->getMessage());

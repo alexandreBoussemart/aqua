@@ -21,6 +21,8 @@ try {
         usleep(500000);
     }
 
+    setControle($link, 'controle_bailling');
+
 } catch (Exception $e) {
     setState($link, 'bailling', 'state_10', 1, "Cron bailling - ERREUR - " . $e->getMessage());
     setLog($link, $e->getMessage());
