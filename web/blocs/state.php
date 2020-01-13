@@ -22,6 +22,7 @@
 </div>
 
 <div class="row tile_count">
+    <?php var_dump($state_controle_ecumeur); ?>
     <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if ($state_controle_ecumeur == '1') echo 'error'; ?>">
         <span class="count_top"><i class="fa fa-power-off"></i> Script écumeur</span>
         <div class="count"><?php if ($state_controle_ecumeur == '1') echo 'ERREUR'; else echo 'OK'; ?></div>
