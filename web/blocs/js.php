@@ -78,7 +78,7 @@
         });
     }
 
-    $('#datatable').dataTable({'order': [[ 1, 'desc' ]]});
-    $('#datatable-eau').dataTable({'order': [[ 1, 'desc' ]]});
+    $('#datatable').dataTable({'order': [[ 0, 'desc' ]]});
+    $('#datatable-eau').dataTable({'order': [[ 0, 'desc' ]]});
 
 </script>
