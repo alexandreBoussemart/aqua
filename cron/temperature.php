@@ -85,6 +85,7 @@ try {
     }
 
 } catch (Exception $e) {
+    setLog($link, $e->getMessage());
     setState($link, 'temperature', 'state_4', 1, "Cron temperature - ERREUR - " . $e->getMessage());
 }
 

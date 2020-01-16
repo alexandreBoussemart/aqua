@@ -89,11 +89,7 @@ try {
         $message = "Cron - contrôle 8h - OK";
 
         // on envoie le mail
-        try {
-            sendMail($data, $transport, $message, $content);
-        } catch (Exception $e) {
-            setLog($link, $e->getMessage());
-        }
+        sendMail($data, $transport, $message, $content);
     }
 
 } catch (Exception $e) {

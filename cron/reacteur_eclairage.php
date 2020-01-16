@@ -21,7 +21,6 @@ try {
     // on éteint
     exec("python ".__DIR__."/../scripts/off_reacteur_eclairage.py");
 
-
 } catch (Exception $e) {
     setLog($link, $e->getMessage());
 }
