@@ -34,71 +34,91 @@ try:
     BAILLING_3_STATE = str(GPIO.input(bailling_3))
 
     # on fait la chaine de caractère du statut
-    state_current = BAILLING_1_STATE+BAILLING_2_STATE+BAILLING_3_STATE
+    state_current = BAILLING_1_STATE + BAILLING_2_STATE + BAILLING_3_STATE
 
-    # niveau bailling 1 bas
-    if state_current == '011':
-        message = "Bailling - ERREUR - niveau 1 bas"
-        functions.offled(bailling_1_led)
-        functions.onled(bailling_2_led)
-        functions.onled(bailling_3_led)
-        functions.setcompletestate(path, 'state_1', 1, message, 0, 0)
+    sleep(20)
 
-    # niveau bailling 1 et 2 bas
-    elif state_current == '001':
-        message = "Bailling - ERREUR - niveau 1 et 2 bas"
-        functions.offled(bailling_1_led)
-        functions.offled(bailling_2_led)
-        functions.onled(bailling_3_led)
-        functions.setcompletestate(path, 'state_2', 1, message, 0, 0)
+    GPIO.setup(bailling_1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(bailling_2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(bailling_3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-    # niveau bailling 1 et 3 bas
-    elif state_current == '010':
-        message = "Bailling - ERREUR - niveau 1 et 3 bas"
-        functions.offled(bailling_1_led)
-        functions.onled(bailling_2_led)
-        functions.offled(bailling_3_led)
-        functions.setcompletestate(path, 'state_3', 1, message, 0, 0)
+    # lecture GPIO bailling_1
+    BAILLING_1_STATE = str(GPIO.input(bailling_1))
 
-    # niveau bailling 2 et 3 bas
-    elif state_current == '100':
-        message = "Bailling - ERREUR - niveau 2 et 3 bas"
-        functions.onled(bailling_1_led)
-        functions.offled(bailling_2_led)
-        functions.offled(bailling_3_led)
-        functions.setcompletestate(path, 'state_4', 1, message, 0, 0)
+    # lecture GPIO bailling_2
+    BAILLING_2_STATE = str(GPIO.input(bailling_2))
 
-    # niveau bailling 1, 2 et 3 bas
-    elif state_current == '000':
-        message = "Bailling - ERREUR - niveau 1, 2 et 3 bas"
-        functions.offled(bailling_1_led)
-        functions.offled(bailling_2_led)
-        functions.offled(bailling_3_led)
-        functions.setcompletestate(path, 'state_5', 1, message, 0, 0)
+    # lecture GPIO bailling_3
+    BAILLING_3_STATE = str(GPIO.input(bailling_3))
 
-    # niveau bailling 2 bas
-    elif state_current == '101':
-        message = "Bailling - ERREUR - niveau 2 bas"
-        functions.onled(bailling_1_led)
-        functions.offled(bailling_2_led)
-        functions.onled(bailling_3_led)
-        functions.setcompletestate(path, 'state_6', 1, message, 0, 0)
+    # on fait la chaine de caractère du statut
+    state_current2 = BAILLING_1_STATE + BAILLING_2_STATE + BAILLING_3_STATE
 
-    # niveau bailling 3 bas
-    elif state_current == '110':
-        message = "Bailling - ERREUR - niveau 3 bas"
-        functions.onled(bailling_1_led)
-        functions.onled(bailling_2_led)
-        functions.offled(bailling_3_led)
-        functions.setcompletestate(path, 'state_7', 1, message, 0, 0)
+    if state_current == state_current2:
+        
+        # niveau bailling 1 bas
+        if state_current == '011':
+            message = "Bailling - ERREUR - niveau 1 bas"
+            functions.offled(bailling_1_led)
+            functions.onled(bailling_2_led)
+            functions.onled(bailling_3_led)
+            functions.setcompletestate(path, 'state_1', 1, message, 0, 0)
 
-    # niveau des 3 ok
-    elif state_current == '111':
-        message = "Bailling - OK"
-        functions.onled(bailling_1_led)
-        functions.onled(bailling_2_led)
-        functions.onled(bailling_3_led)
-        functions.setcompletestate(path, 'state_8', 0, message, 0, 0)
+        # niveau bailling 1 et 2 bas
+        elif state_current == '001':
+            message = "Bailling - ERREUR - niveau 1 et 2 bas"
+            functions.offled(bailling_1_led)
+            functions.offled(bailling_2_led)
+            functions.onled(bailling_3_led)
+            functions.setcompletestate(path, 'state_2', 1, message, 0, 0)
+
+        # niveau bailling 1 et 3 bas
+        elif state_current == '010':
+            message = "Bailling - ERREUR - niveau 1 et 3 bas"
+            functions.offled(bailling_1_led)
+            functions.onled(bailling_2_led)
+            functions.offled(bailling_3_led)
+            functions.setcompletestate(path, 'state_3', 1, message, 0, 0)
+
+        # niveau bailling 2 et 3 bas
+        elif state_current == '100':
+            message = "Bailling - ERREUR - niveau 2 et 3 bas"
+            functions.onled(bailling_1_led)
+            functions.offled(bailling_2_led)
+            functions.offled(bailling_3_led)
+            functions.setcompletestate(path, 'state_4', 1, message, 0, 0)
+
+        # niveau bailling 1, 2 et 3 bas
+        elif state_current == '000':
+            message = "Bailling - ERREUR - niveau 1, 2 et 3 bas"
+            functions.offled(bailling_1_led)
+            functions.offled(bailling_2_led)
+            functions.offled(bailling_3_led)
+            functions.setcompletestate(path, 'state_5', 1, message, 0, 0)
+
+        # niveau bailling 2 bas
+        elif state_current == '101':
+            message = "Bailling - ERREUR - niveau 2 bas"
+            functions.onled(bailling_1_led)
+            functions.offled(bailling_2_led)
+            functions.onled(bailling_3_led)
+            functions.setcompletestate(path, 'state_6', 1, message, 0, 0)
+
+        # niveau bailling 3 bas
+        elif state_current == '110':
+            message = "Bailling - ERREUR - niveau 3 bas"
+            functions.onled(bailling_1_led)
+            functions.onled(bailling_2_led)
+            functions.offled(bailling_3_led)
+            functions.setcompletestate(path, 'state_7', 1, message, 0, 0)
+
+        # niveau des 3 ok
+        elif state_current == '111':
+            message = "Bailling - OK"
+            functions.onled(bailling_1_led)
+            functions.onled(bailling_2_led)
+            functions.onled(bailling_3_led)
+            functions.setcompletestate(path, 'state_8', 0, message, 0, 0)
 
     sys.exit()
 

@@ -15,11 +15,8 @@ try {
         return false;
     }
 
-    // controle toutes les 1/2 secondes
-    for ($i = 0; $i <= 120; $i++) {
-        exec("python " . __DIR__ . "/../scripts/bailling.py");
-        usleep(500000);
-    }
+    // on execute la commande
+    exec("python " . __DIR__ . "/../scripts/bailling.py");
 
 } catch (Exception $e) {
     setState($link, 'bailling', 'state_10', 1, "Cron bailling - ERREUR - " . $e->getMessage());
