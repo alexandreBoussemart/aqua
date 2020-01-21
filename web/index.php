@@ -59,6 +59,7 @@
                 <div class="right_col" role="main">
                     <?php
                     require 'blocs/days.php';
+                    require 'blocs/actions.php';
                     require 'blocs/calendrier.php';
                     require 'blocs/state.php';
                     require 'blocs/graph.php';

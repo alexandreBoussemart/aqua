@@ -55,7 +55,7 @@ try:
     state_current2 = BAILLING_1_STATE + BAILLING_2_STATE + BAILLING_3_STATE
 
     if state_current == state_current2:
-        
+
         # niveau bailling 1 bas
         if state_current == '011':
             message = "Bailling - ERREUR - niveau 1 bas"

@@ -70,7 +70,13 @@ if (isset($_POST['submit'])) {
     setStatus($link, $_POST['cron_mail'], 'cron_mail');
     setStatus($link, $_POST['refroidissement'], 'refroidissement');
 
-    header('Location: '.$data['database'][0]['base_url']); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
+}
+
+//form action clear
+if (isset($_POST['submit_actions_clear'])) {
+    clear($link);
+    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
 }
 
 // dernier débit
@@ -79,6 +85,10 @@ $request = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($request);
 $last_debit = $row['value'];
 $date_debit = getFormattedDate($row['created_at']);
+
+if (!isset($last_debit)) {
+    $last_debit = 0;
+}
 
 // dernière temperature
 $sql = "SELECT `value`,`created_at` FROM `temperature` ORDER BY `temperature`.`id` DESC LIMIT 1";
@@ -100,6 +110,11 @@ $sql = "SELECT * FROM `osmolateur` ORDER BY `osmolateur`.`id` DESC LIMIT 1";
 $request = mysqli_query($link, $sql);
 $last_omo = mysqli_fetch_assoc($request);
 
+if (!isset($last_omo)) {
+    $last_omo['state'] = 'error';
+    $last_omo['created_at'] = Date('Y-m-d H:i:s');
+}
+
 // logs
 $sql = "SELECT * FROM `log` ORDER BY `id` DESC LIMIT 30;";
 $request = mysqli_query($link, $sql);
@@ -117,17 +132,17 @@ if (isset($_POST['submit_eau'])) {
         $link->query($sql);
     }
 
-    header('Location: '.$data['database'][0]['base_url']); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
 }
 
 //delete value changement d'eau
 if (isset($_POST['submit_delete_eau'])) {
     if (isset($_POST['id']) && is_numeric($_POST['id'])) {
-        $sql = 'DELETE FROM `changement_eau` WHERE `id` LIKE '.$_POST['id'].';';
+        $sql = 'DELETE FROM `changement_eau` WHERE `id` LIKE ' . $_POST['id'] . ';';
         $link->query($sql);
     }
 
-    header('Location: '.$data['database'][0]['base_url']); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
 }
 
 $sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_bailling' LIMIT 1";
@@ -166,6 +181,6 @@ $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_ecumeur_date = getFormattedDate($row['created_at']);
 
-$errorBailling1 = ['state_1','state_2','state_3','state_5','state_9','state_10'];
-$errorBailling2 = ['state_2','state_4','state_5','state_6','state_9','state_10'];
-$errorBailling3 = ['state_3','state_4','state_5','state_7','state_9','state_10'];
+$errorBailling1 = ['state_1', 'state_2', 'state_3', 'state_5', 'state_9', 'state_10'];
+$errorBailling2 = ['state_2', 'state_4', 'state_5', 'state_6', 'state_9', 'state_10'];
+$errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state_10'];

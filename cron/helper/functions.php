@@ -58,17 +58,21 @@ function sendMail($data, $transport, $subject, $content)
  */
 function getStatus($link, $name)
 {
-    $result = true;
+    try {
+        $result = true;
 
-    $sql = "SELECT `value` FROM `status` WHERE `name` = '" . $name . "'";
-    $controle = mysqli_query($link, $sql);
-    $row = mysqli_fetch_assoc($controle);
+        $sql = "SELECT `value` FROM `status` WHERE `name` = '" . $name . "'";
+        $controle = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($controle);
 
-    if ($row && $row['value'] === "0") {
-        $result = false;
+        if ($row && $row['value'] === "0") {
+            $result = false;
+        }
+
+        return $result;
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
     }
-
-    return $result;
 }
 
 /**
@@ -77,8 +81,12 @@ function getStatus($link, $name)
  */
 function insertTemperature($link, $temp)
 {
-    $sql = 'INSERT INTO `temperature` ( `value`) VALUES ("' . strval($temp) . '")';
-    $link->query($sql);
+    try {
+        $sql = 'INSERT INTO `temperature` ( `value`) VALUES ("' . strval($temp) . '")';
+        $link->query($sql);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
 }
 
 /**
@@ -88,18 +96,22 @@ function insertTemperature($link, $temp)
  */
 function readFileTemperature($link)
 {
-    // on récupère le contenu du fichier
-    if (file_exists(THERMOMETER_SENSOR_PATH)) {
-        $thermometer = fopen(THERMOMETER_SENSOR_PATH, "r");
-        $content = fread($thermometer, filesize(THERMOMETER_SENSOR_PATH));
-        fclose($thermometer);
-    } else {
-        setState($link, 'temperature', 'state_1', true,
-            "Cron temperature - ERREUR - Le fichier : " . THERMOMETER_SENSOR_PATH . " n'existe pas.");
-        exit;
-    }
+    try {
+        // on récupère le contenu du fichier
+        if (file_exists(THERMOMETER_SENSOR_PATH)) {
+            $thermometer = fopen(THERMOMETER_SENSOR_PATH, "r");
+            $content = fread($thermometer, filesize(THERMOMETER_SENSOR_PATH));
+            fclose($thermometer);
+        } else {
+            setState($link, 'temperature', 'state_1', true,
+                "Cron temperature - ERREUR - Le fichier : " . THERMOMETER_SENSOR_PATH . " n'existe pas.");
+            exit;
+        }
 
-    return $content;
+        return $content;
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
 }
 
 /**
@@ -127,8 +139,12 @@ function readTemperature($content)
  */
 function setControle($link, $value)
 {
-    $sql = "UPDATE `controle` set `value`='" . $value . "', `created_at`=now() WHERE `value`='" . $value . "'";
-    $link->query($sql);
+    try {
+        $sql = "UPDATE `controle` set `value`='" . $value . "', `created_at`=now() WHERE `value`='" . $value . "'";
+        $link->query($sql);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
 }
 
 /**
@@ -142,21 +158,25 @@ function setControle($link, $value)
  */
 function setState($link, $path, $value, $error, $message, $exclude = 0, $force_log = false)
 {
-    //on vérifie qu'on est pas déja dans cet état
-    $sql = "SELECT count(*) as count FROM `state` WHERE `path` = '" . $path . "' AND `value` = '" . $value . "'";
-    $request = mysqli_query($link, $sql);
-    $result = mysqli_fetch_assoc($request);
+    try {
+        //on vérifie qu'on est pas déja dans cet état
+        $sql = "SELECT count(*) as count FROM `state` WHERE `path` = '" . $path . "' AND `value` = '" . $value . "'";
+        $request = mysqli_query($link, $sql);
+        $result = mysqli_fetch_assoc($request);
 
-    if ($result['count'] == "0" || $result['count'] == 0) {
-        $sql = "UPDATE `state` set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0, `exclude_check`='" . $exclude . "' WHERE `path`='" . $path . "'";
-        $link->query($sql);
+        if ($result['count'] == "0" || $result['count'] == 0) {
+            $sql = "UPDATE `state` set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0, `exclude_check`='" . $exclude . "' WHERE `path`='" . $path . "'";
+            $link->query($sql);
 
-        // met ligne dans table log
-        setLog($link, $message);
-    }
+            // met ligne dans table log
+            setLog($link, $message);
+        }
 
-    if ($force_log) {
-        setLog($link, $message);
+        if ($force_log) {
+            setLog($link, $message);
+        }
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
     }
 }
 
@@ -179,6 +199,7 @@ function setLog($link, $message)
 function getLabel($key)
 {
     $array = [
+        '' => "",
         'off' => "Off",
         'ok' => "Niveau d'eau OK",
         "pump_on" => "En cours de remplissage",
@@ -188,7 +209,8 @@ function getLabel($key)
         "to_low_rappel" => "RAPPEL - Niveau d'eau bas",
         "pump_on_20" => "Pompe allumée plus de 20 secondes",
         "pump_on_20_rappel" => "RAPPEL - Pompe allumée plus de 20 secondes",
-        "to_high_rappel" => "RAPPEL - Niveau d'eau haut"
+        "to_high_rappel" => "RAPPEL - Niveau d'eau haut",
+        "error" => "Erreur"
     ];
 
     return $array[$key];
@@ -214,13 +236,17 @@ function getFormattedDate($date)
  */
 function setStatus($link, $data, $code)
 {
-    if (isset($data)) {
-        $value = 1;
-    } else {
-        $value = 0;
+    try {
+        if (isset($data)) {
+            $value = 1;
+        } else {
+            $value = 0;
+        }
+        $sql = "UPDATE `status` SET `value`='" . $value . "' WHERE `name` = '$code'";
+        $link->query($sql);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
     }
-    $sql = "UPDATE `status` SET `value`='" . $value . "' WHERE `name` = '$code'";
-    $link->query($sql);
 }
 
 /**
@@ -275,4 +301,28 @@ function checkChangementEau($data, $transport, $link)
     }
 
     return true;
+}
+
+/**
+ * @param $link
+ */
+function clear($link)
+{
+    try {
+        $date = new DateTime();
+        $periode = '-30 days';
+        $date->modify($periode);
+        $limit = $date->format('Y-m-d H:i:s');
+
+        $sql = "DELETE FROM `log` WHERE `created_at` < '" . $limit . "';";
+        $link->query($sql);
+        $sql = "DELETE FROM `osmolateur` WHERE `created_at` < '" . $limit . "';";
+        $link->query($sql);
+        $sql = "DELETE FROM `reacteur` WHERE `created_at` < '" . $limit . "';";
+        $link->query($sql);
+        $sql = "DELETE FROM `temperature` WHERE `created_at` < '" . $limit . "';";
+        $link->query($sql);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
 }
