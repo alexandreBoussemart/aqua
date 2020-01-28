@@ -140,7 +140,7 @@ function readTemperature($content)
 function setControle($link, $value)
 {
     try {
-        $sql = "UPDATE `controle` set `value`='" . $value . "', `created_at`=now() WHERE `value`='" . $value . "'";
+        $sql = "UPDATE `last_activity` set `value`='" . $value . "', `created_at`=now() WHERE `value`='" . $value . "'";
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
