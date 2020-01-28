@@ -316,9 +316,9 @@ function clear($link)
 
         $sql = "DELETE FROM `log` WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
-        $sql = "DELETE FROM `osmolateur` WHERE `created_at` < '" . $limit . "';";
+        $sql = "DELETE FROM `data_osmolateur` WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
-        $sql = "DELETE FROM `reacteur` WHERE `created_at` < '" . $limit . "';";
+        $sql = "DELETE FROM `data_reacteur` WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
         $sql = "DELETE FROM `temperature` WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);

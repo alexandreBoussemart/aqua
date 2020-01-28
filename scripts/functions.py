@@ -110,7 +110,7 @@ def setosmolateur(state):
         mycursor = mydb.cursor()
         state = str(state)
 
-        sql = "INSERT INTO `osmolateur`( `state`) VALUES ('" + state + "')"
+        sql = "INSERT INTO `data_osmolateur`( `state`) VALUES ('" + state + "')"
         mycursor.execute(sql)
 
         mydb.commit()
@@ -131,7 +131,7 @@ def setdebit(value):
         mycursor = mydb.cursor()
         debit = str(value)
 
-        sql = "INSERT INTO `reacteur`( `value`) VALUES (" + debit + ")"
+        sql = "INSERT INTO `data_reacteur`( `value`) VALUES (" + debit + ")"
         mycursor.execute(sql)
 
         mydb.commit()

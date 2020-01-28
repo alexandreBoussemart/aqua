@@ -76,7 +76,7 @@ try {
     if ($current == $huit) {
         $content = "<p style='color:green;text-transform:none;'>Cron - contrôle 8h - OK</p>";
 
-        $sql = "SELECT `value` FROM `reacteur` ORDER BY `reacteur`.`id`  DESC LIMIT 1";
+        $sql = "SELECT `value` FROM `data_reacteur` ORDER BY `data_reacteur`.`id`  DESC LIMIT 1";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
         $content .= "<p>Dernier débit enregistré : " . $row['value'] . " l/min</p>";

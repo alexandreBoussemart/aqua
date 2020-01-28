@@ -28,16 +28,16 @@ $today = $date->format('Y-m-d H:i:s');
 $date->modify($periode);
 $yesterday = $date->format('Y-m-d H:i:s');
 
-$sql = "SELECT * FROM `temperature` where `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "'";
+$sql = "SELECT * FROM `data_temperature` where `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "'";
 $temperature = mysqli_query($link, $sql);
 
-$sql = "SELECT * FROM `reacteur` where `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "'";
+$sql = "SELECT * FROM `data_reacteur` where `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "'";
 $reacteur = mysqli_query($link, $sql);
 
-$sql = "SELECT * FROM `osmolateur` where `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' order by created_at DESC";
+$sql = "SELECT * FROM `data_osmolateur` where `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' order by created_at DESC";
 $osmo = mysqli_query($link, $sql);
 
-$sql = "SELECT count(*) as somme FROM `osmolateur` WHERE `state` = 'pump_on' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "'";
+$sql = "SELECT count(*) as somme FROM `data_osmolateur` WHERE `state` = 'pump_on' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "'";
 $count = mysqli_query($link, $sql);
 while ($obj = $count->fetch_object()) {
     $count_osmolateur = $obj->somme;
@@ -65,7 +65,6 @@ if (isset($_POST['submit'])) {
     setStatus($link, $_POST['reacteur_ventilateur'], 'reacteur_ventilateur');
     setStatus($link, $_POST['reacteur_eclairage'], 'reacteur_eclairage');
     setStatus($link, $_POST['cron_controle'], 'cron_controle');
-    setStatus($link, $_POST['cron_temperature'], 'cron_temperature');
     setStatus($link, $_POST['cron_rappel'], 'cron_rappel');
     setStatus($link, $_POST['cron_mail'], 'cron_mail');
     setStatus($link, $_POST['refroidissement'], 'refroidissement');
@@ -80,7 +79,7 @@ if (isset($_POST['submit_actions_clear'])) {
 }
 
 // dernier débit
-$sql = "SELECT `value`,`created_at` FROM `reacteur` ORDER BY `reacteur`.`id`  DESC LIMIT 1";
+$sql = "SELECT `value`,`created_at` FROM `data_reacteur` ORDER BY `data_reacteur`.`id`  DESC LIMIT 1";
 $request = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($request);
 $last_debit = $row['value'];
@@ -91,7 +90,7 @@ if (!isset($last_debit)) {
 }
 
 // dernière temperature
-$sql = "SELECT `value`,`created_at` FROM `temperature` ORDER BY `temperature`.`id` DESC LIMIT 1";
+$sql = "SELECT `value`,`created_at` FROM `data_temperature` ORDER BY `data_temperature`.`id` DESC LIMIT 1";
 $request = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($request);
 $last_temp = round($row['value'], 2);
@@ -106,7 +105,7 @@ $sql = "SELECT * FROM `controle`";
 $listes_controles = mysqli_query($link, $sql);
 
 //dernier osmo
-$sql = "SELECT * FROM `osmolateur` ORDER BY `osmolateur`.`id` DESC LIMIT 1";
+$sql = "SELECT * FROM `data_osmolateur` ORDER BY `osmolateur`.`id` DESC LIMIT 1";
 $request = mysqli_query($link, $sql);
 $last_omo = mysqli_fetch_assoc($request);
 

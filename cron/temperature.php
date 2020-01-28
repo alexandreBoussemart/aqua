@@ -10,7 +10,7 @@ require 'helper/functions.php';
 
 try {
     //check si la cron est activé
-    if (!getStatus($link, 'cron_temperature')) {
+    if (!getStatus($link, 'temperature')) {
         // on set comme quoi on est bien passé dans la cron
         setControle($link, 'controle_temperature');
 
