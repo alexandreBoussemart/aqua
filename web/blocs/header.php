@@ -101,7 +101,7 @@ $sql = "SELECT * FROM `status`";
 $listes_status = mysqli_query($link, $sql);
 
 //liste des controles
-$sql = "SELECT * FROM `controle`";
+$sql = "SELECT * FROM `last_activity`";
 $listes_controles = mysqli_query($link, $sql);
 
 //dernier osmo
@@ -148,7 +148,7 @@ $sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_bailling' LIMIT 1";
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_bailling = $row['error'];
-$sql = "SELECT `created_at` FROM `controle` WHERE `value` = 'controle_bailling' LIMIT 1";
+$sql = "SELECT `created_at` FROM `last_activity` WHERE `value` = 'controle_bailling' LIMIT 1";
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_bailling_date = getFormattedDate($row['created_at']);
@@ -157,7 +157,7 @@ $sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_osmolateur' LIMIT 1
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_osmolateur = $row['error'];
-$sql = "SELECT `created_at` FROM `controle` WHERE `value` = 'controle_osmolateur' LIMIT 1";
+$sql = "SELECT `created_at` FROM `last_activity` WHERE `value` = 'controle_osmolateur' LIMIT 1";
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_osmolateur_date = getFormattedDate($row['created_at']);
@@ -166,7 +166,7 @@ $sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_reacteur' LIMIT 1";
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_reacteur = $row['error'];
-$sql = "SELECT `created_at` FROM `controle` WHERE `value` = 'controle_reacteur' LIMIT 1";
+$sql = "SELECT `created_at` FROM `last_activity` WHERE `value` = 'controle_reacteur' LIMIT 1";
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_reacteur_date = getFormattedDate($row['created_at']);
@@ -175,7 +175,7 @@ $sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_ecumeur' LIMIT 1";
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_ecumeur = $row['error'];
-$sql = "SELECT `created_at` FROM `controle` WHERE `value` = 'controle_ecumeur' LIMIT 1";
+$sql = "SELECT `created_at` FROM `last_activity` WHERE `value` = 'controle_ecumeur' LIMIT 1";
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $state_controle_ecumeur_date = getFormattedDate($row['created_at']);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Mar 28 Janvier 2020 à 21:17
+-- Généré le :  Mar 28 Janvier 2020 à 21:23
 -- Version du serveur :  10.1.37-MariaDB-0+deb9u1
 -- Version de PHP :  7.0.33-0+deb9u3
 
@@ -19,30 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `aqua-web`
 --
-
--- --------------------------------------------------------
-
---
--- Structure de la table `controle`
---
-
-CREATE TABLE `controle` (
-  `id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `value` varchar(255) NOT NULL,
-  `label` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `controle`
---
-
-INSERT INTO `controle` (`id`, `created_at`, `value`, `label`) VALUES
-(1, '2020-01-28 21:17:02', 'controle_temperature', 'Température'),
-(2, '2020-01-28 21:17:02', 'controle_ecumeur', 'Écumeur'),
-(3, '2020-01-28 21:17:00', 'controle_osmolateur', 'Osmolateur'),
-(4, '2020-01-28 21:17:02', 'controle_bailling', 'Bailling'),
-(5, '2020-01-28 21:17:03', 'controle_reacteur', 'Réacteur');
 
 -- --------------------------------------------------------
 
@@ -11092,7 +11068,8 @@ INSERT INTO `data_reacteur` (`id`, `created_at`, `value`) VALUES
 (12424, '2020-01-28 20:58:52', 1395),
 (12425, '2020-01-28 21:03:53', 1395),
 (12426, '2020-01-28 21:11:44', 1395),
-(12427, '2020-01-28 21:16:46', 1395);
+(12427, '2020-01-28 21:16:46', 1395),
+(12428, '2020-01-28 21:21:47', 1395);
 
 -- --------------------------------------------------------
 
@@ -21556,6 +21533,30 @@ INSERT INTO `data_temperature` (`id`, `created_at`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `last_activity`
+--
+
+CREATE TABLE `last_activity` (
+  `id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `value` varchar(255) NOT NULL,
+  `label` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `last_activity`
+--
+
+INSERT INTO `last_activity` (`id`, `created_at`, `value`, `label`) VALUES
+(1, '2020-01-28 21:22:02', 'controle_temperature', 'Température'),
+(2, '2020-01-28 21:22:01', 'controle_ecumeur', 'Écumeur'),
+(3, '2020-01-28 21:22:00', 'controle_osmolateur', 'Osmolateur'),
+(4, '2020-01-28 21:22:02', 'controle_bailling', 'Bailling'),
+(5, '2020-01-28 21:22:04', 'controle_reacteur', 'Réacteur');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `log`
 --
 
@@ -21706,7 +21707,8 @@ INSERT INTO `log` (`id`, `created_at`, `message`) VALUES
 (363, '2020-01-28 19:00:42', 'Ecumeur - ERREUR - niveau godet trop haut'),
 (364, '2020-01-28 19:30:57', 'Ecumeur - niveau godet OK'),
 (365, '2020-01-28 21:10:12', 'Cron - Erreur script réacteur'),
-(366, '2020-01-28 21:12:01', 'Cron controle controle_reacteur - OK');
+(366, '2020-01-28 21:12:01', 'Cron controle controle_reacteur - OK'),
+(367, '2020-01-28 21:23:12', 'Cron - Erreur script bailling');
 
 -- --------------------------------------------------------
 
@@ -21730,7 +21732,7 @@ CREATE TABLE `state` (
 --
 
 INSERT INTO `state` (`id`, `created_at`, `path`, `value`, `error`, `message`, `mail_send`, `exclude_check`) VALUES
-(1, '2020-01-13 20:05:24', 'controle_bailling', 'state_1', 0, 'Cron controle controle_bailling - OK', 1, 0),
+(1, '2020-01-28 21:23:12', 'controle_bailling', 'state_2', 1, 'Cron - Erreur script bailling', 0, 0),
 (2, '2020-01-21 20:44:03', 'controle_osmolateur', 'state_1', 0, 'Cron controle controle_osmolateur - OK', 1, 0),
 (3, '2020-01-13 20:05:29', 'controle_temperature', 'state_1', 0, 'Cron controle controle_temperature - OK', 1, 0),
 (4, '2020-01-28 21:13:02', 'controle_reacteur', 'state_1', 0, 'Cron controle controle_reacteur - OK', 1, 0),
@@ -21775,12 +21777,6 @@ INSERT INTO `status` (`id`, `name`, `value`, `label`) VALUES
 --
 
 --
--- Index pour la table `controle`
---
-ALTER TABLE `controle`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `data_changement_eau`
 --
 ALTER TABLE `data_changement_eau`
@@ -21802,6 +21798,12 @@ ALTER TABLE `data_reacteur`
 -- Index pour la table `data_temperature`
 --
 ALTER TABLE `data_temperature`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `last_activity`
+--
+ALTER TABLE `last_activity`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -21827,11 +21829,6 @@ ALTER TABLE `status`
 --
 
 --
--- AUTO_INCREMENT pour la table `controle`
---
-ALTER TABLE `controle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
 -- AUTO_INCREMENT pour la table `data_changement_eau`
 --
 ALTER TABLE `data_changement_eau`
@@ -21845,17 +21842,22 @@ ALTER TABLE `data_osmolateur`
 -- AUTO_INCREMENT pour la table `data_reacteur`
 --
 ALTER TABLE `data_reacteur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12428;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12429;
 --
 -- AUTO_INCREMENT pour la table `data_temperature`
 --
 ALTER TABLE `data_temperature`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12506;
 --
+-- AUTO_INCREMENT pour la table `last_activity`
+--
+ALTER TABLE `last_activity`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
 -- AUTO_INCREMENT pour la table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=367;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=368;
 --
 -- AUTO_INCREMENT pour la table `state`
 --
