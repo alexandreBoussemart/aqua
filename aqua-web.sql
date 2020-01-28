@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Mar 28 Janvier 2020 à 21:09
+-- Généré le :  Mar 28 Janvier 2020 à 21:17
 -- Version du serveur :  10.1.37-MariaDB-0+deb9u1
 -- Version de PHP :  7.0.33-0+deb9u3
 
@@ -23,32 +23,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `changement_eau`
---
-
-CREATE TABLE `changement_eau` (
-  `id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `value` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Contenu de la table `changement_eau`
---
-
-INSERT INTO `changement_eau` (`id`, `created_at`, `value`) VALUES
-(1, '2019-12-17 23:25:36', 20),
-(2, '2019-12-23 18:26:38', 20),
-(3, '2019-12-25 22:50:56', 20),
-(4, '2019-12-28 15:13:07', 20),
-(5, '2019-12-30 09:13:45', 20),
-(6, '2020-01-06 20:54:00', 20),
-(7, '2020-01-14 22:02:23', 20),
-(8, '2020-01-21 20:23:41', 20);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `controle`
 --
 
@@ -64,11 +38,38 @@ CREATE TABLE `controle` (
 --
 
 INSERT INTO `controle` (`id`, `created_at`, `value`, `label`) VALUES
-(1, '2020-01-28 21:09:01', 'controle_temperature', 'Température'),
-(2, '2020-01-28 21:09:01', 'controle_ecumeur', 'Écumeur'),
-(3, '2020-01-28 21:09:00', 'controle_osmolateur', 'Osmolateur'),
-(4, '2020-01-28 21:09:01', 'controle_bailling', 'Bailling'),
-(5, '2020-01-28 21:08:04', 'controle_reacteur', 'Réacteur');
+(1, '2020-01-28 21:17:02', 'controle_temperature', 'Température'),
+(2, '2020-01-28 21:17:02', 'controle_ecumeur', 'Écumeur'),
+(3, '2020-01-28 21:17:00', 'controle_osmolateur', 'Osmolateur'),
+(4, '2020-01-28 21:17:02', 'controle_bailling', 'Bailling'),
+(5, '2020-01-28 21:17:03', 'controle_reacteur', 'Réacteur');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `data_changement_eau`
+--
+
+CREATE TABLE `data_changement_eau` (
+  `id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `value` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `data_changement_eau`
+--
+
+INSERT INTO `data_changement_eau` (`id`, `created_at`, `value`) VALUES
+(1, '2019-12-17 23:25:36', 20),
+(2, '2019-12-23 18:26:38', 20),
+(3, '2019-12-25 22:50:56', 20),
+(4, '2019-12-28 15:13:07', 20),
+(5, '2019-12-30 09:13:45', 20),
+(6, '2020-01-06 20:54:00', 20),
+(7, '2020-01-14 22:02:23', 20),
+(8, '2020-01-21 20:23:41', 20),
+(9, '2020-01-28 21:11:04', 20);
 
 -- --------------------------------------------------------
 
@@ -661,7 +662,8 @@ INSERT INTO `data_osmolateur` (`id`, `created_at`, `state`) VALUES
 (791, '2020-01-28 19:33:54', 'pump_on'),
 (792, '2020-01-28 19:34:01', 'ok'),
 (793, '2020-01-28 19:50:30', 'pump_on'),
-(794, '2020-01-28 19:50:41', 'ok');
+(794, '2020-01-28 19:50:41', 'ok'),
+(795, '2020-01-28 21:11:50', 'ok');
 
 -- --------------------------------------------------------
 
@@ -11088,7 +11090,9 @@ INSERT INTO `data_reacteur` (`id`, `created_at`, `value`) VALUES
 (12422, '2020-01-28 20:48:51', 1395),
 (12423, '2020-01-28 20:53:51', 1395),
 (12424, '2020-01-28 20:58:52', 1395),
-(12425, '2020-01-28 21:03:53', 1395);
+(12425, '2020-01-28 21:03:53', 1395),
+(12426, '2020-01-28 21:11:44', 1395),
+(12427, '2020-01-28 21:16:46', 1395);
 
 -- --------------------------------------------------------
 
@@ -21700,7 +21704,9 @@ INSERT INTO `log` (`id`, `created_at`, `message`) VALUES
 (361, '2020-01-23 12:09:22', 'Bailling - OK'),
 (362, '2020-01-28 19:00:42', 'Ecumeur - ERREUR - niveau godet trop haut'),
 (363, '2020-01-28 19:00:42', 'Ecumeur - ERREUR - niveau godet trop haut'),
-(364, '2020-01-28 19:30:57', 'Ecumeur - niveau godet OK');
+(364, '2020-01-28 19:30:57', 'Ecumeur - niveau godet OK'),
+(365, '2020-01-28 21:10:12', 'Cron - Erreur script réacteur'),
+(366, '2020-01-28 21:12:01', 'Cron controle controle_reacteur - OK');
 
 -- --------------------------------------------------------
 
@@ -21727,7 +21733,7 @@ INSERT INTO `state` (`id`, `created_at`, `path`, `value`, `error`, `message`, `m
 (1, '2020-01-13 20:05:24', 'controle_bailling', 'state_1', 0, 'Cron controle controle_bailling - OK', 1, 0),
 (2, '2020-01-21 20:44:03', 'controle_osmolateur', 'state_1', 0, 'Cron controle controle_osmolateur - OK', 1, 0),
 (3, '2020-01-13 20:05:29', 'controle_temperature', 'state_1', 0, 'Cron controle controle_temperature - OK', 1, 0),
-(4, '2020-01-21 20:44:03', 'controle_reacteur', 'state_1', 0, 'Cron controle controle_reacteur - OK', 1, 0),
+(4, '2020-01-28 21:13:02', 'controle_reacteur', 'state_1', 0, 'Cron controle controle_reacteur - OK', 1, 0),
 (5, '2020-01-13 20:05:36', 'controle_ecumeur', 'state_1', 0, 'Cron controle controle_ecumeur - OK', 1, 0),
 (6, '2020-01-21 20:31:03', 'temperature', 'state_7', 0, 'Temperature - OK -  23.25°C', 1, 0),
 (7, '2020-01-13 20:05:43', 'controle', 'state_1', 0, 'Cron controle - OK', 0, 1),
@@ -21769,15 +21775,15 @@ INSERT INTO `status` (`id`, `name`, `value`, `label`) VALUES
 --
 
 --
--- Index pour la table `changement_eau`
---
-ALTER TABLE `changement_eau`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `controle`
 --
 ALTER TABLE `controle`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `data_changement_eau`
+--
+ALTER TABLE `data_changement_eau`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -21821,25 +21827,25 @@ ALTER TABLE `status`
 --
 
 --
--- AUTO_INCREMENT pour la table `changement_eau`
---
-ALTER TABLE `changement_eau`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
---
 -- AUTO_INCREMENT pour la table `controle`
 --
 ALTER TABLE `controle`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
+-- AUTO_INCREMENT pour la table `data_changement_eau`
+--
+ALTER TABLE `data_changement_eau`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
 -- AUTO_INCREMENT pour la table `data_osmolateur`
 --
 ALTER TABLE `data_osmolateur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=795;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=796;
 --
 -- AUTO_INCREMENT pour la table `data_reacteur`
 --
 ALTER TABLE `data_reacteur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12426;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12428;
 --
 -- AUTO_INCREMENT pour la table `data_temperature`
 --
@@ -21849,7 +21855,7 @@ ALTER TABLE `data_temperature`
 -- AUTO_INCREMENT pour la table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=365;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=367;
 --
 -- AUTO_INCREMENT pour la table `state`
 --

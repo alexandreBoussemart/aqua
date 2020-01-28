@@ -120,14 +120,14 @@ $request = mysqli_query($link, $sql);
 $logs = mysqli_query($link, $sql);
 
 // changement eau
-$sql = "SELECT * FROM `changement_eau` ORDER BY `id` DESC LIMIT 30;";
+$sql = "SELECT * FROM `data_changement_eau` ORDER BY `id` DESC LIMIT 30;";
 $request = mysqli_query($link, $sql);
 $changements = mysqli_query($link, $sql);
 
 // form changement d'eau
 if (isset($_POST['submit_eau'])) {
     if (isset($_POST['value']) && is_numeric($_POST['value'])) {
-        $sql = 'INSERT INTO `changement_eau` ( `value`) VALUES ("' . strval($_POST['value']) . '")';
+        $sql = 'INSERT INTO `data_changement_eau` ( `value`) VALUES ("' . strval($_POST['value']) . '")';
         $link->query($sql);
     }
 
@@ -137,7 +137,7 @@ if (isset($_POST['submit_eau'])) {
 //delete value changement d'eau
 if (isset($_POST['submit_delete_eau'])) {
     if (isset($_POST['id']) && is_numeric($_POST['id'])) {
-        $sql = 'DELETE FROM `changement_eau` WHERE `id` LIKE ' . $_POST['id'] . ';';
+        $sql = 'DELETE FROM `data_changement_eau` WHERE `id` LIKE ' . $_POST['id'] . ';';
         $link->query($sql);
     }
 

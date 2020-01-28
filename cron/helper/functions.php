@@ -289,7 +289,7 @@ function checkChangementEau($data, $transport, $link)
     $date->modify($periode);
     $date = $date->format('Y-m-d H:i:s');
 
-    $sql = "SELECT count(*) as count FROM `changement_eau` WHERE `created_at` > '" . $date . "'";
+    $sql = "SELECT count(*) as count FROM `data_changement_eau` WHERE `created_at` > '" . $date . "'";
     $request = mysqli_query($link, $sql);
     $result = mysqli_fetch_assoc($request);
 
