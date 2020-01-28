@@ -20,14 +20,14 @@ try {
 
     foreach ($array_verif as $verif) {
         //on prend que les lignes avec mail datant de -1 minutes
-        $sql = "SELECT * FROM `controle` where `value` = '" . $verif . "' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' limit 1";
+        $sql = "SELECT * FROM `last_activity` where `value` = '" . $verif . "' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' limit 1";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
 
         if ($row == null) {
             //on fait une deuxième verif au bout de 10 secondes
             sleep(10);
-            $sql = "SELECT * FROM `controle` where `value` = '" . $verif . "' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' limit 1";
+            $sql = "SELECT * FROM `last_activity` where `value` = '" . $verif . "' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' limit 1";
             $controle = mysqli_query($link, $sql);
             $row = mysqli_fetch_assoc($controle);
 

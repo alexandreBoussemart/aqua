@@ -46,7 +46,7 @@ def setcontrole(value):
         mycursor = mydb.cursor()
         val = str(value)
 
-        sql = "UPDATE `controle` set `value`='" + val + "', `created_at`=now() WHERE `value`='" + val + "'"
+        sql = "UPDATE `last_activity` set `value`='" + val + "', `created_at`=now() WHERE `value`='" + val + "'"
         mycursor.execute(sql)
 
         mydb.commit()
