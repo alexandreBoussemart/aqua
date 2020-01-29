@@ -374,3 +374,26 @@ function getStatusVentilateur($link, $temperature)
         setLog($link, $e->getMessage());
     }
 }
+
+/**
+ * @param $link
+ * @param $name
+ * @return bool
+ */
+function getConfig($link, $name){
+    try {
+        $result = false;
+
+        $sql = "SELECT `value` FROM `core_config` WHERE `name` = '".$name."'";
+        $controle = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($controle);
+
+        if ($row && intval($row['value']) == 1) {
+            $result = true;
+        }
+
+        return $result;
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+}
