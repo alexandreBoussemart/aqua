@@ -82,7 +82,7 @@ function getStatus($link, $name)
 function insertTemperature($link, $temp)
 {
     try {
-        $sql = 'INSERT INTO `temperature` ( `value`) VALUES ("' . strval($temp) . '")';
+        $sql = 'INSERT INTO `data_temperature` ( `value`) VALUES ("' . strval($temp) . '")';
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
