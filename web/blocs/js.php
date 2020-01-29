@@ -34,7 +34,8 @@
             goalStrokeWidth: '2',
             pointStrokeColors: ['#FF4500'],
             hideHover: 'auto',
-            ymin: 10,
+            ymin: 20,
+            ymax: 35,
             pointSize: 1,
             lineColors: ['#FF4500'],
             data: [
