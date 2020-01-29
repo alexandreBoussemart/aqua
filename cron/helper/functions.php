@@ -350,3 +350,27 @@ function clear($link)
         setLog($link, $e->getMessage());
     }
 }
+
+/**
+ * @param $link
+ * @param $temperature
+ * @return bool
+ */
+function getStatusVentilateur($link, $temperature)
+{
+    try {
+        $result = false;
+
+        $sql = "SELECT `value` FROM `core_config` WHERE `name` = 'config_temperature_declenchement'";
+        $controle = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($controle);
+
+        if ($row && intval($row['value']) <= intval($temperature)) {
+            $result = true;
+        }
+
+        return $result;
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+}

@@ -20,10 +20,10 @@ try {
     //si on est pas toutes les 5 minutes on quitte
     $date = new DateTime();
     $minute = $date->format('i');
-    if($minute%5 != 0){
-         // mais on set comme quoi on est bien passé dans la cron
-         setControle($link, 'controle_temperature');
-         return false;
+    if ($minute % 5 != 0) {
+        // mais on set comme quoi on est bien passé dans la cron
+        setControle($link, 'controle_temperature');
+        return false;
     }
 
     // on défini le chemin du fichier
@@ -73,6 +73,13 @@ try {
             //ok
             $message = "Temperature - OK -  " . $temperature2 . "°C";
             setState($link, 'temperature', 'state_7', 0, $message);
+        }
+
+        // on check si on doit allumer le ventilateur de l'aquarium
+        if (getStatusVentilateur($link, $temperature2)) {
+            exec("python " . __DIR__ . "/../scripts/on_aquarium_ventilateur.py");
+        } else {
+            exec("python " . __DIR__ . "/../scripts/off_aquarium_ventilateur.py");
         }
 
         // on set comme quoi on est bien passé dans la cron
