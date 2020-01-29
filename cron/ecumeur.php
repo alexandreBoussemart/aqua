@@ -8,6 +8,7 @@ require 'helper/functions.php';
 
 // on set comme quoi on est bien passé dans la cron
 setControle($link, 'controle_ecumeur');
+setLog($link, 'okkkkk');
 
 try {
     //check si la cron est activé
