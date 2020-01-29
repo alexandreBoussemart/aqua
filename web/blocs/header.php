@@ -183,3 +183,20 @@ $state_controle_ecumeur_date = getFormattedDate($row['created_at']);
 $errorBailling1 = ['state_1', 'state_2', 'state_3', 'state_5', 'state_9', 'state_10'];
 $errorBailling2 = ['state_2', 'state_4', 'state_5', 'state_6', 'state_9', 'state_10'];
 $errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state_10'];
+
+$sql = "SELECT * FROM `core_config`";
+$core_config = mysqli_query($link, $sql);
+$core_config = mysqli_fetch_all($core_config);
+$config = [];
+foreach ($core_config as $c) {
+    $config[$c[1]] = $c[2];
+}
+
+// form configuration
+if (isset($_POST['submit_configuration'])) {
+    setConfig($link, $_POST['config_temperature_declenchement'], 'config_temperature_declenchement');
+    setConfig($link, $_POST['config_on_off_osmolateur'], 'config_on_off_osmolateur');
+    setConfig($link, $_POST['config_on_off_reacteur'], 'config_on_off_reacteur');
+
+    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
+}

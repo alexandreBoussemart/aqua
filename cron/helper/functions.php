@@ -250,6 +250,30 @@ function setStatus($link, $data, $code)
 }
 
 /**
+ * @param $link
+ * @param $data
+ * @param $code
+ */
+function setConfig($link, $data, $code)
+{
+    try {
+        if (isset($data)) {
+            if ($data == "on") {
+                $value = 1;
+            } else {
+                $value = $data;
+            }
+        } else {
+            $value = 0;
+        }
+        $sql = "UPDATE `core_config` SET `value`='" . $value . "' WHERE `name` = '$code'";
+        $link->query($sql);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+}
+
+/**
  * @return bool
  * @throws Exception
  */
