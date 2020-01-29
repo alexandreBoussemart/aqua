@@ -187,7 +187,7 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
 function setLog($link, $message)
 {
     // met ligne dans table log
-    $sql = 'INSERT INTO `log`(`message`) VALUES ("' . $message . '")';
+    $sql = 'INSERT INTO `log` (`message`) VALUES ("' . $message . '")';
     $link->query($sql);
 }
 
