@@ -12,14 +12,14 @@ try {
         //check les horaires
         if(isOn()) {
             // on allume
-            exec("python ".__DIR__."/../scripts/on_reacteur_eclairage.py");
+            exec("python ".__DIR__."/../scripts/reacteur_eclairage/on.py");
 
             return true;
         }
     }
 
     // on éteint
-    exec("python ".__DIR__."/../scripts/off_reacteur_eclairage.py");
+    exec("python ".__DIR__."/../scripts/reacteur_eclairage/off.py");
 
 } catch (Exception $e) {
     setLog($link, $e->getMessage());

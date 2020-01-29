@@ -13,18 +13,18 @@ try {
 
         if (getConfig($link, 'config_on_off_osmolateur') == true) {
             // on allume
-            exec("python " . __DIR__ . "/../scripts/on_osmolateur.py");
+            exec("python " . __DIR__ . "/../scripts/osmolateur/on.py");
         } else {
             // on éteint
-            exec("python " . __DIR__ . "/../scripts/off_osmolateur.py");
+            exec("python " . __DIR__ . "/../scripts/osmolateur/off.py");
         }
 
         if (getConfig($link, 'config_on_off_reacteur') == true) {
             // on allume
-            exec("python " . __DIR__ . "/../scripts/on_reacteur.py");
+            exec("python " . __DIR__ . "/../scripts/reacteur/on.py");
         } else {
             // on éteint
-            exec("python " . __DIR__ . "/../scripts/off_reacteur.py");
+            exec("python " . __DIR__ . "/../scripts/reacteur/off.py");
         }
     }
 

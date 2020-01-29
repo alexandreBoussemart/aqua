@@ -77,9 +77,9 @@ try {
 
         // on check si on doit allumer le ventilateur de l'aquarium
         if (getStatusVentilateur($link, $temperature2)) {
-            exec("python " . __DIR__ . "/../scripts/on_aquarium_ventilateur.py");
+            exec("python " . __DIR__ . "/../scripts/aquarium_ventilateur/on.py");
         } else {
-            exec("python " . __DIR__ . "/../scripts/off_aquarium_ventilateur.py");
+            exec("python " . __DIR__ . "/../scripts/aquarium_ventilateur/off.py");
         }
 
         // on set comme quoi on est bien passé dans la cron
