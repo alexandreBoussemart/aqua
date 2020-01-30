@@ -38,9 +38,9 @@
                     <input type="hidden" name="submit_eau" value="1"/>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Volume <span class="required">*</span>
+                        <label class="control-label col-md-6 col-sm-6 col-xs-6">Volume <span class="required">*</span>
                         </label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
                             <input name="value" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
                         </div>
                     </div>
