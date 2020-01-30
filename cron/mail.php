@@ -81,7 +81,7 @@ try {
         $row = mysqli_fetch_assoc($controle);
         $content .= "<p>Dernier débit enregistré : " . $row['value'] . " l/min</p>";
 
-        $sql = "SELECT `value` FROM `data_temperature` ORDER BY `temperature`.`id`  DESC LIMIT 1";
+        $sql = "SELECT `value` FROM `data_temperature` ORDER BY `data_temperature`.`id`  DESC LIMIT 1";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
         $content .= "<p>Dernière température enregistrée : " . round($row['value'], 2) . "°C</p>";

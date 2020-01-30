@@ -2,7 +2,7 @@
 # -*-coding:Latin-1 -*
 import sys
 from time import sleep
-import functions
+import ../functions
 
 import RPi.GPIO as GPIO
 

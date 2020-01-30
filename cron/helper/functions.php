@@ -344,7 +344,7 @@ function clear($link)
         $link->query($sql);
         $sql = "DELETE FROM `data_reacteur` WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
-        $sql = "DELETE FROM `temperature` WHERE `created_at` < '" . $limit . "';";
+        $sql = "DELETE FROM `data_temperature` WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
