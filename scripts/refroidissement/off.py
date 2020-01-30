@@ -2,7 +2,9 @@
 # -*-coding:Latin-1 -*
 import sys
 from time import sleep
-import ../functions
+
+sys.path.insert(1, '../')
+import functions
 
 import RPi.GPIO as GPIO
 
