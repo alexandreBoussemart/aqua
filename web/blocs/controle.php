@@ -26,9 +26,9 @@
                 <input type="hidden" name="submit_configuration" value="1"/>
 
                 <div class="form-group">
-                    <label class="control-label col-md-6 col-sm-6 col-xs-12">Température déclenchement ventilateur <span class="required">*</span>
+                    <label class="control-label col-md-6 col-sm-6 col-xs-6">Température déclenchement ventilateur <span class="required">*</span>
                     </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
                         <input value="<?= $config['config_temperature_declenchement']; ?>" name="config_temperature_declenchement" class="form-control col-md-7 col-xs-12" required="required" type="text">
                     </div>
                 </div>

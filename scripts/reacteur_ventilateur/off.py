@@ -3,7 +3,7 @@
 import sys
 from time import sleep
 
-sys.path.insert(1, '../')
+sys.path.insert(1, '/home/pi/Desktop/www/aqua/scripts/')
 import functions
 
 import RPi.GPIO as GPIO
