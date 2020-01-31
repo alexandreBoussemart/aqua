@@ -12,8 +12,13 @@ try {
         return false;
     }
 
-    envoyerMail($link, $data, $transport);
-    envoyerMailRappel($link, $data, $transport);
+    // controle mail chaque seconde
+    for ($i = 0; $i <= 60; $i++) {
+        envoyerMail($link, $data, $transport);
+        envoyerMailRappel($link, $data, $transport);
+
+        sleep(1);
+    }
 
     envoyerMail8h($link, $data, $transport);
 
