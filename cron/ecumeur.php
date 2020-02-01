@@ -6,17 +6,26 @@
 
 require 'helper/functions.php';
 
-// on set comme quoi on est bien passé dans la cron
-setControle($link, 'controle_ecumeur');
-
 try {
     //check si la cron est activé
     if (!getStatus($link, 'ecumeur')) {
         return false;
     }
 
+    //heure d'execution max
+    $date = new DateTime();
+    $end = $date->format('Y-m-d H:i:59');
+
     // controle toutes les 1/2 secondes
     for ($i = 0; $i <= 120; $i++) {
+        //si on passe la minute en cours on arrête
+        $date = new DateTime();
+        $now = $date->format('Y-m-d H:i:s');
+        if ($now > $end) {
+            break;
+        }
+
+        //on execute la commande
         exec("python " . __DIR__ . "/../scripts/ecumeur.py");
         usleep(500000);
     }

@@ -30,6 +30,7 @@ try:
         message = "Ecumeur - niveau godet OK"
         functions.setcompletestate(path, 'state_2', 0, message, 0, 0)
 
+    functions.setcontrole('controle_ecumeur')
     sys.exit()
 
 except Exception as e:

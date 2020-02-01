@@ -12,8 +12,19 @@ try {
         return false;
     }
 
+    //heure d'execution max
+    $date = new DateTime();
+    $end = $date->format('Y-m-d H:i:59');
+
     // controle mail chaque seconde
     for ($i = 0; $i <= 60; $i++) {
+    //si on passe la minute en cours on arrête
+        $date = new DateTime();
+        $now = $date->format('Y-m-d H:i:s');
+        if ($now > $end) {
+            break;
+        }
+
         envoyerMail($link, $data, $transport);
         envoyerMailRappel($link, $data, $transport);
 

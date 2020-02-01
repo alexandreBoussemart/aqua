@@ -357,6 +357,7 @@ function clear($link)
 /**
  * @param $link
  * @param $temperature
+ *
  * @return bool
  */
 function getStatusVentilateur($link, $temperature)
@@ -381,13 +382,15 @@ function getStatusVentilateur($link, $temperature)
 /**
  * @param $link
  * @param $name
+ *
  * @return bool
  */
-function getConfig($link, $name){
+function getConfig($link, $name)
+{
     try {
         $result = false;
 
-        $sql = "SELECT `value` FROM `core_config` WHERE `name` = '".$name."'";
+        $sql = "SELECT `value` FROM `core_config` WHERE `name` = '" . $name . "'";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
 
@@ -506,4 +509,37 @@ function envoyerMail8h($link, $data, $transport)
         // on envoie le mail
         sendMail($data, $transport, $message, $content);
     }
+}
+
+/**
+ * @param $link
+ *
+ * @return bool
+ * @throws Exception
+ */
+function isRunOver20seconds($link)
+{
+    // si c'est le state 3 et qu'il a moins de 20 secondes
+    $sql = "SELECT * FROM `state` WHERE `path` LIKE 'osmolateur' AND `value` LIKE 'state_3'";
+    $controle = mysqli_query($link, $sql);
+    $row = mysqli_fetch_assoc($controle);
+
+    if ($row) {
+        $maxDate = new DateTime();
+        $maxDate->modify('-20 seconds');
+        $dateState = new DateTime($row["created_at"]);
+
+        //si moins de 20 secondes
+        if ($dateState > $maxDate) {
+            return false;
+        } else {
+            // c'est que c'est plus de 20 secondes, donc on met en erreur
+            $message = "Osmolateur - ERREUR - pompe allumée plus de 20 secondes";
+            setState($link, 'osmolateur', 'state_8', 1, $message);
+
+            return true;
+        }
+    }
+
+    return true;
 }

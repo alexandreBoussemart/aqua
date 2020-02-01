@@ -120,6 +120,7 @@ try:
             functions.onled(bailling_3_led)
             functions.setcompletestate(path, 'state_8', 0, message, 0, 0)
 
+    functions.setcontrole('controle_bailling')
     sys.exit()
 
 except Exception as e:
