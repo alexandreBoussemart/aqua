@@ -61,7 +61,10 @@ function getStatus($link, $name)
     try {
         $result = true;
 
-        $sql = "SELECT `value` FROM `status` WHERE `name` = '" . $name . "'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `status` 
+                WHERE `name` = '" . $name . "'";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
 
@@ -82,7 +85,9 @@ function getStatus($link, $name)
 function insertTemperature($link, $temp)
 {
     try {
-        $sql = 'INSERT INTO `data_temperature` ( `value`) VALUES ("' . strval($temp) . '")';
+        $sql = '# noinspection SqlNoDataSourceInspectionForFile 
+                INSERT INTO `data_temperature` ( `value`) 
+                VALUES ("' . strval($temp) . '")';
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -141,7 +146,9 @@ function readTemperature($content)
 function setControle($link, $value)
 {
     try {
-        $sql = "UPDATE `last_activity` set `value`='" . $value . "', `created_at`=now() WHERE `value`='" . $value . "'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                UPDATE `last_activity` set `value`='" . $value . "', `created_at`=now() 
+                WHERE `value`='" . $value . "'";
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -161,12 +168,18 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
 {
     try {
         //on vérifie qu'on est pas déja dans cet état
-        $sql = "SELECT count(*) as count FROM `state` WHERE `path` = '" . $path . "' AND `value` = '" . $value . "'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT count(*) as count 
+                FROM `state` 
+                WHERE `path` = '" . $path . "' 
+                AND `value` = '" . $value . "'";
         $request = mysqli_query($link, $sql);
         $result = mysqli_fetch_assoc($request);
 
         if ($result['count'] == "0" || $result['count'] == 0) {
-            $sql = "UPDATE `state` set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0, `exclude_check`='" . $exclude . "' WHERE `path`='" . $path . "'";
+            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                    UPDATE `state` set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0, `exclude_check`='" . $exclude . "' 
+                    WHERE `path`='" . $path . "'";
             $link->query($sql);
 
             // met ligne dans table log
@@ -188,7 +201,9 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
 function setLog($link, $message)
 {
     // met ligne dans table log
-    $sql = 'INSERT INTO `log` (`message`) VALUES ("' . $message . '")';
+    $sql = '# noinspection SqlNoDataSourceInspectionForFile 
+            INSERT INTO `log` (`message`) 
+            VALUES ("' . $message . '")';
     $link->query($sql);
 }
 
@@ -243,7 +258,10 @@ function setStatus($link, $data, $code)
         } else {
             $value = 0;
         }
-        $sql = "UPDATE `status` SET `value`='" . $value . "' WHERE `name` = '$code'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                UPDATE `status` 
+                SET `value`='" . $value . "' 
+                WHERE `name` = '$code'";
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -267,7 +285,10 @@ function setConfig($link, $data, $code)
         } else {
             $value = 0;
         }
-        $sql = "UPDATE `core_config` SET `value`='" . $value . "' WHERE `name` = '$code'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                UPDATE `core_config` 
+                SET `value`='" . $value . "' 
+                WHERE `name` = '$code'";
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -341,13 +362,21 @@ function clear($link)
         $date->modify($periode);
         $limit = $date->format('Y-m-d H:i:s');
 
-        $sql = "DELETE FROM `log` WHERE `created_at` < '" . $limit . "';";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM `log` 
+                WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
-        $sql = "DELETE FROM `data_osmolateur` WHERE `created_at` < '" . $limit . "';";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM `data_osmolateur` 
+                WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
-        $sql = "DELETE FROM `data_reacteur` WHERE `created_at` < '" . $limit . "';";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM `data_reacteur` 
+                WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
-        $sql = "DELETE FROM `data_temperature` WHERE `created_at` < '" . $limit . "';";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM `data_temperature` 
+                WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -365,7 +394,10 @@ function getStatusVentilateur($link, $temperature)
     try {
         $result = false;
 
-        $sql = "SELECT `value` FROM `core_config` WHERE `name` = 'config_temperature_declenchement'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `core_config` 
+                WHERE `name` = 'config_temperature_declenchement'";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
 
@@ -390,7 +422,10 @@ function getConfig($link, $name)
     try {
         $result = false;
 
-        $sql = "SELECT `value` FROM `core_config` WHERE `name` = '" . $name . "'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `core_config` 
+                WHERE `name` = '" . $name . "'";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
 
@@ -412,7 +447,11 @@ function getConfig($link, $name)
 function envoyerMail($link, $data, $transport)
 {
     // on fait le premier mail
-    $sql = "SELECT * FROM `state` WHERE `exclude_check` LIKE 0 AND `mail_send` LIKE 0";
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT * 
+            FROM `state` 
+            WHERE `exclude_check` LIKE 0 
+            AND `mail_send` LIKE 0";
     $mails = mysqli_query($link, $sql);
     $rows = $mails->fetch_all();
     foreach ($rows as $row) {
@@ -434,7 +473,10 @@ function envoyerMail($link, $data, $transport)
         }
 
         // on set comme quoi le mail a été envoyé et on renit la date
-        $sql = "UPDATE `state` SET `mail_send`=1,`created_at`=now() WHERE `id` LIKE " . $id;
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                UPDATE `state` 
+                SET `mail_send`=1,`created_at`=now() 
+                WHERE `id` LIKE " . $id;
         $link->query($sql);
     }
 }
@@ -453,7 +495,12 @@ function envoyerMailRappel($link, $data, $transport)
     $date->modify("-30 minutes");
     $date = "'" . $date->format('Y-m-d H:i:00') . "'";
 
-    $sql = "SELECT * FROM `state` WHERE `exclude_check` LIKE 0 AND `error` LIKE 1 AND `created_at` < " . $date;
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT * 
+            FROM `state` 
+            WHERE `exclude_check` LIKE 0 
+            AND `error` LIKE 1 
+            AND `created_at` < " . $date;
     $mails = mysqli_query($link, $sql);
     $rows = $mails->fetch_all();
 
@@ -472,7 +519,10 @@ function envoyerMailRappel($link, $data, $transport)
         }
 
         // on renit la date
-        $sql = "UPDATE `state` SET `created_at`=now() WHERE `id` LIKE " . $id;
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                UPDATE `state` 
+                SET `created_at`=now() 
+                WHERE `id` LIKE " . $id;
         $link->query($sql);
     }
 }
@@ -494,12 +544,20 @@ function envoyerMail8h($link, $data, $transport)
     if ($current == $huit) {
         $content = "<p style='color:green;text-transform:none;'>Cron - contrôle 8h - OK</p>";
 
-        $sql = "SELECT `value` FROM `data_reacteur` ORDER BY `reacteur`.`id`  DESC LIMIT 1";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `data_reacteur` 
+                ORDER BY `reacteur`.`id`  DESC 
+                LIMIT 1";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
         $content .= "<p>Dernier débit enregistré : " . $row['value'] . " l/min</p>";
 
-        $sql = "SELECT `value` FROM `data_temperature` ORDER BY `temperature`.`id`  DESC LIMIT 1";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `data_temperature` 
+                ORDER BY `temperature`.`id`  DESC 
+                LIMIT 1";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
         $content .= "<p>Dernière température enregistrée : " . round($row['value'], 2) . "°C</p>";
@@ -520,7 +578,11 @@ function envoyerMail8h($link, $data, $transport)
 function isRunOver20seconds($link)
 {
     // si c'est le state 3 et qu'il a moins de 20 secondes
-    $sql = "SELECT * FROM `state` WHERE `path` LIKE 'osmolateur' AND `value` LIKE 'state_3'";
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT * 
+            FROM `state` 
+            WHERE `path` LIKE 'osmolateur' 
+            AND `value` LIKE 'state_3'";
     $controle = mysqli_query($link, $sql);
     $row = mysqli_fetch_assoc($controle);
 
