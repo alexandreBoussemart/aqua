@@ -100,7 +100,7 @@ except Exception as e:
     body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
     print(message)
     functions.setcompletestate(path, 'state_6', 1, message, 1, 0)
-    functions.mail(message, body)
+    #functions.mail(message, body)
     functions.offled(relais)
 
     raise
