@@ -65,13 +65,13 @@ try:
         # niveau d'eau TO HIGHT
         if state == '0111':
             functions.setosmolateur("to_high")
-            message = "Osmolateur - ERREUR - niveau d'eau TO HIGHT"
+            message = "Osmolateur - ERREUR - niveau eau TO HIGHT"
             functions.setcompletestate(path, 'state_1', 1, message, 0, 0)
 
         # niveau d'eau OK
         elif state == '1011':
             functions.setosmolateur("ok")
-            message = "Osmolateur - niveau d'eau OK"
+            message = "Osmolateur - niveau eau OK"
             functions.setcompletestate(path, 'state_2', 0, message, 0, 0)
 
         # remplissage en cours
