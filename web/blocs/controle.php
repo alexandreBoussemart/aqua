@@ -46,12 +46,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-6 col-sm-6 col-xs-6">On/Off réacteur</label>
+                    <label class="control-label col-md-6 col-sm-6 col-xs-6">On/Off écumeur</label>
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="">
                             <label>
-                                <input name="config_on_off_reacteur" type="checkbox"
-                                       class="js-switch" <?php if ($config['config_on_off_reacteur'] == '1') echo 'checked'; ?> />
+                                <input name="config_on_off_ecumeur" type="checkbox"
+                                       class="js-switch" <?php if ($config['config_on_off_ecumeur'] == '1') echo 'checked'; ?> />
                             </label>
                         </div>
                     </div>
