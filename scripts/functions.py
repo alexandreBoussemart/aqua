@@ -223,3 +223,17 @@ def setlog(message):
         mail(message, body)
 
         raise
+
+
+def notInState8():
+    mydb = connect()
+    mycursor = mydb.cursor()
+    mycursor.execute(
+        "SELECT count(*) as count FROM `state` WHERE `path` = 'osmolateur' AND `value` = 'state_8'")
+    myresult = mycursor.fetchone()[0]
+    mydb.close()
+
+    if myresult == 0:
+        return True
+    else:
+        return False
