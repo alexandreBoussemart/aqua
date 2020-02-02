@@ -582,7 +582,7 @@ function isRunOver20seconds($link)
             SELECT * 
             FROM `state` 
             WHERE `path` LIKE 'osmolateur' 
-            AND `value` LIKE 'state_3'";
+            AND (`value` LIKE 'state_3' OR `value` LIKE 'state_8')";
     $controle = mysqli_query($link, $sql);
     $row = mysqli_fetch_assoc($controle);
 
@@ -591,8 +591,12 @@ function isRunOver20seconds($link)
         $maxDate->modify('-20 seconds');
         $dateState = new DateTime($row["created_at"]);
 
-        //si moins de 20 secondes
-        if ($dateState > $maxDate) {
+        if($row["state"] == 'state_8'){
+            //si en rappel
+            return true;
+        }
+        elseif ($dateState > $maxDate) {
+            //si moins de 20 secondes
             return false;
         } else {
             // c'est que c'est plus de 20 secondes, donc on met en erreur
