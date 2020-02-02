@@ -78,7 +78,7 @@ try:
         elif state == '1101':
             functions.setosmolateur("pump_on")
             message = "Osmolateur - remplissage en cours"
-            if functions.notInState8 is not False:
+            if functions.notInState8 is True:
                 functions.setcompletestate(path, 'state_3', 0, message, 0, 0)
 
         # niveau d'eau TO LOW
