@@ -19,9 +19,7 @@
 <div class="col-md-3 col-sm-3 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
-            <h2>Configuration
-                <small>On/Off</small>
-            </h2>
+            <h2>Configuration</h2>
             <div class="clearfix"></div>
         </div>
         <div class="x_content2">
