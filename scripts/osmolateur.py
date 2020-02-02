@@ -36,10 +36,10 @@ try:
     # lecture GPIO led level ok
     LEVEL_OK_STATE = str(GPIO.input(level_ok))
 
-    # on fait la chaine de caractère du statut
+    # on fait la chaine de caractï¿½re du statut
     state = TO_HIGH_STATE + LEVEL_OK_STATE + PUMP_ON_STATE + TO_LOW_STATE
 
-    # on fait une deuxième lecture pour être sûr
+    # on fait une deuxiï¿½me lecture pour ï¿½tre sï¿½r
     GPIO.setup(to_high, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(to_low, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(pump_on, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -57,7 +57,7 @@ try:
     # lecture GPIO led level ok
     LEVEL_OK_STATE = str(GPIO.input(level_ok))
 
-    # on fait la chaine de caractère du statut
+    # on fait la chaine de caractï¿½re du statut
     state2 = TO_HIGH_STATE + LEVEL_OK_STATE + PUMP_ON_STATE + TO_LOW_STATE
 
     # si les deux mesures sont identiques
@@ -69,25 +69,25 @@ try:
             functions.setcompletestate(path, 'state_1', 1, message, 0, 0)
 
         # niveau d'eau OK
-        elif state_current == '1011':
+        elif state == '1011':
             functions.setosmolateur("ok")
             message = "Osmolateur - niveau d'eau OK"
             functions.setcompletestate(path, 'state_2', 0, message, 0, 0)
 
         # remplissage en cours
-        elif state_current == '1101':
+        elif state == '1101':
             functions.setosmolateur("pump_on")
             message = "Osmolateur - remplissage en cours"
             functions.setcompletestate(path, 'state_3', 0, message, 0, 0)
 
         # niveau d'eau TO LOW
-        elif state_current == '1110':
+        elif state == '1110':
             functions.setosmolateur("to_low")
             message = "Osmolateur - ERREUR - niveau d'eau TO LOW"
             functions.setcompletestate(path, 'state_4', 1, message, 1, 0)
 
         # osmolateur off
-        elif state_current == '1111':
+        elif state == '1111':
             functions.setosmolateur("off")
             message = "Osmolateur - ERREUR - off"
             functions.setcompletestate(path, 'state_5', 1, message, 1, 0)
