@@ -226,14 +226,23 @@ def setlog(message):
 
 
 def notInState8():
-    mydb = connect()
-    mycursor = mydb.cursor()
-    mycursor.execute(
-        "SELECT count(*) as count FROM `state` WHERE `path` = 'osmolateur' AND `value` = 'state_8'")
-    myresult = mycursor.fetchone()[0]
-    mydb.close()
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        mycursor.execute(
+            "SELECT count(*) as count FROM `state` WHERE `path` = 'osmolateur' AND `value` = 'state_8'")
+        myresult = mycursor.fetchone()[0]
+        mydb.close()
 
-    if myresult == 0:
-        return "1"
-    else:
-        return "0"
+        if myresult == 0:
+            return "1"
+        else:
+            return "0"
+
+    except Exception as e:
+        message = "SQL - ERREUR - notInState8"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        print(message)
+        mail(message, body)
+
+        raise
