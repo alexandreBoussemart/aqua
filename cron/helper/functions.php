@@ -591,13 +591,10 @@ function isRunOver20seconds($link)
         $maxDate->modify('-20 seconds');
         $dateState = new DateTime($row["created_at"]);
 
-        echo $row["state"];
-
-        if($row["state"] == 'state_8'){
+        if($row["value"] == 'state_8'){
             //si en rappel
             return true;
-        }
-        elseif ($dateState > $maxDate) {
+        } elseif ($dateState > $maxDate) {
             //si moins de 20 secondes
             return false;
         } else {
