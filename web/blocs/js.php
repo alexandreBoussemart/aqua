@@ -32,22 +32,18 @@
             goals: [23, 25, 28],
             goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
             goalStrokeWidth: '2',
-            pointStrokeColors: ['#FF4500'],
+            pointStrokeColors: ['#2A3F54'],
             hideHover: 'auto',
             ymin: 15,
             ymax: 35,
             pointSize: 1,
-            lineColors: ['#FF4500'],
+            lineColors: ['#2A3F54'],
             data: [
                 <?php while($obj = $temperature->fetch_object()){ ?>
                 {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>},
                 <?php } ?>
             ],
             resize: true
-        });
-
-        $MENU_TOGGLE.on('click', function () {
-            $(window).resize();
         });
     }
 
@@ -60,12 +56,12 @@
             goals: [1200],
             goalLineColors: ['#2B46F0'],
             goalStrokeWidth: '2',
-            pointStrokeColors: ['#FF4500'],
+            pointStrokeColors: ['#2A3F54'],
             hideHover: 'auto',
             ymin: 1100,
             ymax: 1500,
             pointSize: 1,
-            lineColors: ['#FF4500'],
+            lineColors: ['#2A3F54'],
             data: [
                 <?php while($obj = $reacteur->fetch_object()){ ?>
                 {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>},
@@ -73,11 +69,103 @@
             ],
             resize: true
         });
+    }
 
-        $MENU_TOGGLE.on('click', function () {
-            $(window).resize();
+    if ($('#graph_kh').length) {
+        Morris.Line({
+            element: 'graph_kh',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Taux Kh'],
+            goals: [6, 7, 10],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 4,
+            ymax: 12,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            data: [
+                {datetime: '2020-02-01 22:25:23', value: 8},
+                {datetime: '2020-01-25 22:25:23', value: 7.7}
+            ],
+            resize: true
         });
     }
+
+    if ($('#graph_ca').length) {
+        Morris.Line({
+            element: 'graph_ca',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Taux Ca'],
+            goals: [400, 420, 450],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 350,
+            ymax: 500,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            data: [
+                {datetime: '2020-02-01 22:25:23', value: 425},
+                {datetime: '2020-01-25 22:25:23', value: 429}
+            ],
+            resize: true
+        });
+    }
+
+    if ($('#graph_mg').length) {
+        Morris.Line({
+            element: 'graph_mg',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Taux Mg'],
+            goals: [1150, 1300, 1400],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 1100,
+            ymax: 1600,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            data: [
+                {datetime: '2020-02-01 22:25:23', value: 1455},
+                {datetime: '2020-01-25 22:25:23', value: 1400}
+            ],
+            resize: true
+        });
+    }
+
+    if ($('#graph_densite').length) {
+        Morris.Line({
+            element: 'graph_densite',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Densité'],
+            goals: [1024, 1025, 1027],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 1020,
+            ymax: 1028,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            data: [
+                {datetime: '2020-02-01 22:25:23', value: 1023},
+                {datetime: '2020-01-25 22:25:23', value: 1024}
+            ],
+            resize: true
+        });
+    }
+
+    $MENU_TOGGLE.on('click', function () {
+        $(window).resize();
+    });
 
     $('#datatable').dataTable({'order': [[ 0, 'desc' ]]});
     $('#datatable-eau').dataTable({'order': [[ 0, 'desc' ]]});

@@ -63,6 +63,7 @@
                     require 'blocs/calendrier.php';
                     require 'blocs/state.php';
                     require 'blocs/graph.php';
+                    require 'blocs/graph_param.php';
                     require 'blocs/logs.php';
                     ?>
                     <br>

@@ -608,3 +608,10 @@ function isRunOver20seconds($link)
 
     return true;
 }
+
+function setParam($link, $data, $type){
+    if (isset($data) && is_numeric($data)) {
+        $sql = 'INSERT INTO `data_params` (`type`, `value`) VALUES ("' . $type . '", "' . strval($data) . '")';
+        $link->query($sql);
+    }
+}

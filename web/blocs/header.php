@@ -198,5 +198,32 @@ if (isset($_POST['submit_configuration'])) {
     setConfig($link, $_POST['config_on_off_osmolateur'], 'config_on_off_osmolateur');
     setConfig($link, $_POST['config_on_off_ecumeur'], 'config_on_off_ecumeur');
 
-    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']);
+}
+
+// form kh
+if (isset($_POST['submit_kh'])) {
+    setParam($link, $_POST['value_kh'], 'kh');
+
+    header('Location: ' . $data['database'][0]['base_url']);
+}
+
+// form ca
+if (isset($_POST['submit_ca'])) {
+    setParam($link, $_POST['value_ca'], 'ca');
+
+    header('Location: ' . $data['database'][0]['base_url']);
+}
+
+// form mg
+if (isset($_POST['submit_mg'])) {
+    setParam($link, $_POST['value_mg'], 'mg');
+    header('Location: ' . $data['database'][0]['base_url']);
+}
+
+// form densite
+if (isset($_POST['submit_densite'])) {
+    setParam($link, $_POST['value_densite'], 'densite');
+
+    header('Location: ' . $data['database'][0]['base_url']);
 }

@@ -34,24 +34,6 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content2">
-                <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
-                    <input type="hidden" name="submit_eau" value="1"/>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-6 col-sm-6 col-xs-6">Volume <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                            <input name="value" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button type="submit" class="btn btn-success">Enregistrer</button>
-                        </div>
-                    </div>
-                    <div class="ln_solid"></div>
-                </form>
-
                 <table id="datatable-eau" class="table table-striped table-bordered">
                     <thead>
                     <tr>
@@ -78,6 +60,23 @@
                     <?php endforeach; ?>
                     </tbody>
                 </table>
+                <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
+                    <div class="ln_solid"></div>
+                    <input type="hidden" name="submit_eau" value="1"/>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Volume <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <input name="value" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button type="submit" class="btn btn-success">Enregistrer</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
