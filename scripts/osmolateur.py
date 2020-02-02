@@ -83,7 +83,7 @@ try:
         # niveau d'eau TO LOW
         elif state == '1110':
             functions.setosmolateur("to_low")
-            message = "Osmolateur - ERREUR - niveau d'eau TO LOW"
+            message = "Osmolateur - ERREUR - niveau eau TO LOW"
             functions.setcompletestate(path, 'state_4', 1, message, 1, 0)
 
         # osmolateur off
@@ -100,7 +100,7 @@ except Exception as e:
     body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
     print(message)
     functions.setcompletestate(path, 'state_6', 1, message, 1, 0)
-    #functions.mail(message, body)
+    functions.mail(message, body)
     functions.offled(relais)
 
     raise
