@@ -78,7 +78,8 @@ try:
         elif state == '1101':
             functions.setosmolateur("pump_on")
             message = "Osmolateur - remplissage en cours"
-            result = functions.notInState8
+            result = functions.notinstatehuit
+            print(result)
             if result is "1":
                 functions.setcompletestate(path, 'state_3', 0, message, 0, 0)
 

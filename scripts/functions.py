@@ -225,7 +225,7 @@ def setlog(message):
         raise
 
 
-def notInState8():
+def notinstatehuit():
     try:
         mydb = connect()
         mycursor = mydb.cursor()
@@ -235,12 +235,12 @@ def notInState8():
         mydb.close()
 
         if myresult == 0:
-            return "1"
+            return True
         else:
-            return "0"
+            return False
 
     except Exception as e:
-        message = "SQL - ERREUR - notInState8"
+        message = "SQL - ERREUR - notinstatehuit"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         print(message)
         mail(message, body)
