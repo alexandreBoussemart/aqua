@@ -12,11 +12,11 @@ $array_verif = [
 ];
 
 $message_body = [
-    'controle_bailling'    => 'Cron - Erreur script bailling',
-    'controle_ecumeur'     => 'Cron - Erreur script écumeur',
-    'controle_osmolateur'  => 'Cron - Erreur script osmolateur',
-    'controle_reacteur'    => 'Cron - Erreur script réacteur',
-    'controle_temperature' => 'Cron - Erreur script température'
+    'controle_bailling'    => 'Cron - ERREUR - script bailling',
+    'controle_ecumeur'     => 'Cron - ERREUR - script écumeur',
+    'controle_osmolateur'  => 'Cron - ERREUR - script osmolateur',
+    'controle_reacteur'    => 'Cron - ERREUR - script réacteur',
+    'controle_temperature' => 'Cron - ERREUR - script température'
 ];
 
 $rappel = [
