@@ -234,6 +234,6 @@ def notInState8():
     mydb.close()
 
     if myresult == 0:
-        return True
+        return "1"
     else:
-        return False
+        return "0"
