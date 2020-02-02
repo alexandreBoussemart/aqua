@@ -61,49 +61,6 @@ def setcontrole(value):
         raise
 
 
-def deletestate(path):
-    try:
-        mydb = connect()
-        mycursor = mydb.cursor()
-        path = str(path)
-
-        sql = "DELETE FROM `state` WHERE path='" + path + "'"
-        mycursor.execute(sql)
-
-        mydb.commit()
-        mydb.close()
-
-    except Exception as e:
-        message = "SQL - ERREUR - deletestate"
-        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        print(message)
-        mail(message, body)
-
-        raise
-
-
-def setstate(path, value):
-    try:
-        mydb = connect()
-        mycursor = mydb.cursor()
-        path = str(path)
-        value = str(value)
-
-        sql = "INSERT INTO `state`( `path`,`value`) VALUES ('" + path + "', '" + value + "')"
-        mycursor.execute(sql)
-
-        mydb.commit()
-        mydb.close()
-
-    except Exception as e:
-        message = "SQL - ERREUR - setstate"
-        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        print(message)
-        mail(message, body)
-
-        raise
-
-
 def setosmolateur(state):
     try:
         mydb = connect()
@@ -187,12 +144,6 @@ def offled(led):
 def onled(led):
     GPIO.setup(led, GPIO.OUT)
     GPIO.output(led, 1)
-
-
-def stoppump(r):
-    GPIO.setup(r, GPIO.OUT)
-    GPIO.output(r, 0)
-    GPIO.cleanup(r)
 
 
 def read_file(emplacement):

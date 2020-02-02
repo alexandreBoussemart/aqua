@@ -19,7 +19,7 @@ try {
             exec("python " . __DIR__ . "/../scripts/osmolateur/off.py");
         }
 
-        if (getConfig($link, 'config_on_off_reacteur') == true) {
+        if (getConfig($link, 'config_on_off_ecumeur') == true) {
             // on allume
             exec("python " . __DIR__ . "/../scripts/reacteur/on.py");
         } else {

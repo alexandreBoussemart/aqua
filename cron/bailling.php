@@ -6,9 +6,6 @@
 
 require 'helper/functions.php';
 
-// on set comme quoi on est bien passé dans la cron
-setControle($link, 'controle_bailling');
-
 try {
     //check si la cron est activé
     if (!getStatus($link, 'bailling')) {

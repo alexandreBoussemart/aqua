@@ -196,7 +196,7 @@ foreach ($core_config as $c) {
 if (isset($_POST['submit_configuration'])) {
     setConfig($link, $_POST['config_temperature_declenchement'], 'config_temperature_declenchement');
     setConfig($link, $_POST['config_on_off_osmolateur'], 'config_on_off_osmolateur');
-    setConfig($link, $_POST['config_on_off_reacteur'], 'config_on_off_reacteur');
+    setConfig($link, $_POST['config_on_off_ecumeur'], 'config_on_off_ecumeur');
 
     header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
 }

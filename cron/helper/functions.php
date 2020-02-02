@@ -12,10 +12,10 @@ $array_verif = [
 ];
 
 $message_body = [
-    'controle_bailling' => 'Cron - Erreur script bailling',
-    'controle_ecumeur' => 'Cron - Erreur script écumeur',
-    'controle_osmolateur' => 'Cron - Erreur script osmolateur',
-    'controle_reacteur' => 'Cron - Erreur script réacteur',
+    'controle_bailling'    => 'Cron - Erreur script bailling',
+    'controle_ecumeur'     => 'Cron - Erreur script écumeur',
+    'controle_osmolateur'  => 'Cron - Erreur script osmolateur',
+    'controle_reacteur'    => 'Cron - Erreur script réacteur',
     'controle_temperature' => 'Cron - Erreur script température'
 ];
 
@@ -61,7 +61,10 @@ function getStatus($link, $name)
     try {
         $result = true;
 
-        $sql = "SELECT `value` FROM `status` WHERE `name` = '" . $name . "'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `status` 
+                WHERE `name` = '" . $name . "'";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
 
@@ -82,7 +85,9 @@ function getStatus($link, $name)
 function insertTemperature($link, $temp)
 {
     try {
-        $sql = 'INSERT INTO `data_temperature` ( `value`) VALUES ("' . strval($temp) . '")';
+        $sql = '# noinspection SqlNoDataSourceInspectionForFile 
+                INSERT INTO `data_temperature` ( `value`) 
+                VALUES ("' . strval($temp) . '")';
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -116,6 +121,7 @@ function readFileTemperature($link)
 
 /**
  * @param $content
+ *
  * @return bool|float|int
  */
 function readTemperature($content)
@@ -140,7 +146,9 @@ function readTemperature($content)
 function setControle($link, $value)
 {
     try {
-        $sql = "UPDATE `last_activity` set `value`='" . $value . "', `created_at`=now() WHERE `value`='" . $value . "'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                UPDATE `last_activity` set `value`='" . $value . "', `created_at`=now() 
+                WHERE `value`='" . $value . "'";
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -153,19 +161,25 @@ function setControle($link, $value)
  * @param      $value
  * @param      $error
  * @param      $message
- * @param int $exclude
+ * @param int  $exclude
  * @param bool $force_log
  */
 function setState($link, $path, $value, $error, $message, $exclude = 0, $force_log = false)
 {
     try {
         //on vérifie qu'on est pas déja dans cet état
-        $sql = "SELECT count(*) as count FROM `state` WHERE `path` = '" . $path . "' AND `value` = '" . $value . "'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT count(*) as count 
+                FROM `state` 
+                WHERE `path` = '" . $path . "' 
+                AND `value` = '" . $value . "'";
         $request = mysqli_query($link, $sql);
         $result = mysqli_fetch_assoc($request);
 
         if ($result['count'] == "0" || $result['count'] == 0) {
-            $sql = "UPDATE `state` set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0, `exclude_check`='" . $exclude . "' WHERE `path`='" . $path . "'";
+            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                    UPDATE `state` set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0, `exclude_check`='" . $exclude . "' 
+                    WHERE `path`='" . $path . "'";
             $link->query($sql);
 
             // met ligne dans table log
@@ -187,7 +201,9 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
 function setLog($link, $message)
 {
     // met ligne dans table log
-    $sql = 'INSERT INTO `log` (`message`) VALUES ("' . $message . '")';
+    $sql = '# noinspection SqlNoDataSourceInspectionForFile 
+            INSERT INTO `log` (`message`) 
+            VALUES ("' . $message . '")';
     $link->query($sql);
 }
 
@@ -199,18 +215,18 @@ function setLog($link, $message)
 function getLabel($key)
 {
     $array = [
-        '' => "",
-        'off' => "Off",
-        'ok' => "Niveau d'eau OK",
-        "pump_on" => "En cours de remplissage",
-        "to_low" => "Niveau d'eau bas",
-        "to_high" => "Niveau d'eau haut",
-        "off_rappel" => "RAPPEL - Off",
-        "to_low_rappel" => "RAPPEL - Niveau d'eau bas",
-        "pump_on_20" => "Pompe allumée plus de 20 secondes",
+        ''                  => "",
+        'off'               => "Off",
+        'ok'                => "Niveau d'eau OK",
+        "pump_on"           => "En cours de remplissage",
+        "to_low"            => "Niveau d'eau bas",
+        "to_high"           => "Niveau d'eau haut",
+        "off_rappel"        => "RAPPEL - Off",
+        "to_low_rappel"     => "RAPPEL - Niveau d'eau bas",
+        "pump_on_20"        => "Pompe allumée plus de 20 secondes",
         "pump_on_20_rappel" => "RAPPEL - Pompe allumée plus de 20 secondes",
-        "to_high_rappel" => "RAPPEL - Niveau d'eau haut",
-        "error" => "Erreur"
+        "to_high_rappel"    => "RAPPEL - Niveau d'eau haut",
+        "error"             => "Erreur"
     ];
 
     return $array[$key];
@@ -242,7 +258,10 @@ function setStatus($link, $data, $code)
         } else {
             $value = 0;
         }
-        $sql = "UPDATE `status` SET `value`='" . $value . "' WHERE `name` = '$code'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                UPDATE `status` 
+                SET `value`='" . $value . "' 
+                WHERE `name` = '$code'";
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -266,7 +285,10 @@ function setConfig($link, $data, $code)
         } else {
             $value = 0;
         }
-        $sql = "UPDATE `core_config` SET `value`='" . $value . "' WHERE `name` = '$code'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                UPDATE `core_config` 
+                SET `value`='" . $value . "' 
+                WHERE `name` = '$code'";
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -304,7 +326,9 @@ function isOn()
  * @param $data
  * @param $transport
  * @param $link
+ *
  * @return bool
+ * @throws Exception
  */
 function checkChangementEau($data, $transport, $link)
 {
@@ -338,13 +362,21 @@ function clear($link)
         $date->modify($periode);
         $limit = $date->format('Y-m-d H:i:s');
 
-        $sql = "DELETE FROM `log` WHERE `created_at` < '" . $limit . "';";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM `log` 
+                WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
-        $sql = "DELETE FROM `data_osmolateur` WHERE `created_at` < '" . $limit . "';";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM `data_osmolateur` 
+                WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
-        $sql = "DELETE FROM `data_reacteur` WHERE `created_at` < '" . $limit . "';";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM `data_reacteur` 
+                WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
-        $sql = "DELETE FROM `data_temperature` WHERE `created_at` < '" . $limit . "';";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM `data_temperature` 
+                WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -354,6 +386,7 @@ function clear($link)
 /**
  * @param $link
  * @param $temperature
+ *
  * @return bool
  */
 function getStatusVentilateur($link, $temperature)
@@ -361,7 +394,10 @@ function getStatusVentilateur($link, $temperature)
     try {
         $result = false;
 
-        $sql = "SELECT `value` FROM `core_config` WHERE `name` = 'config_temperature_declenchement'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `core_config` 
+                WHERE `name` = 'config_temperature_declenchement'";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
 
@@ -378,13 +414,18 @@ function getStatusVentilateur($link, $temperature)
 /**
  * @param $link
  * @param $name
+ *
  * @return bool
  */
-function getConfig($link, $name){
+function getConfig($link, $name)
+{
     try {
         $result = false;
 
-        $sql = "SELECT `value` FROM `core_config` WHERE `name` = '".$name."'";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `core_config` 
+                WHERE `name` = '" . $name . "'";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
 
@@ -396,4 +437,171 @@ function getConfig($link, $name){
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
+}
+
+/**
+ * @param $link
+ * @param $data
+ * @param $transport
+ */
+function envoyerMail($link, $data, $transport)
+{
+    // on fait le premier mail
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT * 
+            FROM `state` 
+            WHERE `exclude_check` LIKE 0 
+            AND `mail_send` LIKE 0";
+    $mails = mysqli_query($link, $sql);
+    $rows = $mails->fetch_all();
+    foreach ($rows as $row) {
+        $id = $row[0];
+        $message = $row[5];
+        $error = $row[4];
+
+        if ($error == 1 || $error == "1") {
+            $body = "<p style='color: red; text-transform: uppercase'>" . $message . "</p>";
+        } else {
+            $body = "<p style='color: green;'>" . $message . "</p>";
+        }
+
+        // on envoie le mail
+        try {
+            sendMail($data, $transport, $message, $body);
+        } catch (Exception $e) {
+            setLog($link, $e->getMessage());
+        }
+
+        // on set comme quoi le mail a été envoyé et on renit la date
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                UPDATE `state` 
+                SET `mail_send`=1,`created_at`=now() 
+                WHERE `id` LIKE " . $id;
+        $link->query($sql);
+    }
+}
+
+/**
+ * @param $link
+ * @param $data
+ * @param $transport
+ *
+ * @throws Exception
+ */
+function envoyerMailRappel($link, $data, $transport)
+{
+//on fait le mail de rappel et renit la date a now
+    $date = new DateTime();
+    $date->modify("-30 minutes");
+    $date = "'" . $date->format('Y-m-d H:i:00') . "'";
+
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT * 
+            FROM `state` 
+            WHERE `exclude_check` LIKE 0 
+            AND `error` LIKE 1 
+            AND `created_at` < " . $date;
+    $mails = mysqli_query($link, $sql);
+    $rows = $mails->fetch_all();
+
+    foreach ($rows as $row) {
+        $id = $row[0];
+        $message = $row[5];
+
+        $message = str_replace('ERREUR', 'RAPPEL ERREUR', $message);
+        $body = "<p style='color: red; text-transform: uppercase'>" . $message . "</p>";
+
+        // on envoie le mail
+        try {
+            sendMail($data, $transport, $message, $body);
+        } catch (Exception $e) {
+            setLog($link, $e->getMessage());
+        }
+
+        // on renit la date
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                UPDATE `state` 
+                SET `created_at`=now() 
+                WHERE `id` LIKE " . $id;
+        $link->query($sql);
+    }
+}
+
+/**
+ * @param $link
+ * @param $data
+ * @param $transport
+ *
+ * @throws Exception
+ */
+function envoyerMail8h($link, $data, $transport)
+{
+    //controle 8h
+    $date = new DateTime();
+    $current = $date->format('Y-m-d H:i:00');
+    $huit = $date->format('Y-m-d 08:00:00');
+
+    if ($current == $huit) {
+        $content = "<p style='color:green;text-transform:none;'>Cron - contrôle 8h - OK</p>";
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `data_reacteur` 
+                ORDER BY `reacteur`.`id`  DESC 
+                LIMIT 1";
+        $controle = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($controle);
+        $content .= "<p>Dernier débit enregistré : " . $row['value'] . " l/min</p>";
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `data_temperature` 
+                ORDER BY `temperature`.`id`  DESC 
+                LIMIT 1";
+        $controle = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($controle);
+        $content .= "<p>Dernière température enregistrée : " . round($row['value'], 2) . "°C</p>";
+
+        $message = "Cron - contrôle 8h - OK";
+
+        // on envoie le mail
+        sendMail($data, $transport, $message, $content);
+    }
+}
+
+/**
+ * @param $link
+ *
+ * @return bool
+ * @throws Exception
+ */
+function isRunOver20seconds($link)
+{
+    // si c'est le state 3 et qu'il a moins de 20 secondes
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT * 
+            FROM `state` 
+            WHERE `path` LIKE 'osmolateur' 
+            AND `value` LIKE 'state_3'";
+    $controle = mysqli_query($link, $sql);
+    $row = mysqli_fetch_assoc($controle);
+
+    if ($row) {
+        $maxDate = new DateTime();
+        $maxDate->modify('-20 seconds');
+        $dateState = new DateTime($row["created_at"]);
+
+        //si moins de 20 secondes
+        if ($dateState > $maxDate) {
+            return false;
+        } else {
+            // c'est que c'est plus de 20 secondes, donc on met en erreur
+            $message = "Osmolateur - ERREUR - pompe allumée plus de 20 secondes";
+            setState($link, 'osmolateur', 'state_8', 1, $message);
+
+            return true;
+        }
+    }
+
+    return true;
 }
