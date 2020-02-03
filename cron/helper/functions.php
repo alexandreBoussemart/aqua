@@ -12,10 +12,10 @@ $array_verif = [
 ];
 
 $message_body = [
-    'controle_bailling'    => 'Cron - ERREUR - script bailling',
-    'controle_ecumeur'     => 'Cron - ERREUR - script écumeur',
-    'controle_osmolateur'  => 'Cron - ERREUR - script osmolateur',
-    'controle_reacteur'    => 'Cron - ERREUR - script réacteur',
+    'controle_bailling' => 'Cron - ERREUR - script bailling',
+    'controle_ecumeur' => 'Cron - ERREUR - script écumeur',
+    'controle_osmolateur' => 'Cron - ERREUR - script osmolateur',
+    'controle_reacteur' => 'Cron - ERREUR - script réacteur',
     'controle_temperature' => 'Cron - ERREUR - script température'
 ];
 
@@ -161,7 +161,7 @@ function setControle($link, $value)
  * @param      $value
  * @param      $error
  * @param      $message
- * @param int  $exclude
+ * @param int $exclude
  * @param bool $force_log
  */
 function setState($link, $path, $value, $error, $message, $exclude = 0, $force_log = false)
@@ -215,18 +215,18 @@ function setLog($link, $message)
 function getLabel($key)
 {
     $array = [
-        ''                  => "",
-        'off'               => "Off",
-        'ok'                => "Niveau d'eau OK",
-        "pump_on"           => "En cours de remplissage",
-        "to_low"            => "Niveau d'eau bas",
-        "to_high"           => "Niveau d'eau haut",
-        "off_rappel"        => "RAPPEL - Off",
-        "to_low_rappel"     => "RAPPEL - Niveau d'eau bas",
-        "pump_on_20"        => "Pompe allumée plus de 20 secondes",
+        '' => "",
+        'off' => "Off",
+        'ok' => "Niveau d'eau OK",
+        "pump_on" => "En cours de remplissage",
+        "to_low" => "Niveau d'eau bas",
+        "to_high" => "Niveau d'eau haut",
+        "off_rappel" => "RAPPEL - Off",
+        "to_low_rappel" => "RAPPEL - Niveau d'eau bas",
+        "pump_on_20" => "Pompe allumée plus de 20 secondes",
         "pump_on_20_rappel" => "RAPPEL - Pompe allumée plus de 20 secondes",
-        "to_high_rappel"    => "RAPPEL - Niveau d'eau haut",
-        "error"             => "Erreur"
+        "to_high_rappel" => "RAPPEL - Niveau d'eau haut",
+        "error" => "Erreur"
     ];
 
     return $array[$key];
@@ -349,14 +349,19 @@ function checkChangementEau($data, $transport, $link)
     $date = new DateTime();
     $date->modify($periode);
     $date = $date->format('Y-m-d H:i:s');
+    $message = "Pas de changement d'eau depuis plus de 15 jours !";
 
-    $sql = "SELECT count(*) as count FROM `data_changement_eau` WHERE `created_at` > '" . $date . "'";
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT count(*) as count 
+            FROM `data_changement_eau` 
+            WHERE `created_at` > '" . $date . "'";
     $request = mysqli_query($link, $sql);
     $result = mysqli_fetch_assoc($request);
 
     if ($result['count'] == "0" || $result['count'] == 0) {
-        $body = "<p style=\"color: red;\">Pas de changement d'eau depuis plus de 15 jours !</p>";
+        $body = "<p style=\"color: red;\">" . $message . "</p>";
         sendMail($data, $transport, "Rappel - faire un changement d'eau", $body);
+        setLog($link, $message);
 
         return false;
     }
@@ -604,7 +609,7 @@ function isRunOver20seconds($link)
         $maxDate->modify('-20 seconds');
         $dateState = new DateTime($row["created_at"]);
 
-        if($row["value"] == 'state_8'){
+        if ($row["value"] == 'state_8') {
             //si en rappel
             return true;
         } elseif ($dateState > $maxDate) {
@@ -622,9 +627,52 @@ function isRunOver20seconds($link)
     return true;
 }
 
-function setParam($link, $data, $type){
+/**
+ * @param $link
+ * @param $data
+ * @param $type
+ */
+function setParam($link, $data, $type)
+{
     if (isset($data) && is_numeric($data)) {
-        $sql = 'INSERT INTO `data_parametres_eau` (`type`, `value`) VALUES ("' . $type . '", "' . strval($data) . '")';
+        $sql = '# noinspection SqlNoDataSourceInspectionForFile 
+                INSERT INTO `data_parametres_eau` (`type`, `value`) 
+                VALUES ("' . $type . '", "' . strval($data) . '")';
         $link->query($sql);
     }
+}
+
+/**
+ * @param $data
+ * @param $transport
+ * @param $link
+ * @param $type
+ * @param $message
+ * @param $subject
+ * @return bool
+ */
+function checkParamEau($data, $transport, $link, $type, $message, $subject)
+{
+    $periode = '-6 days';
+    $date = new DateTime();
+    $date->modify($periode);
+    $date = $date->format('Y-m-d H:i:s');
+
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT count(*) as count 
+            FROM `data_parametres_eau` 
+            WHERE `type` LIKE '" . $type . "' 
+            AND `created_at` > '" . $date . "'";
+    $request = mysqli_query($link, $sql);
+    $result = mysqli_fetch_assoc($request);
+
+    if ($result['count'] == "0" || $result['count'] == 0) {
+        $body = "<p style=\"color: red;\">" . $message . "</p>";
+        sendMail($data, $transport, $subject, $body);
+        setLog($link, $message);
+
+        return false;
+    }
+
+    return true;
 }

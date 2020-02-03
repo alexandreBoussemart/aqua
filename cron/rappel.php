@@ -23,6 +23,26 @@ try {
     //si pas de changement d'eau depuis plus de 15 jours on envoie un mail de rappel
     checkChangementEau($data, $transport, $link);
 
+    //si pas de mesure depuis plus d'1 semaine
+    $message = "Pas de mesure du Ca depuis plus de 6 jours !";
+    $subject = "Rappel - faire une mesure du Ca";
+    checkParamEau($data, $transport, $link, 'ca', $message, $subject);
+
+    //si pas de mesure depuis plus d'1 semaine
+    $message = "Pas de mesure du Mg depuis plus de 6 jours !";
+    $subject = "Rappel - faire une mesure du Mg";
+    checkParamEau($data, $transport, $link, 'mg', $message, $subject);
+
+    //si pas de mesure depuis plus d'1 semaine
+    $message = "Pas de mesure du Kh depuis plus de 6 jours !";
+    $subject = "Rappel - faire une mesure du Kh";
+    checkParamEau($data, $transport, $link, 'kh', $message, $subject);
+
+    //si pas de mesure depuis plus d'1 semaine
+    $message = "Pas de mesure de la densité depuis plus de 6 jours !";
+    $subject = "Rappel - faire une mesure de la densité";
+    checkParamEau($data, $transport, $link, 'densite', $message, $subject);
+
 } catch (Exception $e) {
     // on envoie le mail
     try {
