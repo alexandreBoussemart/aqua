@@ -28,7 +28,7 @@ try:
     time.sleep(5)
     start_counter = 0
     flow = int(round((count * 60 * 7.5 / 10)))
-    flow = flow / 5
+    flow = int(flow / 5)
 
     if flow > 1050:
         message = "Reacteur - debit reacteur OK"
