@@ -12,7 +12,7 @@ GPIO.setup(FLOW_SENSOR, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 global count
 count = 0
-start_counter = 0
+path = 'reacteur'
 
 
 def countpulse(channel):
@@ -32,21 +32,25 @@ try:
 
     if flow > 1050:
         message = "Reacteur - debit reacteur OK"
+        functions.setcompletestate(path, 'state_1', 0, message, 0, 0)
 
     if flow == 0:
         message = "Reacteur - ERREUR - debit reacteur = 0"
+        functions.setcompletestate(path, 'state_2', 1, message, 0, 0)
 
     if flow < 1050:
         message = "Reacteur - ERREUR - debit reacteur faible"
+        functions.setcompletestate(path, 'state_3', 1, message, 0, 0)
 
-    print(message)
-    print(flow)
+    #si on est une minute modulo 5 == 0 on save en bdd la valeur
+
+    functions.setcontrole('controle_reacteur')
+    sys.exit()
 
 
 except Exception as e:
     message = "Reacteur - ERREUR SCRIPT"
     body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-    print(message)
     functions.mail(message, body)
 
     raise
