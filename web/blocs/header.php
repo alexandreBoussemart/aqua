@@ -227,3 +227,15 @@ if (isset($_POST['submit_densite'])) {
 
     header('Location: ' . $data['database'][0]['base_url']);
 }
+
+$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'ca' ORDER BY `id` ASC";
+$ca = mysqli_query($link, $sql);
+
+$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'kh' ORDER BY `id` ASC";
+$kh = mysqli_query($link, $sql);
+
+$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'mg' ORDER BY `id` ASC";
+$mg = mysqli_query($link, $sql);
+
+$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'densite' ORDER BY `id` ASC";
+$densite = mysqli_query($link, $sql);

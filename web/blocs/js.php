@@ -40,10 +40,14 @@
             lineColors: ['#2A3F54'],
             data: [
                 <?php while($obj = $temperature->fetch_object()){ ?>
-                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>},
+                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDate($obj->created_at); ?>'},
                 <?php } ?>
             ],
-            resize: true
+            resize: true,
+            hoverCallback: function(index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                return(content);
+            }
         });
     }
 
@@ -64,10 +68,14 @@
             lineColors: ['#2A3F54'],
             data: [
                 <?php while($obj = $reacteur->fetch_object()){ ?>
-                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>},
+                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDate($obj->created_at); ?>'},
                 <?php } ?>
             ],
-            resize: true
+            resize: true,
+            hoverCallback: function(index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                return(content);
+            }
         });
     }
 
@@ -87,10 +95,15 @@
             pointSize: 1,
             lineColors: ['#2A3F54'],
             data: [
-                {datetime: '2020-02-01 22:25:23', value: 8},
-                {datetime: '2020-01-25 22:25:23', value: 7.7}
+                <?php while($obj = $kh->fetch_object()){ ?>
+                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'},
+                <?php } ?>
             ],
-            resize: true
+            resize: true,
+            hoverCallback: function(index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                return(content);
+            }
         });
     }
 
@@ -110,10 +123,15 @@
             pointSize: 1,
             lineColors: ['#2A3F54'],
             data: [
-                {datetime: '2020-02-01 22:25:23', value: 425},
-                {datetime: '2020-01-25 22:25:23', value: 429}
+                <?php while($obj = $ca->fetch_object()){ ?>
+                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'},
+                <?php } ?>
             ],
-            resize: true
+            resize: true,
+            hoverCallback: function(index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                return(content);
+            }
         });
     }
 
@@ -133,10 +151,15 @@
             pointSize: 1,
             lineColors: ['#2A3F54'],
             data: [
-                {datetime: '2020-02-01 22:25:23', value: 1455},
-                {datetime: '2020-01-25 22:25:23', value: 1400}
+                <?php while($obj = $mg->fetch_object()){ ?>
+                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'},
+                <?php } ?>
             ],
-            resize: true
+            resize: true,
+            hoverCallback: function(index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                return(content);
+            }
         });
     }
 
@@ -156,10 +179,15 @@
             pointSize: 1,
             lineColors: ['#2A3F54'],
             data: [
-                {datetime: '2020-02-01 22:25:23', value: 1023},
-                {datetime: '2020-01-25 22:25:23', value: 1024}
+                <?php while($obj = $densite->fetch_object()){ ?>
+                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'},
+                <?php } ?>
             ],
-            resize: true
+            resize: true,
+            hoverCallback: function(index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                return(content);
+            }
         });
     }
 

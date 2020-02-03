@@ -246,6 +246,19 @@ function getFormattedDate($date)
 }
 
 /**
+ * @param $date
+ *
+ * @return string
+ * @throws Exception
+ */
+function getFormattedDateWithouH($date)
+{
+    $format = new DateTime($date);
+
+    return $format->format('d/m/Y');
+}
+
+/**
  * @param $link
  * @param $data
  * @param $code
@@ -611,7 +624,7 @@ function isRunOver20seconds($link)
 
 function setParam($link, $data, $type){
     if (isset($data) && is_numeric($data)) {
-        $sql = 'INSERT INTO `data_params` (`type`, `value`) VALUES ("' . $type . '", "' . strval($data) . '")';
+        $sql = 'INSERT INTO `data_parametres_eau` (`type`, `value`) VALUES ("' . $type . '", "' . strval($data) . '")';
         $link->query($sql);
     }
 }
