@@ -25,10 +25,10 @@ GPIO.add_event_detect(FLOW_SENSOR, GPIO.FALLING, callback=countpulse)
 
 try:
     start_counter = 1
-    time.sleep(5)
+    time.sleep(10)
     start_counter = 0
     flow = int(round((count * 60 * 7.5 / 10)))
-    flow = int(flow / 5)
+    flow = int(flow / 10)
 
     if flow > 1050:
         message = "Reacteur - debit reacteur OK"
@@ -47,6 +47,6 @@ except Exception as e:
     message = "Reacteur - ERREUR SCRIPT"
     body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
     print(message)
-    #functions.mail(message, body)
+    functions.mail(message, body)
 
     raise
