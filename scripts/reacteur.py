@@ -25,9 +25,10 @@ GPIO.add_event_detect(FLOW_SENSOR, GPIO.FALLING, callback=countpulse)
 
 try:
     start_counter = 1
-    time.sleep(1)
+    time.sleep(5)
     start_counter = 0
     flow = int(round((count * 60 * 7.5 / 10)))
+    flow = flow / 5
 
     if flow > 1050:
         message = "Reacteur - debit reacteur OK"
