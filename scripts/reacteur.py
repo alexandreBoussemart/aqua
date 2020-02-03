@@ -25,10 +25,10 @@ GPIO.add_event_detect(FLOW_SENSOR, GPIO.FALLING, callback=countpulse)
 
 try:
     start_counter = 1
-    time.sleep(10)
+    time.sleep(20)
     start_counter = 0
     flow = int(round((count * 60 * 7.5 / 10)))
-    flow = int(flow / 10)
+    flow = int(flow / 20)
 
     if flow > 1050:
         message = "Reacteur - debit reacteur OK"
@@ -43,6 +43,8 @@ try:
         functions.setcompletestate(path, 'state_3', 1, message, 0, 0)
 
     #si on est une minute modulo 5 == 0 on save en bdd la valeur
+
+    print(flow)
 
     functions.setcontrole('controle_reacteur')
     sys.exit()
