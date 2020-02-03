@@ -547,7 +547,7 @@ function envoyerMail8h($link, $data, $transport)
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `value` 
                 FROM `data_reacteur` 
-                ORDER BY `reacteur`.`id`  DESC 
+                ORDER BY `id`  DESC 
                 LIMIT 1";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
@@ -556,7 +556,7 @@ function envoyerMail8h($link, $data, $transport)
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `value` 
                 FROM `data_temperature` 
-                ORDER BY `temperature`.`id`  DESC 
+                ORDER BY `id`  DESC 
                 LIMIT 1";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
