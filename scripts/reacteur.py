@@ -25,7 +25,7 @@ GPIO.add_event_detect(FLOW_SENSOR, GPIO.FALLING, callback=countpulse)
 
 try:
     start_counter = 1
-    time.sleep(5)
+    time.sleep(1)
     start_counter = 0
     flow = int(round((count * 60 * 7.5 / 10)))
 
