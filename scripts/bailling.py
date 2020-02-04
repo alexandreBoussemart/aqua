@@ -127,7 +127,6 @@ except Exception as e:
     message = "Bailling - ERREUR SCRIPT"
     body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
     functions.mail(message, body)
-    functions.setlog(message + ' - ' + str(e))
     functions.setcompletestate(path, 'state_9', 1, message + ' - ' + str(e), 0, 0)
 
     raise

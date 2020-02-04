@@ -9,6 +9,8 @@ require 'helper/functions.php';
 try {
     //check si la cron est activé
     if (!getStatus($link, 'bailling')) {
+        setControle($link, 'controle_bailling');
+
         return false;
     }
 

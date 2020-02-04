@@ -99,8 +99,7 @@ try:
 except Exception as e:
     message = "Osmolateur - ERREUR SCRIPT"
     body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-    print(message)
-    functions.setcompletestate(path, 'state_6', 1, message, 1, 0)
+    functions.setcompletestate(path, 'state_6', 1, message + ' - ' + str(e), 1, 0)
     functions.mail(message, body)
     functions.offled(relais)
 

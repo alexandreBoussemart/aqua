@@ -20,14 +20,26 @@ try {
 
     foreach ($array_verif as $verif) {
         //on prend que les lignes avec mail datant de -1 minutes
-        $sql = "SELECT * FROM `last_activity` where `value` = '" . $verif . "' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' limit 1";
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT * 
+                FROM `last_activity` 
+                WHERE `value` = '" . $verif . "' 
+                AND `created_at` >= '" . $yesterday . "' 
+                AND `created_at` <= '" . $today . "' 
+                LIMIT 1";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
 
         if ($row == null) {
             //on fait une deuxième verif au bout de 10 secondes
             sleep(10);
-            $sql = "SELECT * FROM `last_activity` where `value` = '" . $verif . "' and `created_at` >= '" . $yesterday . "' and `created_at` <= '" . $today . "' limit 1";
+            $sql = "# noinspection SqlNoDataSourceInspectionForFile
+                    SELECT * 
+                    FROM `last_activity` 
+                    WHERE `value` = '" . $verif . "' 
+                    AND `created_at` >= '" . $yesterday . "' 
+                    AND `created_at` <= '" . $today . "' 
+                    LIMIT 1";
             $controle = mysqli_query($link, $sql);
             $row = mysqli_fetch_assoc($controle);
 
@@ -46,7 +58,8 @@ try {
 
 } catch (Exception $e) {
     setLog($link, $e->getMessage());
-    setState($link, 'controle', 'state_2', 1, "Cron controle - ERREUR - " . $e->getMessage(), 0, 0);
+    $message = "Cron controle - ERREUR - " . $e->getMessage();
+    setState($link, 'controle', 'state_2', 1, $message, 0, 0);
 }
 
 

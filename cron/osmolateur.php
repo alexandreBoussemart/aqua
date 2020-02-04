@@ -9,6 +9,8 @@ require 'helper/functions.php';
 try {
     //check si la cron est activé
     if (!getStatus($link, 'osmolateur')) {
+        setControle($link, 'controle_osmolateur');
+
         return false;
     }
 
