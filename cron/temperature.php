@@ -66,15 +66,15 @@ try {
 
         if ($temperature2 < 23) {
             //trop froid
-            $message = "Temperature - ERREUR - Trop froid " . $temperature2 . "°C";
+            $message = "Temperature - ERREUR Trop froid - " . $temperature2 . "°C";
             setState($link, 'temperature', 'state_5', 1, $message);
         } elseif ($temperature2 > 28) {
             //trop chaud
-            $message = "Temperature - ERREUR - Trop chaud " . $temperature2 . "°C";
+            $message = "Temperature - ERREUR Trop chaud - " . $temperature2 . "°C";
             setState($link, 'temperature', 'state_6', 1, $message);
         } else {
             //ok
-            $message = "Temperature - OK -  " . $temperature2 . "°C";
+            $message = "Temperature - OK - " . $temperature2 . "°C";
             setState($link, 'temperature', 'state_7', 0, $message);
         }
 
