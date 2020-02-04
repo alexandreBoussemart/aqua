@@ -58,8 +58,10 @@ try {
     // si les deux temperatures on moins de 10% d'écart
     if ($temp_min < $temperature2 && $temperature2 < $temp_max) {
 
-        // on insère la temperature en bdd
-        insertTemperature($link, $temperature2);
+        // on insère la temperature en bdd 1 fois toutes les 15 minutes
+        if ($minute % 15 == 0) {
+            insertTemperature($link, $temperature2);
+        }
 
         if ($temperature2 < 23) {
             //trop froid
