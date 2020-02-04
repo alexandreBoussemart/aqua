@@ -9,6 +9,7 @@ require 'helper/functions.php';
 try {
     //check si la cron est activé
     if (!getStatus($link, 'ecumeur')) {
+        setState($link, 'ecumeur', 'state_99', 0, "Désactivé");
         return false;
     }
 
