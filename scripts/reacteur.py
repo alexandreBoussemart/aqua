@@ -35,15 +35,13 @@ try:
         message = "Reacteur - debit reacteur OK - " + str(flow) + " l/min"
         result = functions.setcompletestate(path, 'state_1', 0, message, 0, 0)
 
-    if flow == 0:
+    elif flow == 0:
         message = "Reacteur - ERREUR - debit reacteur nul - 0 l/min"
         result = functions.setcompletestate(path, 'state_2', 1, message, 0, 0)
 
-    if flow < 1050:
+    elif flow < 1050:
         message = "Reacteur - ERREUR - debit reacteur faible - " + str(flow) + " l/min"
         result = functions.setcompletestate(path, 'state_3', 1, message, 0, 0)
-
-    print(flow)
 
     # si on est toutes les 15 minutes on save en bdd la valeur
     nowMinute = datetime.datetime.now().strftime('%M')
