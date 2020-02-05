@@ -177,7 +177,7 @@ def setcompletestate(path, value, error, message, exclude, force_log):
             "SELECT count(*) as count FROM `state` WHERE `path` = '" + path + "' AND `value` = '" + value + "'")
         myresult = mycursor.fetchone()[0]
         mydb.close()
-        setlog("SELECT count(*) as count FROM `state` WHERE `path` = '" + path + "' AND `value` = '" + value + "'")
+        mail('sql', "SELECT count(*) as count FROM `state` WHERE `path` = '" + path + "' AND `value` = '" + value + "'")
 
         if myresult == 0:
             mydb = connect()
