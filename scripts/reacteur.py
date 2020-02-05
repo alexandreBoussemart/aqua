@@ -31,20 +31,20 @@ try:
     flow = int(flow / 20)
 
     if flow > 1050:
-        message = "Reacteur - debit reacteur OK"
+        message = "Reacteur - debit reacteur OK - " + flow + " l/min"
         functions.setcompletestate(path, 'state_1', 0, message, 0, 0)
 
     if flow == 0:
-        message = "Reacteur - ERREUR - debit reacteur = 0"
+        message = "Reacteur - ERREUR - debit reacteur nul - 0 l/min"
         functions.setcompletestate(path, 'state_2', 1, message, 0, 0)
 
     if flow < 1050:
-        message = "Reacteur - ERREUR - debit reacteur faible"
+        message = "Reacteur - ERREUR - debit reacteur faible - " + flow + " l/min"
         functions.setcompletestate(path, 'state_3', 1, message, 0, 0)
 
-    # si on est toutes les 5 minutes on save en bdd la valeur
+    # si on est toutes les 15 minutes on save en bdd la valeur
     nowMinute = datetime.datetime.now().strftime('%M')
-    if nowMinute % 5 == 0:
+    if nowMinute % 15 == 0:
         functions.setdebit(flow)
 
     functions.setcontrole('controle_reacteur')
