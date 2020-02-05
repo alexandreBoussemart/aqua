@@ -43,18 +43,6 @@ while ($obj = $count->fetch_object()) {
     $count_osmolateur = $obj->somme;
 }
 
-$sql = "SELECT * FROM `state` WHERE `path` = 'ecumeur' LIMIT 1";
-$ecumeur = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($ecumeur);
-$state_ecumeur = $row['value'];
-$date_ecumeur = getFormattedDate($row['created_at']);
-
-$sql = "SELECT * FROM `state` WHERE `path` = 'bailling'";
-$bailling = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($bailling);
-$state_bailling = $row['value'];
-$date_bailling = getFormattedDate($row['created_at']);
-
 // form statut
 if (isset($_POST['submit'])) {
     setStatus($link, $_POST['osmolateur'], 'osmolateur');
@@ -78,24 +66,6 @@ if (isset($_POST['submit_actions_clear'])) {
     header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
 }
 
-// dernier débit
-$sql = "SELECT `value`,`created_at` FROM `data_reacteur` ORDER BY `data_reacteur`.`id`  DESC LIMIT 1";
-$request = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($request);
-$last_debit = $row['value'];
-$date_debit = getFormattedDate($row['created_at']);
-
-if (!isset($last_debit)) {
-    $last_debit = 0;
-}
-
-// dernière temperature
-$sql = "SELECT `value`,`created_at` FROM `data_temperature` ORDER BY `data_temperature`.`id` DESC LIMIT 1";
-$request = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($request);
-$last_temp = round($row['value'], 2);
-$date_temp = getFormattedDate($row['created_at']);
-
 //liste des status
 $sql = "SELECT * FROM `status`";
 $listes_status = mysqli_query($link, $sql);
@@ -103,16 +73,6 @@ $listes_status = mysqli_query($link, $sql);
 //liste des controles
 $sql = "SELECT * FROM `last_activity`";
 $listes_controles = mysqli_query($link, $sql);
-
-//dernier osmo
-$sql = "SELECT * FROM `data_osmolateur` ORDER BY `data_osmolateur`.`id` DESC LIMIT 1";
-$request = mysqli_query($link, $sql);
-$last_omo = mysqli_fetch_assoc($request);
-
-if (!isset($last_omo)) {
-    $last_omo['state'] = 'error';
-    $last_omo['created_at'] = Date('Y-m-d H:i:s');
-}
 
 // logs
 $sql = "SELECT * FROM `log` ORDER BY `id` DESC LIMIT 30;";
@@ -143,46 +103,6 @@ if (isset($_POST['submit_delete_eau'])) {
 
     header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
 }
-
-$sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_bailling' LIMIT 1";
-$result = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($result);
-$state_controle_bailling = $row['error'];
-$sql = "SELECT `created_at` FROM `last_activity` WHERE `value` = 'controle_bailling' LIMIT 1";
-$result = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($result);
-$state_controle_bailling_date = getFormattedDate($row['created_at']);
-
-$sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_osmolateur' LIMIT 1";
-$result = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($result);
-$state_controle_osmolateur = $row['error'];
-$sql = "SELECT `created_at` FROM `last_activity` WHERE `value` = 'controle_osmolateur' LIMIT 1";
-$result = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($result);
-$state_controle_osmolateur_date = getFormattedDate($row['created_at']);
-
-$sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_reacteur' LIMIT 1";
-$result = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($result);
-$state_controle_reacteur = $row['error'];
-$sql = "SELECT `created_at` FROM `last_activity` WHERE `value` = 'controle_reacteur' LIMIT 1";
-$result = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($result);
-$state_controle_reacteur_date = getFormattedDate($row['created_at']);
-
-$sql = "SELECT `error` FROM `state` WHERE `path` = 'controle_ecumeur' LIMIT 1";
-$result = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($result);
-$state_controle_ecumeur = $row['error'];
-$sql = "SELECT `created_at` FROM `last_activity` WHERE `value` = 'controle_ecumeur' LIMIT 1";
-$result = mysqli_query($link, $sql);
-$row = mysqli_fetch_assoc($result);
-$state_controle_ecumeur_date = getFormattedDate($row['created_at']);
-
-$errorBailling1 = ['state_1', 'state_2', 'state_3', 'state_5', 'state_9', 'state_10'];
-$errorBailling2 = ['state_2', 'state_4', 'state_5', 'state_6', 'state_9', 'state_10'];
-$errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state_10'];
 
 $sql = "SELECT * FROM `core_config`";
 $core_config = mysqli_query($link, $sql);
@@ -228,14 +148,14 @@ if (isset($_POST['submit_densite'])) {
     header('Location: ' . $data['database'][0]['base_url']);
 }
 
-$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'ca' ORDER BY `id` ASC";
+$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'ca' ORDER BY `id` ASC LIMIT 15";
 $ca = mysqli_query($link, $sql);
 
-$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'kh' ORDER BY `id` ASC";
+$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'kh' ORDER BY `id` ASC LIMIT 15";
 $kh = mysqli_query($link, $sql);
 
-$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'mg' ORDER BY `id` ASC";
+$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'mg' ORDER BY `id` ASC LIMIT 15";
 $mg = mysqli_query($link, $sql);
 
-$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'densite' ORDER BY `id` ASC";
+$sql = "SELECT * FROM `data_parametres_eau` WHERE `type` LIKE 'densite' ORDER BY `id` ASC LIMIT 15";
 $densite = mysqli_query($link, $sql);

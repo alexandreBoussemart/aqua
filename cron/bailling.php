@@ -10,6 +10,7 @@ try {
     //check si la cron est activé
     if (!getStatus($link, 'bailling')) {
         setControle($link, 'controle_bailling');
+        setState($link, 'bailling', 'state_99', 0, "Désactivé");
 
         return false;
     }

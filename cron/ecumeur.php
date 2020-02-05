@@ -10,6 +10,7 @@ try {
     //check si la cron est activé
     if (!getStatus($link, 'ecumeur')) {
         setControle($link, 'controle_ecumeur');
+        setState($link, 'ecumeur', 'state_99', 0, "Désactivé");
 
         return false;
     }
