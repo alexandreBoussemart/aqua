@@ -59,23 +59,23 @@ try {
     // si les deux temperatures on moins de 10% d'écart
     if ($temp_min < $temperature2 && $temperature2 < $temp_max) {
 
-        // on insère la temperature en bdd 1 fois toutes les 15 minutes
-        if ($minute % 15 == 0) {
-            insertTemperature($link, $temperature2);
-        }
-
         if ($temperature2 < 23) {
             //trop froid
             $message = "Temperature - ERREUR Trop froid - " . $temperature2 . "°C";
-            setState($link, 'temperature', 'state_5', 1, $message);
+            $result = setState($link, 'temperature', 'state_5', 1, $message);
         } elseif ($temperature2 > 28) {
             //trop chaud
             $message = "Temperature - ERREUR Trop chaud - " . $temperature2 . "°C";
-            setState($link, 'temperature', 'state_6', 1, $message);
+            $result = setState($link, 'temperature', 'state_6', 1, $message);
         } else {
             //ok
             $message = "Temperature - OK - " . $temperature2 . "°C";
-            setState($link, 'temperature', 'state_7', 0, $message);
+            $result = setState($link, 'temperature', 'state_7', 0, $message);
+        }
+
+        // on insère la temperature en bdd 1 fois toutes les 15 minutes
+        if ($minute % 15 == 0 || $result) {
+            insertTemperature($link, $temperature2);
         }
 
         // on check si on doit allumer le ventilateur de l'aquarium

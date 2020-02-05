@@ -156,13 +156,14 @@ function setControle($link, $value)
 }
 
 /**
- * @param      $link
- * @param      $path
- * @param      $value
- * @param      $error
- * @param      $message
+ * @param $link
+ * @param $path
+ * @param $value
+ * @param $error
+ * @param $message
  * @param int $exclude
  * @param bool $force_log
+ * @return bool
  */
 function setState($link, $path, $value, $error, $message, $exclude = 0, $force_log = false)
 {
@@ -184,11 +185,16 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
 
             // met ligne dans table log
             setLog($link, $message);
+
+            return true;
         }
 
         if ($force_log) {
             setLog($link, $message);
         }
+
+        return false;
+
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }

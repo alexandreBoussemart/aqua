@@ -189,11 +189,14 @@ def setcompletestate(path, value, error, message, exclude, force_log):
             mycursor.execute(sql)
             mydb.commit()
             mydb.close()
-
             setlog(message)
+
+            return True
 
         if force_log == 1:
             setlog(message)
+
+        return False
 
     except Exception as e:
         message = "SQL - ERREUR - setcompletestate"
