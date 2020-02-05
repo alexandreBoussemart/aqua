@@ -25,22 +25,27 @@ GPIO.add_event_detect(FLOW_SENSOR, GPIO.FALLING, callback=countpulse)
 
 try:
     start_counter = 1
-    time.sleep(6)
+    time.sleep(10)
     start_counter = 0
     flow = int(round((count * 60 * 7.5 / 10)))
-    flow = int(flow / 6)
+    flow = int(flow / 10)
 
     count = 0
     start_counter = 1
-    time.sleep(6)
+    time.sleep(10)
     start_counter = 0
     flow2 = int(round((count * 60 * 7.5 / 10)))
-    flow2 = int(flow / 6)
+    flow2 = int(flow / 10)
 
     flow_min = flow * 0.90
     flow_max = flow * 1.10
 
     result = False
+
+    print(flow)
+    print(flow2)
+    print(flow_min)
+    print(flow_max)
 
     if flow_min < flow2 < flow_max:
 
