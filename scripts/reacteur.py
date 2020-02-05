@@ -42,11 +42,6 @@ try:
 
     result = False
 
-    print(flow)
-    print(flow2)
-    print(flow_min)
-    print(flow_max)
-
     if flow_min < flow2 < flow_max:
 
         if flow > 1050:
