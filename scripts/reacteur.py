@@ -62,7 +62,9 @@ try:
         # si on est toutes les 15 minutes on save en bdd la valeur
         nowMinute = datetime.datetime.now().strftime('%M')
         minute = int(nowMinute)
-        if minute % 15 == 0 or result is True:
+        nowSeconde = datetime.datetime.now().strftime('%S')
+        seconde = int(nowSeconde)
+        if (minute % 15 == 0 and seconde < 10) or result is True:
             functions.setdebit(flow2)
 
     functions.setcontrole('controle_reacteur')
