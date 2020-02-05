@@ -35,7 +35,7 @@ try:
         message = "Reacteur - debit reacteur OK - " + str(flow) + " l/min"
         result = functions.setcompletestate(path, 'state_1', 0, message, 0, 0)
 
-    elif flow == 0:
+    if flow == 0:
         message = "Reacteur - ERREUR - debit reacteur nul - 0 l/min"
         result = functions.setcompletestate(path, 'state_2', 1, message, 0, 0)
 
