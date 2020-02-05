@@ -34,9 +34,9 @@ try:
     sys.exit()
 
 except Exception as e:
-    message = "Ecumeur - ERREUR SCRIPT - "
-    body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-    functions.setcompletestate(path, 'state_3', 1, message + ' - ' + str(e), 0, 0)
+    message = "Ecumeur - ERREUR SCRIPT"
+    body = "<p style='color:red;text-transform:uppercase;'>" + message + " - " + str(e) + "</p>"
+    functions.setcompletestate(path, 'state_3', 1, message + " - " + str(e), 0, 0)
     functions.mail(message, body)
 
     raise

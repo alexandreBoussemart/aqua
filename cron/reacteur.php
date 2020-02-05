@@ -15,8 +15,19 @@ try {
         return false;
     }
 
-    // on execute la commande
-    exec("python " . __DIR__ . "/../scripts/reacteur.py");
+    // controle toutes les 1/2 secondes
+    for ($i = 0; $i <= 120; $i++) {
+        //si on passe la minute en cours on arrête
+        $date = new DateTime();
+        $now = $date->format('Y-m-d H:i:s');
+        if ($now > $end) {
+            break;
+        }
+
+        // on execute la commande
+        exec("python " . __DIR__ . "/../scripts/reacteur.py");
+        usleep(500000);
+    }
 
 } catch (Exception $e) {
     setState($link, 'reacteur', 'state_5', 1, "Cron reacteur - ERREUR - " . $e->getMessage());

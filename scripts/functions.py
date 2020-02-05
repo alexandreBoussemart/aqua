@@ -34,7 +34,6 @@ def getstatus(value):
     except Exception as e:
         message = "SQL - ERREUR - getstatus"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        print(message)
         mail(message, body)
 
         raise
@@ -55,7 +54,6 @@ def setcontrole(value):
     except Exception as e:
         message = "SQL - ERREUR - setcontrole" + value
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        print(message)
         mail(message, body)
 
         raise
@@ -84,7 +82,6 @@ def setosmolateur(state):
     except Exception as e:
         message = "SQL - ERREUR - setosmolateur"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        print(message)
         mail(message, body)
 
         raise
@@ -105,7 +102,6 @@ def setdebit(value):
     except Exception as e:
         message = "SQL - ERREUR - setdebit"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        print(message)
         mail(message, body)
         raise
 
@@ -181,6 +177,7 @@ def setcompletestate(path, value, error, message, exclude, force_log):
             "SELECT count(*) as count FROM `state` WHERE `path` = '" + path + "' AND `value` = '" + value + "'")
         myresult = mycursor.fetchone()[0]
         mydb.close()
+        setlog("SELECT count(*) as count FROM `state` WHERE `path` = '" + path + "' AND `value` = '" + value + "'")
 
         if myresult == 0:
             mydb = connect()
@@ -200,8 +197,7 @@ def setcompletestate(path, value, error, message, exclude, force_log):
 
     except Exception as e:
         message = "SQL - ERREUR - setcompletestate"
-        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        print(message)
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + " - " + str(e) + "</p>"
         mail(message, body)
 
         raise
@@ -222,7 +218,6 @@ def setlog(message):
     except Exception as e:
         message = "SQL - ERREUR - setlog"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        print(message)
         mail(message, body)
 
         raise
@@ -245,7 +240,6 @@ def notinstatehuit():
     except Exception as e:
         message = "SQL - ERREUR - notinstatehuit"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        print(message)
         mail(message, body)
 
         raise
