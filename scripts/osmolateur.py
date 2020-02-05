@@ -97,7 +97,7 @@ try:
     sys.exit()
 
 except Exception as e:
-    message = "Osmolateur - ERREUR SCRIPT"
+    message = "Osmolateur - ERREUR SCRIPT - "
     body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
     functions.setcompletestate(path, 'state_6', 1, message + ' - ' + str(e), 1, 0)
     functions.mail(message, body)

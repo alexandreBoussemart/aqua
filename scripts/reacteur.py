@@ -43,6 +43,8 @@ try:
         message = "Reacteur - ERREUR - debit reacteur faible - " + str(flow) + " l/min"
         result = functions.setcompletestate(path, 'state_3', 1, message, 0, 0)
 
+    print(flow)
+
     # si on est toutes les 15 minutes on save en bdd la valeur
     nowMinute = datetime.datetime.now().strftime('%M')
     if nowMinute % 15 == 0 or result is True:
@@ -52,7 +54,7 @@ try:
     sys.exit()
 
 except Exception as e:
-    message = "Reacteur - ERREUR SCRIPT"
+    message = "Reacteur - ERREUR SCRIPT - "
     body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
     functions.setcompletestate(path, 'state_4', 1, message + ' - ' + str(e), 1, 0)
     functions.mail(message, body)
