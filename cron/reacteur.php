@@ -15,6 +15,10 @@ try {
         return false;
     }
 
+    //heure d'execution max
+    $date = new DateTime();
+    $end = $date->format('Y-m-d H:i:59');
+
     // controle toutes les 1/2 secondes
     for ($i = 0; $i <= 120; $i++) {
         //si on passe la minute en cours on arrête
