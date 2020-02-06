@@ -4069,3 +4069,7 @@ ul.notifications {
   margin: 0; }
   .action_grid button i {
     margin-right: 10px; }
+
+.col-md-1-5,
+.col-sm-1-5 {
+  width: 20%; }

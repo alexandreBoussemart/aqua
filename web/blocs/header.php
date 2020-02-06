@@ -2,9 +2,8 @@
 
 require '../cron/helper/functions.php';
 
-$count_osmolateur = $last_debit = $last_temp = 0;
+$count_osmolateur = 0;
 $date = new DateTime();
-$date_debit = $date_temp = $date->format('Y-m-d H:i:s');
 
 $period = 1;
 if (isset($_GET['period'])) {
