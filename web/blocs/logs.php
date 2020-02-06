@@ -1,3 +1,23 @@
+<?php
+// logs
+$sql = "# noinspection SqlNoDataSourceInspectionForFile  
+        SELECT * 
+        FROM `log` 
+        ORDER BY `id` DESC 
+        LIMIT 30;";
+$request = mysqli_query($link, $sql);
+$logs = mysqli_query($link, $sql);
+
+// changement eau
+$sql = "# noinspection SqlNoDataSourceInspectionForFile  
+        SELECT * 
+        FROM `data_changement_eau` 
+        ORDER BY `id` DESC 
+        LIMIT 30;";
+$request = mysqli_query($link, $sql);
+$changements = mysqli_query($link, $sql);
+?>
+
 <div class="row first-bloc">
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="x_panel">
@@ -8,20 +28,20 @@
             <div class="x_content2">
                 <table id="datatable" class="table table-striped table-bordered">
                     <thead>
-                        <tr>
-                            <th style="width: 25px;">Id</th>
-                            <th style="width: 25%;">Date</th>
-                            <th>Log</th>
-                        </tr>
+                    <tr>
+                        <th style="width: 25px;">Id</th>
+                        <th style="width: 25%;">Date</th>
+                        <th>Log</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($logs as $log): ?>
-                            <tr>
-                                <td><?= $log["id"] ?></td>
-                                <td><?= getFormattedDate($log["created_at"]) ?></td>
-                                <td><?= $log["message"] ?></td>
-                            </tr>
-                        <?php endforeach; ?>
+                    <?php foreach ($logs as $log): ?>
+                        <tr>
+                            <td><?= $log["id"] ?></td>
+                            <td><?= getFormattedDate($log["created_at"]) ?></td>
+                            <td><?= $log["message"] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -50,10 +70,12 @@
                             <td><?= getFormattedDate($changement["created_at"]) ?></td>
                             <td><?= $changement["value"] ?> Litres</td>
                             <td class="action_grid">
-                                <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
+                                <form method="post" action="index.php"
+                                      class="form-horizontal form-label-left switch-state">
                                     <input type="hidden" name="submit_delete_eau" value="1"/>
                                     <input type="hidden" name="id" value="<?= $changement["id"] ?>"/>
-                                    <button class="btn btn-default" type="submit"><i class="fa fa-close"></i>Delete</button>
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-close"></i>Delete
+                                    </button>
                                 </form>
                             </td>
                         </tr>
@@ -65,10 +87,11 @@
                     <input type="hidden" name="submit_eau" value="1"/>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Volume <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Volume<span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-9">
-                            <input name="value" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                            <input name="value" class="date-picker form-control col-md-7 col-xs-12" required="required"
+                                   type="text">
                         </div>
                     </div>
                     <div class="form-group">

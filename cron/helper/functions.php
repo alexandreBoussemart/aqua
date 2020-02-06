@@ -655,7 +655,9 @@ function setParam($link, $data, $type)
  * @param $type
  * @param $message
  * @param $subject
+ *
  * @return bool
+ * @throws Exception
  */
 function checkParamEau($data, $transport, $link, $type, $message, $subject)
 {

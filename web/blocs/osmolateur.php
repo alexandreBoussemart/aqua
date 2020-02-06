@@ -1,3 +1,24 @@
+<?php
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT * 
+        FROM `data_osmolateur` 
+        WHERE `created_at` >= '" . $yesterday . "' 
+        AND `created_at` <= '" . $today . "' 
+        ORDER BY created_at DESC";
+$osmo = mysqli_query($link, $sql);
+
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT count(*) as somme 
+        FROM `data_osmolateur` 
+        WHERE `state` = 'pump_on' 
+        AND `created_at` >= '" . $yesterday . "' 
+        AND `created_at` <= '" . $today . "'";
+$count = mysqli_query($link, $sql);
+while ($obj = $count->fetch_object()) {
+    $count_osmolateur = $obj->somme;
+}
+?>
+
 <div class="col-md-6 col-sm-6 col-xs-12">
     <div class="x_panel">
         <div class="x_title osmo">

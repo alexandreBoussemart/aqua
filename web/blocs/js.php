@@ -22,6 +22,55 @@
 <script src="./vendors/pdfmake/build/pdfmake.min.js"></script>
 <script src="./vendors/pdfmake/build/vfs_fonts.js"></script>
 
+<?php
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT * 
+        FROM `data_parametres_eau` 
+        WHERE `type` LIKE 'ca' 
+        ORDER BY `id` ASC 
+        LIMIT 15";
+$ca = mysqli_query($link, $sql);
+
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT * 
+        FROM `data_parametres_eau` 
+        WHERE `type` LIKE 'kh' 
+        ORDER BY `id` ASC 
+        LIMIT 15";
+$kh = mysqli_query($link, $sql);
+
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+    SELECT * 
+    FROM `data_parametres_eau` 
+    WHERE `type` LIKE 'mg' 
+    ORDER BY `id` ASC 
+    LIMIT 15";
+$mg = mysqli_query($link, $sql);
+
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT * 
+        FROM `data_parametres_eau` 
+        WHERE `type` LIKE 'densite' 
+        ORDER BY `id` ASC 
+        LIMIT 15";
+$densite = mysqli_query($link, $sql);
+
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT * 
+        FROM `data_temperature` 
+        WHERE `created_at` >= '" . $yesterday . "' 
+        AND `created_at` <= '" . $today . "'";
+$temperature = mysqli_query($link, $sql);
+
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT * 
+        FROM `data_reacteur` 
+        WHERE `created_at` >= '" . $yesterday . "' 
+        AND `created_at` <= '" . $today . "'";
+$reacteur = mysqli_query($link, $sql);
+
+?>
+
 <script>
     if ($('#graph_temperature').length) {
         Morris.Line({
@@ -40,13 +89,17 @@
             lineColors: ['#2A3F54'],
             data: [
                 <?php while($obj = $temperature->fetch_object()){ ?>
-                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDate($obj->created_at); ?>'},
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDate($obj->created_at); ?>'
+                },
                 <?php } ?>
             ],
             resize: true,
-            hoverCallback: function(index, options, content, row) {
+            hoverCallback: function (index, options, content, row) {
                 content = content.replace(row.datetime, row.formatted_datetime);
-                return(content);
+                return (content);
             }
         });
     }
@@ -68,13 +121,17 @@
             lineColors: ['#2A3F54'],
             data: [
                 <?php while($obj = $reacteur->fetch_object()){ ?>
-                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDate($obj->created_at); ?>'},
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDate($obj->created_at); ?>'
+                },
                 <?php } ?>
             ],
             resize: true,
-            hoverCallback: function(index, options, content, row) {
+            hoverCallback: function (index, options, content, row) {
                 content = content.replace(row.datetime, row.formatted_datetime);
-                return(content);
+                return (content);
             }
         });
     }
@@ -96,13 +153,17 @@
             lineColors: ['#2A3F54'],
             data: [
                 <?php while($obj = $kh->fetch_object()){ ?>
-                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'},
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'
+                },
                 <?php } ?>
             ],
             resize: true,
-            hoverCallback: function(index, options, content, row) {
+            hoverCallback: function (index, options, content, row) {
                 content = content.replace(row.datetime, row.formatted_datetime);
-                return(content);
+                return (content);
             }
         });
     }
@@ -124,13 +185,17 @@
             lineColors: ['#2A3F54'],
             data: [
                 <?php while($obj = $ca->fetch_object()){ ?>
-                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'},
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'
+                },
                 <?php } ?>
             ],
             resize: true,
-            hoverCallback: function(index, options, content, row) {
+            hoverCallback: function (index, options, content, row) {
                 content = content.replace(row.datetime, row.formatted_datetime);
-                return(content);
+                return (content);
             }
         });
     }
@@ -152,13 +217,17 @@
             lineColors: ['#2A3F54'],
             data: [
                 <?php while($obj = $mg->fetch_object()){ ?>
-                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'},
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'
+                },
                 <?php } ?>
             ],
             resize: true,
-            hoverCallback: function(index, options, content, row) {
+            hoverCallback: function (index, options, content, row) {
                 content = content.replace(row.datetime, row.formatted_datetime);
-                return(content);
+                return (content);
             }
         });
     }
@@ -180,13 +249,17 @@
             lineColors: ['#2A3F54'],
             data: [
                 <?php while($obj = $densite->fetch_object()){ ?>
-                {datetime: '<?= $obj->created_at; ?>', value: <?= $obj->value; ?>, formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'},
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'
+                },
                 <?php } ?>
             ],
             resize: true,
-            hoverCallback: function(index, options, content, row) {
+            hoverCallback: function (index, options, content, row) {
                 content = content.replace(row.datetime, row.formatted_datetime);
-                return(content);
+                return (content);
             }
         });
     }
@@ -195,7 +268,7 @@
         $(window).resize();
     });
 
-    $('#datatable').dataTable({'order': [[ 0, 'desc' ]]});
-    $('#datatable-eau').dataTable({'order': [[ 0, 'desc' ]]});
+    $('#datatable').dataTable({'order': [[0, 'desc']]});
+    $('#datatable-eau').dataTable({'order': [[0, 'desc']]});
 
 </script>
