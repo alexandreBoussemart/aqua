@@ -4073,3 +4073,6 @@ ul.notifications {
 .col-md-1-5,
 .col-sm-1-5 {
   width: 20%; }
+
+.col-xs-12 {
+  width: 100%; }
