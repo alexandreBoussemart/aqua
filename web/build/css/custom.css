@@ -4070,9 +4070,7 @@ ul.notifications {
   .action_grid button i {
     margin-right: 10px; }
 
-.col-md-1-5,
-.col-sm-1-5 {
-  width: 20%; }
-
-.col-xs-12 {
-  width: 100%; }
+@media (min-width: 768px) {
+  .col-md-1-5,
+  .col-sm-1-5 {
+    width: 20%; } }
