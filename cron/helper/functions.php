@@ -470,38 +470,42 @@ function getConfig($link, $name)
  */
 function envoyerMail($link, $data, $transport)
 {
-    // on fait le premier mail
-    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+    try {
+        // on fait le premier mail
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
             FROM `state` 
             WHERE `exclude_check` LIKE 0 
             AND `mail_send` LIKE 0";
-    $mails = mysqli_query($link, $sql);
-    $rows = $mails->fetch_all();
-    foreach ($rows as $row) {
-        $id = $row[0];
-        $message = $row[5];
-        $error = $row[4];
+        $mails = mysqli_query($link, $sql);
+        $rows = $mails->fetch_all();
+        foreach ($rows as $row) {
+            $id = $row[0];
+            $message = $row[5];
+            $error = $row[4];
 
-        if ($error == 1 || $error == "1") {
-            $body = "<p style='color: red; text-transform: uppercase'>" . $message . "</p>";
-        } else {
-            $body = "<p style='color: green;'>" . $message . "</p>";
-        }
+            if ($error == 1 || $error == "1") {
+                $body = "<p style='color: red; text-transform: uppercase'>" . $message . "</p>";
+            } else {
+                $body = "<p style='color: green;'>" . $message . "</p>";
+            }
 
-        // on envoie le mail
-        try {
-            sendMail($data, $transport, $message, $body);
-        } catch (Exception $e) {
-            setLog($link, $e->getMessage());
-        }
+            // on envoie le mail
+            try {
+                sendMail($data, $transport, $message, $body);
+            } catch (Exception $e) {
+                setLog($link, $e->getMessage());
+            }
 
-        // on set comme quoi le mail a été envoyé et on renit la date
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            // on set comme quoi le mail a été envoyé et on renit la date
+            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 UPDATE `state` 
                 SET `mail_send`=1,`created_at`=now() 
                 WHERE `id` LIKE " . $id;
-        $link->query($sql);
+            $link->query($sql);
+        }
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
     }
 }
 
@@ -514,40 +518,44 @@ function envoyerMail($link, $data, $transport)
  */
 function envoyerMailRappel($link, $data, $transport)
 {
-//on fait le mail de rappel et renit la date a now
-    $date = new DateTime();
-    $date->modify("-30 minutes");
-    $date = "'" . $date->format('Y-m-d H:i:00') . "'";
+    try {
+        //on fait le mail de rappel et renit la date a now
+        $date = new DateTime();
+        $date->modify("-30 minutes");
+        $date = "'" . $date->format('Y-m-d H:i:00') . "'";
 
-    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
             FROM `state` 
             WHERE `exclude_check` LIKE 0 
             AND `error` LIKE 1 
             AND `created_at` < " . $date;
-    $mails = mysqli_query($link, $sql);
-    $rows = $mails->fetch_all();
+        $mails = mysqli_query($link, $sql);
+        $rows = $mails->fetch_all();
 
-    foreach ($rows as $row) {
-        $id = $row[0];
-        $message = $row[5];
+        foreach ($rows as $row) {
+            $id = $row[0];
+            $message = $row[5];
 
-        $message = str_replace('ERREUR', 'RAPPEL ERREUR', $message);
-        $body = "<p style='color: red; text-transform: uppercase'>" . $message . "</p>";
+            $message = str_replace('ERREUR', 'RAPPEL ERREUR', $message);
+            $body = "<p style='color: red; text-transform: uppercase'>" . $message . "</p>";
 
-        // on envoie le mail
-        try {
-            sendMail($data, $transport, $message, $body);
-        } catch (Exception $e) {
-            setLog($link, $e->getMessage());
-        }
+            // on envoie le mail
+            try {
+                sendMail($data, $transport, $message, $body);
+            } catch (Exception $e) {
+                setLog($link, $e->getMessage());
+            }
 
-        // on renit la date
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            // on renit la date
+            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 UPDATE `state` 
                 SET `created_at`=now() 
                 WHERE `id` LIKE " . $id;
-        $link->query($sql);
+            $link->query($sql);
+        }
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
     }
 }
 
@@ -560,36 +568,40 @@ function envoyerMailRappel($link, $data, $transport)
  */
 function envoyerMail8h($link, $data, $transport)
 {
-    //controle 8h
-    $date = new DateTime();
-    $current = $date->format('Y-m-d H:i:00');
-    $huit = $date->format('Y-m-d 08:00:00');
+    try {
+        //controle 8h
+        $date = new DateTime();
+        $current = $date->format('Y-m-d H:i:00');
+        $huit = $date->format('Y-m-d 08:00:00');
 
-    if ($current == $huit) {
-        $content = "<p style='color:green;text-transform:none;'>Cron - contrôle 8h - OK</p>";
+        if ($current == $huit) {
+            $content = "<p style='color:green;text-transform:none;'>Cron - contrôle 8h - OK</p>";
 
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `value` 
                 FROM `data_reacteur` 
                 ORDER BY `id`  DESC 
                 LIMIT 1";
-        $controle = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($controle);
-        $content .= "<p>Dernier débit enregistré : " . $row['value'] . " l/min</p>";
+            $controle = mysqli_query($link, $sql);
+            $row = mysqli_fetch_assoc($controle);
+            $content .= "<p>Dernier débit enregistré : " . $row['value'] . " l/min</p>";
 
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `value` 
                 FROM `data_temperature` 
                 ORDER BY `id`  DESC 
                 LIMIT 1";
-        $controle = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($controle);
-        $content .= "<p>Dernière température enregistrée : " . round($row['value'], 2) . "°C</p>";
+            $controle = mysqli_query($link, $sql);
+            $row = mysqli_fetch_assoc($controle);
+            $content .= "<p>Dernière température enregistrée : " . round($row['value'], 2) . "°C</p>";
 
-        $message = "Cron - contrôle 8h - OK";
+            $message = "Cron - contrôle 8h - OK";
 
-        // on envoie le mail
-        sendMail($data, $transport, $message, $content);
+            // on envoie le mail
+            sendMail($data, $transport, $message, $content);
+        }
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
     }
 }
 
@@ -601,33 +613,37 @@ function envoyerMail8h($link, $data, $transport)
  */
 function isRunOver20seconds($link)
 {
-    // si c'est le state 3 et qu'il a moins de 20 secondes
-    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+    try {
+        // si c'est le state 3 et qu'il a moins de 20 secondes
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
             FROM `state` 
             WHERE `path` LIKE 'osmolateur' 
             AND (`value` LIKE 'state_3' OR `value` LIKE 'state_8')";
-    $controle = mysqli_query($link, $sql);
-    $row = mysqli_fetch_assoc($controle);
+        $controle = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($controle);
 
-    if ($row) {
-        $maxDate = new DateTime();
-        $maxDate->modify('-20 seconds');
-        $dateState = new DateTime($row["created_at"]);
+        if ($row) {
+            $maxDate = new DateTime();
+            $maxDate->modify('-20 seconds');
+            $dateState = new DateTime($row["created_at"]);
 
-        if ($row["value"] == 'state_8') {
-            //si en rappel
-            return true;
-        } elseif ($dateState > $maxDate) {
-            //si moins de 20 secondes
-            return false;
-        } else {
-            // c'est que c'est plus de 20 secondes, donc on met en erreur
-            $message = "Osmolateur - ERREUR - pompe allumée plus de 20 secondes";
-            setState($link, 'osmolateur', 'state_8', 1, $message);
+            if ($row["value"] == 'state_8') {
+                //si en rappel
+                return true;
+            } elseif ($dateState > $maxDate) {
+                //si moins de 20 secondes
+                return false;
+            } else {
+                // c'est que c'est plus de 20 secondes, donc on met en erreur
+                $message = "Osmolateur - ERREUR - pompe allumée plus de 20 secondes";
+                setState($link, 'osmolateur', 'state_8', 1, $message);
 
-            return true;
+                return true;
+            }
         }
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
     }
 
     return true;
@@ -640,11 +656,15 @@ function isRunOver20seconds($link)
  */
 function setParam($link, $data, $type)
 {
-    if (isset($data) && is_numeric($data)) {
-        $sql = '# noinspection SqlNoDataSourceInspectionForFile 
+    try {
+        if (isset($data) && is_numeric($data)) {
+            $sql = '# noinspection SqlNoDataSourceInspectionForFile 
                 INSERT INTO `data_parametres_eau` (`type`, `value`) 
                 VALUES ("' . $type . '", "' . strval($data) . '")';
-        $link->query($sql);
+            $link->query($sql);
+        }
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
     }
 }
 
@@ -661,26 +681,90 @@ function setParam($link, $data, $type)
  */
 function checkParamEau($data, $transport, $link, $type, $message, $subject)
 {
-    $periode = '-6 days';
-    $date = new DateTime();
-    $date->modify($periode);
-    $date = $date->format('Y-m-d H:i:s');
+    try {
+        $periode = '-6 days';
+        $date = new DateTime();
+        $date->modify($periode);
+        $date = $date->format('Y-m-d H:i:s');
 
-    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT count(*) as count 
             FROM `data_parametres_eau` 
             WHERE `type` LIKE '" . $type . "' 
             AND `created_at` > '" . $date . "'";
-    $request = mysqli_query($link, $sql);
-    $result = mysqli_fetch_assoc($request);
+        $request = mysqli_query($link, $sql);
+        $result = mysqli_fetch_assoc($request);
 
-    if ($result['count'] == "0" || $result['count'] == 0) {
-        $body = "<p style=\"color: red;\">" . $message . "</p>";
-        sendMail($data, $transport, $subject, $body);
-        setLog($link, $message);
+        if ($result['count'] == "0" || $result['count'] == 0) {
+            $body = "<p style=\"color: red;\">" . $message . "</p>";
+            sendMail($data, $transport, $subject, $body);
+            setLog($link, $message);
 
-        return false;
+            return false;
+        }
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
     }
 
     return true;
+}
+
+/**
+ * @param $link
+ * @return string
+ */
+function getLastTemperature($link)
+{
+    try {
+        // dernière temperature
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT `value`,`created_at` 
+            FROM `data_temperature` 
+            ORDER BY `data_temperature`.`id` DESC 
+            LIMIT 1";
+        $request = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($request);
+        $last_temp = round($row['value'], 2);
+
+        if (!isset($last_temp)) {
+            $last_temp = 0;
+        }
+
+        return $last_temp . " °C";
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+
+        return '';
+    }
+}
+
+/**
+ * @param $link
+ * @return string
+ */
+function getLastReacteur($link)
+{
+    try {
+        // dernier débit
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT `value`
+            FROM `data_reacteur` 
+            ORDER BY `data_reacteur`.`id` DESC  
+            LIMIT 1";
+        $request = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($request);
+        $last_debit = $row['value'];
+
+        if (!isset($last_debit)) {
+            $last_debit = 0;
+        }
+
+        return $last_debit . " l/min";
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+
+        return '';
+    }
 }
