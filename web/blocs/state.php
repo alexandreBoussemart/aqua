@@ -69,17 +69,44 @@ $errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state
 <div class="row tile_count">
     <div class="col-md-4 col-sm-4 col-xs-12 tile_stats_count <?php if (in_array($state_bailling, $errorBailling1)) echo 'error'; ?>">
         <span class="count_top"><i class="fa fa-power-off"></i> Bailling 1</span>
-        <div class="count"><?php if (in_array($state_bailling, $errorBailling1)) echo 'ERREUR'; else echo 'OK'; ?></div>
+        <div class="count"><?php if (in_array($state_bailling, $errorBailling1)) echo 'ERREUR'; else echo 'OK'; ?>
+            <?php
+            $message = '';
+            if ($obj->value == 'state_99'):
+                $message = explode('-', $obj->message);
+                $message = end($message);
+            ?>
+            <small><?= trim($message) ?></small>
+            <?php endif; ?>
+        </div>
         <span class="count_bottom">Dernière mise à jour le <?= $date_bailling ?></span>
     </div>
     <div class="col-md-4 col-sm-4 col-xs-12 tile_stats_count <?php if (in_array($state_bailling, $errorBailling2)) echo 'error'; ?>">
         <span class="count_top"><i class="fa fa-power-off"></i> Bailling 2</span>
-        <div class="count"><?php if (in_array($state_bailling, $errorBailling2)) echo 'ERREUR'; else echo 'OK'; ?></div>
+        <div class="count"><?php if (in_array($state_bailling, $errorBailling2)) echo 'ERREUR'; else echo 'OK'; ?>
+            <?php
+            $message = '';
+            if ($obj->value == 'state_99'):
+                $message = explode('-', $obj->message);
+                $message = end($message);
+                ?>
+                <small><?= trim($message) ?></small>
+            <?php endif; ?>
+        </div>
         <span class="count_bottom">Dernière mise à jour le <?= $date_bailling ?></span>
     </div>
     <div class="col-md-4 col-sm-4 col-xs-12 tile_stats_count <?php if (in_array($state_bailling, $errorBailling3)) echo 'error'; ?>">
         <span class="count_top"><i class="fa fa-power-off"></i> Bailling 3</span>
-        <div class="count"><?php if (in_array($state_bailling, $errorBailling3)) echo 'ERREUR'; else echo 'OK'; ?></div>
+        <div class="count"><?php if (in_array($state_bailling, $errorBailling3)) echo 'ERREUR'; else echo 'OK'; ?>
+            <?php
+            $message = '';
+            if ($obj->value == 'state_99'):
+                $message = explode('-', $obj->message);
+                $message = end($message);
+                ?>
+                <small><?= trim($message) ?></small>
+            <?php endif; ?>
+        </div>
         <span class="count_bottom">Dernière mise à jour le <?= $date_bailling ?></span>
     </div>
 </div>
