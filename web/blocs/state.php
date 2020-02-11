@@ -73,7 +73,7 @@ $errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state
             <?php
             $message = '';
             if ($state_bailling == 'state_99'):
-                $message = explode('-', $obj->message);
+                $message = explode('-', $row['message']);
                 $message = end($message);
             ?>
             <small><?= trim($message) ?></small>
@@ -87,7 +87,7 @@ $errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state
             <?php
             $message = '';
             if ($state_bailling == 'state_99'):
-                $message = explode('-', $obj->message);
+                $message = explode('-', $row['message']);
                 $message = end($message);
                 ?>
                 <small><?= trim($message) ?></small>
@@ -101,7 +101,7 @@ $errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state
             <?php
             $message = '';
             if ($state_bailling == 'state_99'):
-                $message = explode('-', $obj->message);
+                $message = explode('-', $row['message']);
                 $message = end($message);
                 ?>
                 <small><?= trim($message) ?></small>
