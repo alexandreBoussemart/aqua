@@ -36,6 +36,9 @@ $states = mysqli_query($link, $sql);
                     $message = getLastTemperature($link);
                 } elseif ($obj->path == 'reacteur') {
                     $message = getLastReacteur($link);
+                } elseif ($obj->value == 'state_99') {
+                    $message = explode('-', $obj->message);
+                    $message = end($message);
                 } else {
                     $message = explode('-', $obj->message);
                     $message = end($message);

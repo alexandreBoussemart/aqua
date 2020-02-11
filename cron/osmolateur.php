@@ -10,7 +10,7 @@ try {
     //check si la cron est activé
     if (!getStatus($link, 'osmolateur')) {
         setControle($link, 'controle_osmolateur');
-        setState($link, 'osmolateur', 'state_99', 0, "Désactivé");
+        setState($link, 'osmolateur', 'state_99', 0, "Osmolateur - Désactivé");
 
         return false;
     }

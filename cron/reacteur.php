@@ -10,7 +10,7 @@ try {
     //check si la cron est activé
     if (!getStatus($link, 'reacteur')) {
         setControle($link, 'controle_reacteur');
-        setState($link, 'reacteur', 'state_99', 0, "Désactivé");
+        setState($link, 'reacteur', 'state_99', 0, "Réacteur - Désactivé");
 
         return false;
     }

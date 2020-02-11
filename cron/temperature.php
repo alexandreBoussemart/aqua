@@ -12,7 +12,7 @@ try {
     //check si la cron est activé
     if (!getStatus($link, 'temperature')) {
         setControle($link, 'controle_temperature');
-        setState($link, 'temperature', 'state_99', 0, "Désactivé");
+        setState($link, 'temperature', 'state_99', 0, "Température - Désactivé");
 
         return false;
     }
