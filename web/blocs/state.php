@@ -72,7 +72,7 @@ $errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state
         <div class="count"><?php if (in_array($state_bailling, $errorBailling1)) echo 'ERREUR'; else echo 'OK'; ?>
             <?php
             $message = '';
-            if ($obj->value == 'state_99'):
+            if ($state_bailling == 'state_99'):
                 $message = explode('-', $obj->message);
                 $message = end($message);
             ?>
@@ -86,7 +86,7 @@ $errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state
         <div class="count"><?php if (in_array($state_bailling, $errorBailling2)) echo 'ERREUR'; else echo 'OK'; ?>
             <?php
             $message = '';
-            if ($obj->value == 'state_99'):
+            if ($state_bailling == 'state_99'):
                 $message = explode('-', $obj->message);
                 $message = end($message);
                 ?>
@@ -100,7 +100,7 @@ $errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state
         <div class="count"><?php if (in_array($state_bailling, $errorBailling3)) echo 'ERREUR'; else echo 'OK'; ?>
             <?php
             $message = '';
-            if ($obj->value == 'state_99'):
+            if ($state_bailling == 'state_99'):
                 $message = explode('-', $obj->message);
                 $message = end($message);
                 ?>
