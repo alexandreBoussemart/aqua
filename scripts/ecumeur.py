@@ -15,20 +15,28 @@ GPIO.setwarnings(False)
 
 try:
     GPIO.setup(port, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    state = '2'
 
     # lecture GPIO led to high
     state_current = str(GPIO.input(port))
 
-    # niveau écumeur eau trop eau
-    if state_current == '0':
-        message = "Ecumeur - ERREUR - niveau godet trop haut"
-        functions.setcompletestate(path, 'state_1', 1, message, 0, 0)
+    sleep(2)
 
-    # niveau eau ok
-    elif state_current == '1':
-        message = "Ecumeur - niveau godet OK"
-        functions.setcompletestate(path, 'state_2', 0, message, 0, 0)
+    GPIO.setup(port, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+    # lecture GPIO led to high
+    state_current2 = str(GPIO.input(port))
+
+    if state_current == state_current2:
+
+        # niveau écumeur eau trop eau
+        if state_current2 == '0':
+            message = "Ecumeur - ERREUR - niveau godet trop haut"
+            functions.setcompletestate(path, 'state_1', 1, message, 0, 0)
+
+        # niveau eau ok
+        elif state_current2 == '1':
+            message = "Ecumeur - niveau godet OK"
+            functions.setcompletestate(path, 'state_2', 0, message, 0, 0)
 
     functions.setcontrole('controle_ecumeur')
     sys.exit()
