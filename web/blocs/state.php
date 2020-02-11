@@ -32,13 +32,13 @@ $states = mysqli_query($link, $sql);
             <div class="count"><?php if ($obj->error == '1') echo 'ERREUR'; else echo 'OK'; ?>
                 <?php
                 $message = '';
-                if ($obj->path == 'temperature') {
+                if ($obj->value == 'state_99') {
+                    $message = explode('-', $obj->message);
+                    $message = end($message);
+                }elseif ($obj->path == 'temperature') {
                     $message = getLastTemperature($link);
                 } elseif ($obj->path == 'reacteur') {
                     $message = getLastReacteur($link);
-                } elseif ($obj->value == 'state_99') {
-                    $message = explode('-', $obj->message);
-                    $message = end($message);
                 } else {
                     $message = explode('-', $obj->message);
                     $message = end($message);
