@@ -23,6 +23,9 @@ try {
     //si pas de changement d'eau depuis plus de 15 jours on envoie un mail de rappel
     checkChangementEau($data, $transport, $link);
 
+    //si pas nettoyé le reacteur depuis plus de 15 jours on envoie un mail de rappel
+    checkCleanReacteur($data, $transport, $link);
+
     //si pas de mesure depuis plus d'1 semaine
     $message = "Pas de mesure du Ca depuis plus de 6 jours !";
     $subject = "Rappel - faire une mesure du Ca";

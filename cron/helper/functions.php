@@ -34,7 +34,6 @@ $rappel = [
  * @param $transport
  * @param $subject
  * @param $content
- *
  * @return int
  */
 function sendMail($data, $transport, $subject, $content)
@@ -53,7 +52,6 @@ function sendMail($data, $transport, $subject, $content)
 /**
  * @param $link
  * @param $name
- *
  * @return bool
  */
 function getStatus($link, $name)
@@ -96,8 +94,7 @@ function insertTemperature($link, $temp)
 
 /**
  * @param $link
- *
- * @return false|string
+ * @return bool|string
  */
 function readFileTemperature($link)
 {
@@ -121,7 +118,6 @@ function readFileTemperature($link)
 
 /**
  * @param $content
- *
  * @return bool|float|int
  */
 function readTemperature($content)
@@ -215,7 +211,6 @@ function setLog($link, $message)
 
 /**
  * @param $key
- *
  * @return mixed
  */
 function getLabel($key)
@@ -240,9 +235,7 @@ function getLabel($key)
 
 /**
  * @param $date
- *
  * @return string
- * @throws Exception
  */
 function getFormattedDate($date)
 {
@@ -253,9 +246,7 @@ function getFormattedDate($date)
 
 /**
  * @param $date
- *
  * @return string
- * @throws Exception
  */
 function getFormattedDateWithouH($date)
 {
@@ -316,7 +307,6 @@ function setConfig($link, $data, $code)
 
 /**
  * @return bool
- * @throws Exception
  */
 function isOn()
 {
@@ -345,9 +335,7 @@ function isOn()
  * @param $data
  * @param $transport
  * @param $link
- *
  * @return bool
- * @throws Exception
  */
 function checkChangementEau($data, $transport, $link)
 {
@@ -410,7 +398,6 @@ function clear($link)
 /**
  * @param $link
  * @param $temperature
- *
  * @return bool
  */
 function getStatusVentilateur($link, $temperature)
@@ -438,7 +425,6 @@ function getStatusVentilateur($link, $temperature)
 /**
  * @param $link
  * @param $name
- *
  * @return bool
  */
 function getConfig($link, $name)
@@ -513,8 +499,6 @@ function envoyerMail($link, $data, $transport)
  * @param $link
  * @param $data
  * @param $transport
- *
- * @throws Exception
  */
 function envoyerMailRappel($link, $data, $transport)
 {
@@ -563,8 +547,6 @@ function envoyerMailRappel($link, $data, $transport)
  * @param $link
  * @param $data
  * @param $transport
- *
- * @throws Exception
  */
 function envoyerMail8h($link, $data, $transport)
 {
@@ -607,9 +589,7 @@ function envoyerMail8h($link, $data, $transport)
 
 /**
  * @param $link
- *
  * @return bool
- * @throws Exception
  */
 function isRunOver20seconds($link)
 {
@@ -675,9 +655,7 @@ function setParam($link, $data, $type)
  * @param $type
  * @param $message
  * @param $subject
- *
  * @return bool
- * @throws Exception
  */
 function checkParamEau($data, $transport, $link, $type, $message, $subject)
 {
@@ -767,4 +745,57 @@ function getLastReacteur($link)
 
         return '';
     }
+}
+
+/**
+ * @param $link
+ * @return bool
+ */
+function cleanReacteur($link)
+{
+    try {
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                INSERT INTO `data_clean_reacteur` (`id`, `created_at`) 
+                VALUES (NULL, CURRENT_TIMESTAMP);";
+        $link->query($sql);
+
+        return true;
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+
+        return false;
+    }
+}
+
+
+/**
+ * @param $data
+ * @param $transport
+ * @param $link
+ * @return bool
+ */
+function checkCleanReacteur($data, $transport, $link)
+{
+    $periode = '-15 days';
+    $date = new DateTime();
+    $date->modify($periode);
+    $date = $date->format('Y-m-d H:i:s');
+    $message = "Le réacteur n'a pas été nettoyé depuis plus de 15 jours !";
+
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT count(*) as count 
+            FROM `data_clean_reacteur` 
+            WHERE `created_at` > '" . $date . "'";
+    $request = mysqli_query($link, $sql);
+    $result = mysqli_fetch_assoc($request);
+
+    if ($result['count'] == "0" || $result['count'] == 0) {
+        $body = "<p style=\"color: red;\">" . $message . "</p>";
+        sendMail($data, $transport, "Rappel - nettoyer le reacteur", $body);
+        setLog($link, $message);
+
+        return false;
+    }
+
+    return true;
 }

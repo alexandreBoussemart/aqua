@@ -50,6 +50,12 @@ if (isset($_POST['submit_actions_clear'])) {
     header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
 }
 
+//form action clean reacteur
+if (isset($_POST['submit_actions_clear_reacteur'])) {
+    cleanReacteur($link);
+    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
+}
+
 // form changement d'eau
 if (isset($_POST['submit_eau'])) {
     if (isset($_POST['value']) && is_numeric($_POST['value'])) {
