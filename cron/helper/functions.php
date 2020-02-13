@@ -637,6 +637,7 @@ function isRunOver20seconds($link)
 function setParam($link, $data, $type)
 {
     try {
+        $data = str_replace(',', '.', $data);
         if (isset($data) && is_numeric($data)) {
             $sql = '# noinspection SqlNoDataSourceInspectionForFile 
                 INSERT INTO `data_parametres_eau` (`type`, `value`) 
