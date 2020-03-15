@@ -14,13 +14,22 @@ try {
             // on allume
             exec("python ".__DIR__."/../scripts/reacteur_ventilateur/on.py");
 
-            return true;
+            exit;
         }
     }
 
     // on éteint
     exec("python ".__DIR__."/../scripts/reacteur_ventilateur/off.py");
 
+    exit;
+
 } catch (Exception $e) {
-    setLog($link, $e->getMessage());
+    try{
+        setLog($link, $e->getMessage());
+        sendMail($data, $transport, "Error script reacteur_ventilateur.php", $e->getMessage(), $link);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+
+    exit;
 }

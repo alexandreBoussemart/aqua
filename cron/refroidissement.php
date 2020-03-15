@@ -15,7 +15,7 @@ try {
         // on allume
         exec("python ".__DIR__."/../scripts/refroidissement/on.py");
 
-        return true;
+        exit;
     }
 
     if(
@@ -24,12 +24,21 @@ try {
         // on allume
         exec("python ".__DIR__."/../scripts/refroidissement/on.py");
 
-        return true;
+        exit;
     }
 
     // on eteint
     exec("python ".__DIR__."/../scripts/refroidissement/off.py");
 
+    exit;
+
 } catch (Exception $e) {
-    setLog($link, $e->getMessage());
+    try{
+        setLog($link, $e->getMessage());
+        sendMail($data, $transport, "Error script refroidissement.php", $e->getMessage(), $link);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+
+    exit;
 }

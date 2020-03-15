@@ -9,7 +9,7 @@ require 'helper/functions.php';
 try {
     //check si la cron est activé
     if (!getStatus($link, 'cron_controle')) {
-        return false;
+        exit;
     }
 
     //date now - 1 minute
@@ -56,10 +56,14 @@ try {
 
     setState($link, 'controle', 'state_1', 0, "Cron controle - OK", 1, 0);
 
+    exit;
+
 } catch (Exception $e) {
     setLog($link, $e->getMessage());
     $message = "Cron controle - ERREUR - " . $e->getMessage();
     setState($link, 'controle', 'state_2', 1, $message, 0, 0);
+
+    exit;
 }
 
 

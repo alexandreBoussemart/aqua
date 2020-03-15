@@ -9,7 +9,7 @@ require 'helper/functions.php';
 try {
     //check si la cron est activé
     if (!getStatus($link, 'cron_rappel')) {
-        return false;
+        exit;
     }
 
     $body = "";
@@ -18,7 +18,7 @@ try {
     }
 
     // on envoie le mail avec les rappels du jour
-    sendMail($data, $transport, "Rappel - ajout à faire", $body);
+    sendMail($data, $transport, "Rappel - ajout à faire", $body, $link);
 
     //si pas de changement d'eau depuis plus de 15 jours on envoie un mail de rappel
     checkChangementEau($data, $transport, $link);
@@ -46,13 +46,17 @@ try {
     $subject = "Rappel - faire une mesure de la densité";
     checkParamEau($data, $transport, $link, 'densite', $message, $subject);
 
+    exit;
+
 } catch (Exception $e) {
     // on envoie le mail
     try {
         setLog($link, $e->getMessage());
-        sendMail($data, $transport, "Cron erreur - ERREUR - ", $e->getMessage());
+        sendMail($data, $transport, "Cron erreur - ERREUR - ", $e->getMessage(), $link);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
+
+    exit;
 }
 

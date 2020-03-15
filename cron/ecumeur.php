@@ -12,7 +12,7 @@ try {
         setControle($link, 'controle_ecumeur');
         setState($link, 'ecumeur', 'state_99', 0, "Écumeur - Désactivé");
 
-        return false;
+        exit;
     }
 
     //heure d'execution max
@@ -33,9 +33,13 @@ try {
         usleep(500000);
     }
 
+    exit;
+
 } catch (Exception $e) {
     setState($link, 'ecumeur', 'state_4', 1, "Cron ecumeur - ERREUR - " . $e->getMessage());
     setLog($link, $e->getMessage());
+
+    exit;
 }
 
 

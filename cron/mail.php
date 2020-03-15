@@ -9,7 +9,7 @@ require 'helper/functions.php';
 try {
     //check si la cron est activé
     if (!getStatus($link, 'cron_mail')) {
-        return false;
+        exit;
     }
 
     //heure d'execution max
@@ -18,7 +18,7 @@ try {
 
     // controle mail chaque seconde
     for ($i = 0; $i <= 60; $i++) {
-    //si on passe la minute en cours on arrête
+        //si on passe la minute en cours on arrête
         $date = new DateTime();
         $now = $date->format('Y-m-d H:i:s');
         if ($now > $end) {
@@ -33,7 +33,16 @@ try {
 
     envoyerMail8h($link, $data, $transport);
 
+    exit;
+
 } catch (Exception $e) {
-    setLog($link, $e->getMessage());
+    try {
+        setLog($link, $e->getMessage());
+        sendMail($data, $transport, "Error script mail.php", $e->getMessage(), $link);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+
+    exit;
 }
 

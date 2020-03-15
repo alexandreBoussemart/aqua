@@ -12,7 +12,7 @@ try {
         setControle($link, 'controle_reacteur');
         setState($link, 'reacteur', 'state_99', 0, "Réacteur - Désactivé");
 
-        return false;
+        exit;
     }
 
     //heure d'execution max
@@ -33,9 +33,13 @@ try {
         usleep(500000);
     }
 
+    exit;
+
 } catch (Exception $e) {
     setState($link, 'reacteur', 'state_5', 1, "Cron reacteur - ERREUR - " . $e->getMessage());
     setLog($link, $e->getMessage());
+
+    exit;
 }
 
 

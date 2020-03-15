@@ -28,8 +28,17 @@ try {
         }
     }
 
+    exit;
+
 } catch (Exception $e) {
-    setLog($link, $e->getMessage());
+    try {
+        setLog($link, $e->getMessage());
+        sendMail($data, $transport, "Error script core_config.php", $e->getMessage(), $link);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+
+    exit;
 }
 
 

@@ -12,7 +12,7 @@ try {
         setControle($link, 'controle_osmolateur');
         setState($link, 'osmolateur', 'state_99', 0, "Osmolateur - Désactivé");
 
-        return false;
+        exit;
     }
 
     //heure d'execution max
@@ -43,9 +43,13 @@ try {
         usleep(500000);
     }
 
+    exit;
+
 } catch (Exception $e) {
     setState($link, 'osmolateur', 'state_7', 1, "Cron osmolateur - ERREUR - " . $e->getMessage());
     setLog($link, $e->getMessage());
+
+    exit;
 }
 
 

@@ -34,10 +34,16 @@ $rappel = [
  * @param $transport
  * @param $subject
  * @param $content
+ * @param $link
  * @return int
  */
-function sendMail($data, $transport, $subject, $content)
+function sendMail($data, $transport, $subject, $content, $link = null)
 {
+    //check si la cron est activé
+    if ($link && !getStatus($link, 'cron_mail')) {
+        exit;
+    }
+
     $mailer = new Swift_Mailer($transport);
     $message = new Swift_Message($subject);
     $message
@@ -354,7 +360,7 @@ function checkChangementEau($data, $transport, $link)
 
     if ($result['count'] == "0" || $result['count'] == 0) {
         $body = "<p style=\"color: red;\">" . $message . "</p>";
-        sendMail($data, $transport, "Rappel - faire un changement d'eau", $body);
+        sendMail($data, $transport, "Rappel - faire un changement d'eau", $body, $link);
         setLog($link, $message);
 
         return false;
@@ -478,7 +484,7 @@ function envoyerMail($link, $data, $transport)
 
             // on envoie le mail
             try {
-                sendMail($data, $transport, $message, $body);
+                sendMail($data, $transport, $message, $body, $link);
             } catch (Exception $e) {
                 setLog($link, $e->getMessage());
             }
@@ -526,7 +532,7 @@ function envoyerMailRappel($link, $data, $transport)
 
             // on envoie le mail
             try {
-                sendMail($data, $transport, $message, $body);
+                sendMail($data, $transport, $message, $body, $link);
             } catch (Exception $e) {
                 setLog($link, $e->getMessage());
             }
@@ -580,7 +586,7 @@ function envoyerMail8h($link, $data, $transport)
             $message = "Cron - contrôle 8h - OK";
 
             // on envoie le mail
-            sendMail($data, $transport, $message, $content);
+            sendMail($data, $transport, $message, $content, $link);
         }
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -676,7 +682,7 @@ function checkParamEau($data, $transport, $link, $type, $message, $subject)
 
         if ($result['count'] == "0" || $result['count'] == 0) {
             $body = "<p style=\"color: red;\">" . $message . "</p>";
-            sendMail($data, $transport, $subject, $body);
+            sendMail($data, $transport, $subject, $body, $link);
             setLog($link, $message);
 
             return false;
@@ -792,7 +798,7 @@ function checkCleanReacteur($data, $transport, $link)
 
     if ($result['count'] == "0" || $result['count'] == 0) {
         $body = "<p style=\"color: red;\">" . $message . "</p>";
-        sendMail($data, $transport, "Rappel - nettoyer le reacteur", $body);
+        sendMail($data, $transport, "Rappel - nettoyer le reacteur", $body, $link);
         setLog($link, $message);
 
         return false;

@@ -24,7 +24,7 @@ try {
         // mais on set comme quoi on est bien passé dans la cron
         setControle($link, 'controle_temperature');
 
-        return false;
+        exit;
     }
 
     // on défini le chemin du fichier
@@ -38,7 +38,7 @@ try {
     if ($temperature1 == false) {
         setState($link, 'temperature', 'state_2', 1, "Cron temperature - ERREUR - Format du fichier incorrect");
 
-        return false;
+        exit;
     }
 
     // on attend 20 secondes
@@ -50,7 +50,7 @@ try {
     if ($temperature2 == false) {
         setState($link, 'temperature', 'state_2', 1, "Cron temperature - ERREUR - Format du fichier incorrect");
 
-        return false;
+        exit;
     }
 
     $temp_min = $temperature1 * 0.90;
@@ -90,12 +90,14 @@ try {
 
     } else {
         setState($link, 'temperature', 'state_3', 1, "Cron temperature - ERREUR - Plus de 10% d'écart");
-
-        return false;
     }
+
+    exit;
 
 } catch (Exception $e) {
     setLog($link, $e->getMessage());
     setState($link, 'temperature', 'state_4', 1, "Cron temperature - ERREUR - " . $e->getMessage());
+
+    exit;
 }
 
