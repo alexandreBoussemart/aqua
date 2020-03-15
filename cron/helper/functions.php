@@ -806,3 +806,22 @@ function checkCleanReacteur($data, $transport, $link)
 
     return true;
 }
+
+/**
+ * @param $link
+ * @return string
+ */
+function getDateLastCleanReacteur($link)
+{
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile
+            SELECT `created_at` 
+            FROM `data_clean_reacteur` 
+            ORDER BY `id` DESC 
+            LIMIT 1";
+
+    $request = mysqli_query($link, $sql);
+    $row = mysqli_fetch_assoc($request);
+    $created_at = $row['created_at'];
+
+    return getFormattedDateWithouH($created_at);
+}
