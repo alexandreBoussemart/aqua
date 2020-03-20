@@ -8,10 +8,9 @@ import functions
 
 import RPi.GPIO as GPIO
 
-# à modifier trouver port libre
 relais = 11
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-functions.onled(relais)
+functions.offled(relais)
 sys.exit()

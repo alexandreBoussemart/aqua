@@ -8,7 +8,6 @@ import functions
 
 import RPi.GPIO as GPIO
 
-# à modifier trouver port libre
 relais = 9
 
 GPIO.setmode(GPIO.BCM)
