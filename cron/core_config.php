@@ -21,10 +21,10 @@ try {
 
         if (getConfig($link, 'config_on_off_ecumeur') == true) {
             // on allume
-            exec("python " . __DIR__ . "/../scripts/reacteur/on.py");
+            exec("python " . __DIR__ . "/../scripts/ecumeur/on.py");
         } else {
             // on éteint
-            exec("python " . __DIR__ . "/../scripts/reacteur/off.py");
+            exec("python " . __DIR__ . "/../scripts/ecumeur/off.py");
         }
     }
 

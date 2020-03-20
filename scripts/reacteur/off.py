@@ -9,7 +9,7 @@ import functions
 import RPi.GPIO as GPIO
 
 # à modifier trouver port libre
-relais = 99
+relais = 11
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
