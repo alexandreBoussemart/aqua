@@ -10,9 +10,9 @@ import RPi.GPIO as GPIO
 bailling_1 = 5
 bailling_2 = 22
 bailling_3 = 13
-bailling_1_led = 19
+bailling_1_led = 12
 bailling_2_led = 26
-bailling_3_led = 12
+bailling_3_led = 19
 path = 'bailling'
 state = '222'
 
