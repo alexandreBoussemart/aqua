@@ -11,8 +11,8 @@ bailling_1 = 5
 bailling_2 = 22
 bailling_3 = 13
 bailling_1_led = 12
-bailling_2_led = 26
-bailling_3_led = 19
+bailling_2_led = 19
+bailling_3_led = 26
 path = 'bailling'
 state = '222'
 
@@ -36,7 +36,8 @@ try:
     # on fait la chaine de caractère du statut
     state_current = BAILLING_1_STATE + BAILLING_2_STATE + BAILLING_3_STATE
 
-    sleep(20)
+    print(state_current)
+    sleep(2)
 
     GPIO.setup(bailling_1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(bailling_2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
