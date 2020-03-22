@@ -36,8 +36,7 @@ try:
     # on fait la chaine de caractère du statut
     state_current = BAILLING_1_STATE + BAILLING_2_STATE + BAILLING_3_STATE
 
-    print(state_current)
-    sleep(2)
+    sleep(20)
 
     GPIO.setup(bailling_1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(bailling_2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
