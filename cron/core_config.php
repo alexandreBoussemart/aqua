@@ -7,8 +7,19 @@
 require 'helper/functions.php';
 
 try {
+    //heure d'execution max
+    $date = new DateTime();
+    $end = $date->format('Y-m-d H:i:59');
+
     // controle toutes les 1 seconde
     for ($i = 0; $i <= 60; $i++) {
+        //si on passe la minute en cours on arrête
+        $date = new DateTime();
+        $now = $date->format('Y-m-d H:i:s');
+        if ($now > $end) {
+            break;
+        }
+
         sleep(1);
 
         if (getConfig($link, 'config_on_off_osmolateur') == true) {
