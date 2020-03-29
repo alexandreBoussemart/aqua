@@ -229,7 +229,7 @@ function setLogMail($link, $sujet, $message)
 {
     // met ligne dans table log
     $sql = '# noinspection SqlNoDataSourceInspectionForFile 
-            INSERT INTO `log` (`sujet`, `message`) 
+            INSERT INTO `log_mail` (`sujet`, `message`) 
             VALUES ("' . $sujet . '","' . $message . '")';
     $link->query($sql);
 }
