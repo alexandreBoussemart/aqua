@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
     setStatus($link, $_POST['reacteur_eclairage'], 'reacteur_eclairage');
     setStatus($link, $_POST['cron_controle'], 'cron_controle');
     setStatus($link, $_POST['cron_rappel'], 'cron_rappel');
-    setStatus($link, $_POST['cron_mail'], 'cron_mail');
+    setStatus($link, $_POST['mail'], 'mail');
     setStatus($link, $_POST['refroidissement'], 'refroidissement');
 
     header('Location: ' . $data['database'][0]['base_url']); ///aqua-web

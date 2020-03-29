@@ -41,7 +41,7 @@ $rappel = [
 function sendMail($data, $transport, $subject, $content, $link = null, $force = false)
 {
     //check si la cron est activé
-    if (!$force && $link && !getStatus($link, 'cron_mail')) {
+    if (!$force && $link && !getStatus($link, 'mail')) {
         setLogMail($link, $subject, $content);
         exit;
     }

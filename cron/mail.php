@@ -7,11 +7,6 @@
 require 'helper/functions.php';
 
 try {
-    //check si la cron est activé
-    if (!getStatus($link, 'cron_mail')) {
-        exit;
-    }
-
     //heure d'execution max
     $date = new DateTime();
     $end = $date->format('Y-m-d H:i:59');
