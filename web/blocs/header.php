@@ -81,6 +81,7 @@ if (isset($_POST['submit_configuration'])) {
     setConfig($link, $_POST['config_temperature_declenchement'], 'config_temperature_declenchement');
     setConfig($link, $_POST['config_on_off_osmolateur'], 'config_on_off_osmolateur');
     setConfig($link, $_POST['config_on_off_ecumeur'], 'config_on_off_ecumeur');
+    setConfig($link, $_POST['config_log_in_files'], 'config_log_in_files');
 
     header('Location: ' . $data['database'][0]['base_url']);
 }

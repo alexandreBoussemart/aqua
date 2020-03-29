@@ -97,7 +97,7 @@ function insertTemperature($link, $temp)
         $sql = '# noinspection SqlNoDataSourceInspectionForFile 
                 INSERT INTO `data_temperature` ( `value`) 
                 VALUES ("' . strval($temp) . '")';
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -157,7 +157,7 @@ function setControle($link, $value)
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 UPDATE `last_activity` set `value`='" . $value . "', `created_at`=now() 
                 WHERE `value`='" . $value . "'";
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -183,7 +183,7 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
                 FROM `state` 
                 WHERE `path` = '" . $path . "' 
                 AND `value` = '" . $value . "'";
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $request = mysqli_query($link, $sql);
         $result = mysqli_fetch_assoc($request);
 
@@ -191,7 +191,7 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
             $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                     UPDATE `state` set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0, `exclude_check`='" . $exclude . "' 
                     WHERE `path`='" . $path . "'";
-            logInFile("sql.log", $sql);
+            logInFile($link, "sql.log", $sql);
             $link->query($sql);
 
             // met ligne dans table log
@@ -222,7 +222,7 @@ function setLog($link, $message)
     $sql = '# noinspection SqlNoDataSourceInspectionForFile 
             INSERT INTO `log` (`message`) 
             VALUES ("' . $message . '")';
-    logInFile("sql.log", $sql);
+    logInFile($link, "sql.log", $sql);
     $link->query($sql);
 }
 
@@ -240,7 +240,7 @@ function setLogMail($link, $sujet, $message)
     $sql = '# noinspection SqlNoDataSourceInspectionForFile 
             INSERT INTO `log_mail` (`sujet`, `message`) 
             VALUES ("' . $sujet . '","' . $message . '")';
-    logInFile("sql.log", $sql);
+    logInFile($link, "sql.log", $sql);
     $link->query($sql);
 }
 
@@ -307,7 +307,7 @@ function setStatus($link, $data, $code)
                 UPDATE `status` 
                 SET `value`='" . $value . "' 
                 WHERE `name` = '$code'";
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -335,7 +335,7 @@ function setConfig($link, $data, $code)
                 UPDATE `core_config` 
                 SET `value`='" . $value . "' 
                 WHERE `name` = '$code'";
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -386,7 +386,7 @@ function checkChangementEau($data, $transport, $link)
             SELECT count(*) as count 
             FROM `data_changement_eau` 
             WHERE `created_at` > '" . $date . "'";
-    logInFile("sql.log", $sql);
+    logInFile($link, "sql.log", $sql);
     $request = mysqli_query($link, $sql);
     $result = mysqli_fetch_assoc($request);
 
@@ -478,7 +478,6 @@ function getConfig($link, $name)
                 SELECT `value` 
                 FROM `core_config` 
                 WHERE `name` = '" . $name . "'";
-        logInFile("sql.log", $sql);
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
 
@@ -506,7 +505,7 @@ function envoyerMail($link, $data, $transport)
             FROM `state` 
             WHERE `exclude_check` LIKE 0 
             AND `mail_send` LIKE 0";
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $mails = mysqli_query($link, $sql);
         $rows = $mails->fetch_all();
         foreach ($rows as $row) {
@@ -532,7 +531,7 @@ function envoyerMail($link, $data, $transport)
                 UPDATE `state` 
                 SET `mail_send`=1,`created_at`=now() 
                 WHERE `id` LIKE " . $id;
-            logInFile("sql.log", $sql);
+            logInFile($link, "sql.log", $sql);
             $link->query($sql);
         }
     } catch (Exception $e) {
@@ -559,7 +558,7 @@ function envoyerMailRappel($link, $data, $transport)
             WHERE `exclude_check` LIKE 0 
             AND `error` LIKE 1 
             AND `created_at` < " . $date;
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $mails = mysqli_query($link, $sql);
         $rows = $mails->fetch_all();
 
@@ -582,7 +581,7 @@ function envoyerMailRappel($link, $data, $transport)
                 UPDATE `state` 
                 SET `created_at`=now() 
                 WHERE `id` LIKE " . $id;
-            logInFile("sql.log", $sql);
+            logInFile($link, "sql.log", $sql);
             $link->query($sql);
         }
     } catch (Exception $e) {
@@ -647,7 +646,7 @@ function isRunOver20seconds($link)
             FROM `state` 
             WHERE `path` LIKE 'osmolateur' 
             AND (`value` LIKE 'state_3' OR `value` LIKE 'state_8')";
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
 
@@ -690,7 +689,7 @@ function setParam($link, $data, $type)
             $sql = '# noinspection SqlNoDataSourceInspectionForFile 
                 INSERT INTO `data_parametres_eau` (`type`, `value`) 
                 VALUES ("' . $type . '", "' . strval($data) . '")';
-            logInFile("sql.log", $sql);
+            logInFile($link, "sql.log", $sql);
             $link->query($sql);
         }
     } catch (Exception $e) {
@@ -720,7 +719,7 @@ function checkParamEau($data, $transport, $link, $type, $message, $subject)
             FROM `data_parametres_eau` 
             WHERE `type` LIKE '" . $type . "' 
             AND `created_at` > '" . $date . "'";
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $request = mysqli_query($link, $sql);
         $result = mysqli_fetch_assoc($request);
 
@@ -751,7 +750,7 @@ function getLastTemperature($link)
             FROM `data_temperature` 
             ORDER BY `data_temperature`.`id` DESC 
             LIMIT 1";
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $request = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($request);
         $last_temp = round($row['value'], 2);
@@ -782,7 +781,7 @@ function getLastReacteur($link)
             FROM `data_reacteur` 
             ORDER BY `data_reacteur`.`id` DESC  
             LIMIT 1";
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $request = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($request);
         $last_debit = $row['value'];
@@ -810,7 +809,7 @@ function cleanReacteur($link)
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 INSERT INTO `data_clean_reacteur` (`id`, `created_at`) 
                 VALUES (NULL, CURRENT_TIMESTAMP);";
-        logInFile("sql.log", $sql);
+        logInFile($link, "sql.log", $sql);
         $link->query($sql);
 
         return true;
@@ -840,7 +839,7 @@ function checkCleanReacteur($data, $transport, $link)
             SELECT count(*) as count 
             FROM `data_clean_reacteur` 
             WHERE `created_at` > '" . $date . "'";
-    logInFile("sql.log", $sql);
+    logInFile($link, "sql.log", $sql);
     $request = mysqli_query($link, $sql);
     $result = mysqli_fetch_assoc($request);
 
@@ -866,7 +865,7 @@ function getDateLastCleanReacteur($link)
             FROM `data_clean_reacteur` 
             ORDER BY `id` DESC 
             LIMIT 1";
-    logInFile("sql.log", $sql);
+    logInFile($link, "sql.log", $sql);
     $request = mysqli_query($link, $sql);
     $row = mysqli_fetch_assoc($request);
     $created_at = $row['created_at'];
@@ -875,14 +874,17 @@ function getDateLastCleanReacteur($link)
 }
 
 /**
+ * @param $link
  * @param $file
  * @param $message
  */
-function logInFile($file, $message)
+function logInFile($link, $file, $message)
 {
-    $file = __DIR__ . "/../../var/log/" . $file;
-    $fp = fopen($file, "a+");
-    fwrite($fp, date("Y-m-d H:i:s") . " : " . $message . PHP_EOL);
-    fwrite($fp, "------------------------------------" . PHP_EOL);
-    fclose($fp);
+    if (getConfig($link, 'config_log_in_files') == true) {
+        $file = __DIR__ . "/../../var/log/" . $file;
+        $fp = fopen($file, "a+");
+        fwrite($fp, date("Y-m-d H:i:s") . " : " . $message . PHP_EOL);
+        fwrite($fp, "------------------------------------" . PHP_EOL);
+        fclose($fp);
+    }
 }
