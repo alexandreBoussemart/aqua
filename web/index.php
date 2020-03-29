@@ -75,6 +75,7 @@
                     </div>
                     <?php
                     require 'blocs/actions.php';
+                    require 'blocs/logs2.php';
                     ?>
                 </div>
                 <!-- /page content -->

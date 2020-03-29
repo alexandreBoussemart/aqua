@@ -34,13 +34,14 @@ $rappel = [
  * @param $transport
  * @param $subject
  * @param $content
- * @param $link
+ * @param null $link
+ * @param bool $force
  * @return int
  */
-function sendMail($data, $transport, $subject, $content, $link = null)
+function sendMail($data, $transport, $subject, $content, $link = null, $force = false)
 {
     //check si la cron est activé
-    if ($link && !getStatus($link, 'cron_mail')) {
+    if (!$force && $link && !getStatus($link, 'cron_mail')) {
         exit;
     }
 
@@ -52,7 +53,11 @@ function sendMail($data, $transport, $subject, $content, $link = null)
         ->setSubject($subject)
         ->setBody($content, 'text/html');
 
-    return $mailer->send($message);
+    $result = $mailer->send($message);
+
+    setLogMail($link, $subject, $content);
+
+    return $result;
 }
 
 /**
@@ -212,6 +217,20 @@ function setLog($link, $message)
     $sql = '# noinspection SqlNoDataSourceInspectionForFile 
             INSERT INTO `log` (`message`) 
             VALUES ("' . $message . '")';
+    $link->query($sql);
+}
+
+/**
+ * @param $link
+ * @param $sujet
+ * @param $message
+ */
+function setLogMail($link, $sujet, $message)
+{
+    // met ligne dans table log
+    $sql = '# noinspection SqlNoDataSourceInspectionForFile 
+            INSERT INTO `log` (`sujet`, `message`) 
+            VALUES ("' . $sujet . '","' . $message . '")';
     $link->query($sql);
 }
 
@@ -394,6 +413,10 @@ function clear($link)
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 DELETE FROM `data_temperature` 
+                WHERE `created_at` < '" . $limit . "';";
+        $link->query($sql);
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM `log_mail` 
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
     } catch (Exception $e) {

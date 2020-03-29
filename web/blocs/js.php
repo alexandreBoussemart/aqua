@@ -270,5 +270,6 @@ $reacteur = mysqli_query($link, $sql);
 
     $('#datatable').dataTable({'order': [[0, 'desc']]});
     $('#datatable-eau').dataTable({'order': [[0, 'desc']]});
+    $('#datatable-mail').dataTable({'order': [[0, 'desc']]});
 
 </script>
