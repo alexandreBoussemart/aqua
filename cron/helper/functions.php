@@ -233,6 +233,7 @@ function setLog($link, $message)
  */
 function setLogMail($link, $sujet, $message)
 {
+    $message = str_replace('"', "'", $message);
     $message = str_replace("'", "\'", $message);
     $sujet = str_replace("'", "\'", $sujet);
     // met ligne dans table log
