@@ -217,6 +217,7 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
  */
 function setLog($link, $message)
 {
+    $message = str_replace("'", "\'", $message);
     // met ligne dans table log
     $sql = '# noinspection SqlNoDataSourceInspectionForFile 
             INSERT INTO `log` (`message`) 
@@ -232,6 +233,8 @@ function setLog($link, $message)
  */
 function setLogMail($link, $sujet, $message)
 {
+    $message = str_replace("'", "\'", $message);
+    $sujet = str_replace("'", "\'", $sujet);
     // met ligne dans table log
     $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             INSERT INTO `log_mail` (`sujet`, `message`) 
