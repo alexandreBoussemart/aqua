@@ -80,11 +80,11 @@ foreach ($core_config as $c) {
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-6 col-sm-6 col-xs-6">Activé log in files</label>
+                    <label class="control-label col-md-6 col-sm-6 col-xs-6">Activer log in files</label>
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="">
                             <label>
-                                <input name="config_on_off_ecumeur" type="checkbox"
+                                <input name="config_log_in_files" type="checkbox"
                                        class="js-switch" <?php if ($config['config_log_in_files'] == '1') {
                                     echo 'checked';
                                 } ?> />
