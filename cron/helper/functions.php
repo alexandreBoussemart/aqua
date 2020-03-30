@@ -925,7 +925,11 @@ function getDateLastCleanReacteur($link)
     $row = mysqli_fetch_assoc($request);
     $created_at = $row['created_at'];
 
-    return getFormattedDateWithouH($created_at);
+    if($created_at) {
+        return getFormattedDateWithouH($created_at);
+    }
+
+    return null;
 }
 
 /**
@@ -944,7 +948,11 @@ function getDateLastCleanEcumeur($link)
     $row = mysqli_fetch_assoc($request);
     $created_at = $row['created_at'];
 
-    return getFormattedDateWithouH($created_at);
+    if($created_at){
+        return getFormattedDateWithouH($created_at);
+    }
+
+    return null;
 }
 
 /**
