@@ -18,6 +18,13 @@
                     <small><?= getDateLastCleanReacteur($link) ?></small>
                 </form>
             </div>
+            <div class="x_content">
+                <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
+                    <input type="hidden" name="submit_actions_clear_ecumeur" value="1"/>
+                    <button type="submit" class="btn btn-default">Nettoyage écumeur</button>
+                    <small><?= getDateLastCleanEcumeur($link) ?></small>
+                </form>
+            </div>
         </div>
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12">

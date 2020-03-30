@@ -821,6 +821,27 @@ function cleanReacteur($link)
     }
 }
 
+/**
+ * @param $link
+ * @return bool
+ */
+function cleanEcumeur($link)
+{
+    try {
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                INSERT INTO `data_clean_ecumeur` (`id`, `created_at`) 
+                VALUES (NULL, CURRENT_TIMESTAMP);";
+        logInFile($link, "sql.log", $sql);
+        $link->query($sql);
+
+        return true;
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+
+        return false;
+    }
+}
+
 
 /**
  * @param $data
@@ -856,6 +877,39 @@ function checkCleanReacteur($data, $transport, $link)
 }
 
 /**
+ * @param $data
+ * @param $transport
+ * @param $link
+ * @return bool
+ */
+function checkCleanEcumeur($data, $transport, $link)
+{
+    $periode = '-30 days';
+    $date = new DateTime();
+    $date->modify($periode);
+    $date = $date->format('Y-m-d H:i:s');
+    $message = "L écumeur n'a pas été nettoyé depuis plus de 30 jours !";
+
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT count(*) as count 
+            FROM `data_clean_ecumeur` 
+            WHERE `created_at` > '" . $date . "'";
+    logInFile($link, "sql.log", $sql);
+    $request = mysqli_query($link, $sql);
+    $result = mysqli_fetch_assoc($request);
+
+    if ($result['count'] == "0" || $result['count'] == 0) {
+        $body = "<p style=\"color: red;\">" . $message . "</p>";
+        sendMail($data, $transport, "Rappel - nettoyer l écumeur", $body, $link);
+        setLog($link, $message);
+
+        return false;
+    }
+
+    return true;
+}
+
+/**
  * @param $link
  * @return string
  */
@@ -864,6 +918,25 @@ function getDateLastCleanReacteur($link)
     $sql = "# noinspection SqlNoDataSourceInspectionForFile
             SELECT `created_at` 
             FROM `data_clean_reacteur` 
+            ORDER BY `id` DESC 
+            LIMIT 1";
+    logInFile($link, "sql.log", $sql);
+    $request = mysqli_query($link, $sql);
+    $row = mysqli_fetch_assoc($request);
+    $created_at = $row['created_at'];
+
+    return getFormattedDateWithouH($created_at);
+}
+
+/**
+ * @param $link
+ * @return string
+ */
+function getDateLastCleanEcumeur($link)
+{
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile
+            SELECT `created_at` 
+            FROM `data_clean_ecumeur` 
             ORDER BY `id` DESC 
             LIMIT 1";
     logInFile($link, "sql.log", $sql);
