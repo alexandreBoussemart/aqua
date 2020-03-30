@@ -1,4 +1,3 @@
-<div class="row">
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
@@ -26,8 +25,6 @@
                 </form>
             </div>
         </div>
-    </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
                 <h2>Analyse d'eau</h2>
@@ -73,4 +70,3 @@
             </form>
         </div>
     </div>
-</div>

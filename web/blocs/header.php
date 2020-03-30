@@ -5,22 +5,9 @@ require '../cron/helper/functions.php';
 $count_osmolateur = 0;
 $date = new DateTime();
 
-$period = 1;
-if (isset($_GET['period'])) {
-    $period = $_GET['period'];
-}
-
 $day_name = date('D');
 
-if ($period == 1) {
-    $periode = '-1 day';
-} elseif ($period == 2) {
-    $periode = '-2 days';
-} elseif ($period == 7) {
-    $periode = '-7 days';
-} else {
-    $periode = '-1 day';
-}
+$periode = '-1 day';
 
 $date = new DateTime();
 $today = $date->format('Y-m-d H:i:s');

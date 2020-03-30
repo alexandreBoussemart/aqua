@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="src/images/favicon.ico" type="./src/image/ico"/>
-        <title>Aquarium - Dashboard</title>
+        <title>Aquarium - Log</title>
         <link href="./vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="./vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="./build/css/custom.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
                             <div class="menu_section">
                                 <h3>Général</h3>
                                 <ul class="nav side-menu">
-                                    <li class="active"><a><i class="fa fa-home"></i> Accueil <span class="fa fa-chevron-down"></span></a>
+                                    <li ><a><i class="fa fa-home"></i> Accueil <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li><a href="index.php">Dashboard</a></li>
                                             <li><a href="logs.php">Log</a></li>
@@ -59,19 +59,10 @@
                 <!-- page content -->
                 <div class="right_col" role="main">
                     <?php
-                    require 'blocs/calendrier.php';
-                    require 'blocs/state.php';
-                    require 'blocs/graph.php';
-                    require 'blocs/graph_param.php';
+                    require 'blocs/logs.php';
+                    require 'blocs/logs2.php';
+                    require 'blocs/osmolateur.php';
                     ?>
-                    <br>
-                    <div class="row">
-                        <?php
-                        require 'blocs/actions.php';
-                        require 'blocs/status.php';
-                        require 'blocs/controle.php';
-                        ?>
-                    </div>
                 </div>
                 <!-- /page content -->
             </div>
