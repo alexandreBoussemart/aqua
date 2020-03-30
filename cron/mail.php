@@ -28,6 +28,8 @@ try {
 
     envoyerMail8h($link, $data, $transport);
 
+    checkDisableSendMail($link, $data, $transport);
+
     exit;
 
 } catch (Exception $e) {

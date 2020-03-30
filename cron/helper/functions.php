@@ -590,6 +590,61 @@ function envoyerMailRappel($link, $data, $transport)
     }
 }
 
+
+/**
+ * @param $link
+ * @param $data
+ * @param $transport
+ */
+function checkDisableSendMail($link, $data, $transport)
+{
+    try {
+        //on fait le mail de rappel et renit la date a now
+        $date = $date2 = new DateTime();
+        $date->modify("-2 minutes");
+        $date = "'" . $date->format('Y-m-d H:i:00') . "'";
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT count(*) as count
+            FROM `log_mail` 
+            WHERE `created_at` > " . $date;
+        logInFile($link, "sql.log", $sql);
+        $result = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($result);
+
+        $count = $row['count'];
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `status` 
+                WHERE `status`.`name` = 'mail'";
+        logInFile($link, "sql.log", $sql);
+        $result = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($result);
+
+        $value = $row['value'];
+
+        if ($count && intval($count) > 7 && $value && ($value == 1 || $value == "1")) {
+            $sql = "# noinspection SqlNoDataSourceInspectionForFile
+                    UPDATE `status` 
+                    SET `value` = '0' 
+                    WHERE `status`.`name` = 'mail';";
+            logInFile($link, "sql.log", $sql);
+            $link->query($sql);
+
+            $message = "Spam Mail, " . $count . " mails envoyé depuis " .
+                getFormattedDate($date2->format('Y-m-d H:i:s')) .
+                ". Envoie mail désactive.";
+            $body = "<p style=\"color: red;\">" . $message . "</p>";
+            sendMail($data, $transport, "Erreur - Spam mail", $body, $link, true);
+            setLog($link, $message);
+        }
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+}
+
 /**
  * @param $link
  * @param $data
@@ -925,7 +980,7 @@ function getDateLastCleanReacteur($link)
     $row = mysqli_fetch_assoc($request);
     $created_at = $row['created_at'];
 
-    if($created_at) {
+    if ($created_at) {
         return getFormattedDateWithouH($created_at);
     }
 
@@ -948,7 +1003,7 @@ function getDateLastCleanEcumeur($link)
     $row = mysqli_fetch_assoc($request);
     $created_at = $row['created_at'];
 
-    if($created_at){
+    if ($created_at) {
         return getFormattedDateWithouH($created_at);
     }
 
