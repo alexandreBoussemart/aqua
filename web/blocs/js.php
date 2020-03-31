@@ -131,8 +131,8 @@ $reacteur = mysqli_query($link, $sql);
             goalStrokeWidth: '2',
             pointStrokeColors: ['#2A3F54'],
             hideHover: 'auto',
-            ymin: 1100,
-            ymax: 1500,
+            ymin: 1150,
+            ymax: 1750,
             pointSize: 1,
             lineColors: ['#2A3F54'],
             data: [
