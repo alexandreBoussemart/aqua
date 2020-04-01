@@ -1,22 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="src/images/favicon.ico" type="./src/image/ico"/>
+        <?php  require 'blocs/head.php'; ?>
         <title>Aquarium - Dashboard</title>
-        <link href="./vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="./vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="./build/css/custom.min.css" rel="stylesheet">
-        <link href="./vendors/switchery/dist/switchery.min.css" rel="stylesheet">
-        <!-- Datatables -->
-        <link href="./vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-        <link href="./vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-        <link href="./vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-        <link href="./vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-        <link href="./vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     </head>
 
     <?php
@@ -26,34 +12,7 @@
     <body class="nav-md">
         <div class="container body">
             <div class="main_container">
-                <div class="col-md-3 left_col">
-                    <div class="left_col scroll-view">
-                        <div class="navbar nav_title" style="border: 0;">
-                            <a href="#" class="site_title"> </a>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="profile clearfix">
-                            <div class="profile_info">
-                                <span>Bonjour,</span>
-                                <h2>Alexandre</h2>
-                            </div>
-                        </div>
-                        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                            <div class="menu_section">
-                                <h3>Général</h3>
-                                <ul class="nav side-menu">
-                                    <li><a><i class="fa fa-home"></i> Accueil <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="index.php">Dashboard</a></li>
-                                            <li><a href="logs.php">Log</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <?php  require 'blocs/menu.php'; ?>
                 <?php  require 'blocs/top_nav.php'; ?>
 
                 <!-- page content -->
