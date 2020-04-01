@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # -*-coding:Latin-1 -*
 import datetime
-import sys
+import time, sys
 from time import sleep
 import functions
 
