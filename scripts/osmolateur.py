@@ -39,6 +39,8 @@ try:
     # on fait la chaine de caract�re du statut
     state = TO_HIGH_STATE + LEVEL_OK_STATE + PUMP_ON_STATE + TO_LOW_STATE
 
+    time.sleep(0.5)
+
     # on fait une deuxi�me lecture pour �tre s�r
     GPIO.setup(to_high, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(to_low, GPIO.IN, pull_up_down=GPIO.PUD_UP)

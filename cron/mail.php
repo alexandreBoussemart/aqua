@@ -23,7 +23,7 @@ try {
         envoyerMail($link, $data, $transport);
         envoyerMailRappel($link, $data, $transport);
 
-        sleep(1);
+        sleep(2);
     }
 
     envoyerMail8h($link, $data, $transport);
