@@ -108,6 +108,11 @@ def setdebit(value):
 
 def mail(m, b):
     try:
+        status = getstatus('mail')
+        if status == 0 or status == "0":
+            setlogmail(m, b)
+            return False
+
         with open('/home/pi/Desktop/www/aqua/config.json') as f:
             data = json.load(f)
 
@@ -124,6 +129,8 @@ def mail(m, b):
         msg = MIMEMultipart()
         msg['From'] = fromaddr
         msg['To'] = toaddr
+
+        setlogmail(m, b)
 
         msg.attach(MIMEText(b, 'html'))
         msg['Subject'] = m
@@ -240,5 +247,23 @@ def notinstatehuit():
         message = "SQL - ERREUR - notinstatehuit"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
+
+        raise
+
+def setlogmail(sujet, body):
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+
+        sql = "INSERT INTO `log_mail`(`sujet`, `message`) VALUES ('" + sujet + "', '" + body + "')"
+        mycursor.execute(sql)
+
+        mydb.commit()
+        mydb.close()
+
+    except Exception as e:
+        message = "SQL - ERREUR - setlog : "
+        body = message + str(e)
+        setlog(body)
 
         raise
