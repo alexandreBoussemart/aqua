@@ -5198,3 +5198,27 @@ ul.notifications {
     width: 20%;
   }
 }
+
+.schema{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+
+  tr{
+    display: flex;
+
+    td{
+      border: 1px solid rgb(221, 221, 221);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      margin-top: -1px;
+      margin-left: -1px;
+      padding: 15px;
+    }
+
+  }
+}
