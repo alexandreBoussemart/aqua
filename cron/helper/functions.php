@@ -624,7 +624,7 @@ function checkDisableSendMail($link, $data, $transport)
 
         $value = $row['value'];
 
-        if ($count && intval($count) > 7 && $value && ($value == 1 || $value == "1")) {
+        if ($count && intval($count) > 10 && $value && ($value == 1 || $value == "1")) {
             $sql = "# noinspection SqlNoDataSourceInspectionForFile
                     UPDATE `status` 
                     SET `value` = '0' 
