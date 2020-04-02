@@ -1,0 +1,15 @@
++-------------+-------------+--------------+
+|   Capteur   |    Bouton   | Interrupteur |
+| osmolateur  |   poussoir  |     pompe    |
+|   réserve   |  Osmolateur |  Osmolateur  |
++-------------+-------------+--------------+
+|    Pompe    |   Capteur   |  Ventilateur |
+|  Osmolateur |  Osmolateur |   Aquarium   |
++-------------+-------------+--------------+
+|   Capteur   |   Capteur   |    Capteur   |
+|   Bailling  | Température |    Écumeur   |
++-------------+-------------+--------------+
+|   Réacteur  |   Capteur   |              |
+|  Éclairage  |   Reacteur  |              |
+| Ventilateur |             |              |
++-------------+-------------+--------------+
