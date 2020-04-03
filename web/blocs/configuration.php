@@ -68,6 +68,47 @@ foreach ($core_config as $c) {
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="control-label col-md-6 col-sm-6 col-xs-6">Nombre de jours avant alert changement d'eau<span
+                                class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <input value="<?= $config['check_changement_eau']; ?>"
+                               name="check_changement_eau" class="form-control col-md-7 col-xs-12"
+                               required="required" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-6 col-sm-6 col-xs-6">Nombre de jours avant alert nettoyage réacteur<span
+                                class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <input value="<?= $config['check_clean_reacteur']; ?>"
+                               name="check_clean_reacteur" class="form-control col-md-7 col-xs-12"
+                               required="required" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-6 col-sm-6 col-xs-6">Nombre de jours avant alert nettoyage écumeur<span
+                                class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <input value="<?= $config['check_clean_ecumeur']; ?>"
+                               name="check_clean_ecumeur" class="form-control col-md-7 col-xs-12"
+                               required="required" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-6 col-sm-6 col-xs-6">Nombre de jours avant alert nettoyage pompes<span
+                                class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <input value="<?= $config['check_clean_pompes']; ?>"
+                               name="check_clean_pompes" class="form-control col-md-7 col-xs-12"
+                               required="required" type="text">
+                    </div>
+                </div>
+
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">

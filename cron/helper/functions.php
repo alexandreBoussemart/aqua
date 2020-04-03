@@ -377,11 +377,11 @@ function isOn()
  */
 function checkChangementEau($data, $transport, $link)
 {
-    $periode = '-15 days';
+    $periode = '-'.getConfig($link, "check_changement_eau").' days';
     $date = new DateTime();
     $date->modify($periode);
     $date = $date->format('Y-m-d H:i:s');
-    $message = "Pas de changement d'eau depuis plus de 15 jours !";
+    $message = "Pas de changement d'eau depuis plus de ".getConfig($link, "check_changement_eau")." jours !";
 
     $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT count(*) as count 
@@ -880,11 +880,11 @@ function clean($link, $type)
  */
 function checkCleanReacteur($data, $transport, $link)
 {
-    $periode = '-15 days';
+    $periode = '-'.getConfig($link, "check_clean_reacteur").' days';
     $date = new DateTime();
     $date->modify($periode);
     $date = $date->format('Y-m-d H:i:s');
-    $message = "Le réacteur n'a pas été nettoyé depuis plus de 15 jours !";
+    $message = "Le réacteur n'a pas été nettoyé depuis plus de ".getConfig($link, "check_clean_reacteur")." jours !";
 
     $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT count(*) as count 
@@ -913,11 +913,11 @@ function checkCleanReacteur($data, $transport, $link)
  */
 function checkCleanEcumeur($data, $transport, $link)
 {
-    $periode = '-30 days';
+    $periode = '-'.getConfig($link, "check_clean_ecumeur").' days';
     $date = new DateTime();
     $date->modify($periode);
     $date = $date->format('Y-m-d H:i:s');
-    $message = "L écumeur n'a pas été nettoyé depuis plus de 30 jours !";
+    $message = "L écumeur n'a pas été nettoyé depuis plus de ".getConfig($link, "check_clean_ecumeur")." jours !";
 
     $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT count(*) as count 
@@ -946,11 +946,11 @@ function checkCleanEcumeur($data, $transport, $link)
  */
 function checkCleanPompes($data, $transport, $link)
 {
-    $periode = '-90 days';
+    $periode = '-'.getConfig($link, "check_clean_pompes").' days';
     $date = new DateTime();
     $date->modify($periode);
     $date = $date->format('Y-m-d H:i:s');
-    $message = "Les pompes n'ont pas été nettoyé depuis plus de 90 jours !";
+    $message = "Les pompes n'ont pas été nettoyé depuis plus de ".getConfig($link, "check_clean_pompes")." jours !";
 
     $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT count(*) as count 
