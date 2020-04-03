@@ -77,24 +77,19 @@ if (isset($_POST['submit_delete_eau'])) {
 
 // form configuration
 if (isset($_POST['submit_configuration'])) {
-    setConfig($link, $_POST['config_temperature_declenchement'], 'config_temperature_declenchement');
     setConfig($link, $_POST['config_on_off_osmolateur'], 'config_on_off_osmolateur');
     setConfig($link, $_POST['config_on_off_ecumeur'], 'config_on_off_ecumeur');
     setConfig($link, $_POST['config_log_in_files'], 'config_log_in_files');
-    setConfig($link, $_POST['check_changement_eau'], 'check_changement_eau');
-    setConfig($link, $_POST['check_clean_reacteur'], 'check_clean_reacteur');
-    setConfig($link, $_POST['check_clean_ecumeur'], 'check_clean_ecumeur');
-    setConfig($link, $_POST['check_clean_pompes'], 'check_clean_pompes');
-    setConfig($link, $_POST['temperature_min'], 'temperature_min');
-    setConfig($link, $_POST['temperature_max'], 'temperature_max');
-    setConfig($link, $_POST['check_analyse_eau'], 'check_analyse_eau');
+    foreach ($_POST as $key => $value) {
+        setConfig($link, $value, $key);
+    }
 
     header('Location: ' . $data['database'][0]['base_url'] . "configuration.php");
 }
 
 // form param d'eau
 if (isset($_POST['submit_params'])) {
-    foreach ($_POST as $key => $value){
+    foreach ($_POST as $key => $value) {
         setParam($link, $value, str_replace("value_", "", $key));
     }
 

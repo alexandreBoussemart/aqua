@@ -5,9 +5,7 @@
             <div class="clearfix"></div>
         </div>
         <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
-            <div class="ln_solid"></div>
             <input type="hidden" name="submit_eau" value="1"/>
-
             <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-3">Volume<span class="required">*</span>
                 </label>
@@ -16,6 +14,7 @@
                            type="text">
                 </div>
             </div>
+            <div class="ln_solid"></div>
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                     <button type="submit" class="btn btn-success">Enregistrer</button>
