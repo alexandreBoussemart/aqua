@@ -440,22 +440,15 @@ function clear($link)
 
 /**
  * @param $link
- * @param $temperature
  * @return bool
  */
-function getStatusVentilateur($link, $temperature)
+function getStatusVentilateur($link)
 {
     try {
         $result = false;
+        $temperature = getConfig($link, "config_temperature_declenchement");
 
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                SELECT `value` 
-                FROM `core_config` 
-                WHERE `name` = 'config_temperature_declenchement'";
-        $controle = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($controle);
-
-        if ($row && intval($row['value']) <= intval($temperature)) {
+        if ($temperature <= intval($temperature)) {
             $result = true;
         }
 
@@ -473,8 +466,6 @@ function getStatusVentilateur($link, $temperature)
 function getConfig($link, $name)
 {
     try {
-        $result = false;
-
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `value` 
                 FROM `core_config` 
@@ -484,6 +475,10 @@ function getConfig($link, $name)
 
         if ($row && intval($row['value']) == 1) {
             $result = true;
+        } elseif ($row && intval($row['value']) == 0) {
+            $result = true;
+        } else {
+            $result = $row['value'];
         }
 
         return $result;
