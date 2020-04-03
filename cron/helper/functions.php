@@ -476,7 +476,7 @@ function getConfig($link, $name)
         if ($row && intval($row['value']) == 1) {
             $result = true;
         } elseif ($row && intval($row['value']) == 0) {
-            $result = true;
+            $result = false;
         } else {
             $result = $row['value'];
         }
