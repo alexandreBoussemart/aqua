@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
     setStatus($link, $_POST['mail'], 'mail');
     setStatus($link, $_POST['refroidissement'], 'refroidissement');
 
-    header('Location: ' . $data['database'][0]['base_url']."configuration"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']."configuration.php"); ///aqua-web
 }
 
 //form action clear
