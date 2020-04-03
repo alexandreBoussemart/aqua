@@ -17,9 +17,9 @@
                     <li><a><i class="fa fa-home"></i> Accueil <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="<?= $data['database'][0]['base_url']; ?>">Dashboard</a></li>
-                            <li><a href="<?= $data['database'][0]['base_url']; ?>logs.php">Log</a></li>
                             <li><a href="<?= $data['database'][0]['base_url']; ?>configuration.php">Configuration</a></li>
                             <li><a href="<?= $data['database'][0]['base_url']; ?>schema.php">Schéma de branchement</a></li>
+                            <li><a href="<?= $data['database'][0]['base_url']; ?>logs.php">Log</a></li>
                         </ul>
                     </li>
                 </ul>
