@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
     setStatus($link, $_POST['mail'], 'mail');
     setStatus($link, $_POST['refroidissement'], 'refroidissement');
 
-    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']."configuration"); ///aqua-web
 }
 
 //form action clear
@@ -56,7 +56,7 @@ if (isset($_POST['submit_eau'])) {
         $link->query($sql);
     }
 
-    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']."log.php"); ///aqua-web
 }
 
 //delete value changement d'eau
@@ -76,7 +76,7 @@ if (isset($_POST['submit_configuration'])) {
     setConfig($link, $_POST['config_on_off_ecumeur'], 'config_on_off_ecumeur');
     setConfig($link, $_POST['config_log_in_files'], 'config_log_in_files');
 
-    header('Location: ' . $data['database'][0]['base_url']);
+    header('Location: ' . $data['database'][0]['base_url']."configuration.php");
 }
 
 // form param d'eau

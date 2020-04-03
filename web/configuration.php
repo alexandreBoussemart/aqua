@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <?php  require 'blocs/head.php'; ?>
-        <title>Aquarium - Dashboard</title>
+        <title>Aquarium - Configuration</title>
     </head>
 
     <?php
@@ -17,17 +17,10 @@
 
                 <!-- page content -->
                 <div class="right_col" role="main">
-                    <?php
-                    require 'blocs/calendrier.php';
-                    require 'blocs/state.php';
-                    require 'blocs/graph.php';
-                    require 'blocs/graph_param.php';
-                    ?>
-                    <br>
                     <div class="row">
                         <?php
-                        require 'blocs/actions.php';
-                        require 'blocs/controle.php';
+                        require 'blocs/status.php';
+                        require 'blocs/configuration.php';
                         ?>
                     </div>
                 </div>

@@ -5,7 +5,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
         FROM `status`";
 $listes_status = mysqli_query($link, $sql);
 ?>
-<div class="col-md-3 col-sm-3 col-xs-12">
+<div class="col-md-6 col-sm-6 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
             <h2>Statut
