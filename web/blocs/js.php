@@ -88,6 +88,7 @@ $reacteur = mysqli_query($link, $sql);
 ?>
 
 <script>
+    <?php if(isset($temperature)): ?>
     if ($('#graph_temperature').length) {
         Morris.Line({
             element: 'graph_temperature',
@@ -119,7 +120,9 @@ $reacteur = mysqli_query($link, $sql);
             }
         });
     }
+    <?php endif; ?>
 
+    <?php if(isset($reacteur)): ?>
     if ($('#graph_debit').length) {
         Morris.Line({
             element: 'graph_debit',
@@ -151,7 +154,9 @@ $reacteur = mysqli_query($link, $sql);
             }
         });
     }
+    <?php endif; ?>
 
+    <?php if(isset($kh)): ?>
     if ($('#graph_kh').length) {
         Morris.Line({
             element: 'graph_kh',
@@ -183,7 +188,9 @@ $reacteur = mysqli_query($link, $sql);
             }
         });
     }
+    <?php endif; ?>
 
+    <?php if(isset($ca)): ?>
     if ($('#graph_ca').length) {
         Morris.Line({
             element: 'graph_ca',
@@ -215,7 +222,9 @@ $reacteur = mysqli_query($link, $sql);
             }
         });
     }
+    <?php endif; ?>
 
+    <?php if(isset($mg)): ?>
     if ($('#graph_mg').length) {
         Morris.Line({
             element: 'graph_mg',
@@ -247,7 +256,9 @@ $reacteur = mysqli_query($link, $sql);
             }
         });
     }
+    <?php endif; ?>
 
+    <?php if(isset($densite)): ?>
     if ($('#graph_densite').length) {
         Morris.Line({
             element: 'graph_densite',
@@ -279,13 +290,20 @@ $reacteur = mysqli_query($link, $sql);
             }
         });
     }
+    <?php endif; ?>
 
     $MENU_TOGGLE.on('click', function () {
         $(window).resize();
     });
 
+    <?php if(isset($logs)): ?>
     $('#datatable').dataTable({'order': [[0, 'desc']]});
+    <?php endif; ?>
+    <?php if(isset($changements)): ?>
     $('#datatable-eau').dataTable({'order': [[0, 'desc']]});
+    <?php endif; ?>
+    <?php if(isset($logs_mails)): ?>
     $('#datatable-mail').dataTable({'order': [[0, 'desc']]});
+    <?php endif; ?>
 
 </script>

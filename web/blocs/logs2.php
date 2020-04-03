@@ -6,7 +6,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
         ORDER BY `id` DESC 
         LIMIT 30;";
 $request = mysqli_query($link, $sql);
-$logs = mysqli_query($link, $sql);
+$logs_mails = mysqli_query($link, $sql);
 
 ?>
 
@@ -28,7 +28,7 @@ $logs = mysqli_query($link, $sql);
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($logs as $log): ?>
+                    <?php foreach ($logs_mails as $log): ?>
                         <tr>
                             <td><?= $log["id"] ?></td>
                             <td><?= getFormattedDate($log["created_at"]) ?></td>

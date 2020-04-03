@@ -1,3 +1,41 @@
+<?php
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT T.*
+        FROM (
+            SELECT * 
+            FROM `data_parametres_eau` 
+            WHERE `type` LIKE 'ca' 
+            ORDER BY `id` DESC 
+            LIMIT 15 
+        ) T
+        ORDER BY T.id ASC LIMIT 15 ";
+$ca = mysqli_query($link, $sql);
+
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT T.*
+        FROM (
+            SELECT * 
+            FROM `data_parametres_eau` 
+            WHERE `type` LIKE 'kh' 
+            ORDER BY `id` DESC 
+            LIMIT 15 
+        ) T
+        ORDER BY T.id ASC LIMIT 15";
+$kh = mysqli_query($link, $sql);
+
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT T.*
+        FROM (
+            SELECT * 
+            FROM `data_parametres_eau` 
+            WHERE `type` LIKE 'mg' 
+            ORDER BY `id` DESC 
+            LIMIT 15 
+        ) T
+        ORDER BY T.id ASC LIMIT 15";
+$mg = mysqli_query($link, $sql);
+?>
+
 <div class="row">
     <div class="col-md-4 col-sm-4 col-xs-12">
         <div class="x_panel">

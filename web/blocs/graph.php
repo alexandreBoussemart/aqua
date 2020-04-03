@@ -1,3 +1,31 @@
+<?php
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT T.*
+        FROM (
+            SELECT * 
+            FROM `data_parametres_eau` 
+            WHERE `type` LIKE 'densite' 
+            ORDER BY `id` DESC 
+            LIMIT 15 
+        ) T
+        ORDER BY T.id ASC LIMIT 15";
+$densite = mysqli_query($link, $sql);
+
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT * 
+        FROM `data_temperature` 
+        WHERE `created_at` >= '" . $yesterday . "' 
+        AND `created_at` <= '" . $today . "'";
+$temperature = mysqli_query($link, $sql);
+
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT * 
+        FROM `data_reacteur` 
+        WHERE `created_at` >= '" . $yesterday . "' 
+        AND `created_at` <= '" . $today . "'";
+$reacteur = mysqli_query($link, $sql);
+?>
+
 <div class="row first-bloc">
     <div class="col-md-4 col-sm-4 col-xs-12">
         <div class="x_panel">
