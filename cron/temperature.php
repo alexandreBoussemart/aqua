@@ -59,11 +59,11 @@ try {
     // si les deux temperatures on moins de 10% d'écart
     if ($temp_min < $temperature2 && $temperature2 < $temp_max) {
 
-        if ($temperature2 < 23) {
+        if ($temperature2 < getConfig($link, "temperature_min")) {
             //trop froid
             $message = "Temperature - ERREUR Trop froid - " . $temperature2 . "°C";
             $result = setState($link, 'temperature', 'state_5', 1, $message);
-        } elseif ($temperature2 > 28) {
+        } elseif ($temperature2 > getConfig($link, "temperature_max")) {
             //trop chaud
             $message = "Temperature - ERREUR Trop chaud - " . $temperature2 . "°C";
             $result = setState($link, 'temperature', 'state_6', 1, $message);

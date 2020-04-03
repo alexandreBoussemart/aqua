@@ -760,7 +760,7 @@ function setParam($link, $data, $type)
 function checkParamEau($data, $transport, $link, $type, $message, $subject)
 {
     try {
-        $periode = '-6 days';
+        $periode = '-'.getConfig($link, "check_analyse_eau").' days';
         $date = new DateTime();
         $date->modify($periode);
         $date = $date->format('Y-m-d H:i:s');

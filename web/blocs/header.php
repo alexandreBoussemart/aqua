@@ -85,6 +85,9 @@ if (isset($_POST['submit_configuration'])) {
     setConfig($link, $_POST['check_clean_reacteur'], 'check_clean_reacteur');
     setConfig($link, $_POST['check_clean_ecumeur'], 'check_clean_ecumeur');
     setConfig($link, $_POST['check_clean_pompes'], 'check_clean_pompes');
+    setConfig($link, $_POST['temperature_min'], 'temperature_min');
+    setConfig($link, $_POST['temperature_max'], 'temperature_max');
+    setConfig($link, $_POST['check_analyse_eau'], 'check_analyse_eau');
 
     header('Location: ' . $data['database'][0]['base_url'] . "configuration.php");
 }
