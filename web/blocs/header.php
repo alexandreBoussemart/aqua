@@ -66,7 +66,7 @@ if (isset($_POST['submit_delete_eau'])) {
         $link->query($sql);
     }
 
-    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']."logs.php"); ///aqua-web
 }
 
 // form configuration
