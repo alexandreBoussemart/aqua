@@ -94,10 +94,9 @@ if (isset($_POST['submit_configuration'])) {
 
 // form param d'eau
 if (isset($_POST['submit_params'])) {
-    setParam($link, $_POST['value_kh'], 'kh');
-    setParam($link, $_POST['value_ca'], 'ca');
-    setParam($link, $_POST['value_mg'], 'mg');
-    setParam($link, $_POST['value_densite'], 'densite');
+    foreach ($_POST as $key => $value){
+        setParam($link, $value, str_replace("value_", "", $key));
+    }
 
     header('Location: ' . $data['database'][0]['base_url']);
 }
