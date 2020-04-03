@@ -4,7 +4,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
         SELECT * 
         FROM `log_mail` 
         ORDER BY `id` DESC 
-        LIMIT 30;";
+        LIMIT 50;";
 $request = mysqli_query($link, $sql);
 $logs_mails = mysqli_query($link, $sql);
 

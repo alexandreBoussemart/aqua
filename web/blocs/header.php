@@ -62,7 +62,7 @@ if (isset($_POST['submit_eau'])) {
         $link->query($sql);
     }
 
-    header('Location: ' . $data['database'][0]['base_url'] . "logs.php"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
 }
 
 //delete value changement d'eau

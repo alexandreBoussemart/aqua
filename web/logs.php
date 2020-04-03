@@ -19,7 +19,8 @@
                 <div class="right_col" role="main">
                     <?php
                     require 'blocs/logs.php';
-                    require 'blocs/logs2.php';
+                    require 'blocs/logs_mail.php';
+                    require 'blocs/logs_eau.php';
                     require 'blocs/osmolateur.php';
                     ?>
                 </div>

@@ -30,6 +30,11 @@
                         require 'blocs/controle.php';
                         ?>
                     </div>
+                    <div class="row">
+                        <?php
+                        require 'blocs/changement_eau.php';
+                        ?>
+                    </div>
                 </div>
                 <!-- /page content -->
             </div>
