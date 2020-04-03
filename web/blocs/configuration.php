@@ -42,7 +42,7 @@ $last = '1';
                             <div class="col-md-6 col-sm-6 col-xs-6">
                                 <div class="">
                                     <label>
-                                        <input name="config_on_off_osmolateur" type="checkbox"
+                                        <input name="<?= $c[1] ?>" type="checkbox"
                                                class="js-switch" <?php if ($c[2] == '1') {
                                             echo 'checked';
                                         } ?> />
