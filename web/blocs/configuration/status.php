@@ -14,7 +14,7 @@ $listes_status = mysqli_query($link, $sql);
             <div class="clearfix"></div>
         </div>
         <div class="x_content2">
-            <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
+            <form method="post" action="save.php" class="form-horizontal form-label-left switch-state">
                 <input type="hidden" name="submit" value="1"/>
                 <?php foreach ($listes_status as $status): ?>
                     <div class="form-group">

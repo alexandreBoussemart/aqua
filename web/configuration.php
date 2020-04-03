@@ -17,12 +17,15 @@
 
                 <!-- page content -->
                 <div class="right_col" role="main">
-                    <?php require 'blocs/actions.php'; ?>
+                    <?php
+                    require 'blocs/messages.php';
+                    require 'blocs/configuration/actions.php';
+                    ?>
                     <div class="row">
                         <?php
 
-                        require 'blocs/configuration.php';
-                        require 'blocs/status.php';
+                        require 'blocs/configuration/configuration.php';
+                        require 'blocs/configuration/status.php';
                         ?>
                     </div>
                 </div>

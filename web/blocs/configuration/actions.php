@@ -6,27 +6,27 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
+                <form method="post" action="save.php" class="form-horizontal form-label-left switch-state">
                     <input type="hidden" name="submit_actions_clear" value="1"/>
                     <button type="submit" class="btn btn-default">Vider BDD > 30 jours</button>
                 </form>
             </div>
             <div class="x_content">
-                <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
+                <form method="post" action="save.php" class="form-horizontal form-label-left switch-state">
                     <input type="hidden" name="submit_actions_clear_reacteur" value="1"/>
                     <button type="submit" class="btn btn-default">Nettoyage réacteur</button>
                     <small><?= getDateLastClean($link, "reacteur") ?></small>
                 </form>
             </div>
             <div class="x_content">
-                <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
+                <form method="post" action="save.php" class="form-horizontal form-label-left switch-state">
                     <input type="hidden" name="submit_actions_clear_ecumeur" value="1"/>
                     <button type="submit" class="btn btn-default">Nettoyage écumeur</button>
                     <small><?= getDateLastClean($link, "ecumeur") ?></small>
                 </form>
             </div>
             <div class="x_content">
-                <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
+                <form method="post" action="save.php" class="form-horizontal form-label-left switch-state">
                     <input type="hidden" name="submit_actions_clear_pompes" value="1"/>
                     <button type="submit" class="btn btn-default">Nettoyage pompes</button>
                     <small><?= getDateLastClean($link, "pompes") ?></small>

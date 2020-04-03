@@ -18,10 +18,11 @@
                 <!-- page content -->
                 <div class="right_col" role="main">
                     <?php
-                    require 'blocs/logs.php';
-                    require 'blocs/logs_mail.php';
-                    require 'blocs/logs_eau.php';
-                    require 'blocs/osmolateur.php';
+                    require 'blocs/messages.php';
+                    require 'blocs/logs/logs.php';
+                    require 'blocs/logs/logs_mail.php';
+                    require 'blocs/logs/logs_eau.php';
+                    require 'blocs/logs/osmolateur.php';
                     ?>
                 </div>
                 <!-- /page content -->

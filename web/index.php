@@ -18,21 +18,22 @@
                 <!-- page content -->
                 <div class="right_col" role="main">
                     <?php
-                    require 'blocs/calendrier.php';
-                    require 'blocs/state.php';
-                    require 'blocs/graph.php';
-                    require 'blocs/graph_param.php';
+                    require 'blocs/messages.php';
+                    require 'blocs/dashboard/calendrier.php';
+                    require 'blocs/dashboard/state.php';
+                    require 'blocs/dashboard/graph.php';
+                    require 'blocs/dashboard/graph_param.php';
                     ?>
                     <br>
                     <div class="row">
                         <?php
-                        require 'blocs/analyse_eau.php';
-                        require 'blocs/controle.php';
+                        require 'blocs/dashboard/analyse_eau.php';
+                        require 'blocs/dashboard/controle.php';
                         ?>
                     </div>
                     <div class="row">
                         <?php
-                        require 'blocs/changement_eau.php';
+                        require 'blocs/dashboard/changement_eau.php';
                         ?>
                     </div>
                 </div>

@@ -4,7 +4,7 @@
             <h2>Analyse d'eau</h2>
             <div class="clearfix"></div>
         </div>
-        <form method="post" action="index.php" class="form-horizontal form-label-left switch-state">
+        <form method="post" action="save.php" class="form-horizontal form-label-left switch-state">
             <input type="hidden" name="submit_params" value="1"/>
             <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-3">Ca<span class="required">*</span></label>

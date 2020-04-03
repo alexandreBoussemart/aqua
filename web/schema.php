@@ -18,7 +18,8 @@
                 <!-- page content -->
                 <div class="right_col" role="main">
                     <?php
-                    require 'blocs/schema.php';
+                    require 'blocs/messages.php';
+                    require 'blocs/schema/schema.php';
                     ?>
                 </div>
                 <!-- /page content -->
