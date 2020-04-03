@@ -95,7 +95,7 @@ $reacteur = mysqli_query($link, $sql);
             xkey: 'datetime',
             ykeys: ['value'],
             labels: ['Value'],
-            goals: [23, 25, 28],
+            goals: [<?= getConfig($link, "temperature_min") ?>, 25, <?= getConfig($link, "temperature_max") ?>],
             goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
             goalStrokeWidth: '2',
             pointStrokeColors: ['#2A3F54'],
