@@ -1,3 +1,15 @@
+<?php
+$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+        SELECT * 
+        FROM `core_config`";
+$core_config = mysqli_query($link, $sql);
+$core_config = mysqli_fetch_all($core_config);
+$config = [];
+foreach ($core_config as $c) {
+    $config[$c[1]] = $c[2];
+}
+?>
+
 <div class="col-md-6 col-sm-6 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
