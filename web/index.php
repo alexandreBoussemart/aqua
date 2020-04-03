@@ -26,7 +26,7 @@
                     <br>
                     <div class="row">
                         <?php
-                        require 'blocs/actions.php';
+                        require 'blocs/analyse_eau.php';
                         require 'blocs/controle.php';
                         ?>
                     </div>

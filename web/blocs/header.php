@@ -31,22 +31,22 @@ if (isset($_POST['submit'])) {
     header('Location: ' . $data['database'][0]['base_url']."configuration.php"); ///aqua-web
 }
 
-//form action clear
+//form action clear data
 if (isset($_POST['submit_actions_clear'])) {
     clear($link);
-    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']."configuration.php"); ///aqua-web
 }
 
 //form action clean reacteur
 if (isset($_POST['submit_actions_clear_reacteur'])) {
     cleanReacteur($link);
-    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']."configuration.php"); ///aqua-web
 }
 
 //form action clean ecumeur
 if (isset($_POST['submit_actions_clear_ecumeur'])) {
     cleanEcumeur($link);
-    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url']."configuration.php"); ///aqua-web
 }
 
 // form changement d'eau

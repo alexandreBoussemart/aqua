@@ -17,6 +17,7 @@
 
                 <!-- page content -->
                 <div class="right_col" role="main">
+                    <?php require 'blocs/actions.php'; ?>
                     <div class="row">
                         <?php
                         require 'blocs/status.php';
