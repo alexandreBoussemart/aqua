@@ -29,6 +29,9 @@ try {
     //si pas nettoyé le écumeur depuis plus de 30 jours on envoie un mail de rappel
     checkCleanEcumeur($data, $transport, $link);
 
+    //si pas nettoyé les pompes depuis plus de 90 jours on envoie un mail de rappel
+    checkCleanPompes($data, $transport, $link);
+
     //si pas de mesure depuis plus d'1 semaine
     $message = "Pas de mesure du Ca depuis plus de 6 jours !";
     $subject = "Rappel - faire une mesure du Ca";

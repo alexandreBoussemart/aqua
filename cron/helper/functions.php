@@ -857,13 +857,14 @@ function getLastReacteur($link)
 
 /**
  * @param $link
+ * @param $type
  * @return bool
  */
-function cleanReacteur($link)
+function clean($link, $type)
 {
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                INSERT INTO `data_clean_reacteur` (`id`, `created_at`) 
+                INSERT INTO `data_clean_" . $type . "` (`id`, `created_at`) 
                 VALUES (NULL, CURRENT_TIMESTAMP);";
         logInFile($link, "sql.log", $sql);
         $link->query($sql);
@@ -875,28 +876,6 @@ function cleanReacteur($link)
         return false;
     }
 }
-
-/**
- * @param $link
- * @return bool
- */
-function cleanEcumeur($link)
-{
-    try {
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                INSERT INTO `data_clean_ecumeur` (`id`, `created_at`) 
-                VALUES (NULL, CURRENT_TIMESTAMP);";
-        logInFile($link, "sql.log", $sql);
-        $link->query($sql);
-
-        return true;
-    } catch (Exception $e) {
-        setLog($link, $e->getMessage());
-
-        return false;
-    }
-}
-
 
 /**
  * @param $data
@@ -965,37 +944,48 @@ function checkCleanEcumeur($data, $transport, $link)
 }
 
 /**
+ * @param $data
+ * @param $transport
  * @param $link
- * @return string
+ * @return bool
  */
-function getDateLastCleanReacteur($link)
+function checkCleanPompes($data, $transport, $link)
 {
-    $sql = "# noinspection SqlNoDataSourceInspectionForFile
-            SELECT `created_at` 
-            FROM `data_clean_reacteur` 
-            ORDER BY `id` DESC 
-            LIMIT 1";
+    $periode = '-90 days';
+    $date = new DateTime();
+    $date->modify($periode);
+    $date = $date->format('Y-m-d H:i:s');
+    $message = "Les pompes n'ont pas été nettoyé depuis plus de 90 jours !";
+
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT count(*) as count 
+            FROM `data_clean_pompes` 
+            WHERE `created_at` > '" . $date . "'";
     logInFile($link, "sql.log", $sql);
     $request = mysqli_query($link, $sql);
-    $row = mysqli_fetch_assoc($request);
-    $created_at = $row['created_at'];
+    $result = mysqli_fetch_assoc($request);
 
-    if ($created_at) {
-        return getFormattedDateWithouH($created_at);
+    if ($result['count'] == "0" || $result['count'] == 0) {
+        $body = "<p style=\"color: red;\">" . $message . "</p>";
+        sendMail($data, $transport, "Rappel - nettoyer les pompes", $body, $link);
+        setLog($link, $message);
+
+        return false;
     }
 
-    return null;
+    return true;
 }
 
 /**
  * @param $link
- * @return string
+ * @param $type
+ * @return null|string
  */
-function getDateLastCleanEcumeur($link)
+function getDateLastClean($link, $type)
 {
     $sql = "# noinspection SqlNoDataSourceInspectionForFile
             SELECT `created_at` 
-            FROM `data_clean_ecumeur` 
+            FROM `data_clean_" . $type . "` 
             ORDER BY `id` DESC 
             LIMIT 1";
     logInFile($link, "sql.log", $sql);

@@ -20,8 +20,9 @@
                     <?php require 'blocs/actions.php'; ?>
                     <div class="row">
                         <?php
-                        require 'blocs/status.php';
+
                         require 'blocs/configuration.php';
+                        require 'blocs/status.php';
                         ?>
                     </div>
                 </div>

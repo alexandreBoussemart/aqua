@@ -28,25 +28,31 @@ if (isset($_POST['submit'])) {
     setStatus($link, $_POST['mail'], 'mail');
     setStatus($link, $_POST['refroidissement'], 'refroidissement');
 
-    header('Location: ' . $data['database'][0]['base_url']."configuration.php"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url'] . "configuration.php"); ///aqua-web
 }
 
 //form action clear data
 if (isset($_POST['submit_actions_clear'])) {
     clear($link);
-    header('Location: ' . $data['database'][0]['base_url']."configuration.php"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url'] . "configuration.php"); ///aqua-web
 }
 
 //form action clean reacteur
 if (isset($_POST['submit_actions_clear_reacteur'])) {
-    cleanReacteur($link);
-    header('Location: ' . $data['database'][0]['base_url']."configuration.php"); ///aqua-web
+    clean($link, "reacteur");
+    header('Location: ' . $data['database'][0]['base_url'] . "configuration.php"); ///aqua-web
 }
 
 //form action clean ecumeur
 if (isset($_POST['submit_actions_clear_ecumeur'])) {
-    cleanEcumeur($link);
-    header('Location: ' . $data['database'][0]['base_url']."configuration.php"); ///aqua-web
+    clean($link, "ecumeur");
+    header('Location: ' . $data['database'][0]['base_url'] . "configuration.php"); ///aqua-web
+}
+
+//form action clean pompes
+if (isset($_POST['submit_actions_clear_pompes'])) {
+    clean($link, "pompes");
+    header('Location: ' . $data['database'][0]['base_url'] . "configuration.php"); ///aqua-web
 }
 
 // form changement d'eau
@@ -56,7 +62,7 @@ if (isset($_POST['submit_eau'])) {
         $link->query($sql);
     }
 
-    header('Location: ' . $data['database'][0]['base_url']."logs.php"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url'] . "logs.php"); ///aqua-web
 }
 
 //delete value changement d'eau
@@ -66,7 +72,7 @@ if (isset($_POST['submit_delete_eau'])) {
         $link->query($sql);
     }
 
-    header('Location: ' . $data['database'][0]['base_url']."logs.php"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url'] . "logs.php"); ///aqua-web
 }
 
 // form configuration
@@ -76,7 +82,7 @@ if (isset($_POST['submit_configuration'])) {
     setConfig($link, $_POST['config_on_off_ecumeur'], 'config_on_off_ecumeur');
     setConfig($link, $_POST['config_log_in_files'], 'config_log_in_files');
 
-    header('Location: ' . $data['database'][0]['base_url']."configuration.php");
+    header('Location: ' . $data['database'][0]['base_url'] . "configuration.php");
 }
 
 // form param d'eau
