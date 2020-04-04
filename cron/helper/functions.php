@@ -571,6 +571,7 @@ function envoyerMailRappel($link, $data, $transport)
             // on envoie le mail
             try {
                 sendMail($data, $transport, $message, $body, $link);
+                setLog($link, $message);
             } catch (Exception $e) {
                 setLog($link, $e->getMessage());
             }

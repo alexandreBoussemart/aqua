@@ -35,7 +35,7 @@ def getstatus(value):
         message = "SQL - ERREUR - getstatus"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
-        setlog(body)
+        setlog(message + str(e))
 
         raise
 
@@ -54,7 +54,7 @@ def getconfig(value):
         message = "SQL - ERREUR - getConfiguration"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
-        setlog(body)
+        setlog(message + str(e))
 
         raise
 
@@ -75,7 +75,7 @@ def setcontrole(value):
         message = "SQL - ERREUR - setcontrole" + value
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
-        setlog(body)
+        setlog(message + str(e))
 
         raise
 
@@ -104,7 +104,7 @@ def setosmolateur(state):
         message = "SQL - ERREUR - setosmolateur"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
-        setlog(body)
+        setlog(message + str(e))
 
         raise
 
@@ -125,7 +125,7 @@ def setdebit(value):
         message = "SQL - ERREUR - setdebit"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
-        setlog(body)
+        setlog(message + str(e))
 
         raise
 
@@ -165,7 +165,7 @@ def mail(m, b):
     except Exception as e:
         message = "Mail - ERREUR - mail"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        setlog(body)
+        setlog(message + str(e))
         raise
 
 
@@ -200,7 +200,7 @@ def setcompletestate(path, value, error, message, exclude, force_log):
         exclude = str(exclude)
         force_log = str(force_log)
 
-        # on vÃ©rifie qu'on est pas dÃ©ja dans cet Ã©tat
+        # on vérifie qu'on est pas déjà dans cet état
         mydb = connect()
         mycursor = mydb.cursor()
         mycursor.execute(
@@ -228,7 +228,7 @@ def setcompletestate(path, value, error, message, exclude, force_log):
         message = "SQL - ERREUR - setcompletestate"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + " - " + str(e) + "</p>"
         mail(message, body)
-        setlog(body)
+        setlog(message + str(e))
 
         raise
 
@@ -271,7 +271,7 @@ def notinstatehuit():
         message = "SQL - ERREUR - notinstatehuit"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
-        setlog(body)
+        setlog(message + str(e))
 
         raise
 
