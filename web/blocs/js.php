@@ -129,7 +129,7 @@ $reacteur = mysqli_query($link, $sql);
             xkey: 'datetime',
             ykeys: ['value'],
             labels: ['Value'],
-            goals: [1000],
+            goals: [<?= getConfig($link, "debit_reacteur_min") ?>],
             goalLineColors: ['#2B46F0'],
             goalStrokeWidth: '2',
             pointStrokeColors: ['#2A3F54'],
