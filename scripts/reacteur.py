@@ -14,7 +14,6 @@ global count
 count = 0
 path = 'reacteur'
 start_counter = 0
-debit_reacteur = functions.getconfig("debit_reacteur_min")
 
 
 def countpulse(channel):
@@ -26,6 +25,8 @@ def countpulse(channel):
 GPIO.add_event_detect(FLOW_SENSOR, GPIO.FALLING, callback=countpulse)
 
 try:
+    debit_reacteur = int(functions.getconfig("debit_reacteur_min"))
+
     start_counter = 1
     time.sleep(10)
     start_counter = 0
