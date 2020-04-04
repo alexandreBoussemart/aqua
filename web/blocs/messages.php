@@ -11,6 +11,11 @@ session_start();
                     <?= $_SESSION['message'] ?>
                 </div>
             <?php endif; ?>
+            <?php if ($_SESSION['result'] == "error"): ?>
+                <div class="alert alert-error" role="alert">
+                    <?= $_SESSION['message'] ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 

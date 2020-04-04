@@ -312,6 +312,7 @@ function setStatus($link, $data, $code)
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
     }
 }
 
@@ -340,6 +341,7 @@ function setConfig($link, $data, $code)
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
     }
 }
 
@@ -435,6 +437,7 @@ function clear($link)
         $link->query($sql);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
     }
 }
 
@@ -745,6 +748,7 @@ function setParam($link, $data, $type)
         }
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
     }
 }
 
@@ -867,6 +871,7 @@ function clean($link, $type)
         return true;
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
 
         return false;
     }

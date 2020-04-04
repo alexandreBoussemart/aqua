@@ -35,6 +35,26 @@ def getstatus(value):
         message = "SQL - ERREUR - getstatus"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
+        setlog(body)
+
+        raise
+
+
+def getconfig(value):
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        mycursor.execute("SELECT `value` FROM `core_config` WHERE `name` = '" + value + "' LIMIT 1")
+        myresult = mycursor.fetchone()[0]
+        mydb.close()
+
+        return myresult
+
+    except Exception as e:
+        message = "SQL - ERREUR - getConfiguration"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        mail(message, body)
+        setlog(body)
 
         raise
 
@@ -55,6 +75,7 @@ def setcontrole(value):
         message = "SQL - ERREUR - setcontrole" + value
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
+        setlog(body)
 
         raise
 
@@ -83,6 +104,7 @@ def setosmolateur(state):
         message = "SQL - ERREUR - setosmolateur"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
+        setlog(body)
 
         raise
 
@@ -103,6 +125,8 @@ def setdebit(value):
         message = "SQL - ERREUR - setdebit"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
+        setlog(body)
+
         raise
 
 
@@ -141,8 +165,7 @@ def mail(m, b):
     except Exception as e:
         message = "Mail - ERREUR - mail"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        print(message)
-        mail(message, body)
+        setlog(body)
         raise
 
 
@@ -205,6 +228,7 @@ def setcompletestate(path, value, error, message, exclude, force_log):
         message = "SQL - ERREUR - setcompletestate"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + " - " + str(e) + "</p>"
         mail(message, body)
+        setlog(body)
 
         raise
 
@@ -247,6 +271,7 @@ def notinstatehuit():
         message = "SQL - ERREUR - notinstatehuit"
         body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         mail(message, body)
+        setlog(body)
 
         raise
 
