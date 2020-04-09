@@ -82,7 +82,27 @@ function getStatus($link, $name)
             $result = false;
         }
 
+        sleep(1);
+
+        $result2 = true;
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `value` 
+                FROM `status` 
+                WHERE `name` = '" . $name . "'";
+        $controle = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($controle);
+
+        if ($row && $row['value'] === "0") {
+            $result2 = false;
+        }
+
+        if ($result != $result2) {
+            return getStatus($link, $name);
+        }
+
         return $result;
+
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
