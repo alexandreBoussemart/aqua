@@ -8,7 +8,6 @@ import smtplib
 import mysql.connector
 import os
 import os.path
-from os import path
 
 
 def connect():
@@ -203,7 +202,7 @@ def setcompletestate(path, value, error, message, exclude, force_log):
         currentDir = os.path.dirname(os.path.realpath(__file__))
         file = currentDir + '/../state/' + path + '-' + value
 
-        if path.exists(file):
+        if os.path.exists(file):
             mydb = connect()
             mycursor = mydb.cursor()
             sql = 'UPDATE `state` set `value`="' + value + '",`error`="' + error + '",`message`="' + message + '", `created_at`=now(), `mail_send`=0, `exclude_check`="' + exclude + '" WHERE `path`="' + path + '"'
