@@ -6,8 +6,8 @@ import RPi.GPIO as GPIO
 import time, sys
 import functions
 import datetime
+from pathlib import Path
+import os
 
-
-debit_reacteur = functions.getconfig("debit_reacteur_min")
-
-print(debit_reacteur)
+currentDirectory = os.getcwd()
+Path(currentDirectory+'../state/file.txt').touch()
