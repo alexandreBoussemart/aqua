@@ -608,23 +608,10 @@ function checkDisableSendMail($link, $data, $transport)
 
         $count = $row['count'];
 
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                SELECT `value` 
-                FROM `status` 
-                WHERE `status`.`name` = 'mail'";
-        logInFile($link, "sql.log", $sql);
-        $result = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($result);
+        $status = getStatus($link, 'mail');
 
-        $value = $row['value'];
-
-        if ($count && intval($count) > 10 && $value && ($value == 1 || $value == "1")) {
-            $sql = "# noinspection SqlNoDataSourceInspectionForFile
-                    UPDATE `status` 
-                    SET `value` = '0' 
-                    WHERE `status`.`name` = 'mail';";
-            logInFile($link, "sql.log", $sql);
-            $link->query($sql);
+        if ($count && intval($count) > 10 && $status) {
+            setStatus($link, null, 'mail');
 
             $message = "Spam Mail, " . $count . " mails envoyé depuis " .
                 getFormattedDate($date2->format('Y-m-d H:i:s')) .
