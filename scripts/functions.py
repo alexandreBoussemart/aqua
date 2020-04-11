@@ -6,7 +6,8 @@ from email.mime.text import MIMEText
 import RPi.GPIO as GPIO
 import smtplib
 import mysql.connector
-import os
+import os, glob
+import os.path
 
 
 def connect():
@@ -198,17 +199,10 @@ def setcompletestate(path, value, error, message, exclude, force_log):
         message = str(message)
         exclude = str(exclude)
         force_log = str(force_log)
+        currentDir = os.path.dirname(os.path.realpath(__file__))
+        file = currentDir + '/../state/' + path + '-' + value
 
-
-        # on vérifie qu'on est pas déjà dans cet état
-        mydb = connect()
-        mycursor = mydb.cursor()
-        mycursor.execute(
-            "SELECT count(*) as count FROM `state` WHERE `path` = '" + path + "' AND `value` = '" + value + "'")
-        myresult = mycursor.fetchone()[0]
-        mydb.close()
-
-        if myresult == 0:
+        if os.path.isfile(file) == False:
             mydb = connect()
             mycursor = mydb.cursor()
             sql = 'UPDATE `state` set `value`="' + value + '",`error`="' + error + '",`message`="' + message + '", `created_at`=now(), `mail_send`=0, `exclude_check`="' + exclude + '" WHERE `path`="' + path + '"'
@@ -218,10 +212,10 @@ def setcompletestate(path, value, error, message, exclude, force_log):
             setlog(message)
 
             # on créer un fichier d'état après avoir supprimer l'ancien
-            currentDir = os.path.dirname(os.path.realpath(__file__))
-            file = currentDir + '/../state/' + path + '-' + value
-            os.system('rm ' + currentDir + '/../state/' + path + '*')
-            os.system("touch " + file)
+            for filename in glob.glob(currentDir + '/../state/' + path + '-' + "*"):
+                os.remove(filename)
+
+            os.mknod(file)
 
             return True
 
