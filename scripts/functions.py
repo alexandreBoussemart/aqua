@@ -7,8 +7,6 @@ import RPi.GPIO as GPIO
 import smtplib
 import mysql.connector
 import os
-from pathlib import Path
-import os
 
 
 def connect():
@@ -218,8 +216,9 @@ def setcompletestate(path, value, error, message, exclude, force_log):
             mydb.close()
             setlog(message)
 
-            # on créer un fichier d'état
-            Path(os.getcwd() + '/../state/' + path + '-' + value).touch()
+            # on créer un fichier d'état après avoir supprimer l'ancien
+            os.system("rm " + os.getcwd() + '/../state/' + path + "*")
+            os.system("touch " + os.getcwd() + '/../state/' + path + '-' + value)
 
             return True
 
