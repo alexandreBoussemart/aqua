@@ -10,4 +10,4 @@ from pathlib import Path
 import os
 
 currentDirectory = os.getcwd()
-Path(currentDirectory+'../state/file.txt').touch()
+Path(currentDirectory+'/../state/file.txt').touch()

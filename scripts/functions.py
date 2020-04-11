@@ -7,6 +7,8 @@ import RPi.GPIO as GPIO
 import smtplib
 import mysql.connector
 import os
+from pathlib import Path
+import os
 
 
 def connect():
@@ -91,7 +93,6 @@ def setosmolateur(state):
         myresult = mycursor.fetchone()[0]
 
         if myresult != state:
-
             mydb = connect()
             mycursor = mydb.cursor()
             sql = "INSERT INTO `data_osmolateur`( `state`) VALUES ('" + state + "')"
@@ -217,6 +218,9 @@ def setcompletestate(path, value, error, message, exclude, force_log):
             mydb.close()
             setlog(message)
 
+            # on créer un fichier d'état
+            Path(os.getcwd() + '/../state/' + path + '-' + value).touch()
+
             return True
 
         if force_log == 1:
@@ -274,6 +278,7 @@ def notinstatehuit():
         setlog(message + str(e))
 
         raise
+
 
 def setlogmail(sujet, body):
     try:
