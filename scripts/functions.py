@@ -7,7 +7,6 @@ import RPi.GPIO as GPIO
 import smtplib
 import mysql.connector
 import os
-import os.path
 
 
 def connect():
