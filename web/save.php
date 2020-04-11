@@ -15,6 +15,9 @@ if (isset($_POST['submit'])) {
     setStatus($link, $_POST['cron_rappel'], 'cron_rappel');
     setStatus($link, $_POST['mail'], 'mail');
     setStatus($link, $_POST['refroidissement'], 'refroidissement');
+    setStatus($link, $_POST['on_off_osmolateur'], 'on_off_osmolateur');
+    setStatus($link, $_POST['on_off_ecumeur'], 'on_off_ecumeur');
+    setStatus($link, $_POST['log_in_files'], 'log_in_files');
     setMessage("success", "Les statuts ont été sauvegardé.");
     header('Location: ' . $data['database'][0]['base_url'] . "configuration.php"); ///aqua-web
 }
@@ -70,9 +73,6 @@ if (isset($_POST['submit_delete_eau'])) {
 
 // form configuration
 if (isset($_POST['submit_configuration'])) {
-    setConfig($link, $_POST['config_on_off_osmolateur'], 'config_on_off_osmolateur');
-    setConfig($link, $_POST['config_on_off_ecumeur'], 'config_on_off_ecumeur');
-    setConfig($link, $_POST['config_log_in_files'], 'config_log_in_files');
     foreach ($_POST as $key => $value) {
         setConfig($link, $value, $key);
     }

@@ -990,7 +990,7 @@ function getDateLastClean($link, $type)
  */
 function logInFile($link, $file, $message)
 {
-    if (getConfig($link, 'config_log_in_files') == true) {
+    if (getStatus($link, 'log_in_files') == true) {
         $file = __DIR__ . "/../../var/log/" . $file;
         $fp = fopen($file, "a+");
         fwrite($fp, date("Y-m-d H:i:s") . " : " . $message . PHP_EOL);

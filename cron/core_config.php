@@ -22,7 +22,7 @@ try {
 
         sleep(1);
 
-        if (getConfig($link, 'config_on_off_osmolateur') == true) {
+        if (getStatus($link, 'on_off_osmolateur') == true) {
             // on allume
             exec("python " . __DIR__ . "/../scripts/osmolateur/on.py");
         } else {
@@ -30,7 +30,7 @@ try {
             exec("python " . __DIR__ . "/../scripts/osmolateur/off.py");
         }
 
-        if (getConfig($link, 'config_on_off_ecumeur') == true) {
+        if (getStatus($link, 'on_off_ecumeur') == true) {
             // on allume
             exec("python " . __DIR__ . "/../scripts/ecumeur/off.py");
         } else {
