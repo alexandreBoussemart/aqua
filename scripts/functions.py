@@ -217,7 +217,7 @@ def setcompletestate(path, value, error, message, exclude, force_log):
             setlog(message)
 
             # on créer un fichier d'état après avoir supprimer l'ancien
-            os.system("rm " + os.getcwd() + '/../state/' + path + "*")
+            os.system('rm ' + os.getcwd() + '/../state/' + path + '*')
             os.system("touch " + os.getcwd() + '/../state/' + path + '-' + value)
 
             return True

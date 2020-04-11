@@ -1,13 +1,10 @@
-
-
-#!/usr/bin/python
+# !/usr/bin/python
 # -*-coding:Latin-1 -*
 import RPi.GPIO as GPIO
 import time, sys
 import functions
 import datetime
-from pathlib import Path
 import os
 
-currentDirectory = os.getcwd()
-Path(currentDirectory+'/../state/file.txt').touch()
+os.system('rm ' + os.getcwd() + '/../state/' + 'osmo' + '*')
+os.system("touch " + os.getcwd() + '/../state/' + "osmo" + '-' + "test-1")
