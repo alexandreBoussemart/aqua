@@ -4,6 +4,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
         SELECT * 
         FROM `status`";
 $listes_status = mysqli_query($link, $sql);
+$last = '1';
 ?>
 <div class="col-md-6 col-sm-6 col-xs-12">
     <div class="x_panel">
@@ -17,6 +18,11 @@ $listes_status = mysqli_query($link, $sql);
             <form method="post" action="save.php" class="form-horizontal form-label-left switch-state">
                 <input type="hidden" name="submit" value="1"/>
                 <?php foreach ($listes_status as $status): ?>
+                    <?php if ($last != $status[4]): ?>
+                        <div class="ln_solid"></div>
+                    <?php endif; ?>
+                    <?php $last = $status[4] ?>
+
                     <div class="form-group">
                         <label class="control-label col-md-6 col-sm-6 col-xs-6"><?= $status['label'] ?></label>
                         <div class="col-md-6 col-sm-6 col-xs-6">
