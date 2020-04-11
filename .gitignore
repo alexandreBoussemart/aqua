@@ -6,3 +6,4 @@ composer.phar
 scripts/functions.pyc
 *.pyc
 var/log/*
+config/*
