@@ -69,40 +69,7 @@ function sendMail($data, $transport, $subject, $content, $link = null, $force = 
 function getStatus($link, $name)
 {
     try {
-        $result = true;
-
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                SELECT `value` 
-                FROM `status` 
-                WHERE `name` = '" . $name . "'";
-        $controle = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($controle);
-
-        if ($row && $row['value'] === "0") {
-            $result = false;
-        }
-
-        sleep(1);
-
-        $result2 = true;
-
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                SELECT `value` 
-                FROM `status` 
-                WHERE `name` = '" . $name . "'";
-        $controle = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($controle);
-
-        if ($row && $row['value'] === "0") {
-            $result2 = false;
-        }
-
-        if ($result != $result2) {
-            return getStatus($link, $name);
-        }
-
-        return $result;
-
+        return file_exists(__DIR__ . "/../../config/" . $name);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
@@ -330,6 +297,14 @@ function setStatus($link, $data, $code)
                 WHERE `name` = '$code'";
         logInFile($link, "sql.log", $sql);
         $link->query($sql);
+
+        // on set le status en fichier
+        if ($value == 1) {
+            exec("touch " . __DIR__ . "/../../config/" . $code);
+        } else {
+            exec("rm " . __DIR__ . "/../../config/" . $code);
+        }
+
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
         setMessage("error", $e->getMessage());
