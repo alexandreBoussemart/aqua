@@ -198,6 +198,8 @@ def setcompletestate(path, value, error, message, exclude, force_log):
         message = str(message)
         exclude = str(exclude)
         force_log = str(force_log)
+        currentDir = os.path.dirname(os.path.realpath(__file__))
+        file = currentDir + '/../state/' + path + '-' + value
 
         # on vérifie qu'on est pas déjà dans cet état
         mydb = connect()
@@ -217,10 +219,8 @@ def setcompletestate(path, value, error, message, exclude, force_log):
             setlog(message)
 
             # on créer un fichier d'état après avoir supprimer l'ancien
-            currentDir = os.path.dirname(os.path.realpath(__file__))
             os.system('rm ' + currentDir + '/../state/' + path + '*')
-            os.system("touch " + currentDir + '/../state/' + path + '-' + value)
-            setlog("touch " + currentDir + '/../state/' + path + '-' + value)
+            os.system("touch " + file)
 
             return True
 
