@@ -6,7 +6,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             FROM `data_parametres_eau` 
             WHERE `type` LIKE 'ca' 
             ORDER BY `id` DESC 
-            LIMIT 15 
+            LIMIT 9 
         ) T
         ORDER BY T.id ASC LIMIT 15 ";
 $ca = mysqli_query($link, $sql);
@@ -18,7 +18,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             FROM `data_parametres_eau` 
             WHERE `type` LIKE 'kh' 
             ORDER BY `id` DESC 
-            LIMIT 15 
+            LIMIT 9 
         ) T
         ORDER BY T.id ASC LIMIT 15";
 $kh = mysqli_query($link, $sql);
@@ -30,7 +30,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             FROM `data_parametres_eau` 
             WHERE `type` LIKE 'mg' 
             ORDER BY `id` DESC 
-            LIMIT 15 
+            LIMIT 9 
         ) T
         ORDER BY T.id ASC LIMIT 15";
 $mg = mysqli_query($link, $sql);

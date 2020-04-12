@@ -8,7 +8,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             ORDER BY `id` DESC 
             LIMIT 15 
         ) T
-        ORDER BY T.id ASC LIMIT 15";
+        ORDER BY T.id ASC LIMIT 9";
 $densite = mysqli_query($link, $sql);
 
 $sql = "# noinspection SqlNoDataSourceInspectionForFile 
