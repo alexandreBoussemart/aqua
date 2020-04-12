@@ -278,6 +278,48 @@ function getFormattedDateWithouH($date)
     return $format->format('d/m/Y');
 }
 
+
+/**
+ * @param $date1
+ * @param $date2
+ * @return float|int
+ */
+function getNumberDaysBetweenDate($date1, $date2)
+{
+    $dateStart = new DateTime($date1);
+    $dateEnd = new DateTime($date2);
+
+    $x1 = days($dateStart);
+    $x2 = days($dateEnd);
+
+    if ($x1 && $x2) {
+        return abs($x1 - $x2);
+    }
+}
+
+/**
+ * @param $x
+ * @return bool|float|int
+ */
+function days($x)
+{
+    if (get_class($x) != 'DateTime') {
+        return false;
+    }
+
+    $y = $x->format('Y') - 1;
+    $days = $y * 365;
+    $z = (int)($y / 4);
+    $days += $z;
+    $z = (int)($y / 100);
+    $days -= $z;
+    $z = (int)($y / 400);
+    $days += $z;
+    $days += $x->format('z');
+
+    return $days;
+}
+
 /**
  * @param $link
  * @param $data
@@ -364,39 +406,6 @@ function isOn()
     }
 
     return false;
-}
-
-/**
- * @param $data
- * @param $transport
- * @param $link
- * @return bool
- */
-function checkChangementEau($data, $transport, $link)
-{
-    $periode = '-' . getConfig($link, "check_changement_eau") . ' days';
-    $date = new DateTime();
-    $date->modify($periode);
-    $date = $date->format('Y-m-d H:i:s');
-    $message = "Pas de changement d'eau depuis plus de " . getConfig($link, "check_changement_eau") . " jours !";
-
-    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-            SELECT count(*) as count 
-            FROM `data_changement_eau` 
-            WHERE `created_at` > '" . $date . "'";
-    logInFile($link, "sql.log", $sql);
-    $request = mysqli_query($link, $sql);
-    $result = mysqli_fetch_assoc($request);
-
-    if ($result['count'] == "0" || $result['count'] == 0) {
-        $body = "<p style=\"color: red;\">" . $message . "</p>";
-        sendMail($data, $transport, "Rappel - faire un changement d'eau", $body, $link);
-        setLog($link, $message);
-
-        return false;
-    }
-
-    return true;
 }
 
 /**
@@ -739,29 +748,52 @@ function setParam($link, $data, $type)
  * @param $data
  * @param $transport
  * @param $link
- * @param $type
- * @param $message
- * @param $subject
+ * @param array $param
+ * @param string $message
+ * @param string $subject
  * @return bool
  */
-function checkParamEau($data, $transport, $link, $type, $message, $subject)
+function checkLastTimeCheck($data, $transport, $link, array $param, $message, $subject, $config_path)
 {
     try {
-        $periode = '-' . getConfig($link, "check_analyse_eau") . ' days';
+        $table = $param['table'];
+        $type = $param['type'];
+
+        $periode = '-' . getConfig($link, $config_path) . ' days';
         $date = new DateTime();
         $date->modify($periode);
         $date = $date->format('Y-m-d H:i:s');
 
+        $AND = '';
+        if ($type != '') {
+            $AND = " AND `type` LIKE '" . $type . "'";
+        }
+
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-            SELECT count(*) as count 
-            FROM `data_parametres_eau` 
-            WHERE `type` LIKE '" . $type . "' 
-            AND `created_at` > '" . $date . "'";
+            SELECT count(*) as count
+            FROM `" . $table . "` 
+            WHERE `created_at` > '" . $date . "'"
+            . $AND;
         logInFile($link, "sql.log", $sql);
         $request = mysqli_query($link, $sql);
         $result = mysqli_fetch_assoc($request);
 
         if ($result['count'] == "0" || $result['count'] == 0) {
+            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `created_at` as created_at
+                FROM `" . $table . "` 
+                WHERE `id` > 0"
+                . $AND
+                . " ORDER BY `id` DESC LIMIT 1";
+            logInFile($link, "sql.log", $sql);
+            $request = mysqli_query($link, $sql);
+            $result = mysqli_fetch_assoc($request);
+
+            $lastDate = $result["created_at"];
+
+            $days = getNumberDaysBetweenDate($lastDate, date("Y-m-d H:i:s"));
+            $message = str_replace('XX', $days, $message);
+
             $body = "<p style=\"color: red;\">" . $message . "</p>";
             sendMail($data, $transport, $subject, $body, $link);
             setLog($link, $message);
@@ -858,105 +890,6 @@ function clean($link, $type)
 
         return false;
     }
-}
-
-/**
- * @param $data
- * @param $transport
- * @param $link
- * @return bool
- */
-function checkCleanReacteur($data, $transport, $link)
-{
-    $periode = '-' . getConfig($link, "check_clean_reacteur") . ' days';
-    $date = new DateTime();
-    $date->modify($periode);
-    $date = $date->format('Y-m-d H:i:s');
-    $message = "Le réacteur n'a pas été nettoyé depuis plus de " . getConfig($link, "check_clean_reacteur") . " jours !";
-
-    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-            SELECT count(*) as count 
-            FROM `data_clean_reacteur` 
-            WHERE `created_at` > '" . $date . "'";
-    logInFile($link, "sql.log", $sql);
-    $request = mysqli_query($link, $sql);
-    $result = mysqli_fetch_assoc($request);
-
-    if ($result['count'] == "0" || $result['count'] == 0) {
-        $body = "<p style=\"color: red;\">" . $message . "</p>";
-        sendMail($data, $transport, "Rappel - nettoyer le reacteur", $body, $link);
-        setLog($link, $message);
-
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * @param $data
- * @param $transport
- * @param $link
- * @return bool
- */
-function checkCleanEcumeur($data, $transport, $link)
-{
-    $periode = '-' . getConfig($link, "check_clean_ecumeur") . ' days';
-    $date = new DateTime();
-    $date->modify($periode);
-    $date = $date->format('Y-m-d H:i:s');
-    $message = "L écumeur n'a pas été nettoyé depuis plus de " . getConfig($link, "check_clean_ecumeur") . " jours !";
-
-    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-            SELECT count(*) as count 
-            FROM `data_clean_ecumeur` 
-            WHERE `created_at` > '" . $date . "'";
-    logInFile($link, "sql.log", $sql);
-    $request = mysqli_query($link, $sql);
-    $result = mysqli_fetch_assoc($request);
-
-    if ($result['count'] == "0" || $result['count'] == 0) {
-        $body = "<p style=\"color: red;\">" . $message . "</p>";
-        sendMail($data, $transport, "Rappel - nettoyer l écumeur", $body, $link);
-        setLog($link, $message);
-
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * @param $data
- * @param $transport
- * @param $link
- * @return bool
- */
-function checkCleanPompes($data, $transport, $link)
-{
-    $periode = '-' . getConfig($link, "check_clean_pompes") . ' days';
-    $date = new DateTime();
-    $date->modify($periode);
-    $date = $date->format('Y-m-d H:i:s');
-    $message = "Les pompes n'ont pas été nettoyé depuis plus de " . getConfig($link, "check_clean_pompes") . " jours !";
-
-    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-            SELECT count(*) as count 
-            FROM `data_clean_pompes` 
-            WHERE `created_at` > '" . $date . "'";
-    logInFile($link, "sql.log", $sql);
-    $request = mysqli_query($link, $sql);
-    $result = mysqli_fetch_assoc($request);
-
-    if ($result['count'] == "0" || $result['count'] == 0) {
-        $body = "<p style=\"color: red;\">" . $message . "</p>";
-        sendMail($data, $transport, "Rappel - nettoyer les pompes", $body, $link);
-        setLog($link, $message);
-
-        return false;
-    }
-
-    return true;
 }
 
 /**

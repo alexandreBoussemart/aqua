@@ -21,36 +21,44 @@ try {
     sendMail($data, $transport, "Rappel - ajout à faire", $body, $link);
 
     //si pas de changement d'eau depuis plus de 15 jours on envoie un mail de rappel
-    checkChangementEau($data, $transport, $link);
+    $message = "Pas de changement d'eau depuis XX jours !";
+    $subject = "Rappel - faire un changement d'eau";
+    checkLastTimeCheck($data, $transport, $link, ['table' => 'data_changement_eau', 'type' => ''], $message, $subject, "check_changement_eau");
 
     //si pas nettoyé le reacteur depuis plus de 15 jours on envoie un mail de rappel
-    checkCleanReacteur($data, $transport, $link);
+    $message = "Le réacteur n'a pas été nettoyé depuis XX jours !";
+    $subject = "Rappel - nettoyer le reacteur";
+    checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_reacteur', 'type' => ''], $message, $subject, "check_clean_reacteur");
 
     //si pas nettoyé le écumeur depuis plus de 30 jours on envoie un mail de rappel
-    checkCleanEcumeur($data, $transport, $link);
+    $message = "L'écumeur n'a pas été nettoyé depuis XX jours !";
+    $subject = "Rappel - nettoyer l'écumeur";
+    checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_ecumeur', 'type' => ''], $message, $subject, "check_clean_ecumeur");
 
     //si pas nettoyé les pompes depuis plus de 90 jours on envoie un mail de rappel
-    checkCleanPompes($data, $transport, $link);
+    $message = "Les pompes n'ont pas été nettoyé depuis depuis XX jours !";
+    $subject = "Rappel - nettoyer les pompes";
+    checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_pompes', 'type' => ''], $message, $subject, "check_clean_pompes");
 
     //si pas de mesure depuis plus d'1 semaine
-    $message = "Pas de mesure du Ca depuis plus de 6 jours !";
+    $message = "Pas de mesure du Ca depuis XX jours !";
     $subject = "Rappel - faire une mesure du Ca";
-    checkParamEau($data, $transport, $link, 'ca', $message, $subject);
+    checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'ca'], $message, $subject, "check_analyse_eau");
 
     //si pas de mesure depuis plus d'1 semaine
-    $message = "Pas de mesure du Mg depuis plus de 6 jours !";
+    $message = "Pas de mesure du Mg depuis XX jours !";
     $subject = "Rappel - faire une mesure du Mg";
-    checkParamEau($data, $transport, $link, 'mg', $message, $subject);
+    checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'mg'], $message, $subject, "check_analyse_eau");
 
     //si pas de mesure depuis plus d'1 semaine
-    $message = "Pas de mesure du Kh depuis plus de 6 jours !";
+    $message = "Pas de mesure du Kh depuis XX jours !";
     $subject = "Rappel - faire une mesure du Kh";
-    checkParamEau($data, $transport, $link, 'kh', $message, $subject);
+    checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'kh'], $message, $subject, "check_analyse_eau");
 
     //si pas de mesure depuis plus d'1 semaine
-    $message = "Pas de mesure de la densité depuis plus de 6 jours !";
+    $message = "Pas de mesure de la densité depuis XX jours !";
     $subject = "Rappel - faire une mesure de la densité";
-    checkParamEau($data, $transport, $link, 'densite', $message, $subject);
+    checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'densite'], $message, $subject, "check_analyse_eau");
 
     exit;
 
