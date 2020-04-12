@@ -6,7 +6,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             FROM `data_parametres_eau` 
             WHERE `type` LIKE 'densite' 
             ORDER BY `id` DESC 
-            LIMIT 15 
+            LIMIT 9 
         ) T
         ORDER BY T.id ASC LIMIT 9";
 $densite = mysqli_query($link, $sql);

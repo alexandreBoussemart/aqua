@@ -8,7 +8,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             ORDER BY `id` DESC 
             LIMIT 9 
         ) T
-        ORDER BY T.id ASC LIMIT 15 ";
+        ORDER BY T.id ASC LIMIT 9 ";
 $ca = mysqli_query($link, $sql);
 
 $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -20,7 +20,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             ORDER BY `id` DESC 
             LIMIT 9 
         ) T
-        ORDER BY T.id ASC LIMIT 15";
+        ORDER BY T.id ASC LIMIT 9";
 $kh = mysqli_query($link, $sql);
 
 $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -32,7 +32,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             ORDER BY `id` DESC 
             LIMIT 9 
         ) T
-        ORDER BY T.id ASC LIMIT 15";
+        ORDER BY T.id ASC LIMIT 9";
 $mg = mysqli_query($link, $sql);
 ?>
 
