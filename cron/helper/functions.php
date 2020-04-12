@@ -278,7 +278,6 @@ function getFormattedDateWithouH($date)
     return $format->format('d/m/Y');
 }
 
-
 /**
  * @param $date1
  * @param $date2
@@ -593,7 +592,6 @@ function envoyerMailRappel($link, $data, $transport)
     }
 }
 
-
 /**
  * @param $link
  * @param $data
@@ -650,24 +648,18 @@ function envoyerMail8h($link, $data, $transport)
 
         if ($current == $huit) {
             $content = "<p style='color:green;text-transform:none;'>Cron - contrôle 8h - OK</p>";
+            $content .= "<p>Dernier débit enregistré : " . getLastData($link, "data_reacteur", " l/min") . "</p>";
+            $content .= "<p>Dernière température enregistrée : " . getLastData($link, "data_temperature", " °C") . "</p>";
 
-            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                SELECT `value` 
-                FROM `data_reacteur` 
-                ORDER BY `id`  DESC 
-                LIMIT 1";
-            $controle = mysqli_query($link, $sql);
-            $row = mysqli_fetch_assoc($controle);
-            $content .= "<p>Dernier débit enregistré : " . $row['value'] . " l/min</p>";
-
-            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                SELECT `value` 
-                FROM `data_temperature` 
-                ORDER BY `id`  DESC 
-                LIMIT 1";
-            $controle = mysqli_query($link, $sql);
-            $row = mysqli_fetch_assoc($controle);
-            $content .= "<p>Dernière température enregistrée : " . round($row['value'], 2) . "°C</p>";
+            $checks = allCheckLastTimeCheck($data, $transport, $link, false);
+            if (count($checks) > 0) {
+                $content .= "<p>RAPPEL À FAIRE :</p>";
+                $content .= "<ul>";
+                foreach ($checks as $check) {
+                    $content .= "<li>" . $check . "</li>";
+                }
+                $content .= "</ul>";
+            }
 
             $message = "Cron - contrôle 8h - OK";
 
@@ -753,7 +745,7 @@ function setParam($link, $data, $type)
  * @param string $subject
  * @return bool
  */
-function checkLastTimeCheck($data, $transport, $link, array $param, $message, $subject, $config_path)
+function checkLastTimeCheck($data, $transport, $link, array $param, $message, $subject, $config_path, $sendMail)
 {
     try {
         $table = $param['table'];
@@ -795,11 +787,16 @@ function checkLastTimeCheck($data, $transport, $link, array $param, $message, $s
             $message = str_replace('XX', $days, $message);
 
             $body = "<p style=\"color: red;\">" . $message . "</p>";
-            sendMail($data, $transport, $subject, $body, $link);
+            if ($sendMail) {
+                sendMail($data, $transport, $subject, $body, $link);
+            }
             setLog($link, $message);
 
-            return false;
+            return $message;
         }
+
+        return null;
+
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
@@ -808,59 +805,81 @@ function checkLastTimeCheck($data, $transport, $link, array $param, $message, $s
 }
 
 /**
+ * @param $data
+ * @param $transport
  * @param $link
- * @return string
+ * @return array
  */
-function getLastTemperature($link)
+function allCheckLastTimeCheck($data, $transport, $link, $sendMail = true)
 {
-    try {
-        // dernière temperature
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-            SELECT `value`,`created_at` 
-            FROM `data_temperature` 
-            ORDER BY `data_temperature`.`id` DESC 
-            LIMIT 1";
-        logInFile($link, "sql.log", $sql);
-        $request = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($request);
-        $last_temp = round($row['value'], 2);
+    $result = [];
 
-        if (!isset($last_temp)) {
-            $last_temp = 0;
-        }
+    //si pas de changement d'eau depuis plus de 15 jours on envoie un mail de rappel
+    $message = "Pas de changement d'eau depuis XX jours !";
+    $subject = "Rappel - faire un changement d'eau";
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_changement_eau', 'type' => ''], $message, $subject, "check_changement_eau", $sendMail);
 
-        return $last_temp . " °C";
+    //si pas nettoyé le reacteur depuis plus de 15 jours on envoie un mail de rappel
+    $message = "Le réacteur n'a pas été nettoyé depuis XX jours !";
+    $subject = "Rappel - nettoyer le reacteur";
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_reacteur', 'type' => ''], $message, $subject, "check_clean_reacteur", $sendMail);
 
-    } catch (Exception $e) {
-        setLog($link, $e->getMessage());
+    //si pas nettoyé le écumeur depuis plus de 30 jours on envoie un mail de rappel
+    $message = "L'écumeur n'a pas été nettoyé depuis XX jours !";
+    $subject = "Rappel - nettoyer l'écumeur";
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_ecumeur', 'type' => ''], $message, $subject, "check_clean_ecumeur", $sendMail);
 
-        return '';
-    }
+    //si pas nettoyé les pompes depuis plus de 90 jours on envoie un mail de rappel
+    $message = "Les pompes n'ont pas été nettoyé depuis depuis XX jours !";
+    $subject = "Rappel - nettoyer les pompes";
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_pompes', 'type' => ''], $message, $subject, "check_clean_pompes", $sendMail);
+
+    //si pas de mesure depuis plus d'1 semaine
+    $message = "Pas de mesure du Ca depuis XX jours !";
+    $subject = "Rappel - faire une mesure du Ca";
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'ca'], $message, $subject, "check_analyse_eau", $sendMail);
+
+    //si pas de mesure depuis plus d'1 semaine
+    $message = "Pas de mesure du Mg depuis XX jours !";
+    $subject = "Rappel - faire une mesure du Mg";
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'mg'], $message, $subject, "check_analyse_eau", $sendMail);
+
+    //si pas de mesure depuis plus d'1 semaine
+    $message = "Pas de mesure du Kh depuis XX jours !";
+    $subject = "Rappel - faire une mesure du Kh";
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'kh'], $message, $subject, "check_analyse_eau", $sendMail);
+
+    //si pas de mesure depuis plus d'1 semaine
+    $message = "Pas de mesure de la densité depuis XX jours !";
+    $subject = "Rappel - faire une mesure de la densité";
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'densite'], $message, $subject, "check_analyse_eau", $sendMail);
+
+    return $result;
 }
 
 /**
  * @param $link
  * @return string
  */
-function getLastReacteur($link)
+function getLastData($link, $table, $suffix)
 {
     try {
-        // dernier débit
+        // dernière temperature
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-            SELECT `value`
-            FROM `data_reacteur` 
-            ORDER BY `data_reacteur`.`id` DESC  
+            SELECT `value`,`created_at` 
+            FROM `" . $table . "` 
+            ORDER BY `id` DESC 
             LIMIT 1";
         logInFile($link, "sql.log", $sql);
         $request = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($request);
-        $last_debit = $row['value'];
+        $last_data = round($row['value'], 2);
 
-        if (!isset($last_debit)) {
-            $last_debit = 0;
+        if (!isset($last_data)) {
+            $last_data = 0;
         }
 
-        return $last_debit . " l/min";
+        return $last_data . $suffix;
 
     } catch (Exception $e) {
         setLog($link, $e->getMessage());

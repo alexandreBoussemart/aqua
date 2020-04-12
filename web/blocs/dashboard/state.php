@@ -36,9 +36,9 @@ $states = mysqli_query($link, $sql);
                     $message = explode('-', $obj->message);
                     $message = end($message);
                 }elseif ($obj->path == 'temperature') {
-                    $message = getLastTemperature($link);
+                    $message = getLastData($link, "data_temperature", " °C");
                 } elseif ($obj->path == 'reacteur') {
-                    $message = getLastReacteur($link);
+                    $message = getLastData($link, "data_reacteur", " l/min");
                 } else {
                     $message = explode('-', $obj->message);
                     $message = end($message);
