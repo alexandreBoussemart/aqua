@@ -652,6 +652,7 @@ function envoyerMail8h($link, $data, $transport)
             $content .= "<p>Dernière température enregistrée : " . getLastData($link, "data_temperature", " °C") . "</p>";
 
             $checks = allCheckLastTimeCheck($data, $transport, $link, false);
+            $checks = array_filter($checks);
             if (count($checks) > 0) {
                 $content .= "<p>RAPPEL À FAIRE :</p>";
                 $content .= "<ul>";
