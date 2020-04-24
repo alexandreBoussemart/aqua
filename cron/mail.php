@@ -10,6 +10,7 @@ try {
     //heure d'execution max
     $date = new DateTime();
     $end = $date->format('Y-m-d H:i:59');
+    $tempsMailRappel = getConfig($link, 'temps_rappel_mail');
 
     // controle mail chaque seconde
     for ($i = 0; $i <= 60; $i++) {
@@ -21,7 +22,7 @@ try {
         }
 
         envoyerMail($link, $data, $transport);
-        envoyerMailRappel($link, $data, $transport);
+        envoyerMailRappel($link, $data, $transport, $tempsMailRappel);
 
         sleep(2);
     }

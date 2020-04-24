@@ -545,13 +545,14 @@ function envoyerMail($link, $data, $transport)
  * @param $link
  * @param $data
  * @param $transport
+ * @param $tempsMailRappel
  */
-function envoyerMailRappel($link, $data, $transport)
+function envoyerMailRappel($link, $data, $transport, $tempsMailRappel)
 {
     try {
         //on fait le mail de rappel et renit la date a now
         $date = new DateTime();
-        $date->modify("-30 minutes");
+        $date->modify($tempsMailRappel);
         $date = "'" . $date->format('Y-m-d H:i:00') . "'";
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -674,9 +675,10 @@ function envoyerMail8h($link, $data, $transport)
 
 /**
  * @param $link
+ * @param $tempsMaxPompeOsmolateur
  * @return bool
  */
-function isRunOver20seconds($link)
+function isRunOver20seconds($link, $tempsMaxPompeOsmolateur)
 {
     try {
         // si c'est le state 3 et qu'il a moins de 20 secondes
@@ -691,7 +693,7 @@ function isRunOver20seconds($link)
 
         if ($row) {
             $maxDate = new DateTime();
-            $maxDate->modify('-20 seconds');
+            $maxDate->modify($tempsMaxPompeOsmolateur);
             $dateState = new DateTime($row["created_at"]);
 
             if ($row["value"] == 'state_8') {

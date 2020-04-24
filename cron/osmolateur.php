@@ -15,6 +15,8 @@ try {
         exit;
     }
 
+    $tempsMaxPompeOsmolateur = getConfig($link, 'temps_coupure_pompe_osmolateur');
+
     //heure d'execution max
     $date = new DateTime();
     $end = $date->format('Y-m-d H:i:59');
@@ -32,7 +34,7 @@ try {
         exec("python " . __DIR__ . "/../scripts/osmolateur.py");
 
         // on exécute la commande pour savoir si la pompe est allumée depuis plus de 20 secondes
-        if (isRunOver20seconds($link)) {
+        if (isRunOver20seconds($link, $tempsMaxPompeOsmolateur)) {
             // on eteint
             exec("python " . __DIR__ . "/../scripts/pompe_osmolateur/off.py");
         } else {
