@@ -961,8 +961,7 @@ function logInFile($link, $file, $message)
 function setMessage($type, $message)
 {
     session_start();
-    $data['result'] = $type;
-    $data['message'] = $message;
+    $data[$type][] = $message;
     $_SESSION = $data;
     session_write_close();
 }

@@ -666,3 +666,23 @@ $(document).ready(function () {
         });
     });
 });
+
+$(document).ready(function () {
+    $("#form-status .js-switch").unbind();
+    $('#form-status .js-switch').change(function (e) {
+        e.stopImmediatePropagation()
+        showLoader();
+        $.ajax({
+            type: "POST",
+            data: $('#form-status').serializeArray(),
+            url: URL_SAVE_STATUS,
+            cache: false,
+            success: function (result) {
+
+            },
+            complete: function () {
+                hideLoader();
+            }
+        });
+    });
+});
