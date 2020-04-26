@@ -1,29 +1,12 @@
 <script src="./vendors/jquery/dist/jquery.min.js"></script>
-<script src="./vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="./build/js/custom.min.js"></script>
-<script src="./vendors/raphael/raphael.min.js"></script>
-<script src="./vendors/morris.js/morris.min.js"></script>
-<script src="./vendors/switchery/dist/switchery.min.js"></script>
-
-<!-- Datatables -->
-<script src="./vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="./vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<script src="./vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="./vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-<script src="./vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-<script src="./vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="./vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="./vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-<script src="./vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-<script src="./vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="./vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-<script src="./vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-<script src="./vendors/jszip/dist/jszip.min.js"></script>
-<script src="./vendors/pdfmake/build/pdfmake.min.js"></script>
-<script src="./vendors/pdfmake/build/vfs_fonts.js"></script>
+<script>
+    var URL_SAVE_ACTIONS_RAPIDES = '<?= $data['database'][0]['base_url'] ?>ajax/saveActionsRapides.php'
+    var URL_SAVE_STATUS = '<?= $data['database'][0]['base_url'] ?>ajax/saveStatus.php'
+</script>
 
 <script>
-    <?php if(isset($temperature)): ?>
+    <?php if(isset($temperature) && count($temperature->fetch_object()) > 0): ?>
     if ($('#graph_temperature').length) {
         Morris.Line({
             element: 'graph_temperature',
@@ -57,7 +40,7 @@
     }
     <?php endif; ?>
 
-    <?php if(isset($reacteur)): ?>
+    <?php if(isset($reacteur) && count($reacteur->fetch_object()) > 0): ?>
     if ($('#graph_debit').length) {
         Morris.Line({
             element: 'graph_debit',
@@ -91,7 +74,7 @@
     }
     <?php endif; ?>
 
-    <?php if(isset($kh)): ?>
+    <?php if(isset($kh) && count($kh->fetch_object()) > 0): ?>
     if ($('#graph_kh').length) {
         Morris.Line({
             element: 'graph_kh',
@@ -125,7 +108,7 @@
     }
     <?php endif; ?>
 
-    <?php if(isset($ca)): ?>
+    <?php if(isset($ca) && count($ca->fetch_object()) > 0): ?>
     if ($('#graph_ca').length) {
         Morris.Line({
             element: 'graph_ca',
@@ -159,7 +142,7 @@
     }
     <?php endif; ?>
 
-    <?php if(isset($mg)): ?>
+    <?php if(isset($mg) && count($mg->fetch_object()) > 0): ?>
     if ($('#graph_mg').length) {
         Morris.Line({
             element: 'graph_mg',
@@ -193,7 +176,7 @@
     }
     <?php endif; ?>
 
-    <?php if(isset($densite)): ?>
+    <?php if(isset($densite) && count($densite->fetch_object()) > 0): ?>
     if ($('#graph_densite').length) {
         Morris.Line({
             element: 'graph_densite',

@@ -1,4 +1,7 @@
 @charset "UTF-8";
+@font-face {
+  font-family: 'porto-icons';
+  src: url(../fonts/porto-icons.woff2) format("woff2"); }
 .left_col {
   background: #2A3F54; }
 
@@ -3412,16 +3415,6 @@ div[data-role="editor-toolbar"] {
   border: 1px solid #ccc; }
 
 /** /Select2 **/
-/** Switchery **/
-.switchery {
-  width: 32px;
-  height: 20px; }
-
-.switchery > small {
-  width: 20px;
-  height: 20px; }
-
-/** /Switchery **/
 /** Normalize.css **/
 fieldset {
   border: none;
@@ -4074,3 +4067,70 @@ ul.notifications {
   .col-md-1-5,
   .col-sm-1-5 {
     width: 20%; } }
+.schema {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  width: 100%;
+  max-width: 500px; }
+  .schema tr {
+    display: -ms-flexbox;
+    display: flex; }
+    .schema tr td {
+      border: 1px solid #dddddd;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: center;
+          justify-content: center;
+      -ms-flex-align: center;
+          align-items: center;
+      text-align: center;
+      width: 100%;
+      margin-top: -1px;
+      margin-left: -1px;
+      padding: 15px; }
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+.alert {
+  margin-bottom: 10px; }
+
+.loading-mask {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: none; }
+  .loading-mask .loader:before {
+    content: "\f110";
+    font-family: "porto-icons";
+    animation: spin 2s infinite linear;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 30px;
+    margin-top: -15px;
+    margin-left: -15px;
+    color: #fff; }
+
+.form-actions-rapides {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: start;
+      justify-content: flex-start; }
+  .form-actions-rapides > label {
+    margin-right: 10px;
+    width: 120px;
+    display: block;
+    padding: 0 !important; }
+  .form-actions-rapides .js-switch-label label {
+    display: none; }

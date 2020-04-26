@@ -5,11 +5,10 @@
         <title>Aquarium - Dashboard</title>
     </head>
 
-    <?php
-    require 'blocs/header.php';
-    ?>
+    <?php require 'blocs/header.php'; ?>
 
     <body class="nav-md">
+        <?php  require 'blocs/start_body.php'; ?>
         <div class="container body">
             <div class="main_container">
                 <?php  require 'blocs/menu.php'; ?>
@@ -19,6 +18,7 @@
                 <div class="right_col" role="main">
                     <?php
                     require 'blocs/messages.php';
+                    require 'blocs/dashboard/fast_actions.php';
                     require 'blocs/dashboard/calendrier.php';
                     require 'blocs/dashboard/state.php';
                     require 'blocs/dashboard/graph.php';

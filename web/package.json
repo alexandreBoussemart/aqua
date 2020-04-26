@@ -42,5 +42,7 @@
   "directories": {
     "doc": "docs"
   },
-  "dependencies": {}
+  "dependencies": {
+    "gulp-minify-css": "^1.2.4"
+  }
 }

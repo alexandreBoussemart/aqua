@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'porto-icons';
+  src: url(../fonts/porto-icons.woff2) format("woff2") ;
+}
+
 .left_col {
   background: #2A3F54;
 }
@@ -4305,19 +4310,6 @@ div[data-role="editor-toolbar"] {
 
 /** /Select2 **/
 
-/** Switchery **/
-.switchery {
-  width: 32px;
-  height: 20px;
-}
-
-.switchery > small {
-  width: 20px;
-  height: 20px;
-}
-
-/** /Switchery **/
-
 /** Normalize.css **/
 fieldset {
   border: none;
@@ -5183,7 +5175,7 @@ ul.notifications {
 }
 
 .action_grid {
-  button{
+  button {
     margin: 0;
 
     i {
@@ -5199,16 +5191,16 @@ ul.notifications {
   }
 }
 
-.schema{
+.schema {
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 500px;
 
-  tr{
+  tr {
     display: flex;
 
-    td{
+    td {
       border: 1px solid rgb(221, 221, 221);
       display: flex;
       justify-content: center;
@@ -5223,6 +5215,82 @@ ul.notifications {
   }
 }
 
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .alert {
   margin-bottom: 10px;
+}
+
+.loading-mask {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background: rgba(0, 0, 0, .5);
+  z-index: 9999;
+  display: none;
+
+  .loader {
+    &:before {
+      content: "\f110";
+      font-family: "porto-icons";
+      -moz-animation: spin 2s infinite linear;
+      -o-animation: spin 2s infinite linear;
+      -webkit-animation: spin 2s infinite linear;
+      animation: spin 2s infinite linear;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 30px;
+      margin-top: -15px;
+      margin-left: -15px;
+      color: #fff;
+    }
+  }
+}
+
+.form-actions-rapides {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  > label {
+    margin-right: 10px;
+    width: 120px;
+    display: block;
+    padding: 0 !important;
+  }
+
+  .js-switch-label {
+    label {
+      display: none;
+    }
+  }
 }

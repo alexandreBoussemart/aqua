@@ -5,11 +5,10 @@
         <title>Aquarium - Log</title>
     </head>
 
-    <?php
-    require 'blocs/header.php';
-    ?>
+    <?php require 'blocs/header.php'; ?>
 
     <body class="nav-md">
+        <?php  require 'blocs/start_body.php'; ?>
         <div class="container body">
             <div class="main_container">
                 <?php  require 'blocs/menu.php'; ?>

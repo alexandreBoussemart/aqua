@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-12 content-calendrier">
+    <div class="col-md-12 col-xs-12 col-sm-12 content-calendrier">
         <div class="x_panel">
             <div class="x_title">
                 <h2>Calendrier</h2>
