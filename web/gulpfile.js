@@ -11,6 +11,7 @@ var DEST = 'build/';
 
 gulp.task('scripts', function () {
     return gulp.src([
+        'vendors/jquery/dist/jquery.min.js',
         'vendors/bootstrap/dist/js/bootstrap.min.js',
         'vendors/morris.js/morris.min.js',
         'vendors/raphael/raphael.min.js',
