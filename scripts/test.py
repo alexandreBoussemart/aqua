@@ -7,13 +7,24 @@ import datetime
 import os, glob
 import os.path
 
+bailling_1 = 5
+bailling_2 = 22
+bailling_3 = 13
 
-currentDir = os.path.dirname(os.path.realpath(__file__))
+GPIO.setup(bailling_1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(bailling_2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(bailling_3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-for filename in glob.glob(currentDir + '/../state/' + "osmo" + '-' + "*"):
-    os.remove(filename)
+# lecture GPIO bailling_1
+BAILLING_1_STATE = str(GPIO.input(bailling_1))
 
-file = currentDir + '/../state/' + "osmo" + '-' + "test-2"
+# lecture GPIO bailling_2
+BAILLING_2_STATE = str(GPIO.input(bailling_2))
 
-os.mknod(file)
-print(os.path.isfile(file))
+# lecture GPIO bailling_3
+BAILLING_3_STATE = str(GPIO.input(bailling_3))
+
+# on fait la chaine de caractère du statut
+state_current = BAILLING_1_STATE + BAILLING_2_STATE + BAILLING_3_STATE
+
+print(state_current)
