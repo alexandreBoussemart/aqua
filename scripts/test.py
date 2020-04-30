@@ -11,6 +11,9 @@ bailling_1 = 5
 bailling_2 = 22
 bailling_3 = 13
 
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+
 GPIO.setup(bailling_1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(bailling_2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(bailling_3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
