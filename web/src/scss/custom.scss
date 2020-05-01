@@ -10427,3 +10427,37 @@ ul.notifications {
     }
   }
 }
+
+.form-group {
+  .form-control {
+    float: none;
+  }
+
+  .info {
+    color: #999;
+    font-style: italic;
+    display: block;
+    margin: 2px 0 0 0;
+  }
+}
+
+.actions {
+  .x_content {
+    .btn {
+      margin-bottom: 0;
+      min-width: 160px;
+    }
+
+    .form-horizontal {
+      display: flex;
+      align-items: center;
+    }
+
+    .info {
+      color: #999;
+      font-style: italic;
+      display: inline-block;
+      margin: 0;
+    }
+  }
+}

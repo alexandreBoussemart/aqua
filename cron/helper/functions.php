@@ -259,6 +259,7 @@ function getLabel($key)
 /**
  * @param $date
  * @return string
+ * @throws Exception
  */
 function getFormattedDate($date)
 {
@@ -270,6 +271,7 @@ function getFormattedDate($date)
 /**
  * @param $date
  * @return string
+ * @throws Exception
  */
 function getFormattedDateWithouH($date)
 {
@@ -282,6 +284,7 @@ function getFormattedDateWithouH($date)
  * @param $date1
  * @param $date2
  * @return float|int
+ * @throws Exception
  */
 function getNumberDaysBetweenDate($date1, $date2)
 {
@@ -811,6 +814,7 @@ function checkLastTimeCheck($data, $transport, $link, array $param, $message, $s
  * @param $data
  * @param $transport
  * @param $link
+ * @param bool $sendMail
  * @return array
  */
 function allCheckLastTimeCheck($data, $transport, $link, $sendMail = true)
@@ -862,6 +866,8 @@ function allCheckLastTimeCheck($data, $transport, $link, $sendMail = true)
 
 /**
  * @param $link
+ * @param $table
+ * @param $suffix
  * @return string
  */
 function getLastData($link, $table, $suffix)
@@ -917,7 +923,8 @@ function clean($link, $type)
 /**
  * @param $link
  * @param $type
- * @return null|string
+ * @return string|null
+ * @throws Exception
  */
 function getDateLastClean($link, $type)
 {
@@ -964,4 +971,143 @@ function setMessage($type, $message)
     $data[$type][] = $message;
     $_SESSION = $data;
     session_write_close();
+}
+
+/**
+ * @param $link
+ * @param $type
+ * @return string
+ */
+function getLastParam($link, $type)
+{
+    try {
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT * 
+                FROM `data_parametres_eau` 
+                WHERE `type` = '" . $type . "' 
+                ORDER BY `id` DESC 
+                LIMIT 1";
+        logInFile($link, "sql.log", $sql);
+
+        $request = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($request);
+
+        switch ($type) {
+            case 'kh':
+                $label = 'dkh';
+                break;
+            case 'mg':
+            case 'ca':
+                $label = 'mg/l';
+                break;
+            case 'densite':
+                $label = '';
+        }
+
+        return $row["value"] . " " . $label . " le " . getFormattedDateWithouH($row["created_at"]);
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
+    }
+}
+
+/**
+ * @param $link
+ * @return string
+ */
+function getLastChangementEau($link)
+{
+    try {
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT * 
+                FROM `data_changement_eau` 
+                ORDER BY `id` DESC 
+                LIMIT 1";
+        logInFile($link, "sql.log", $sql);
+
+        $request = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($request);
+
+        return $row["value"] . " litres le " . getFormattedDateWithouH($row["created_at"]);
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
+    }
+}
+
+/**
+ * @param $link
+ * @return string
+ */
+function getOlderData($link)
+{
+    try {
+        $dates = [];
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `created_at` 
+                FROM `log` 
+                ORDER BY `id` DESC 
+                LIMIT 1";
+        $request = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($request);
+        if ($row) {
+            $dates[$row["created_at"]] = $row["created_at"];
+        }
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `created_at` 
+                FROM `data_osmolateur` 
+                ORDER BY `id` DESC 
+                LIMIT 1";
+        $request = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($request);
+        if ($row) {
+            $dates[$row["created_at"]] = $row["created_at"];
+        }
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `created_at` 
+                FROM `data_reacteur` 
+                ORDER BY `id` DESC 
+                LIMIT 1";
+        $request = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($request);
+        if ($row) {
+            $dates[$row["created_at"]] = $row["created_at"];
+        }
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `created_at` 
+                FROM `data_temperature` 
+                ORDER BY `id` DESC 
+                LIMIT 1";
+        $request = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($request);
+        if ($row) {
+            $dates[$row["created_at"]] = $row["created_at"];
+        }
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `created_at` 
+                FROM `log_mail` 
+                ORDER BY `id` DESC 
+                LIMIT 1";
+        $request = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($request);
+        if ($row) {
+            $dates[$row["created_at"]] = $row["created_at"];
+        }
+
+        $oldDate = min($dates);
+
+        return getFormattedDateWithouH($oldDate);
+
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
+    }
 }

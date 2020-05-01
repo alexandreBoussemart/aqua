@@ -8144,3 +8144,25 @@ ul.notifications {
     padding: 0 !important; }
   .form-actions-rapides .js-switch-label label {
     display: none; }
+
+.form-group .form-control {
+  float: none; }
+.form-group .info {
+  color: #999;
+  font-style: italic;
+  display: block;
+  margin: 2px 0 0 0; }
+
+.actions .x_content .btn {
+  margin-bottom: 0;
+  min-width: 160px; }
+.actions .x_content .form-horizontal {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center; }
+.actions .x_content .info {
+  color: #999;
+  font-style: italic;
+  display: inline-block;
+  margin: 0; }
