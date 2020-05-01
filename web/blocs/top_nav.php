@@ -6,10 +6,9 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li role="presentation" class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
-                       aria-expanded="false">
-                        <i class="fa fa-envelope-o"></i>
+                <li class="logo-mobile">
+                    <a href="<?= $data['database'][0]['base_url']; ?>" class="logo-m">
+                        <span>Aquarium</span>
                     </a>
                 </li>
             </ul>
