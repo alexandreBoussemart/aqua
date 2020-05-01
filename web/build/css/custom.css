@@ -8165,4 +8165,5 @@ ul.notifications {
   color: #999;
   font-style: italic;
   display: inline-block;
-  margin: 0; }
+  margin: 0;
+  margin-left: 5px; }

@@ -6,28 +6,28 @@ require 'blocs/header.php';
 if (isset($_POST['submit_actions_clear'])) {
     clear($link);
     setMessage("success", "Les données de plus de 30 jours ont été supprimé.");
-    header('Location: ' . $data['database'][0]['base_url'] . "configuration.php"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url'] . "configuration"); ///aqua-web
 }
 
 //form action clean reacteur
 if (isset($_POST['submit_actions_clear_reacteur'])) {
     clean($link, "reacteur");
     setMessage("success", "Le réacteur a été marqué comme nettoyé.");
-    header('Location: ' . $data['database'][0]['base_url'] . "configuration.php"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url'] . "configuration"); ///aqua-web
 }
 
 //form action clean ecumeur
 if (isset($_POST['submit_actions_clear_ecumeur'])) {
     clean($link, "ecumeur");
     setMessage("success", "L'écumeur a été marqué comme nettoyé.");
-    header('Location: ' . $data['database'][0]['base_url'] . "configuration.php"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url'] . "configuration"); ///aqua-web
 }
 
 //form action clean pompes
 if (isset($_POST['submit_actions_clear_pompes'])) {
     clean($link, "pompes");
     setMessage("success", "Les pompes ont été marqué comme nettoyé.");
-    header('Location: ' . $data['database'][0]['base_url'] . "configuration.php"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url'] . "configuration"); ///aqua-web
 }
 
 // form changement d'eau
@@ -48,7 +48,7 @@ if (isset($_POST['submit_delete_eau'])) {
         $link->query($sql);
     }
 
-    header('Location: ' . $data['database'][0]['base_url'] . "logs.php"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url'] . "logs"); ///aqua-web
 }
 
 // form configuration
@@ -57,7 +57,7 @@ if (isset($_POST['submit_configuration'])) {
         setConfig($link, $value, $key);
     }
     setMessage("success", "Les configurations ont été sauvegardé.");
-    header('Location: ' . $data['database'][0]['base_url'] . "configuration.php");
+    header('Location: ' . $data['database'][0]['base_url'] . "configuration");
 }
 
 // form param d'eau
