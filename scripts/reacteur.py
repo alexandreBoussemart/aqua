@@ -47,7 +47,7 @@ try:
 
     result = False
 
-    if flow_min < flow2 < flow_max:
+    if flow_min <= flow2 <= flow_max:
 
         if flow2 >= debit_reacteur:
             message = "Reacteur - debit reacteur OK - " + str(flow2) + " l/min"
