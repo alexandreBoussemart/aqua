@@ -5,7 +5,7 @@
 </script>
 
 <script>
-    <?php if(isset($temperature) && count($temperature->fetch_object()) > 0): ?>
+    <?php if(isset($temperature) && $temperature): ?>
     if ($('#graph_temperature').length) {
         Morris.Line({
             element: 'graph_temperature',
@@ -40,7 +40,7 @@
     }
     <?php endif; ?>
 
-    <?php if(isset($reacteur) && count($reacteur->fetch_object()) > 0): ?>
+    <?php if(isset($reacteur) && $reacteur): ?>
     if ($('#graph_debit').length) {
         Morris.Line({
             element: 'graph_debit',
@@ -75,7 +75,7 @@
     }
     <?php endif; ?>
 
-    <?php if(isset($kh) && count($kh->fetch_object()) > 0): ?>
+    <?php if(isset($kh) && $kh): ?>
     if ($('#graph_kh').length) {
         Morris.Line({
             element: 'graph_kh',
@@ -110,7 +110,7 @@
     }
     <?php endif; ?>
 
-    <?php if(isset($ca) && count($ca->fetch_object()) > 0): ?>
+    <?php if(isset($ca) && $ca): ?>
     if ($('#graph_ca').length) {
         Morris.Line({
             element: 'graph_ca',
@@ -145,7 +145,7 @@
     }
     <?php endif; ?>
 
-    <?php if(isset($mg) && count($mg->fetch_object()) > 0): ?>
+    <?php if(isset($mg) && $mg): ?>
     if ($('#graph_mg').length) {
         Morris.Line({
             element: 'graph_mg',
@@ -180,7 +180,7 @@
     }
     <?php endif; ?>
 
-    <?php if(isset($densite) && count($densite->fetch_object()) > 0): ?>
+    <?php if(isset($densite) && $densite): ?>
     if ($('#graph_densite').length) {
         Morris.Line({
             element: 'graph_densite',
