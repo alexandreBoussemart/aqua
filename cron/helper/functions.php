@@ -1049,62 +1049,67 @@ function getOlderData($link)
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
                 FROM `log` 
-                ORDER BY `id` DESC 
+                ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($request);
         if ($row) {
-            $dates[$row["created_at"]] = $row["created_at"];
+            $dates[$row["created_at"]] = new DateTime($row["created_at"]);
         }
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
                 FROM `data_osmolateur` 
-                ORDER BY `id` DESC 
+                ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($request);
         if ($row) {
-            $dates[$row["created_at"]] = $row["created_at"];
+            $dates[$row["created_at"]] = new DateTime($row["created_at"]);
         }
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
                 FROM `data_reacteur` 
-                ORDER BY `id` DESC 
+                ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($request);
         if ($row) {
-            $dates[$row["created_at"]] = $row["created_at"];
+            $dates[$row["created_at"]] = new DateTime($row["created_at"]);
         }
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
                 FROM `data_temperature` 
-                ORDER BY `id` DESC 
+                ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($request);
         if ($row) {
-            $dates[$row["created_at"]] = $row["created_at"];
+            $dates[$row["created_at"]] = new DateTime($row["created_at"]);
         }
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
                 FROM `log_mail` 
-                ORDER BY `id` DESC 
+                ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($request);
         if ($row) {
-            $dates[$row["created_at"]] = $row["created_at"];
+            $dates[$row["created_at"]] = new DateTime($row["created_at"]);
         }
 
-        $oldDate = min($dates);
+        $oldDate = new DateTime();
 
-        return getFormattedDateWithouH($oldDate);
+        foreach ($dates as $date) {
+            if ($oldDate > $date) {
+                $oldDate = $date;
+            }
+        }
 
+        return getFormattedDateWithouH($oldDate->format('Y-m-d H:i:s'));
 
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
