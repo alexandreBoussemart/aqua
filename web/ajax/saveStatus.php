@@ -17,3 +17,4 @@ setStatus($link, $_POST['refroidissement'], 'refroidissement');
 setStatus($link, $_POST['on_off_osmolateur'], 'on_off_osmolateur');
 setStatus($link, $_POST['on_off_ecumeur'], 'on_off_ecumeur');
 setStatus($link, $_POST['log_in_files'], 'log_in_files');
+setStatus($link, $_POST['force_stop_refroidissement'], 'force_stop_refroidissement');
