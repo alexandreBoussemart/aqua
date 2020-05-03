@@ -24,7 +24,6 @@
                     require 'blocs/dashboard/graph.php';
                     require 'blocs/dashboard/graph_param.php';
                     ?>
-                    <br>
                     <div class="row">
                         <?php
                         require 'blocs/dashboard/analyse_eau.php';
