@@ -12,7 +12,9 @@
             xkey: 'datetime',
             ykeys: ['value'],
             labels: ['Température'],
-            yLabelFormat: function (y) { return y.toString() + ' °C'; },
+            yLabelFormat: function (y) {
+                return y.toString() + ' °C';
+            },
             goals: [<?= getConfig($link, "temperature_min") ?>, 25, <?= getConfig($link, "temperature_max") ?>],
             goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
             goalStrokeWidth: '2',
@@ -47,7 +49,13 @@
             xkey: 'datetime',
             ykeys: ['value'],
             labels: ['Débit'],
-            yLabelFormat: function (y) { return y.toString() + ' l/m'; },
+            yLabelFormat: function (y) {
+                return y.toString();
+            },
+            xLabelFormat: function (d) {
+                return ("0" + (d.getHours())).slice(-2) + ':' +
+                    ("0" + (d.getMinutes())).slice(-2);
+            },
             goals: [<?= getConfig($link, "debit_reacteur_min") ?>],
             goalLineColors: ['#2B46F0'],
             goalStrokeWidth: '2',
@@ -69,6 +77,8 @@
             resize: true,
             hoverCallback: function (index, options, content, row) {
                 content = content.replace(row.datetime, row.formatted_datetime);
+                content = content.replace(row.value, row.value + ' l/h');
+
                 return (content);
             }
         });
@@ -82,7 +92,9 @@
             xkey: 'datetime',
             ykeys: ['value'],
             labels: ['Kh'],
-            yLabelFormat: function (y) { return y.toString() + ' dkh'; },
+            yLabelFormat: function (y) {
+                return y.toString() + ' dkh';
+            },
             xLabelFormat: function (d) {
                 return ("0" + (d.getDate())).slice(-2) + '/' +
                     ("0" + (d.getMonth() + 1)).slice(-2);
@@ -121,7 +133,9 @@
             xkey: 'datetime',
             ykeys: ['value'],
             labels: ['Ca'],
-            yLabelFormat: function (y) { return y.toString() + ' mg/l'; },
+            yLabelFormat: function (y) {
+                return y.toString()
+            },
             xLabelFormat: function (d) {
                 return ("0" + (d.getDate())).slice(-2) + '/' +
                     ("0" + (d.getMonth() + 1)).slice(-2);
@@ -147,6 +161,8 @@
             resize: true,
             hoverCallback: function (index, options, content, row) {
                 content = content.replace(row.datetime, row.formatted_datetime);
+                content = content.replace(row.value, row.value + ' mg/l');
+
                 return (content);
             }
         });
@@ -160,7 +176,9 @@
             xkey: 'datetime',
             ykeys: ['value'],
             labels: ['Mg'],
-            yLabelFormat: function (y) { return y.toString() + ' mg/l'; },
+            yLabelFormat: function (y) {
+                return y.toString();
+            },
             xLabelFormat: function (d) {
                 return ("0" + (d.getDate())).slice(-2) + '/' +
                     ("0" + (d.getMonth() + 1)).slice(-2);
@@ -186,6 +204,8 @@
             resize: true,
             hoverCallback: function (index, options, content, row) {
                 content = content.replace(row.datetime, row.formatted_datetime);
+                content = content.replace(row.value, row.value + ' mg/l');
+
                 return (content);
             }
         });
@@ -199,6 +219,9 @@
             xkey: 'datetime',
             ykeys: ['value'],
             labels: ['Densité'],
+            yLabelFormat: function (y) {
+                return y.toString();
+            },
             xLabelFormat: function (d) {
                 return ("0" + (d.getDate())).slice(-2) + '/' +
                     ("0" + (d.getMonth() + 1)).slice(-2);
