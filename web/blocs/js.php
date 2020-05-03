@@ -83,6 +83,10 @@
             ykeys: ['value'],
             labels: ['Kh'],
             yLabelFormat: function (y) { return y.toString() + ' dkh'; },
+            xLabelFormat: function (d) {
+                return ("0" + (d.getDate())).slice(-2) + '/' +
+                    ("0" + (d.getMonth() + 1)).slice(-2);
+            },
             goals: [6, 7, 10],
             goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
             goalStrokeWidth: '2',
@@ -118,6 +122,10 @@
             ykeys: ['value'],
             labels: ['Ca'],
             yLabelFormat: function (y) { return y.toString() + ' mg/l'; },
+            xLabelFormat: function (d) {
+                return ("0" + (d.getDate())).slice(-2) + '/' +
+                    ("0" + (d.getMonth() + 1)).slice(-2);
+            },
             goals: [400, 420, 450],
             goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
             goalStrokeWidth: '2',
@@ -153,6 +161,10 @@
             ykeys: ['value'],
             labels: ['Mg'],
             yLabelFormat: function (y) { return y.toString() + ' mg/l'; },
+            xLabelFormat: function (d) {
+                return ("0" + (d.getDate())).slice(-2) + '/' +
+                    ("0" + (d.getMonth() + 1)).slice(-2);
+            },
             goals: [1150, 1300, 1400],
             goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
             goalStrokeWidth: '2',
@@ -187,6 +199,10 @@
             xkey: 'datetime',
             ykeys: ['value'],
             labels: ['Densité'],
+            xLabelFormat: function (d) {
+                return ("0" + (d.getDate())).slice(-2) + '/' +
+                    ("0" + (d.getMonth() + 1)).slice(-2);
+            },
             goals: [1024, 1025, 1027],
             goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
             goalStrokeWidth: '2',
