@@ -8154,9 +8154,8 @@ ul.notifications {
   bottom: 0;
   display: -ms-flexbox !important;
   display: flex !important;
-  -ms-flex-align: center;
-      align-items: center;
-  padding: 0 10px; }
+  padding: 0 10px;
+  line-height: 58px; }
   @media (max-width: 450px) {
     .heure span {
       display: none; } }

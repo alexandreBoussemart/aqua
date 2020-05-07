@@ -10446,8 +10446,8 @@ ul.notifications {
   top: 0;
   bottom: 0;
   display: flex !important;
-  align-items: center;
   padding: 0 10px;
+  line-height: 58px;
 
   @media (max-width: 450px) {
     span {
