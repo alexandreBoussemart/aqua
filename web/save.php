@@ -1,6 +1,6 @@
 <?php
 
-require 'blocs/header.php';
+require 'templates/header.php';
 
 //form action clear data
 if (isset($_POST['submit_actions_clear'])) {

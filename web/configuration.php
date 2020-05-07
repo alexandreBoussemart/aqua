@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php  require 'blocs/head.php'; ?>
+        <?php  require 'templates/head.php'; ?>
         <title>Aquarium - Configuration</title>
     </head>
 
-    <?php require 'blocs/header.php'; ?>
+    <?php require 'templates/header.php'; ?>
 
     <body class="nav-md">
-        <?php  require 'blocs/start_body.php'; ?>
+        <?php  require 'templates/start_body.php'; ?>
         <div class="container body">
             <div class="main_container">
-                <?php  require 'blocs/menu.php'; ?>
-                <?php  require 'blocs/top_nav.php'; ?>
+                <?php  require 'templates/menu.php'; ?>
+                <?php  require 'templates/top_nav.php'; ?>
 
                 <!-- page content -->
                 <div class="right_col" role="main">
                     <?php
-                    require 'blocs/messages.php';
-                    require 'blocs/configuration/actions.php';
+                    require 'templates/messages.php';
+                    require 'templates/configuration/actions.php';
                     ?>
                     <div class="row">
                         <?php
 
-                        require 'blocs/configuration/configuration.php';
-                        require 'blocs/configuration/status.php';
+                        require 'templates/configuration/configuration.php';
+                        require 'templates/configuration/status.php';
                         ?>
                     </div>
                 </div>
                 <!-- /page content -->
             </div>
         </div>
-        <?php  require 'blocs/js.php'; ?>
+        <?php  require 'templates/js.php'; ?>
     </body>
 </html>

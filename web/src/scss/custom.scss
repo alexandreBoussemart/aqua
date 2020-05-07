@@ -30,7 +30,7 @@
 }
 
 .nav-sm .container.body .right_col {
-  padding: 10px 20px;
+  padding: 65px 10px 0;
   margin-left: 70px;
   z-index: 2;
 }
@@ -202,14 +202,19 @@
   background: #EDEDED;
   border-bottom: 1px solid #D9DEE4;
   margin-bottom: 10px;
-  width: 100%;
-  position: relative;
+  width: calc(100% - 230px);
+  position: fixed;
   height: 55px;
+  z-index: 10;
+
+  @media (max-width: 991px) {
+    width: 100%;
+  }
 }
 
-@media (min-width: 480px) {
+.nav-sm{
   .nav_menu {
-    position: static;
+    width: calc(100% - 70px);
   }
 }
 
@@ -232,7 +237,7 @@ body .container.body .right_col {
 }
 
 .nav-md .container.body .right_col {
-  padding: 10px 20px 0;
+  padding: 65px 10px 0;
   margin-left: 230px;
 }
 
@@ -255,9 +260,6 @@ body .container.body .right_col {
   .nav-md .container.body .right_col {
     width: 100%;
     padding-right: 0
-  }
-  .right_col {
-    padding: 10px !important;
   }
 }
 
@@ -5256,12 +5258,6 @@ ul.notifications {
   visibility: hidden;
 }
 
-.nav-sm .container.body .right_col {
-  padding: 10px 20px;
-  margin-left: 70px;
-  z-index: 2;
-}
-
 .nav-sm .navbar.nav_title {
   width: 70px;
 }
@@ -5424,21 +5420,6 @@ ul.notifications {
   display: inline-block;
 }
 
-.nav_menu {
-  float: left;
-  background: #EDEDED;
-  border-bottom: 1px solid #D9DEE4;
-  margin-bottom: 10px;
-  width: 100%;
-  position: relative;
-}
-
-@media (min-width: 480px) {
-  .nav_menu {
-    position: static;
-  }
-}
-
 .nav-md .container.body .col-md-3.left_col {
   min-height: 100%;
   width: 230px;
@@ -5448,26 +5429,8 @@ ul.notifications {
   z-index: 1;
 }
 
-.nav-md .container.body .col-md-3.left_col.menu_fixed {
-  height: 100%;
-  position: fixed;
-}
-
 body .container.body .right_col {
   background: #F7F7F7;
-}
-
-.nav-md .container.body .right_col {
-  padding: 10px 20px 0;
-  margin-left: 230px;
-}
-
-.nav_title {
-  width: 230px;
-  float: left;
-  background: #2A3F54;
-  border-radius: 0;
-  height: 57px;
 }
 
 @media (max-width: 991px) {
@@ -5481,9 +5444,6 @@ body .container.body .right_col {
   .nav-md .container.body .right_col {
     width: 100%;
     padding-right: 0
-  }
-  .right_col {
-    padding: 10px !important;
   }
 }
 
