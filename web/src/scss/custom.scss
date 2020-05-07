@@ -5678,6 +5678,7 @@ a:hover, a:focus {
   margin: 0;
   width: calc(100% - 70px);
   float: right;
+  position: relative;
 }
 
 .top_nav .dropdown-menu li {
@@ -10416,7 +10417,7 @@ ul.notifications {
   overflow: scroll;
 }
 
-.footer{
+.footer {
   width: calc(100% - 230px);
   margin-left: 230px;
   text-align: center;
@@ -10433,8 +10434,24 @@ ul.notifications {
 }
 
 .nav-sm {
-  .footer{
+  .footer {
     width: calc(100% - 70px);
     margin-left: 70px;
+  }
+}
+
+.heure {
+  position: absolute !important;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex !important;
+  align-items: center;
+  padding: 0 10px;
+
+  @media (max-width: 450px) {
+    span {
+      display: none;
+    }
   }
 }

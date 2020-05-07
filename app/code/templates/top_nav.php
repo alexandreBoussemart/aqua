@@ -11,6 +11,10 @@
                         <span>Aquarium</span>
                     </a>
                 </li>
+                <li class="heure">
+                    <?= date("m/d/Y");  ?>
+                    <span>&nbsp;<?= date("H:i:s");  ?></span>
+                </li>
             </ul>
         </nav>
     </div>

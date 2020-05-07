@@ -4432,7 +4432,8 @@ a:hover, a:focus {
 .top_nav .navbar-right {
   margin: 0;
   width: calc(100% - 70px);
-  float: right; }
+  float: right;
+  position: relative; }
 
 .top_nav .dropdown-menu li {
   width: 100%; }
@@ -8145,3 +8146,17 @@ ul.notifications {
 .nav-sm .footer {
   width: calc(100% - 70px);
   margin-left: 70px; }
+
+.heure {
+  position: absolute !important;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -ms-flex-align: center;
+      align-items: center;
+  padding: 0 10px; }
+  @media (max-width: 450px) {
+    .heure span {
+      display: none; } }
