@@ -1,7 +1,7 @@
 <script src="./build/js/custom.min.js"></script>
 <script>
-    var URL_SAVE_ACTIONS_RAPIDES = '<?= $data['database'][0]['base_url'] ?>ajax/saveActionsRapides.php'
-    var URL_SAVE_STATUS = '<?= $data['database'][0]['base_url'] ?>ajax/saveStatus.php'
+    var URL_SAVE_ACTIONS_RAPIDES = '<?= $data['database'][0]['base_url'] ?>controller/saveActionsRapides'
+    var URL_SAVE_STATUS = '<?= $data['database'][0]['base_url'] ?>controller/saveStatus'
 </script>
 
 <script>

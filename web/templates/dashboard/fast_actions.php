@@ -18,7 +18,7 @@ $last = '1';
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <form id="actions-rapides" method="post" action="ajax/saveActionsRapide.php"
+                <form id="actions-rapides" method="post" action="controller/saveActionsRapide"
                       class="form-horizontal form-label-left switch-state">
                     <?php foreach ($listes_status_rapides as $status): ?>
                         <div class="form-group form-actions-rapides">

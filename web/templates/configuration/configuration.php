@@ -15,7 +15,7 @@ $last = '1';
             <div class="clearfix"></div>
         </div>
         <div class="x_content2">
-            <form method="post" action="save.php" class="form-horizontal form-label-left switch-state">
+            <form method="post" action="controller/save" class="form-horizontal form-label-left switch-state">
                 <input type="hidden" name="submit_configuration" value="1"/>
                 <br>
                 <?php foreach ($core_config as $c): ?>

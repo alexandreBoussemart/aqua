@@ -33,7 +33,7 @@ $changements = mysqli_query($link, $sql);
                             <td><?= getFormattedDate($changement["created_at"]) ?></td>
                             <td><?= $changement["value"] ?> Litres</td>
                             <td class="action_grid">
-                                <form method="post" action="save.php"
+                                <form method="post" action="controller/save"
                                       class="form-horizontal form-label-left switch-state">
                                     <input type="hidden" name="submit_delete_eau" value="1"/>
                                     <input type="hidden" name="id" value="<?= $changement["id"] ?>"/>
