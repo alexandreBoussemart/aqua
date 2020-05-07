@@ -259,7 +259,6 @@ body .container.body .right_col {
   }
   .nav-md .container.body .right_col {
     width: 100%;
-    padding-right: 0
   }
 }
 
@@ -5436,10 +5435,6 @@ body .container.body .right_col {
   .nav-md .container.body .col-md-3.left_col {
     display: none;
   }
-  .nav-md .container.body .right_col {
-    width: 100%;
-    padding-right: 0
-  }
 }
 
 @media (max-width: 1200px) {
@@ -10430,6 +10425,11 @@ ul.notifications {
   font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
   font-size: 13px;
   line-height: 40px;
+
+  @media (max-width: 991px) {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 .nav-sm {
