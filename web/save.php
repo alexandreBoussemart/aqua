@@ -1,6 +1,6 @@
 <?php
 
-require 'templates/header.php';
+require __DIR__ . '/../app/code/Helper/functions.php';
 
 //form action clear data
 if (isset($_POST['submit_actions_clear'])) {

@@ -1,6 +1,6 @@
 <?php
 
-require '../../cron/helper/functions.php';
+require __DIR__ . '/../../app/code/Helper/functions.php';
 
 // form actions rapides
 setStatus($link, $_POST['on_off_osmolateur'], 'on_off_osmolateur');

@@ -1,6 +1,6 @@
 <?php
 
-require '../../cron/helper/functions.php';
+require __DIR__ . '/../../app/code/Helper/functions.php';
 
 // form statut
 setStatus($link, $_POST['osmolateur'], 'osmolateur');
