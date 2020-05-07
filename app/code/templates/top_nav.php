@@ -12,7 +12,7 @@
                     </a>
                 </li>
                 <li class="heure">
-                    <?= date("m/d/Y");  ?>
+                    <?= date("d/m/Y");  ?>
                     <span>&nbsp;<?= date("H:i:s");  ?></span>
                 </li>
             </ul>
