@@ -6,7 +6,7 @@
  * /sys/bus/w1/devices/28-0213191aabaa/w1_slave
  */
 
-require '../Helper/functions.php';
+require __DIR__ . '/../Helper/functions.php';
 
 try {
     //check si la cron est activé

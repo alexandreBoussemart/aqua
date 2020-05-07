@@ -4,7 +4,7 @@
  * Tous les jours à 19h
  */
 
-require '../Helper/functions.php';
+require __DIR__ . '/../Helper/functions.php';
 
 try {
     //check si la cron est activé
