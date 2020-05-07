@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php  require 'templates/head.php'; ?>
+        <?php  require '../app/code/templates/head.php'; ?>
         <title>Aquarium - Dashboard</title>
     </head>
 
-    <?php require 'templates/header.php'; ?>
+    <?php require '../app/code/templates/header.php'; ?>
 
     <body class="nav-md">
-        <?php  require 'templates/start_body.php'; ?>
+        <?php  require '../app/code/templates/start_body.php'; ?>
         <div class="container body">
             <div class="main_container">
-                <?php  require 'templates/menu.php'; ?>
-                <?php  require 'templates/top_nav.php'; ?>
+                <?php  require '../app/code/templates/menu.php'; ?>
+                <?php  require '../app/code/templates/top_nav.php'; ?>
 
                 <!-- page content -->
                 <div class="right_col" role="main">
                     <?php
-                    require 'templates/messages.php';
-                    require 'templates/dashboard/fast_actions.php';
-                    require 'templates/dashboard/calendrier.php';
-                    require 'templates/dashboard/state.php';
-                    require 'templates/dashboard/graph.php';
-                    require 'templates/dashboard/graph_param.php';
+                    require '../app/code/templates/messages.php';
+                    require '../app/code/templates/dashboard/fast_actions.php';
+                    require '../app/code/templates/dashboard/calendrier.php';
+                    require '../app/code/templates/dashboard/state.php';
+                    require '../app/code/templates/dashboard/graph.php';
+                    require '../app/code/templates/dashboard/graph_param.php';
                     ?>
                     <div class="row">
                         <?php
-                        require 'templates/dashboard/analyse_eau.php';
-                        require 'templates/dashboard/controle.php';
+                        require '../app/code/templates/dashboard/analyse_eau.php';
+                        require '../app/code/templates/dashboard/controle.php';
                         ?>
                     </div>
                     <div class="row">
                         <?php
-                        require 'templates/dashboard/changement_eau.php';
+                        require '../app/code/templates/dashboard/changement_eau.php';
                         ?>
                     </div>
                 </div>
                 <!-- /page content -->
             </div>
         </div>
-        <?php  require 'templates/js.php'; ?>
+        <?php  require '../app/code/templates/js.php'; ?>
     </body>
 </html>
