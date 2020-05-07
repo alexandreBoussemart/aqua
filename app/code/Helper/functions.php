@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 require 'bdd.php';
 
 $array_verif = [
@@ -69,7 +69,7 @@ function sendMail($data, $transport, $subject, $content, $link = null, $force = 
 function getStatus($link, $name)
 {
     try {
-        return file_exists(__DIR__ . "/../../config/" . $name);
+        return file_exists(__DIR__ . "/../../../config/" . $name);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
@@ -344,9 +344,9 @@ function setStatus($link, $data, $code)
 
         // on set le status en fichier
         if ($value == 1) {
-            exec("touch " . __DIR__ . "/../../config/" . $code);
+            exec("touch " . __DIR__ . "/../../../config/" . $code);
         } else {
-            exec("rm " . __DIR__ . "/../../config/" . $code);
+            exec("rm " . __DIR__ . "/../../../config/" . $code);
         }
 
     } catch (Exception $e) {
@@ -953,7 +953,7 @@ function getDateLastClean($link, $type)
 function logInFile($link, $file, $message)
 {
     if (getStatus($link, 'log_in_files') == true) {
-        $file = __DIR__ . "/../../var/log/" . $file;
+        $file = __DIR__ . "/../../../var/log/" . $file;
         $fp = fopen($file, "a+");
         fwrite($fp, date("Y-m-d H:i:s") . " : " . $message . PHP_EOL);
         fwrite($fp, "------------------------------------" . PHP_EOL);

@@ -4,7 +4,7 @@
  * Toutes les minutes
  */
 
-require 'helper/functions.php';
+require '../Helper/functions.php';
 
 try {
     //check si la cron est activé
@@ -29,7 +29,7 @@ try {
         }
 
         // on execute la commande
-        exec("python " . __DIR__ . "/../scripts/reacteur.py");
+        exec("python " . __DIR__ . "/../../../scripts/reacteur.py");
         usleep(500000);
     }
 

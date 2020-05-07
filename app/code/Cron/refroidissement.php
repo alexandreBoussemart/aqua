@@ -4,7 +4,7 @@
  * Toutes les minutes
  */
 
-require 'helper/functions.php';
+require '../Helper/functions.php';
 
 try {
     $date = new DateTime();
@@ -14,7 +14,7 @@ try {
     if (getStatus($link, 'refroidissement')
         && !getStatus($link, 'force_stop_refroidissement')) {
         // on allume
-        exec("python " . __DIR__ . "/../scripts/refroidissement/on.py");
+        exec("python " . __DIR__ . "/../../../scripts/refroidissement/on.py");
 
         exit;
     }
@@ -25,13 +25,13 @@ try {
         && !getStatus($link, 'force_stop_refroidissement'))
     ) {
         // on allume
-        exec("python " . __DIR__ . "/../scripts/refroidissement/on.py");
+        exec("python " . __DIR__ . "/../../../scripts/refroidissement/on.py");
 
         exit;
     }
 
     // on eteint
-    exec("python " . __DIR__ . "/../scripts/refroidissement/off.py");
+    exec("python " . __DIR__ . "/../../../scripts/refroidissement/off.py");
 
     exit;
 

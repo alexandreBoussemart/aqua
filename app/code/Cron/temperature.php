@@ -6,7 +6,7 @@
  * /sys/bus/w1/devices/28-0213191aabaa/w1_slave
  */
 
-require 'helper/functions.php';
+require '../Helper/functions.php';
 
 try {
     //check si la cron est activé
@@ -79,10 +79,10 @@ try {
         }
 
         // on check si on doit allumer le ventilateur de l'aquarium
-        if (getStatusVentilateur($link, $temperature2)) {
-            exec("python " . __DIR__ . "/../scripts/aquarium_ventilateur/on.py");
+        if (getStatusVentilateur($link)) {
+            exec("python " . __DIR__ . "/../../../scripts/aquarium_ventilateur/on.py");
         } else {
-            exec("python " . __DIR__ . "/../scripts/aquarium_ventilateur/off.py");
+            exec("python " . __DIR__ . "/../../../scripts/aquarium_ventilateur/off.py");
         }
 
         // on set comme quoi on est bien passé dans la cron

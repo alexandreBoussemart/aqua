@@ -4,7 +4,7 @@
  * Toutes les minutes
  */
 
-require 'helper/functions.php';
+require '../Helper/functions.php';
 
 try {
     //check si on doit allumer l'éclairage
@@ -12,14 +12,14 @@ try {
         //check les horaires
         if(isOn()) {
             // on allume
-            exec("python ".__DIR__."/../scripts/reacteur_ventilateur/on.py");
+            exec("python ".__DIR__."/../../../scripts/reacteur_ventilateur/on.py");
 
             exit;
         }
     }
 
     // on éteint
-    exec("python ".__DIR__."/../scripts/reacteur_ventilateur/off.py");
+    exec("python ".__DIR__."/../../../scripts/reacteur_ventilateur/off.py");
 
     exit;
 

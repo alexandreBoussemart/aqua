@@ -4,7 +4,7 @@
  * Toutes les minutes
  */
 
-require 'helper/functions.php';
+require '../Helper/functions.php';
 
 try {
     //check si la cron est activé
@@ -31,15 +31,15 @@ try {
         }
 
         // on execute la commande pour vérifier le statut de l'osmolateur
-        exec("python " . __DIR__ . "/../scripts/osmolateur.py");
+        exec("python " . __DIR__ . "/../../../scripts/osmolateur.py");
 
         // on exécute la commande pour savoir si la pompe est allumée depuis plus de 20 secondes
         if (isRunOver20seconds($link, $tempsMaxPompeOsmolateur)) {
             // on eteint
-            exec("python " . __DIR__ . "/../scripts/pompe_osmolateur/off.py");
+            exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/off.py");
         } else {
             // on allume
-            exec("python " . __DIR__ . "/../scripts/pompe_osmolateur/on.py");
+            exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/on.py");
         }
 
         usleep(500000);

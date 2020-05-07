@@ -4,7 +4,7 @@
  * Toutes les minutes
  */
 
-require 'helper/functions.php';
+require '../Helper/functions.php';
 
 try {
     //check si la cron est activé

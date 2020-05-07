@@ -4,7 +4,7 @@
  * Toutes les minutes
  */
 
-require 'helper/functions.php';
+require '../Helper/functions.php';
 
 try {
     //check si la cron est activé
@@ -16,7 +16,7 @@ try {
     }
 
     // on execute la commande
-    exec("python " . __DIR__ . "/../scripts/bailling.py");
+    exec("python " . __DIR__ . "/../../../scripts/bailling.py");
 
     exit;
 

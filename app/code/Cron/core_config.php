@@ -4,7 +4,7 @@
  * Toutes les minutes
  */
 
-require 'helper/functions.php';
+require '../Helper/functions.php';
 
 try {
     //heure d'execution max
@@ -24,18 +24,18 @@ try {
 
         if (getStatus($link, 'on_off_osmolateur') == true) {
             // on allume
-            exec("python " . __DIR__ . "/../scripts/osmolateur/on.py");
+            exec("python " . __DIR__ . "/../../../scripts/osmolateur/on.py");
         } else {
             // on éteint
-            exec("python " . __DIR__ . "/../scripts/osmolateur/off.py");
+            exec("python " . __DIR__ . "/../../../scripts/osmolateur/off.py");
         }
 
         if (getStatus($link, 'on_off_ecumeur') == true) {
             // on allume
-            exec("python " . __DIR__ . "/../scripts/ecumeur/off.py");
+            exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
         } else {
             // on éteint
-            exec("python " . __DIR__ . "/../scripts/ecumeur/on.py");
+            exec("python " . __DIR__ . "/../../../scripts/ecumeur/on.py");
         }
     }
 
