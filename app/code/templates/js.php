@@ -52,7 +52,7 @@
             yLabelFormat: function (y) {
                 return y.toString() + ' °C';
             },
-            goals: [33, 40],
+            goals: [<?= getConfig($link, "temperature_max_boitier") ?>, 40],
             goalLineColors: ['#ffc107', '#dc3545'],
             goalStrokeWidth: '2',
             pointStrokeColors: ['#2A3F54'],
