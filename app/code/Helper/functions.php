@@ -463,6 +463,10 @@ function clear($link)
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM `data_temperature_boitier` 
+                WHERE `created_at` < '" . $limit . "';";
+        $link->query($sql);
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 DELETE FROM `log_mail` 
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
@@ -1107,6 +1111,17 @@ function getOlderData($link)
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
                 FROM `data_temperature` 
+                ORDER BY `id` ASC 
+                LIMIT 1";
+        $request = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($request);
+        if ($row) {
+            $dates[$row["created_at"]] = new DateTime($row["created_at"]);
+        }
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT `created_at` 
+                FROM `data_temperature_boitier` 
                 ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
