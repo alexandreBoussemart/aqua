@@ -78,12 +78,13 @@ function getStatus($link, $name)
 /**
  * @param $link
  * @param $temp
+ * @param string $table
  */
-function insertTemperature($link, $temp)
+function insertTemperature($link, $temp, $table = "`data_temperature`")
 {
     try {
         $sql = '# noinspection SqlNoDataSourceInspectionForFile 
-                INSERT INTO `data_temperature` ( `value`) 
+                INSERT INTO ' . $table . ' ( `value`) 
                 VALUES ("' . strval($temp) . '")';
         logInFile($link, "sql.log", $sql);
         $link->query($sql);
@@ -107,6 +108,30 @@ function readFileTemperature($link)
         } else {
             setState($link, 'temperature', 'state_1', true,
                 "Cron temperature - ERREUR - Le fichier : " . THERMOMETER_SENSOR_PATH . " n'existe pas.");
+            exit;
+        }
+
+        return $content;
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+}
+
+/**
+ * @param $link
+ * @return false|string
+ */
+function readFileTemperatureBoitier($link)
+{
+    try {
+
+        // on récupère le contenu du fichier
+        if (file_exists(THERMOMETER_SENSOR_PATH_BOITIER)) {
+            $thermometer = fopen(THERMOMETER_SENSOR_PATH_BOITIER, "r");
+            $content = fread($thermometer, filesize(THERMOMETER_SENSOR_PATH_BOITIER));
+            fclose($thermometer);
+        } else {
+            setLog($link, "ERREUR - Le fichier : " . THERMOMETER_SENSOR_PATH_BOITIER . " n'existe pas.");
             exit;
         }
 
