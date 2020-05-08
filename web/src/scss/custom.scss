@@ -5142,6 +5142,10 @@ ul.notifications {
       margin-top: -1px;
       margin-left: -1px;
       padding: 15px;
+
+      @media (max-width: 560px) {
+        padding: 15px 5px !important;
+      }
     }
   }
 }
@@ -10447,7 +10451,7 @@ ul.notifications {
   bottom: 0;
   display: flex !important;
   padding: 0 10px;
-  line-height: 56px;
+  line-height: 60px;
 
   @media (max-width: 450px) {
     span {
