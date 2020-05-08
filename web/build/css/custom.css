@@ -402,11 +402,9 @@ a:hover, a:focus {
     transform: translateX(-35px); }
     .top_nav .navbar-right .logo-mobile .logo-m {
       padding: 0;
-      line-height: 1;
+      line-height: 52px;
       display: -ms-flexbox;
       display: flex;
-      -ms-flex-align: center;
-          align-items: center;
       -ms-flex-pack: center;
           justify-content: center;
       height: 55px; }
@@ -580,7 +578,7 @@ a:hover, a:focus {
 .toggle {
   float: left;
   margin: 0;
-  padding-top: 16px;
+  padding-top: 14px;
   width: 70px; }
 
 .toggle a {
@@ -4600,20 +4598,6 @@ a:hover, a:focus {
   color: #93A2B2;
   margin-bottom: 0 !important; }
 
-.toggle {
-  float: left;
-  margin: 0;
-  padding-top: 16px;
-  width: 70px; }
-
-.toggle a {
-  padding: 15px 15px 0;
-  margin: 0;
-  cursor: pointer; }
-
-.toggle a i {
-  font-size: 26px; }
-
 .nav.child_menu > li > a {
   color: rgba(255, 255, 255, 0.75);
   font-size: 12px;
@@ -8158,7 +8142,7 @@ ul.notifications {
   display: -ms-flexbox !important;
   display: flex !important;
   padding: 0 10px;
-  line-height: 60px; }
+  line-height: 57px; }
   @media (max-width: 450px) {
     .heure span {
       display: none; } }

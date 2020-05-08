@@ -513,9 +513,8 @@ a:hover, a:focus {
 
     .logo-m {
       padding: 0;
-      line-height: 1;
+      line-height: 52px;
       display: flex;
-      align-items: center;
       justify-content: center;
       height: 55px;
 
@@ -736,7 +735,7 @@ a:hover, a:focus {
 .toggle {
   float: left;
   margin: 0;
-  padding-top: 16px;
+  padding-top: 14px;
   width: 70px;
 }
 
@@ -5890,23 +5889,6 @@ a:hover, a:focus {
   margin-bottom: 0 !important;
 }
 
-.toggle {
-  float: left;
-  margin: 0;
-  padding-top: 16px;
-  width: 70px;
-}
-
-.toggle a {
-  padding: 15px 15px 0;
-  margin: 0;
-  cursor: pointer;
-}
-
-.toggle a i {
-  font-size: 26px;
-}
-
 .nav.child_menu > li > a {
   color: rgba(255, 255, 255, 0.75);
   font-size: 12px;
@@ -10451,7 +10433,7 @@ ul.notifications {
   bottom: 0;
   display: flex !important;
   padding: 0 10px;
-  line-height: 60px;
+  line-height: 57px;
 
   @media (max-width: 450px) {
     span {
