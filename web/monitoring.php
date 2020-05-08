@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <?php  require '../app/code/templates/head.php'; ?>
-        <title>Aquarium - Dashboard</title>
+        <title>Aquarium - Monitoring</title>
     </head>
 
     <?php require '../app/code/templates/header.php'; ?>
@@ -18,16 +18,11 @@
                 <div class="right_col" role="main">
                     <?php
                     require '../app/code/templates/messages.php';
-                    require '../app/code/templates/dashboard/fast_actions.php';
-                    require '../app/code/templates/dashboard/calendrier.php';
-                    require '../app/code/templates/dashboard/state.php';
-                    require '../app/code/templates/dashboard/graph.php';
-                    require '../app/code/templates/dashboard/graph_param.php';
                     ?>
-                    <div class="row">
+                    <div class="row first-bloc">
                         <?php
-                        require '../app/code/templates/dashboard/analyse_eau.php';
-                        require '../app/code/templates/dashboard/changement_eau.php';
+                        require '../app/code/templates/monitoring/graph.php';
+                        require '../app/code/templates/monitoring/controle.php';
                         ?>
                     </div>
                 </div>

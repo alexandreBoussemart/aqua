@@ -38,6 +38,11 @@
                             <i class="fa fa-hdd-o"></i> Log
                         </a>
                     </li>
+                    <li>
+                        <a href="<?= $data['database'][0]['base_url']; ?>monitoring">
+                            <i class="fa fa-bar-chart"></i> Monitoring
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -42,6 +42,43 @@
     }
     <?php endif; ?>
 
+    <?php if(isset($temperature_systeme) && $temperature_systeme): ?>
+    if ($('#graph_temperature_boitier').length) {
+        Morris.Line({
+            element: 'graph_temperature_boitier',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Température système'],
+            yLabelFormat: function (y) {
+                return y.toString() + ' °C';
+            },
+            goals: [30, 35, 40],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 25,
+            ymax: 45,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            data: [
+                <?php while($obj = $temperature_systeme->fetch_object()){ ?>
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDate($obj->created_at); ?>'
+                },
+                <?php } ?>
+            ],
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                return (content);
+            }
+        });
+    }
+    <?php endif; ?>
+
     <?php if(isset($reacteur) && $reacteur): ?>
     if ($('#graph_debit').length) {
         Morris.Line({
