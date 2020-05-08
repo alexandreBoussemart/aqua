@@ -402,7 +402,7 @@ a:hover, a:focus {
     transform: translateX(-35px); }
     .top_nav .navbar-right .logo-mobile .logo-m {
       padding: 0;
-      line-height: 52px;
+      line-height: 51px;
       display: -ms-flexbox;
       display: flex;
       -ms-flex-pack: center;
@@ -578,7 +578,7 @@ a:hover, a:focus {
 .toggle {
   float: left;
   margin: 0;
-  padding-top: 14px;
+  padding-top: 15px;
   width: 70px; }
 
 .toggle a {
@@ -8142,7 +8142,7 @@ ul.notifications {
   display: -ms-flexbox !important;
   display: flex !important;
   padding: 0 10px;
-  line-height: 57px; }
+  line-height: 54px; }
   @media (max-width: 450px) {
     .heure span {
       display: none; } }
