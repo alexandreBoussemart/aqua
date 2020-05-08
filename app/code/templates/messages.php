@@ -4,7 +4,6 @@ session_start();
 
 <?php if (isset($_SESSION['success']) && count($_SESSION['success']) > 0): ?>
     <?php foreach ($_SESSION['success'] as $data): ?>
-        <br>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="alert alert-success" role="alert">
