@@ -52,8 +52,8 @@
             yLabelFormat: function (y) {
                 return y.toString() + ' °C';
             },
-            goals: [30, 35, 40],
-            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goals: [35, 40],
+            goalLineColors: ['#ffc107', '#dc3545'],
             goalStrokeWidth: '2',
             pointStrokeColors: ['#2A3F54'],
             hideHover: 'auto',
