@@ -54,7 +54,9 @@ try {
     // si les deux temperatures on moins de 10% d'écart
     if ($temp_min < $temperature2 && $temperature2 < $temp_max) {
         // trop chaud on allume le ventilateur
-        if (!$force_stop && $temperature2 > getConfig($link, "temperature_max_boitier") && (($now < $date->format('Y-m-d 22:30:00') && $now > $date->format('Y-m-d 10:00:00')) || getStatus($link, 'refroidissement'))) {
+        if($temperature2 > 40){
+            exec("python " . __DIR__ . "/../../../scripts/refroidissement/on.py");
+        } else if (!$force_stop && $temperature2 > getConfig($link, "temperature_max_boitier") && (($now < $date->format('Y-m-d 22:30:00') && $now > $date->format('Y-m-d 10:00:00')) || getStatus($link, 'refroidissement'))) {
             exec("python " . __DIR__ . "/../../../scripts/refroidissement/on.py");
         } else {
             exec("python " . __DIR__ . "/../../../scripts/refroidissement/off.py");
