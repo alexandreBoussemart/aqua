@@ -190,17 +190,9 @@ function setControle($link, $value)
 function setState($link, $path, $value, $error, $message, $exclude = 0, $force_log = false)
 {
     try {
-        //on vérifie qu'on est pas déja dans cet état
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                SELECT count(*) as count 
-                FROM `state` 
-                WHERE `path` = '" . $path . "' 
-                AND `value` = '" . $value . "'";
-        logInFile($link, "sql.log", $sql);
-        $request = mysqli_query($link, $sql);
-        $result = mysqli_fetch_assoc($request);
+        $file = __DIR__ . "/../../../state/" . $path . '-' . $value;
 
-        if ($result['count'] == "0" || $result['count'] == 0) {
+        if (!file_exists($file)) {
             $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                     UPDATE `state` set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0, `exclude_check`='" . $exclude . "' 
                     WHERE `path`='" . $path . "'";
@@ -209,6 +201,10 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
 
             // met ligne dans table log
             setLog($link, $message);
+
+            //on créer le ficher state
+            exec("rm -f " . __DIR__ . "/../../../state/" . $path . '-*');
+            exec("touch " . $file);
 
             return true;
         }
