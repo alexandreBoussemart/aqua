@@ -373,7 +373,6 @@ function setStatus($link, $data, $code)
         if($code == 'on_off_osmolateur'){
             if ($value == 1) {
                 // on allume
-                var_dump("python " . __DIR__ . "/../../../../scripts/osmolateur/on.py");
                 exec("python " . __DIR__ . "/../../../scripts/osmolateur/on.py");
             } else {
                 // on éteint
