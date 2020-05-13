@@ -19,8 +19,8 @@ try {
     $date = new DateTime();
     $end = $date->format('Y-m-d H:i:59');
 
-    // controle toutes les 1/2 secondes
-    for ($i = 0; $i <= 120; $i++) {
+    // controle toutes les 5 secondes
+    for ($i = 0; $i <= 12; $i++) {
         //si on passe la minute en cours on arrête
         $date = new DateTime();
         $now = $date->format('Y-m-d H:i:s');
@@ -30,7 +30,7 @@ try {
 
         // on execute la commande
         exec("python " . __DIR__ . "/../../../scripts/reacteur.py");
-        usleep(500000);
+        sleep(5);
     }
 
     exit;
