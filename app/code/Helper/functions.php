@@ -373,20 +373,20 @@ function setStatus($link, $data, $code)
         if($code == 'on_off_osmolateur'){
             if ($value == 1) {
                 // on allume
-                exec("python " . __DIR__ . "/../../../scripts/osmolateur/on.py");
+                exec("python " . __DIR__ . "/../../../../scripts/osmolateur/on.py");
             } else {
                 // on éteint
-                exec("python " . __DIR__ . "/../../../scripts/osmolateur/off.py");
+                exec("python " . __DIR__ . "/../../../../scripts/osmolateur/off.py");
             }
         }
 
         if($code == 'on_off_ecumeur'){
             if ($value == 1) {
                 // on allume
-                exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
+                exec("python " . __DIR__ . "/../../../../scripts/ecumeur/off.py");
             } else {
                 // on éteint
-                exec("python " . __DIR__ . "/../../../scripts/ecumeur/on.py");
+                exec("python " . __DIR__ . "/../../../../scripts/ecumeur/on.py");
             }
         }
 
