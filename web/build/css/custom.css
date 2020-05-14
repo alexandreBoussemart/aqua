@@ -6861,7 +6861,8 @@ ul.notifications {
   margin: 0 0 0 5px; }
 
 .left_col.scroll-view {
-  overflow: scroll; }
+  overflow-y: scroll;
+  overflow-x: hidden; }
 
 .footer {
   width: calc(100% - 230px);

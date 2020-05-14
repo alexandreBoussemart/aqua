@@ -8815,7 +8815,8 @@ ul.notifications {
 }
 
 .left_col.scroll-view {
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .footer {
