@@ -43,7 +43,7 @@ function sendMail($data, $transport, $subject, $content, $link = null, $force = 
     //check si la cron est activé
     if (!$force && !getStatus($link, 'mail')) {
         setLogMail($link, $subject, $content);
-        exit;
+        return true;
     }
 
     $mailer = new Swift_Mailer($transport);
