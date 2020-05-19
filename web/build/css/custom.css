@@ -6860,10 +6860,6 @@ ul.notifications {
   display: inline-block;
   margin: 0 0 0 5px; }
 
-.left_col.scroll-view {
-  overflow-y: scroll;
-  overflow-x: hidden; }
-
 .footer {
   width: calc(100% - 230px);
   margin-left: 230px;
