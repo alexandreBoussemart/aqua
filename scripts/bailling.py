@@ -7,7 +7,7 @@ import functions
 
 import RPi.GPIO as GPIO
 
-bailling_1 = 5
+bailling_1 = 8
 bailling_2 = 22
 bailling_3 = 13
 bailling_1_led = 12
