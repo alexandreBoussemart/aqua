@@ -504,7 +504,7 @@ function getStatusVentilateur($link, $currentTemperature)
         $result = false;
         $temperature = getConfig($link, "config_temperature_declenchement");
 
-        if ($currentTemperature <= intval($temperature)) {
+        if ($currentTemperature >= intval($temperature)) {
             $result = true;
         }
 
