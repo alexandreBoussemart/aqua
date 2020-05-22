@@ -494,15 +494,17 @@ function clear($link)
 
 /**
  * @param $link
+ * @param $currentTemperature
+ *
  * @return bool
  */
-function getStatusVentilateur($link)
+function getStatusVentilateur($link, $currentTemperature)
 {
     try {
         $result = false;
         $temperature = getConfig($link, "config_temperature_declenchement");
 
-        if ($temperature <= intval($temperature)) {
+        if ($currentTemperature <= intval($temperature)) {
             $result = true;
         }
 
