@@ -36,7 +36,7 @@ try {
     $content = readFileTemperature($link);
     $temperature1 = readTemperature($content);
     if ($temperature1 == false) {
-        setState($link, 'temperature', 'state_2', 1, "Cron temperature - ERREUR - Format du fichier incorrect");
+        setState($link, 'temperature', 'state_2', 1, "Cron temperature - ERREUR - Format du fichier incorrect (".$content.")");
 
         exit;
     }
@@ -48,7 +48,7 @@ try {
     $content = readFileTemperature($link);
     $temperature2 = readTemperature($content);
     if ($temperature2 == false) {
-        setState($link, 'temperature', 'state_2', 1, "Cron temperature - ERREUR - Format du fichier incorrect");
+        setState($link, 'temperature', 'state_2', 1, "Cron temperature - ERREUR - Format du fichier incorrect (".$content.")");
 
         exit;
     }
