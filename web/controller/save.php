@@ -53,6 +53,7 @@ if (isset($_POST['submit_delete_eau'])) {
 
 // form configuration
 if (isset($_POST['submit_configuration'])) {
+    unset($_POST['submit_configuration']);
     foreach ($_POST as $key => $value) {
         setConfig($link, $value, $key);
     }
