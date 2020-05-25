@@ -390,6 +390,16 @@ function setStatus($link, $data, $code)
             }
         }
 
+        if ($code == 'force_turn_on_eclairage') {
+            if ($value == 1) {
+                // on allume
+                exec("python " . __DIR__ . "/../../../scripts/reacteur_eclairage/on.py");
+            } else {
+                // on éteint
+                exec("python " . __DIR__ . "/../../../scripts/reacteur_eclairage/off.py");
+            }
+        }
+
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
         setMessage("error", $e->getMessage());
