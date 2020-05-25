@@ -62,6 +62,7 @@ if (isset($_POST['submit_configuration'])) {
 
 // form param d'eau
 if (isset($_POST['submit_params'])) {
+    unset($_POST['submit_params']);
     foreach ($_POST as $key => $value) {
         setParam($link, $value, str_replace("value_", "", $key));
     }
