@@ -370,7 +370,7 @@ function setStatus($link, $data, $code)
             exec("rm " . __DIR__ . "/../../../config/" . $code);
         }
 
-        if($code == 'on_off_osmolateur'){
+        if ($code == 'on_off_osmolateur') {
             if ($value == 1) {
                 // on allume
                 exec("python " . __DIR__ . "/../../../scripts/osmolateur/on.py");
@@ -380,7 +380,7 @@ function setStatus($link, $data, $code)
             }
         }
 
-        if($code == 'on_off_ecumeur'){
+        if ($code == 'on_off_ecumeur') {
             if ($value == 1) {
                 // on allume
                 exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
@@ -1052,6 +1052,65 @@ function getLastParam($link, $type)
         }
 
         return $row["value"] . " " . $label . " le " . getFormattedDateWithouH($row["created_at"]);
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
+    }
+}
+
+/**
+ * @param $link
+ * @param $type
+ * @return string
+ */
+function getLastDiffParam($link, $type)
+{
+    try {
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT * 
+                FROM `data_parametres_eau` 
+                WHERE `type` = '" . $type . "' 
+                ORDER BY `id` DESC 
+                LIMIT 1";
+        logInFile($link, "sql.log", $sql);
+
+        $request = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($request);
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                SELECT * 
+                FROM `data_parametres_eau` 
+                WHERE `type` = '" . $type . "' 
+                ORDER BY `id` DESC 
+                LIMIT 1,1";
+        logInFile($link, "sql.log", $sql);
+
+        $request = mysqli_query($link, $sql);
+        $row2 = mysqli_fetch_assoc($request);
+
+        $diff = $row["value"] - $row2["value"];
+
+        switch ($type) {
+            case 'kh':
+                $label = 'dkh';
+                break;
+            case 'mg':
+            case 'ca':
+                $label = 'mg/l';
+                break;
+            case 'densite':
+                $label = '';
+        }
+
+        $signe = "";
+        $style = "color:#B33A3A";
+        if ($diff >= 0) {
+            $style = "color:#4BB543";
+            $signe = "+";
+        }
+
+        return "  ( <span style='".$style."'>" . $signe . $diff . " " . $label . "</span> )";
 
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
