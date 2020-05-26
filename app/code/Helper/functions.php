@@ -1099,8 +1099,13 @@ function getLastDiffParam($link, $type)
         $request = mysqli_query($link, $sql);
         $row2 = mysqli_fetch_assoc($request);
 
+        $date1 = $row["created_at"];
+        $date2 = $row2["created_at"];
+
+        $days = getNumberDaysBetweenDate($date1, $date2);
         $diff = $row["value"] - $row2["value"];
 
+        $label = '';
         switch ($type) {
             case 'kh':
                 $label = 'dkh';
@@ -1120,7 +1125,12 @@ function getLastDiffParam($link, $type)
             $signe = "+";
         }
 
-        return "  ( <span style='".$style."'>" . $signe . $diff . " " . $label . "</span> )";
+        $jour = "jour";
+        if ($days > 1) {
+            $jour = "jours";
+        }
+
+        return "  ( <span style='" . $style . "'>" . $signe . $diff . " " . $label . " en " . $days . " " . $jour . "</span> )";
 
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
