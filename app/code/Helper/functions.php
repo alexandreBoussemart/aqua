@@ -1155,7 +1155,15 @@ function getLastChangementEau($link)
         $request = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($request);
 
-        return $row["value"] . " litres le " . getFormattedDateWithouH($row["created_at"]);
+        $days = $days = getNumberDaysBetweenDate($row["created_at"], date("Y-m-d H:i:s"));;
+
+        if ($days > 1) {
+            $jours = "il y a " . $days . " jours (" . getFormattedDateWithouH($row["created_at"]) . ")";
+        } else {
+            $jours = "aujourd'hui";
+        }
+
+        return $row["value"] . " litres " . $jours;
 
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
