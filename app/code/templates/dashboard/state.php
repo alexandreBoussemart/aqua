@@ -62,8 +62,8 @@ $state_bailling = $row['value'];
 $date_bailling = getFormattedDate($row['created_at']);
 
 $errorBailling1 = ['state_1', 'state_2', 'state_3', 'state_5', 'state_9', 'state_10'];
-$errorBailling2 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state_10'];
-$errorBailling3 = ['state_2', 'state_4', 'state_5', 'state_6', 'state_9', 'state_10'];
+$errorBailling2 = ['state_2', 'state_4', 'state_5', 'state_6', 'state_9', 'state_10'];
+$errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state_10'];
 ?>
 
 <div class="row tile_count">
