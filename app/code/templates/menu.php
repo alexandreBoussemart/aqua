@@ -40,7 +40,7 @@
                     </li>
                     <li>
                         <a href="<?= $data['database'][0]['base_url']; ?>monitoring">
-                            <i class="fa fa-bar-chart"></i> Monitoring
+                            <i class="fa fa-bar-chart"></i> Monitoring système
                         </a>
                     </li>
                 </ul>
