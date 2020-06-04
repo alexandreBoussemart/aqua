@@ -48,7 +48,7 @@
             element: 'graph_temperature_rpi',
             xkey: 'datetime',
             ykeys: ['value'],
-            labels: ['Température RPI'],
+            labels: ['Température raspberry'],
             yLabelFormat: function (y) {
                 return y.toString() + ' °C';
             },

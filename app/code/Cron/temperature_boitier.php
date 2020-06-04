@@ -52,14 +52,14 @@ try {
     $temp_max = $temperature1 * 1.10;
 
     // temerature rpi
-    $f = fopen("/sys/class/thermal/thermal_zone0/temp","r");
+    $f = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
     $temp = fgets($f);
-    $temperature_rpi = round($temp/1000);
+    $temperature_rpi = round($temp / 1000, 2);
 
     // si les deux temperatures on moins de 10% d'écart
     if ($temp_min < $temperature2 && $temperature2 < $temp_max) {
         // trop chaud on allume le ventilateur
-        if($temperature2 > 40 || $temperature_rpi > getConfig($link, "temperature_max_rpi")){
+        if ($temperature2 > 40 || $temperature_rpi > getConfig($link, "temperature_max_rpi")) {
             exec("python " . __DIR__ . "/../../../scripts/refroidissement/on.py");
         } else if (!$force_stop && $temperature2 > getConfig($link, "temperature_max_boitier") && (($now < $date->format('Y-m-d 22:30:00') && $now > $date->format('Y-m-d 10:00:00')) || getStatus($link, 'refroidissement'))) {
             exec("python " . __DIR__ . "/../../../scripts/refroidissement/on.py");

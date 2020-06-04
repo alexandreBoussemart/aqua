@@ -10,7 +10,7 @@ $temperature_RPI = mysqli_query($link, $sql);
 <div class="col-md-6 col-sm-6 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
-            <h2>Température rpi (°C)</h2>
+            <h2>Température raspberry (°C)</h2>
             <div class="clearfix"></div>
         </div>
         <div class="x_content2">
