@@ -57,8 +57,8 @@
             goalStrokeWidth: '2',
             pointStrokeColors: ['#2A3F54'],
             hideHover: 'auto',
-            ymin: 35,
-            ymax: 95,
+            ymin: 30,
+            ymax: 90,
             pointSize: 1,
             lineColors: ['#2A3F54'],
             data: [
