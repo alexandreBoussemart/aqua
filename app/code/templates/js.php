@@ -42,6 +42,43 @@
     }
     <?php endif; ?>
 
+    <?php if(isset($temperature_RPI) && $temperature_RPI): ?>
+    if ($('#graph_temperature_rpi').length) {
+        Morris.Line({
+            element: 'graph_temperature_rpi',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Température RPI'],
+            yLabelFormat: function (y) {
+                return y.toString() + ' °C';
+            },
+            goals: [40, <?= getConfig($link, "temperature_max_rpi") ?>],
+            goalLineColors: ['#ffc107', '#dc3545'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 35,
+            ymax: 95,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            data: [
+                <?php while($obj = $temperature_RPI->fetch_object()){ ?>
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDate($obj->created_at); ?>'
+                },
+                <?php } ?>
+            ],
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                return (content);
+            }
+        });
+    }
+    <?php endif; ?>
+
     <?php if(isset($temperature_systeme) && $temperature_systeme): ?>
     if ($('#graph_temperature_boitier').length) {
         Morris.Line({
