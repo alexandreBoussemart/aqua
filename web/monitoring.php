@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <?php  require '../app/code/templates/head.php'; ?>
-        <title>Aquarium - Monitoring</title>
+        <title>Aquarium - Monitoring système</title>
     </head>
 
     <?php require '../app/code/templates/header.php'; ?>
