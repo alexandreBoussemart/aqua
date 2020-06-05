@@ -43,7 +43,7 @@
                     <input name="value_densite" class="date-picker form-control col-md-7 col-xs-12"
                            type="text"/>
                     <p class="info">
-                        <?= getLastParam($link, 'densite', getLastDiffParam($link, 'densite')); ?>>
+                        <?= getLastParam($link, 'densite', getLastDiffParam($link, 'densite')); ?>
                     </p>
                 </div>
             </div>
