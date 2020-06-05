@@ -12,10 +12,10 @@ $array_verif = [
 ];
 
 $message_body = [
-    'controle_bailling' => 'Cron - ERREUR - script bailling',
-    'controle_ecumeur' => 'Cron - ERREUR - script écumeur',
-    'controle_osmolateur' => 'Cron - ERREUR - script osmolateur',
-    'controle_reacteur' => 'Cron - ERREUR - script réacteur',
+    'controle_bailling'    => 'Cron - ERREUR - script bailling',
+    'controle_ecumeur'     => 'Cron - ERREUR - script écumeur',
+    'controle_osmolateur'  => 'Cron - ERREUR - script osmolateur',
+    'controle_reacteur'    => 'Cron - ERREUR - script réacteur',
     'controle_temperature' => 'Cron - ERREUR - script température'
 ];
 
@@ -30,12 +30,13 @@ $rappel = [
 ];
 
 /**
- * @param $data
- * @param $transport
- * @param $subject
- * @param $content
+ * @param      $data
+ * @param      $transport
+ * @param      $subject
+ * @param      $content
  * @param null $link
  * @param bool $force
+ *
  * @return int
  */
 function sendMail($data, $transport, $subject, $content, $link = null, $force = false)
@@ -43,6 +44,7 @@ function sendMail($data, $transport, $subject, $content, $link = null, $force = 
     //check si la cron est activé
     if (!$force && !getStatus($link, 'mail')) {
         setLogMail($link, $subject, $content);
+
         return true;
     }
 
@@ -64,6 +66,7 @@ function sendMail($data, $transport, $subject, $content, $link = null, $force = 
 /**
  * @param $link
  * @param $name
+ *
  * @return bool
  */
 function getStatus($link, $name)
@@ -76,8 +79,8 @@ function getStatus($link, $name)
 }
 
 /**
- * @param $link
- * @param $temp
+ * @param        $link
+ * @param        $temp
  * @param string $table
  */
 function insertTemperature($link, $temp, $table = "`data_temperature`")
@@ -95,6 +98,7 @@ function insertTemperature($link, $temp, $table = "`data_temperature`")
 
 /**
  * @param $link
+ *
  * @return bool|string
  */
 function readFileTemperature($link)
@@ -119,6 +123,7 @@ function readFileTemperature($link)
 
 /**
  * @param $link
+ *
  * @return false|string
  */
 function readFileTemperatureBoitier($link)
@@ -143,6 +148,7 @@ function readFileTemperatureBoitier($link)
 
 /**
  * @param $content
+ *
  * @return bool|float|int
  */
 function readTemperature($content)
@@ -178,13 +184,14 @@ function setControle($link, $value)
 }
 
 /**
- * @param $link
- * @param $path
- * @param $value
- * @param $error
- * @param $message
- * @param int $exclude
+ * @param      $link
+ * @param      $path
+ * @param      $value
+ * @param      $error
+ * @param      $message
+ * @param int  $exclude
  * @param bool $force_log
+ *
  * @return bool
  */
 function setState($link, $path, $value, $error, $message, $exclude = 0, $force_log = false)
@@ -255,23 +262,24 @@ function setLogMail($link, $sujet, $message)
 
 /**
  * @param $key
+ *
  * @return mixed
  */
 function getLabel($key)
 {
     $array = [
-        '' => "",
-        'off' => "Off",
-        'ok' => "Niveau d'eau OK",
-        "pump_on" => "En cours de remplissage",
-        "to_low" => "Niveau d'eau bas",
-        "to_high" => "Niveau d'eau haut",
-        "off_rappel" => "RAPPEL - Off",
-        "to_low_rappel" => "RAPPEL - Niveau d'eau bas",
-        "pump_on_20" => "Pompe allumée plus de 20 secondes",
+        ''                  => "",
+        'off'               => "Off",
+        'ok'                => "Niveau d'eau OK",
+        "pump_on"           => "En cours de remplissage",
+        "to_low"            => "Niveau d'eau bas",
+        "to_high"           => "Niveau d'eau haut",
+        "off_rappel"        => "RAPPEL - Off",
+        "to_low_rappel"     => "RAPPEL - Niveau d'eau bas",
+        "pump_on_20"        => "Pompe allumée plus de 20 secondes",
         "pump_on_20_rappel" => "RAPPEL - Pompe allumée plus de 20 secondes",
-        "to_high_rappel" => "RAPPEL - Niveau d'eau haut",
-        "error" => "Erreur"
+        "to_high_rappel"    => "RAPPEL - Niveau d'eau haut",
+        "error"             => "Erreur"
     ];
 
     return $array[$key];
@@ -279,6 +287,7 @@ function getLabel($key)
 
 /**
  * @param $date
+ *
  * @return string
  * @throws Exception
  */
@@ -291,6 +300,7 @@ function getFormattedDate($date)
 
 /**
  * @param $date
+ *
  * @return string
  * @throws Exception
  */
@@ -304,6 +314,7 @@ function getFormattedDateWithouH($date)
 /**
  * @param $date1
  * @param $date2
+ *
  * @return float|int
  * @throws Exception
  */
@@ -322,6 +333,7 @@ function getNumberDaysBetweenDate($date1, $date2)
 
 /**
  * @param $x
+ *
  * @return bool|float|int
  */
 function days($x)
@@ -531,6 +543,7 @@ function getStatusVentilateur($link, $currentTemperature)
 /**
  * @param $link
  * @param $name
+ *
  * @return bool
  */
 function getConfig($link, $name)
@@ -714,7 +727,8 @@ function envoyerMail8h($link, $data, $transport)
         if ($current == $huit) {
             $content = "<p style='color:green;text-transform:none;'>Cron - contrôle 8h - OK</p>";
             $content .= "<p>Dernier débit enregistré : " . getLastData($link, "data_reacteur", " l/min") . "</p>";
-            $content .= "<p>Dernière température enregistrée : " . getLastData($link, "data_temperature", " °C") . "</p>";
+            $content .= "<p>Dernière température enregistrée : " . getLastData($link, "data_temperature",
+                    " °C") . "</p>";
 
             $checks = allCheckLastTimeCheck($data, $transport, $link, false);
             $checks = array_filter($checks);
@@ -740,6 +754,7 @@ function envoyerMail8h($link, $data, $transport)
 /**
  * @param $link
  * @param $tempsMaxPompeOsmolateur
+ *
  * @return bool
  */
 function isRunOver20seconds($link, $tempsMaxPompeOsmolateur)
@@ -804,12 +819,13 @@ function setParam($link, $data, $type)
 }
 
 /**
- * @param $data
- * @param $transport
- * @param $link
- * @param array $param
+ * @param        $data
+ * @param        $transport
+ * @param        $link
+ * @param array  $param
  * @param string $message
  * @param string $subject
+ *
  * @return bool
  */
 function checkLastTimeCheck($data, $transport, $link, array $param, $message, $subject, $config_path, $sendMail)
@@ -872,10 +888,11 @@ function checkLastTimeCheck($data, $transport, $link, array $param, $message, $s
 }
 
 /**
- * @param $data
- * @param $transport
- * @param $link
+ * @param      $data
+ * @param      $transport
+ * @param      $link
  * @param bool $sendMail
+ *
  * @return array
  */
 function allCheckLastTimeCheck($data, $transport, $link, $sendMail = true)
@@ -885,42 +902,50 @@ function allCheckLastTimeCheck($data, $transport, $link, $sendMail = true)
     //si pas de changement d'eau depuis plus de 15 jours on envoie un mail de rappel
     $message = "Pas de changement d'eau depuis XX jours !";
     $subject = "Rappel - faire un changement d'eau";
-    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_changement_eau', 'type' => ''], $message, $subject, "check_changement_eau", $sendMail);
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_changement_eau', 'type' => ''], $message,
+        $subject, "check_changement_eau", $sendMail);
 
     //si pas nettoyé le reacteur depuis plus de 15 jours on envoie un mail de rappel
     $message = "Le réacteur n'a pas été nettoyé depuis XX jours !";
     $subject = "Rappel - nettoyer le reacteur";
-    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_reacteur', 'type' => ''], $message, $subject, "check_clean_reacteur", $sendMail);
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_reacteur', 'type' => ''], $message,
+        $subject, "check_clean_reacteur", $sendMail);
 
     //si pas nettoyé le écumeur depuis plus de 30 jours on envoie un mail de rappel
     $message = "L'écumeur n'a pas été nettoyé depuis XX jours !";
     $subject = "Rappel - nettoyer l'écumeur";
-    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_ecumeur', 'type' => ''], $message, $subject, "check_clean_ecumeur", $sendMail);
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_ecumeur', 'type' => ''], $message,
+        $subject, "check_clean_ecumeur", $sendMail);
 
     //si pas nettoyé les pompes depuis plus de 90 jours on envoie un mail de rappel
     $message = "Les pompes n'ont pas été nettoyé depuis depuis XX jours !";
     $subject = "Rappel - nettoyer les pompes";
-    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_pompes', 'type' => ''], $message, $subject, "check_clean_pompes", $sendMail);
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_clean_pompes', 'type' => ''], $message,
+        $subject, "check_clean_pompes", $sendMail);
 
     //si pas de mesure depuis plus d'1 semaine
     $message = "Pas de mesure du Ca depuis XX jours !";
     $subject = "Rappel - faire une mesure du Ca";
-    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'ca'], $message, $subject, "check_analyse_eau", $sendMail);
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'ca'],
+        $message, $subject, "check_analyse_eau", $sendMail);
 
     //si pas de mesure depuis plus d'1 semaine
     $message = "Pas de mesure du Mg depuis XX jours !";
     $subject = "Rappel - faire une mesure du Mg";
-    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'mg'], $message, $subject, "check_analyse_eau", $sendMail);
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'mg'],
+        $message, $subject, "check_analyse_eau", $sendMail);
 
     //si pas de mesure depuis plus d'1 semaine
     $message = "Pas de mesure du Kh depuis XX jours !";
     $subject = "Rappel - faire une mesure du Kh";
-    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'kh'], $message, $subject, "check_analyse_eau", $sendMail);
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'kh'],
+        $message, $subject, "check_analyse_eau", $sendMail);
 
     //si pas de mesure depuis plus d'1 semaine
     $message = "Pas de mesure de la densité depuis XX jours !";
     $subject = "Rappel - faire une mesure de la densité";
-    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'densite'], $message, $subject, "check_analyse_eau", $sendMail);
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'densite'],
+        $message, $subject, "check_analyse_eau", $sendMail);
 
     return $result;
 }
@@ -929,6 +954,7 @@ function allCheckLastTimeCheck($data, $transport, $link, $sendMail = true)
  * @param $link
  * @param $table
  * @param $suffix
+ *
  * @return string
  */
 function getLastData($link, $table, $suffix)
@@ -961,6 +987,7 @@ function getLastData($link, $table, $suffix)
 /**
  * @param $link
  * @param $type
+ *
  * @return bool
  */
 function clean($link, $type)
@@ -984,6 +1011,7 @@ function clean($link, $type)
 /**
  * @param $link
  * @param $type
+ *
  * @return string|null
  * @throws Exception
  */
@@ -1037,11 +1065,13 @@ function setMessage($type, $message)
 /**
  * @param $link
  * @param $type
+ *
  * @return string
  */
 function getLastParam($link, $type)
 {
     try {
+        $label = '';
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT * 
                 FROM `data_parametres_eau` 
@@ -1065,7 +1095,15 @@ function getLastParam($link, $type)
                 $label = '';
         }
 
-        return $row["value"] . " " . $label . " le " . getFormattedDateWithouH($row["created_at"]);
+        $days = $days = getNumberDaysBetweenDate($row["created_at"], date("Y-m-d H:i:s"));;
+
+        if ($days > 1) {
+            $jours = "il y a " . $days . " jours (" . getFormattedDateWithouH($row["created_at"]) . ")";
+        } else {
+            $jours = "aujourd'hui";
+        }
+
+        return $row["value"] . " " . $label . $jours;
 
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -1076,6 +1114,7 @@ function getLastParam($link, $type)
 /**
  * @param $link
  * @param $type
+ *
  * @return string
  */
 function getLastDiffParam($link, $type)
@@ -1144,6 +1183,7 @@ function getLastDiffParam($link, $type)
 
 /**
  * @param $link
+ *
  * @return string
  */
 function getLastChangementEau($link)
@@ -1177,6 +1217,7 @@ function getLastChangementEau($link)
 
 /**
  * @param $link
+ *
  * @return string
  */
 function getOlderData($link)
