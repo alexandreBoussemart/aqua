@@ -19,6 +19,7 @@ setStatus($link, isset($_POST['on_off_ecumeur']) ? $_POST['on_off_ecumeur'] : nu
 setStatus($link, isset($_POST['log_in_files']) ? $_POST['log_in_files'] : null, 'log_in_files');
 setStatus($link, isset($_POST['force_stop_refroidissement']) ? $_POST['force_stop_refroidissement'] : null, 'force_stop_refroidissement');
 setStatus($link, isset($_POST['force_turn_on_eclairage']) ? $_POST['force_turn_on_eclairage'] : null, 'force_turn_on_eclairage');
+setStatus($link, isset($_POST['disable_all_cron']) ? $_POST['disable_all_cron'] : null, 'disable_all_cron');
 
 $message = "Validation du formulaire de changement de statut.";
 sendMail($data, $transport, $message, $message, $link);

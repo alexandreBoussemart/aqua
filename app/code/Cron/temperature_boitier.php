@@ -9,6 +9,11 @@
 require __DIR__ . '/../Helper/functions.php';
 
 try {
+    //désavtiver toutes les cron
+    if (getStatus($link, 'disable_all_cron')) {
+        exit;
+    }
+
     $force_stop = false;
     $date = new DateTime();
     $now = $date->format('Y-m-d H:i:s');

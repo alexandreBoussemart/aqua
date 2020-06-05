@@ -7,6 +7,11 @@
 require __DIR__ . '/../Helper/functions.php';
 
 try {
+    //désavtiver toutes les cron
+    if (getStatus($link, 'disable_all_cron')) {
+        exit;
+    }
+
     //heure d'execution max
     $date = new DateTime();
     $end = $date->format('Y-m-d H:i:59');

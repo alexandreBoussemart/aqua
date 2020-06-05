@@ -7,6 +7,14 @@
 require __DIR__ . '/../Helper/functions.php';
 
 try {
+    //désavtiver toutes les cron
+    if (getStatus($link, 'disable_all_cron')) {
+        setControle($link, 'controle_osmolateur');
+        setState($link, 'osmolateur', 'state_98', 0, "Toutes les crons sont désactivées");
+
+        exit;
+    }
+
     //check si la cron est activé
     if (!getStatus($link, 'osmolateur')) {
         setControle($link, 'controle_osmolateur');

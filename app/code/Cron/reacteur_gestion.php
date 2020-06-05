@@ -7,6 +7,11 @@
 require __DIR__ . '/../Helper/functions.php';
 
 try {
+    //désavtiver toutes les cron
+    if (getStatus($link, 'disable_all_cron')) {
+        exit;
+    }
+
     if(isOn()) {
         if (getStatus($link, 'reacteur_eclairage')) {
             exec("python " . __DIR__ . "/../../../scripts/reacteur_eclairage/on.py");
