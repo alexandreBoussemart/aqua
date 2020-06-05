@@ -1065,10 +1065,11 @@ function setMessage($type, $message)
 /**
  * @param $link
  * @param $type
+ * @param $evolution
  *
  * @return string
  */
-function getLastParam($link, $type)
+function getLastParam($link, $type, $evolution)
 {
     try {
         $label = '';
@@ -1103,7 +1104,7 @@ function getLastParam($link, $type)
             $jours = "aujourd'hui";
         }
 
-        return $row["value"] . " " . $label . $jours;
+        return $row["value"] . " " . $label . " " . $evolution . " " . $jours;
 
     } catch (Exception $e) {
         setLog($link, $e->getMessage());

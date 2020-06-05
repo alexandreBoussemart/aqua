@@ -12,7 +12,7 @@
                     <input name="value_ca" class="date-picker form-control col-md-7 col-xs-12"
                            type="text"/>
                     <p class="info">
-                        <?= getLastParam($link, 'ca'); ?><?= getLastDiffParam($link, 'ca'); ?>
+                        <?= getLastParam($link, 'ca', getLastDiffParam($link, 'ca')); ?>
                     </p>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                     <input name="value_kh" class="date-picker form-control col-md-7 col-xs-12"
                            type="text"/>
                     <p class="info">
-                        <?= getLastParam($link, 'kh'); ?><?= getLastDiffParam($link, 'kh'); ?>
+                        <?= getLastParam($link, 'kh', getLastDiffParam($link, 'kh')); ?>
                     </p>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     <input name="value_mg" class="date-picker form-control col-md-7 col-xs-12"
                            type="text"/>
                     <p class="info">
-                        <?= getLastParam($link, 'mg'); ?><?= getLastDiffParam($link, 'mg'); ?>
+                        <?= getLastParam($link, 'mg', getLastDiffParam($link, 'mg')); ?>
                     </p>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                     <input name="value_densite" class="date-picker form-control col-md-7 col-xs-12"
                            type="text"/>
                     <p class="info">
-                        <?= getLastParam($link, 'densite'); ?><?= getLastDiffParam($link, 'densite'); ?>
+                        <?= getLastParam($link, 'densite', getLastDiffParam($link, 'densite')); ?>>
                     </p>
                 </div>
             </div>
