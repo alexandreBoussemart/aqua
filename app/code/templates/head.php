@@ -5,3 +5,4 @@
 <link rel="icon" href="src/images/favicon.ico" type="./src/image/ico"/>
 <link href="./build/css/library.min.css" rel="stylesheet">
 <link href="./build/css/custom.min.css" rel="stylesheet">
+<meta name = "viewport" content = "width=device-width, minimum-scale=1.0, maximum-scale = 1.0, user-scalable = no">
