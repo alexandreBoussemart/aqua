@@ -37,7 +37,8 @@ $changements = mysqli_query($link, $sql);
                                       class="form-horizontal form-label-left switch-state">
                                     <input type="hidden" name="submit_delete_eau" value="1"/>
                                     <input type="hidden" name="id" value="<?= $changement["id"] ?>"/>
-                                    <button class="btn btn-default" type="submit"><i class="fa fa-close"></i>Delete
+                                    <button onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette donnée ?')"
+                                            class="btn btn-default" type="submit"><i class="fa fa-close"></i>Delete
                                     </button>
                                 </form>
                             </td>
