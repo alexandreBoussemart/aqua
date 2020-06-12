@@ -11,7 +11,7 @@
                 </label>
                 <div class="col-md-9 col-sm-9 col-xs-9">
                     <input name="value" class="date-picker form-control col-md-7 col-xs-12" required="required"
-                           type="text"/>
+                           type="number" pattern="[0-9]*" inputmode="numeric"/>
                     <p class="info">
                         <?= getLastChangementEau($link); ?>
                     </p>
