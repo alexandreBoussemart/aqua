@@ -10,7 +10,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-3">Ca<span class="required">*</span></label>
                 <div class="col-md-9 col-sm-9 col-xs-9">
                     <input name="value_ca" class="date-picker form-control col-md-7 col-xs-12"
-                           type="text"/>
+                           type="number" pattern="[0-9]*" inputmode="numeric"/>
                     <p class="info">
                         <?= getLastParam($link, 'ca', getLastDiffParam($link, 'ca')); ?>
                     </p>
@@ -30,7 +30,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-3">Mg<span class="required">*</span></label>
                 <div class="col-md-9 col-sm-9 col-xs-9">
                     <input name="value_mg" class="date-picker form-control col-md-7 col-xs-12"
-                           type="text"/>
+                           type="number" pattern="[0-9]*" inputmode="numeric"/>
                     <p class="info">
                         <?= getLastParam($link, 'mg', getLastDiffParam($link, 'mg')); ?>
                     </p>
@@ -41,7 +41,7 @@
                             class="required">*</span></label>
                 <div class="col-md-9 col-sm-9 col-xs-9">
                     <input name="value_densite" class="date-picker form-control col-md-7 col-xs-12"
-                           type="text"/>
+                           type="number" pattern="[0-9]*" inputmode="numeric"/>
                     <p class="info">
                         <?= getLastParam($link, 'densite', getLastDiffParam($link, 'densite')); ?>
                     </p>
