@@ -1,5 +1,5 @@
 <?php
-$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+$sql_densite = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT T.*
         FROM (
             SELECT * 
@@ -9,7 +9,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             LIMIT 9 
         ) T
         ORDER BY T.id ASC LIMIT 9";
-$densite = mysqli_query($link, $sql);
+$densite = mysqli_query($link, $sql_densite);
 
 $sql = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT * 

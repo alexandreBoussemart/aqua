@@ -1,5 +1,5 @@
 <?php
-$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+$sql_ca = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT T.*
         FROM (
             SELECT * 
@@ -9,9 +9,9 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             LIMIT 9 
         ) T
         ORDER BY T.id ASC LIMIT 9 ";
-$ca = mysqli_query($link, $sql);
+$ca = mysqli_query($link, $sql_ca);
 
-$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+$sql_kh = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT T.*
         FROM (
             SELECT * 
@@ -21,9 +21,9 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             LIMIT 9 
         ) T
         ORDER BY T.id ASC LIMIT 9";
-$kh = mysqli_query($link, $sql);
+$kh = mysqli_query($link, $sql_kh);
 
-$sql = "# noinspection SqlNoDataSourceInspectionForFile 
+$sql_mg = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT T.*
         FROM (
             SELECT * 
@@ -33,7 +33,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
             LIMIT 9 
         ) T
         ORDER BY T.id ASC LIMIT 9";
-$mg = mysqli_query($link, $sql);
+$mg = mysqli_query($link, $sql_mg);
 ?>
 
 <div class="row graph_param">

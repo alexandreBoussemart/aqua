@@ -173,20 +173,26 @@
 
     <?php if(isset($kh) && $kh): ?>
     <?php
-    $dateLast = "";
+    $dateLast = $dateFirst = "";
+    $isFirst = true;
     $eventsChangementdeauFinal = [];
     while ($obj = $kh->fetch_object()) {
-        $dateLast = $obj->created_at;
-        break;
+        if($isFirst){
+            $dateFirst = $obj->created_at;
+            $isFirst = false;
+        }
+        $dateLastStr = $obj->created_at;
     }
-    $dateLast = new DateTime($dateLast);
+    $dateLast = new DateTime($dateLastStr);
+    $dateFirst = new DateTime($dateFirst);
     foreach ($changements as $changement) {
         $dateChangement = new DateTime($changement["created_at"]);
-        if($dateLast <= $dateChangement ) {
+        if($dateFirst <= $dateChangement && $dateLast >= $dateChangement ) {
             $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
         }
     }
     $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    $kh = mysqli_query($link, $sql_kh);
     ?>
 
     if ($('#graph_kh').length) {
@@ -233,20 +239,26 @@
 
     <?php if(isset($ca) && $ca): ?>
     <?php
-    $dateLast = "";
+    $dateLast = $dateFirst = "";
+    $isFirst = true;
     $eventsChangementdeauFinal = [];
     while ($obj = $ca->fetch_object()) {
-        $dateLast = $obj->created_at;
-        break;
+        if($isFirst){
+            $dateFirst = $obj->created_at;
+            $isFirst = false;
+        }
+        $dateLastStr = $obj->created_at;
     }
-    $dateLast = new DateTime($dateLast);
+    $dateLast = new DateTime($dateLastStr);
+    $dateFirst = new DateTime($dateFirst);
     foreach ($changements as $changement) {
         $dateChangement = new DateTime($changement["created_at"]);
-        if($dateLast <= $dateChangement ) {
+        if($dateFirst <= $dateChangement && $dateLast >= $dateChangement ) {
             $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
         }
     }
     $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    $ca = mysqli_query($link, $sql_ca);
     ?>
 
     if ($('#graph_ca').length) {
@@ -295,20 +307,27 @@
 
     <?php if(isset($mg) && $mg): ?>
     <?php
-    $dateLast = "";
+    $dateLast = $dateFirst = "";
+    $isFirst = true;
     $eventsChangementdeauFinal = [];
     while ($obj = $mg->fetch_object()) {
-        $dateLast = $obj->created_at;
-        break;
+        if($isFirst){
+            $dateFirst = $obj->created_at;
+            $isFirst = false;
+        }
+        $dateLastStr = $obj->created_at;
     }
-    $dateLast = new DateTime($dateLast);
+    $dateLast = new DateTime($dateLastStr);
+    $dateFirst = new DateTime($dateFirst);
+
     foreach ($changements as $changement) {
         $dateChangement = new DateTime($changement["created_at"]);
-        if($dateLast <= $dateChangement ) {
+        if($dateFirst <= $dateChangement && $dateChangement <= $dateLast ) {
             $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
         }
     }
     $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    $mg = mysqli_query($link, $sql_mg);
     ?>
 
     if ($('#graph_mg').length) {
@@ -357,20 +376,27 @@
 
     <?php if(isset($densite) && $densite): ?>
     <?php
-    $dateLast = "";
+    $dateLast = $dateFirst = "";
+    $isFirst = true;
     $eventsChangementdeauFinal = [];
     while ($obj = $densite->fetch_object()) {
-        $dateLast = $obj->created_at;
-        break;
+        if($isFirst){
+            $dateFirst = $obj->created_at;
+            $isFirst = false;
+        }
+        $dateLastStr = $obj->created_at;
     }
-    $dateLast = new DateTime($dateLast);
+    $dateLast = new DateTime($dateLastStr);
+    $dateFirst = new DateTime($dateFirst);
+
     foreach ($changements as $changement) {
         $dateChangement = new DateTime($changement["created_at"]);
-        if($dateLast <= $dateChangement ) {
+        if($dateFirst <= $dateChangement && $dateChangement <= $dateLast ) {
             $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
         }
     }
     $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    $densite = mysqli_query($link, $sql_densite);
     ?>
     if ($('#graph_densite').length) {
         Morris.Line({
