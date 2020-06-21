@@ -5,6 +5,18 @@
 </script>
 
 <script>
+    <?php
+    // changement eau
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile  
+        SELECT * 
+        FROM `data_changement_eau` 
+        ORDER BY `id` DESC 
+        LIMIT 50;";
+    $request = mysqli_query($link, $sql);
+    $changements = mysqli_query($link, $sql);
+    $eventsChangementdeau = [];
+    ?>
+
     <?php if(isset($temperature) && $temperature): ?>
     if ($('#graph_temperature').length) {
         Morris.Line({
@@ -160,6 +172,23 @@
     <?php endif; ?>
 
     <?php if(isset($kh) && $kh): ?>
+    <?php
+    $dateLast = "";
+    $eventsChangementdeauFinal = [];
+    while ($obj = $kh->fetch_object()) {
+        $dateLast = $obj->created_at;
+        break;
+    }
+    $dateLast = new DateTime($dateLast);
+    foreach ($changements as $changement) {
+        $dateChangement = new DateTime($changement["created_at"]);
+        if($dateLast <= $dateChangement ) {
+            $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
+        }
+    }
+    $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    ?>
+
     if ($('#graph_kh').length) {
         Morris.Line({
             element: 'graph_kh',
@@ -182,6 +211,8 @@
             ymax: 12,
             pointSize: 1,
             lineColors: ['#2A3F54'],
+            events: <?= $eventsChangementdeauFinal ?>,
+            eventLineColors: ['#007bff'],
             data: [
                 <?php while($obj = $kh->fetch_object()){ ?>
                 {
@@ -201,6 +232,23 @@
     <?php endif; ?>
 
     <?php if(isset($ca) && $ca): ?>
+    <?php
+    $dateLast = "";
+    $eventsChangementdeauFinal = [];
+    while ($obj = $ca->fetch_object()) {
+        $dateLast = $obj->created_at;
+        break;
+    }
+    $dateLast = new DateTime($dateLast);
+    foreach ($changements as $changement) {
+        $dateChangement = new DateTime($changement["created_at"]);
+        if($dateLast <= $dateChangement ) {
+            $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
+        }
+    }
+    $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    ?>
+
     if ($('#graph_ca').length) {
         Morris.Line({
             element: 'graph_ca',
@@ -223,6 +271,8 @@
             ymax: 500,
             pointSize: 1,
             lineColors: ['#2A3F54'],
+            events: <?= $eventsChangementdeauFinal ?>,
+            eventLineColors: ['#007bff'],
             data: [
                 <?php while($obj = $ca->fetch_object()){ ?>
                 {
@@ -244,6 +294,23 @@
     <?php endif; ?>
 
     <?php if(isset($mg) && $mg): ?>
+    <?php
+    $dateLast = "";
+    $eventsChangementdeauFinal = [];
+    while ($obj = $mg->fetch_object()) {
+        $dateLast = $obj->created_at;
+        break;
+    }
+    $dateLast = new DateTime($dateLast);
+    foreach ($changements as $changement) {
+        $dateChangement = new DateTime($changement["created_at"]);
+        if($dateLast <= $dateChangement ) {
+            $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
+        }
+    }
+    $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    ?>
+
     if ($('#graph_mg').length) {
         Morris.Line({
             element: 'graph_mg',
@@ -266,6 +333,8 @@
             ymax: 1600,
             pointSize: 1,
             lineColors: ['#2A3F54'],
+            events: <?= $eventsChangementdeauFinal ?>,
+            eventLineColors: ['#007bff'],
             data: [
                 <?php while($obj = $mg->fetch_object()){ ?>
                 {
@@ -287,6 +356,22 @@
     <?php endif; ?>
 
     <?php if(isset($densite) && $densite): ?>
+    <?php
+    $dateLast = "";
+    $eventsChangementdeauFinal = [];
+    while ($obj = $densite->fetch_object()) {
+        $dateLast = $obj->created_at;
+        break;
+    }
+    $dateLast = new DateTime($dateLast);
+    foreach ($changements as $changement) {
+        $dateChangement = new DateTime($changement["created_at"]);
+        if($dateLast <= $dateChangement ) {
+            $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
+        }
+    }
+    $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    ?>
     if ($('#graph_densite').length) {
         Morris.Line({
             element: 'graph_densite',
@@ -309,6 +394,8 @@
             ymax: 1028,
             pointSize: 1,
             lineColors: ['#2A3F54'],
+            events: <?= $eventsChangementdeauFinal ?>,
+            eventLineColors: ['#007bff'],
             data: [
                 <?php while($obj = $densite->fetch_object()){ ?>
                 {
