@@ -819,14 +819,15 @@ function setParam($link, $data, $type)
 }
 
 /**
- * @param        $data
- * @param        $transport
- * @param        $link
- * @param array  $param
- * @param string $message
- * @param string $subject
- *
- * @return bool
+ * @param $data
+ * @param $transport
+ * @param $link
+ * @param array $param
+ * @param $message
+ * @param $subject
+ * @param $config_path
+ * @param $sendMail
+ * @return bool|string|string[]|null
  */
 function checkLastTimeCheck($data, $transport, $link, array $param, $message, $subject, $config_path, $sendMail)
 {

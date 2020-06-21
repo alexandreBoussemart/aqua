@@ -16,9 +16,12 @@
 
                 <!-- page content -->
                 <div class="right_col" role="main">
+                    <?php require '../app/code/templates/messages.php'; ?>
+                    <div class="row">
+                        <?php require '../app/code/templates/dashboard/fast_actions.php'; ?>
+                        <?php require '../app/code/templates/dashboard/todo.php'; ?>
+                    </div>
                     <?php
-                    require '../app/code/templates/messages.php';
-                    require '../app/code/templates/dashboard/fast_actions.php';
                     require '../app/code/templates/dashboard/calendrier.php';
                     require '../app/code/templates/dashboard/state.php';
                     require '../app/code/templates/dashboard/graph.php';
