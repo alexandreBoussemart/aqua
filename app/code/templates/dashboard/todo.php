@@ -1,8 +1,3 @@
-<?php
-$checks = allCheckLastTimeCheck($data, $transport, $link, false);
-$checks = array_filter($checks);
-?>
-
 <?php if (count($checks) > 0): ?>
     <div class="col-md-6 col-xs-12 col-sm-12">
         <div class="x_panel">
