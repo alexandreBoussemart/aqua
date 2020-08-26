@@ -452,5 +452,8 @@
     <?php if(isset($logs_mails)): ?>
     $('#datatable-mail').dataTable({'order': [[0, 'desc']]});
     <?php endif; ?>
+    <?php if(isset($budget)): ?>
+    $('#datatable_budget').dataTable({'order': [[0, 'desc']]});
+    <?php endif; ?>
 
 </script>

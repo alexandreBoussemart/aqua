@@ -5,7 +5,6 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
         FROM `log` 
         ORDER BY `id` DESC 
         LIMIT 50;";
-$request = mysqli_query($link, $sql);
 $logs = mysqli_query($link, $sql);
 ?>
 

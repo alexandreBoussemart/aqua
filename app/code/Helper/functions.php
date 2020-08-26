@@ -327,7 +327,15 @@ function getNumberDaysBetweenDate($date1, $date2)
     $x2 = days($dateEnd);
 
     if ($x1 && $x2) {
-        return abs($x1 - $x2);
+        $result = abs($x1 - $x2);
+
+        if($result == 0){
+            if($dateStart->format("Y-m-d") !== $dateEnd->format("Y-m-d")){
+                return 1;
+            }
+        }
+
+        return $result;
     }
 }
 
@@ -1101,6 +1109,8 @@ function getLastParam($link, $type, $evolution)
 
         if ($days > 1) {
             $jours = "il y a " . $days . " jours (" . getFormattedDateWithouH($row["created_at"]) . ")";
+        } elseif ($days == 1) {
+            $jours = "hier";
         } else {
             $jours = "aujourd'hui";
         }
@@ -1201,10 +1211,12 @@ function getLastChangementEau($link)
         $request = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($request);
 
-        $days = $days = getNumberDaysBetweenDate($row["created_at"], date("Y-m-d H:i:s"));;
+        $days = $days = getNumberDaysBetweenDate($row["created_at"], date("Y-m-d H:i:s"));
 
         if ($days > 1) {
             $jours = "il y a " . $days . " jours (" . getFormattedDateWithouH($row["created_at"]) . ")";
+        } else if ($days == 1) {
+            $jours = "hier";
         } else {
             $jours = "aujourd'hui";
         }

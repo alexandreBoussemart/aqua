@@ -86,3 +86,18 @@ if (isset($_POST['submit_params'])) {
     sendMail($data, $transport, $message, $message, $link);
     header('Location: ' . $data['database'][0]['base_url']);
 }
+
+// form changement d'eau
+if (isset($_POST['submit_budget']) && isset($_POST['value'])) {
+    $price= str_replace(",", ".", $_POST['value']);
+    $price = (float) $price;
+
+    if (isset($_POST['value']) && is_float($price) && isset($_POST['comment'])) {
+        $sql = 'INSERT INTO `data_depense` ( `comment`,`value`) VALUES ("' . strval($_POST['comment']) . '",' . $price . ')';
+        $link->query($sql);
+    }
+    $message = "Le dépense a été sauvegardé.";
+    setMessage("success", $message);
+    sendMail($data, $transport, $message, $message, $link);
+    header('Location: ' . $data['database'][0]['base_url']. "budget"); ///aqua-web
+}

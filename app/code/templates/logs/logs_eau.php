@@ -5,7 +5,6 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
         FROM `data_changement_eau` 
         ORDER BY `id` DESC 
         LIMIT 50;";
-$request = mysqli_query($link, $sql);
 $changements = mysqli_query($link, $sql);
 ?>
 

@@ -43,6 +43,11 @@
                             <i class="fa fa-bar-chart"></i> Monitoring système
                         </a>
                     </li>
+                    <li>
+                        <a href="<?= $data['database'][0]['base_url']; ?>budget">
+                            <i class="fa fa-credit-card"></i> Suivi budget
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
