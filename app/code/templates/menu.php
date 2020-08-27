@@ -48,6 +48,11 @@
                             <i class="fa fa-credit-card"></i> Suivi budget
                         </a>
                     </li>
+                    <li>
+                        <a href="<?= $data['database'][0]['base_url']; ?>relais">
+                            <i class="fa fa-power-off"></i> Test relais
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

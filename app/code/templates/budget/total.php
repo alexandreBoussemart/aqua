@@ -14,7 +14,7 @@ $total = mysqli_fetch_assoc($total);
                 <h2>Total</h2>
                 <div class="clearfix"></div>
             </div>
-            <div class="x_content">
+            <div class="x_content total-budget">
                 <?php
                 $number = $total['sum'];
                 echo number_format($number, 2, ',', ' ')."€";

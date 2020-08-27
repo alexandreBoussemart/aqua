@@ -1526,7 +1526,7 @@ h4.graph_title {
 .tile-stats .count {
   font-size: 38px;
   font-weight: bold;
-  line-height: 1.65857143; }
+  line-height: 1.65857; }
 
 .tile-stats .count, .tile-stats h3, .tile-stats p {
   position: relative;
@@ -4360,7 +4360,7 @@ h4.graph_title {
 .tile-stats .count {
   font-size: 38px;
   font-weight: bold;
-  line-height: 1.65857143; }
+  line-height: 1.65857; }
 
 .tile-stats .count, .tile-stats h3, .tile-stats p {
   position: relative;
@@ -6064,7 +6064,7 @@ header {
   border: 1px solid #cccccc;
   padding: 4px;
   box-sizing: content-box;
-  box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.07451) 0px 1px 1px 0px inset;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
@@ -6890,3 +6890,21 @@ ul.notifications {
   @media (max-width: 450px) {
     .heure span {
       display: none; } }
+
+.form-relais {
+  width: 62px;
+  display: inline-block;
+  height: 40px;
+  overflow: hidden;
+  margin-right: 10px; }
+  .form-relais .form-group {
+    margin-bottom: 0 !important; }
+    .form-relais .form-group .btn {
+      padding-left: 20px;
+      padding-right: 20px; }
+
+.total-budget {
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+  color: #169F85; }

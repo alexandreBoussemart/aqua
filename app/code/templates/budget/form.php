@@ -2,7 +2,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Suivi budget</h2>
+                <h2>Enregistrer une dépense</h2>
                 <div class="clearfix"></div>
             </div>
             <form method="post" action="controller/save" class="form-horizontal form-label-left switch-state">

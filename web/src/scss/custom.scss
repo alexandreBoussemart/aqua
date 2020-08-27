@@ -3149,6 +3149,7 @@ a.hiddenanchor {
 header {
   width: 100%;
 }
+
 /** Select2 **/
 .select2-container--default .select2-selection--single,
 .select2-container--default .select2-selection--multiple {
@@ -3219,6 +3220,7 @@ fieldset {
   background-color: rgba(231, 76, 60, 0.88);
   border-color: rgba(231, 76, 60, 0.88);
 }
+
 /** /PNotify **/
 
 /** FullCalendar **/
@@ -8851,4 +8853,28 @@ ul.notifications {
       display: none;
     }
   }
+}
+
+.form-relais {
+  width: 62px;
+  display: inline-block;
+  height: 40px;
+  overflow: hidden;
+  margin-right: 10px;
+
+  .form-group {
+    margin-bottom: 0 !important;
+
+    .btn {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+}
+
+.total-budget {
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+  color: #169F85;
 }
