@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <div class="x_title">
+            <div class="x_title title-relais on">
                 <h2>Relais ventilateur boitier</h2>
                 <div class="clearfix"></div>
             </div>
@@ -30,7 +30,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <div class="x_title">
+            <div class="x_title title-relais off">
                 <h2>Relais ventilateur aquarium</h2>
                 <div class="clearfix"></div>
             </div>
@@ -59,7 +59,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <div class="x_title">
+            <div class="x_title title-relais">
                 <h2>Relais écumeur</h2>
                 <div class="clearfix"></div>
             </div>
@@ -88,7 +88,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <div class="x_title">
+            <div class="x_title title-relais">
                 <h2>Relais osmolateur</h2>
                 <div class="clearfix"></div>
             </div>
@@ -117,7 +117,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <div class="x_title">
+            <div class="x_title title-relais">
                 <h2>Relais pompe osmolateur</h2>
                 <div class="clearfix"></div>
             </div>
@@ -146,7 +146,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <div class="x_title">
+            <div class="x_title title-relais">
                 <h2>Relais réacteur éclairage</h2>
                 <div class="clearfix"></div>
             </div>
@@ -175,7 +175,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <div class="x_title">
+            <div class="x_title title-relais">
                 <h2>Relais réacteur ventilateur</h2>
                 <div class="clearfix"></div>
             </div>

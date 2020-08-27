@@ -8878,3 +8878,38 @@ ul.notifications {
   font-weight: bold;
   color: #169F85;
 }
+
+.title-relais {
+  h2 {
+    position: relative;
+    overflow: visible;
+
+    &::after {
+      display: block;
+      content: '';
+      width: 20px;
+      height: 20px;
+      background: #6c757d;
+      border-radius: 50%;
+      position: absolute;
+      right: -25px;
+      top: -1px;
+    }
+  }
+
+  &.on {
+    h2 {
+      &::after {
+        background: green;
+      }
+    }
+  }
+
+  &.off {
+    h2 {
+      &::after {
+        background: red;
+      }
+    }
+  }
+}

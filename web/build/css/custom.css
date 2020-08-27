@@ -6908,3 +6908,21 @@ ul.notifications {
   text-align: center;
   font-weight: bold;
   color: #169F85; }
+
+.title-relais h2 {
+  position: relative;
+  overflow: visible; }
+  .title-relais h2::after {
+    display: block;
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: #6c757d;
+    border-radius: 50%;
+    position: absolute;
+    right: -25px;
+    top: -1px; }
+.title-relais.on h2::after {
+  background: green; }
+.title-relais.off h2::after {
+  background: red; }
