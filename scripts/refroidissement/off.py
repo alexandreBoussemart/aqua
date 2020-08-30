@@ -5,7 +5,7 @@ from time import sleep
 
 sys.path.insert(1, '/home/pi/Desktop/www/aqua/scripts/')
 import functions
-
+import os
 import RPi.GPIO as GPIO
 
 relais = 20
@@ -13,4 +13,8 @@ relais = 20
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 functions.offled(relais)
+
+if os.path.exists("../statusRelais/refroidissement"):
+  os.remove("../statusRelais/refroidissement")
+
 sys.exit()
