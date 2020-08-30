@@ -79,6 +79,20 @@ function getStatus($link, $name)
 }
 
 /**
+ * @param $link
+ * @param $name
+ * @return bool
+ */
+function getStateRelais($link, $name)
+{
+    try {
+        return file_exists(__DIR__ . "/../../../statusRelais/" . $name);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+}
+
+/**
  * @param        $link
  * @param        $temp
  * @param string $table

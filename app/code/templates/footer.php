@@ -1,3 +1,3 @@
 <div class="footer">
-    v2.2.3 - Copyright © 2020
+    v2.2.4 - Copyright © 2020
 </div>
