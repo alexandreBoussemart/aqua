@@ -14,7 +14,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 functions.offled(relais)
 
-if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/refroidissement"):
-  os.remove("/home/pi/Desktop/www/aqua/statusRelais/refroidissement")
+if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/reacteur_eclairage"):
+  os.remove("/home/pi/Desktop/www/aqua/statusRelais/reacteur_eclairage")
 
 sys.exit()
