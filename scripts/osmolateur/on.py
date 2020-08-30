@@ -13,6 +13,6 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 functions.onled(relais)
 
-f = open("../statusRelais/osmolateur", "w")
+f = open("/home/pi/Desktop/www/aqua/statusRelais/osmolateur", "w")
 
 sys.exit()

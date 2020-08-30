@@ -14,7 +14,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 functions.offled(relais)
 
-if os.path.exists("../statusRelais/osmolateur"):
-  os.remove("../statusRelais/osmolateur")
+if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/osmolateur"):
+  os.remove("/home/pi/Desktop/www/aqua/statusRelais/osmolateur")
 
 sys.exit()

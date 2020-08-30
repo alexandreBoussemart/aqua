@@ -14,7 +14,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 functions.offled(relais)
 
-if os.path.exists("../statusRelais/ecumeur"):
-  os.remove("../statusRelais/ecumeur")
+if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/ecumeur"):
+  os.remove("/home/pi/Desktop/www/aqua/statusRelais/ecumeur")
 
 sys.exit()

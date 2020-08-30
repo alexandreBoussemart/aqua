@@ -13,6 +13,6 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 functions.onled(relais)
 
-f = open("../statusRelais/refroidissement", "w")
+f = open("/home/pi/Desktop/www/aqua/statusRelais/refroidissement", "w")
 
 sys.exit()

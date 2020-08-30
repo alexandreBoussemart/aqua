@@ -14,7 +14,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 functions.offled(relais)
 
-if os.path.exists("../statusRelais/reacteur_ventilateur"):
-  os.remove("../statusRelais/reacteur_ventilateur")
+if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/reacteur_ventilateur"):
+  os.remove("/home/pi/Desktop/www/aqua/statusRelais/reacteur_ventilateur")
 
 sys.exit()
