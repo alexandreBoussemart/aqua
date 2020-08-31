@@ -28,7 +28,7 @@ $budget = mysqli_query($link, $sql);
                     <?php foreach ($budget as $log): ?>
                         <tr>
                             <td><?= $log["id"] ?></td>
-                            <td><?= getFormattedDateWithouH($log["created_at"]) ?></td>
+                            <td data-sort="<?= $log["created_at"] ?>"><?= getFormattedDateWithouH($log["created_at"]) ?></td>
                             <td><?= $log["comment"] ?></td>
                             <td><?= number_format($log["value"], 2, ',', ' ') ?>€</td>
                         </tr>
