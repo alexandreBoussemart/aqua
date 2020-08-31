@@ -42,11 +42,15 @@ $last = '1';
                             <label class="control-label col-md-6 col-sm-6 col-xs-6"><?= $c[5] ?><span
                                         class="required">*</span>
                             </label>
-                            <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="col-md-6 col-sm-6 col-xs-6 input-conf">
                                 <input value="<?= $c[2] ?>"
                                        name="<?= $c[1] ?>" class="form-control col-md-7 col-xs-12"
                                        required="required" type="number" pattern="[0-9]*" inputmode="numeric">
+                                <?php if($c[6] == 1): ?>
+                                    <?= getDaysBeforeAlert($link, $c[1], $c[2]) ?>
+                                <?php endif; ?>
                             </div>
+
                         </div>
                     <?php endif; ?>
 

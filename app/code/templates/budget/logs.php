@@ -3,8 +3,7 @@
 $sql = "# noinspection SqlNoDataSourceInspectionForFile  
         SELECT * 
         FROM `data_depense` 
-        ORDER BY `id` DESC 
-        LIMIT 50;";
+        ORDER BY `data_depense`.`created_at` DESC";
 $budget = mysqli_query($link, $sql);
 ?>
 

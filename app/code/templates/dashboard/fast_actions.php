@@ -11,7 +11,7 @@ $last = '1';
 ?>
 
 <?php
-$checks = allCheckLastTimeCheck($data, $transport, $link, false);
+$checks = allCheckLastTimeCheck("", "", $link, false);
 $checks = array_filter($checks);
 ?>
 

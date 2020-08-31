@@ -12,10 +12,10 @@ $array_verif = [
 ];
 
 $message_body = [
-    'controle_bailling'    => 'Cron - ERREUR - script bailling',
-    'controle_ecumeur'     => 'Cron - ERREUR - script écumeur',
-    'controle_osmolateur'  => 'Cron - ERREUR - script osmolateur',
-    'controle_reacteur'    => 'Cron - ERREUR - script réacteur',
+    'controle_bailling' => 'Cron - ERREUR - script bailling',
+    'controle_ecumeur' => 'Cron - ERREUR - script écumeur',
+    'controle_osmolateur' => 'Cron - ERREUR - script osmolateur',
+    'controle_reacteur' => 'Cron - ERREUR - script réacteur',
     'controle_temperature' => 'Cron - ERREUR - script température'
 ];
 
@@ -203,7 +203,7 @@ function setControle($link, $value)
  * @param      $value
  * @param      $error
  * @param      $message
- * @param int  $exclude
+ * @param int $exclude
  * @param bool $force_log
  *
  * @return bool
@@ -282,18 +282,18 @@ function setLogMail($link, $sujet, $message)
 function getLabel($key)
 {
     $array = [
-        ''                  => "",
-        'off'               => "Off",
-        'ok'                => "Niveau d'eau OK",
-        "pump_on"           => "En cours de remplissage",
-        "to_low"            => "Niveau d'eau bas",
-        "to_high"           => "Niveau d'eau haut",
-        "off_rappel"        => "RAPPEL - Off",
-        "to_low_rappel"     => "RAPPEL - Niveau d'eau bas",
-        "pump_on_20"        => "Pompe allumée plus de 20 secondes",
+        '' => "",
+        'off' => "Off",
+        'ok' => "Niveau d'eau OK",
+        "pump_on" => "En cours de remplissage",
+        "to_low" => "Niveau d'eau bas",
+        "to_high" => "Niveau d'eau haut",
+        "off_rappel" => "RAPPEL - Off",
+        "to_low_rappel" => "RAPPEL - Niveau d'eau bas",
+        "pump_on_20" => "Pompe allumée plus de 20 secondes",
         "pump_on_20_rappel" => "RAPPEL - Pompe allumée plus de 20 secondes",
-        "to_high_rappel"    => "RAPPEL - Niveau d'eau haut",
-        "error"             => "Erreur"
+        "to_high_rappel" => "RAPPEL - Niveau d'eau haut",
+        "error" => "Erreur"
     ];
 
     return $array[$key];
@@ -343,8 +343,8 @@ function getNumberDaysBetweenDate($date1, $date2)
     if ($x1 && $x2) {
         $result = abs($x1 - $x2);
 
-        if($result == 0){
-            if($dateStart->format("Y-m-d") !== $dateEnd->format("Y-m-d")){
+        if ($result == 0) {
+            if ($dateStart->format("Y-m-d") !== $dateEnd->format("Y-m-d")) {
                 return 1;
             }
         }
@@ -872,6 +872,7 @@ function checkLastTimeCheck($data, $transport, $link, array $param, $message, $s
             FROM `" . $table . "` 
             WHERE `created_at` > '" . $date . "'"
             . $AND;
+
         logInFile($link, "sql.log", $sql);
         $request = mysqli_query($link, $sql);
         $result = mysqli_fetch_assoc($request);
@@ -1119,7 +1120,7 @@ function getLastParam($link, $type, $evolution)
                 $label = '';
         }
 
-        $days = $days = getNumberDaysBetweenDate($row["created_at"], date("Y-m-d H:i:s"));;
+        $days = $days = getNumberDaysBetweenDate($row["created_at"], date("Y-m-d H:i:s"));
 
         if ($days > 1) {
             $jours = "il y a " . $days . " jours (" . getFormattedDateWithouH($row["created_at"]) . ")";
@@ -1344,4 +1345,58 @@ function getOlderData($link)
         setLog($link, $e->getMessage());
         setMessage("error", $e->getMessage());
     }
+}
+
+/**
+ * @param $link
+ * @param $name
+ * @param $value
+ * @return string
+ * @throws Exception
+ */
+function getDaysBeforeAlert($link, $name, $value)
+{
+    $messages = [
+        "check_changement_eau" => "Pas de changement d'eau depuis XX jours !",
+        "check_clean_reacteur" => "Le réacteur n'a pas été nettoyé depuis XX jours !",
+        "check_clean_ecumeur" => "L'écumeur n'a pas été nettoyé depuis XX jours !",
+        "check_clean_pompes" => "Les pompes n'ont pas été nettoyé depuis depuis XX jours !",
+        "check_analyse_eau" => "Pas d'analyse d'eau depuis depuis XX jours !"
+    ];
+
+    $type = "";
+    if ($name == "check_analyse_eau") {
+        $type = "ca";
+    }
+
+    $table = str_replace('check', 'data', $name);
+    $table = str_replace('analyse', 'parametres', $table);
+
+    $result = checkLastTimeCheck("", "", $link, ['table' => $table, 'type' => $type], $messages[$name],
+        "", $name, 0);
+
+    if ($result) {
+        return "<p style='color:red'>" . $result . "</p>";
+    }
+
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT `created_at` as created_at
+            FROM `" . $table . "` 
+            WHERE `id` > 0"
+        . " ORDER BY `id` DESC LIMIT 1";
+    logInFile($link, "sql.log", $sql);
+    $request = mysqli_query($link, $sql);
+    $result = mysqli_fetch_assoc($request);
+
+    $lastDate = $result["created_at"];
+    $days = getNumberDaysBetweenDate($lastDate, date("Y-m-d H:i:s"));
+    $leftTime = $value - $days;
+    if ($leftTime > 1) {
+        $time = $leftTime . " jours";
+    } else {
+        $time = $leftTime . " jour";
+    }
+
+    return "Prochaine alerte dans " . $time;
+
 }

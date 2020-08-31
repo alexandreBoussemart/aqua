@@ -6926,3 +6926,6 @@ ul.notifications {
   background: green; }
 .title-relais.off h2::after {
   background: red; }
+
+.input-conf > p {
+  margin-bottom: 0; }
