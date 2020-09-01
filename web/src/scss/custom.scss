@@ -8883,6 +8883,7 @@ ul.notifications {
   h2 {
     position: relative;
     overflow: visible;
+    width: auto;
 
     &::after {
       display: block;
