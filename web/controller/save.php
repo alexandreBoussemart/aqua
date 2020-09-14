@@ -63,6 +63,19 @@ if (isset($_POST['submit_delete_eau'])) {
     header('Location: ' . $data['database'][0]['base_url'] . "logs"); ///aqua-web
 }
 
+//delete value budget
+if (isset($_POST['submit_delete_budget'])) {
+    if (isset($_POST['id']) && is_numeric($_POST['id'])) {
+        $sql = 'DELETE FROM `data_depense` WHERE `id` LIKE ' . $_POST['id'] . ';';
+        $message =  "La dépense a été supprimé.";
+        setMessage("success",$message);
+        sendMail($data, $transport, $message, $message, $link);
+        $link->query($sql);
+    }
+
+    header('Location: ' . $data['database'][0]['base_url'] . "budget"); ///aqua-web
+}
+
 // form configuration
 if (isset($_POST['submit_configuration'])) {
     unset($_POST['submit_configuration']);
