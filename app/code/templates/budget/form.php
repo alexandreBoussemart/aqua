@@ -8,7 +8,7 @@
             <form method="post" action="controller/save" class="form-horizontal form-label-left switch-state">
                 <input type="hidden" name="submit_budget" value="1"/>
                 <div class="item form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align">Date Of Birth <span class="required">*</span>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align">Date <span class="required">*</span>
                     </label>
                     <div class="col-md-9 col-sm-9">
                         <input id="date"
