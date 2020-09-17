@@ -41,6 +41,14 @@
                     <p class="info"><?= getDateLastClean($link, "pompes") ?></p>
                 </form>
             </div>
+            <div class="x_content">
+                <form id="current_debit" method="post" action="javascript:;" class="form-horizontal form-label-left switch-state">
+                    <input type="hidden" name="submit_actions_get_debit" value="1"/>
+                    <button
+                            type="submit" class="btn btn-default">Débit réacteur actuel
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
