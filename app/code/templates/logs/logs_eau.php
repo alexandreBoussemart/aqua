@@ -6,13 +6,24 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
         ORDER BY `id` DESC 
         LIMIT 50;";
 $changements = mysqli_query($link, $sql);
+
+// logs
+$sql = "# noinspection SqlNoDataSourceInspectionForFile  
+        SELECT SUM(`value`) as sum
+        FROM `data_changement_eau`";
+$total_litre = mysqli_query($link, $sql);
+$total_litre = mysqli_fetch_assoc($total_litre);
+$total_litre = $total_litre['sum'];
 ?>
 
 <div class="row first-bloc">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Changement d'eau</h2>
+                <h2>
+                    Changement d'eau
+                    <small><?php echo $total_litre; ?> litre<?php if($total_litre > 1):?>s<?php endif;?></small>
+                </h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content2">
