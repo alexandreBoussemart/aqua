@@ -23,6 +23,7 @@ $budget = mysqli_query($link, $sql);
                         <th style="width: 25%;">Date</th>
                         <th>Commentaire</th>
                         <th>Prix</th>
+                        <th style="width: 25px;">Supprimer</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,6 +34,16 @@ $budget = mysqli_query($link, $sql);
                             <td data-sort="<?= $log["created_at"] ?>"><?= getFormattedDateWithouH($log["created_at"]) ?></td>
                             <td><?= $log["comment"] ?></td>
                             <td><?= number_format($log["value"], 2, ',', ' ') ?>€</td>
+                            <td class="action_grid">
+                                <form method="post" action="controller/save"
+                                      class="form-horizontal form-label-left switch-state">
+                                    <input type="hidden" name="submit_delete_budget" value="1"/>
+                                    <input type="hidden" name="id" value="<?= $log["id"] ?>"/>
+                                    <button onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette donnée ?')"
+                                            class="btn btn-default" type="submit"><i class="fa fa-close"></i>Delete
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

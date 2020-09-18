@@ -691,3 +691,21 @@ $(document).ready(function () {
         });
     });
 });
+
+$(document).ready(function () {
+    $('#current_debit').submit(function (e) {
+        e.stopImmediatePropagation()
+        showLoader();
+        $.ajax({
+            type: "POST",
+            url: URL_GET_CURRENT_DEBIT,
+            cache: false,
+            success: function (result) {
+                alert(result);
+            },
+            complete: function () {
+                hideLoader();
+            }
+        });
+    });
+});

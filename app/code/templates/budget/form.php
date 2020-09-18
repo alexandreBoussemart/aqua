@@ -7,6 +7,30 @@
             </div>
             <form method="post" action="controller/save" class="form-horizontal form-label-left switch-state">
                 <input type="hidden" name="submit_budget" value="1"/>
+                <div class="item form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align">Date <span class="required">*</span>
+                    </label>
+                    <div class="col-md-9 col-sm-9">
+                        <input id="date"
+                               name="date"
+                               class="date-picker form-control"
+                               placeholder="jj-mm-aaaa"
+                               required="required"
+                               type="text"
+                               onfocus="this.type='date'"
+                               onmouseover="this.type='date'"
+                               onclick="this.type='date'"
+                               onblur="this.type='text'"
+                               onmouseout="timeFunctionLong(this)">
+                        <script>
+                            function timeFunctionLong(input) {
+                                setTimeout(function() {
+                                    input.type = 'text';
+                                }, 60000);
+                            }
+                        </script>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-3">Commentaire<span class="required">*</span>
                     </label>

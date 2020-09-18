@@ -2,6 +2,7 @@
 <script>
     var URL_SAVE_ACTIONS_RAPIDES = '<?= $data['database'][0]['base_url'] ?>controller/saveActionsRapides'
     var URL_SAVE_STATUS = '<?= $data['database'][0]['base_url'] ?>controller/saveStatus'
+    var URL_GET_CURRENT_DEBIT = '<?= $data['database'][0]['base_url'] ?>controller/getCurrentDebit'
 </script>
 
 <script>

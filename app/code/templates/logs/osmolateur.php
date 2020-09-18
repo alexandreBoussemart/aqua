@@ -23,7 +23,7 @@ while ($obj = $count->fetch_object()) {
         <div class="x_panel">
             <div class="x_title osmo">
                 <h2>Osmolateur
-                    <small><?php echo $count_osmolateur; ?> remplissage(s)</small>
+                    <small><?php echo $count_osmolateur; ?> remplissage<?php if($count_osmolateur > 1):?>s<?php endif;?></small>
                 </h2>
                 <div class="clearfix"></div>
             </div>

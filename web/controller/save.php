@@ -54,13 +54,26 @@ if (isset($_POST['submit_eau'])) {
 if (isset($_POST['submit_delete_eau'])) {
     if (isset($_POST['id']) && is_numeric($_POST['id'])) {
         $sql = 'DELETE FROM `data_changement_eau` WHERE `id` LIKE ' . $_POST['id'] . ';';
-        $message =  "Le changement d'eau a été supprimé.";
-        setMessage("success",$message);
+        $message = "Le changement d'eau a été supprimé.";
+        setMessage("success", $message);
         sendMail($data, $transport, $message, $message, $link);
         $link->query($sql);
     }
 
     header('Location: ' . $data['database'][0]['base_url'] . "logs"); ///aqua-web
+}
+
+//delete value budget
+if (isset($_POST['submit_delete_budget'])) {
+    if (isset($_POST['id']) && is_numeric($_POST['id'])) {
+        $sql = 'DELETE FROM `data_depense` WHERE `id` LIKE ' . $_POST['id'] . ';';
+        $message = "La dépense a été supprimé.";
+        setMessage("success", $message);
+        sendMail($data, $transport, $message, $message, $link);
+        $link->query($sql);
+    }
+
+    header('Location: ' . $data['database'][0]['base_url'] . "budget"); ///aqua-web
 }
 
 // form configuration
@@ -89,15 +102,17 @@ if (isset($_POST['submit_params'])) {
 
 // form changement d'eau
 if (isset($_POST['submit_budget']) && isset($_POST['value'])) {
-    $price= str_replace(",", ".", $_POST['value']);
-    $price = (float) $price;
+    $price = str_replace(",", ".", $_POST['value']);
+    $price = (float)$price;
 
-    if (isset($_POST['value']) && is_float($price) && isset($_POST['comment'])) {
-        $sql = 'INSERT INTO `data_depense` ( `comment`,`value`) VALUES ("' . strval($_POST['comment']) . '",' . $price . ')';
+    if (isset($_POST['value']) && is_float($price) && isset($_POST['comment']) && isset($_POST['date'])) {
+        $date = $_POST['date'];
+        $sql = 'INSERT INTO `data_depense` ( `comment`,`value`,`created_at`) VALUES ("' . strval($_POST['comment']) . '",' . $price . ',"' . $date . '")';
         $link->query($sql);
     }
+
     $message = "Le dépense a été sauvegardé.";
     setMessage("success", $message);
     sendMail($data, $transport, $message, $message, $link);
-    header('Location: ' . $data['database'][0]['base_url']. "budget"); ///aqua-web
+    header('Location: ' . $data['database'][0]['base_url'] . "budget"); ///aqua-web
 }
