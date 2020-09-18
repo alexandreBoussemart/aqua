@@ -11,7 +11,7 @@ $changements = mysqli_query($link, $sql);
 <div class="row first-bloc">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <div class="x_title">
+            <div class="x_title osmo">
                 <h2>Changement d'eau</h2>
                 <div class="clearfix"></div>
             </div>
