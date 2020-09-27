@@ -38,9 +38,6 @@
                             <div class="event surgele">
                                 Nourriture congelée
                             </div>
-                            <div class="event coraux">
-                                Nourriture coraux
-                            </div>
                             <div class="event algue">
                                 Algue
                             </div>
@@ -52,6 +49,9 @@
                             <div class="event surgele">
                                 Nourriture congelée
                             </div>
+                            <div class="event coraux">
+                                Nourriture coraux
+                            </div>
                         </div>
                     </div>
                     <div class="days <?php if ($day_name == "Fri"): ?>today<?php endif; ?>">
@@ -59,9 +59,6 @@
                         <div class="contenu">
                             <div class="event surgele">
                                 Nourriture congelée
-                            </div>
-                            <div class="event coraux">
-                                Nourriture coraux
                             </div>
                             <div class="event algue">
                                 Algue
