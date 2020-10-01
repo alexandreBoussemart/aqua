@@ -28,6 +28,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="<?= $data['database'][0]['base_url']; ?>analyse">
+                            <i class="fa fa-line-chart"></i> Analyse d'eau
+                        </a>
+                    </li>
+                    <li>
                         <a href="<?= $data['database'][0]['base_url']; ?>schema">
                             <i class="fa fa-map-o"></i> Schéma de branchement
                         </a>

@@ -97,10 +97,10 @@ if (isset($_POST['submit_params'])) {
     $message = "Les paramètres d'eau ont été sauvegardé.";
     setMessage("success", $message);
     sendMail($data, $transport, $message, $message, $link);
-    header('Location: ' . $data['database'][0]['base_url']);
+    header('Location: ' . $data['database'][0]['base_url'] . "analyse");
 }
 
-// form changement d'eau
+// form dépense
 if (isset($_POST['submit_budget']) && isset($_POST['value'])) {
     $price = str_replace(",", ".", $_POST['value']);
     $price = (float)$price;

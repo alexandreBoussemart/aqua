@@ -457,12 +457,14 @@ function setConfig($link, $data, $code)
         } else {
             $value = 0;
         }
+
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 UPDATE `core_config` 
                 SET `value`='" . $value . "' 
                 WHERE `name` = '$code'";
         logInFile($link, "sql.log", $sql);
         $link->query($sql);
+
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
         setMessage("error", $e->getMessage());
@@ -971,6 +973,18 @@ function allCheckLastTimeCheck($data, $transport, $link, $sendMail = true)
     $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'densite'],
         $message, $subject, "check_analyse_eau", $sendMail);
 
+    //si pas de mesure depuis plus d'1 semaine
+    $message = "Pas de mesure de nitrate depuis XX jours !";
+    $subject = "Rappel - faire une mesure de Nitrate";
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'nitrate'],
+        $message, $subject, "check_analyse_eau", $sendMail);
+
+    //si pas de mesure depuis plus d'1 semaine
+    $message = "Pas de mesure de phosphate depuis XX jours !";
+    $subject = "Rappel - faire une mesure de Phosphate";
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'phosphate'],
+        $message, $subject, "check_analyse_eau", $sendMail);
+
     return $result;
 }
 
@@ -1112,6 +1126,8 @@ function getLastParam($link, $type, $evolution)
             case 'kh':
                 $label = 'dkh';
                 break;
+            case 'phosphate':
+            case 'nitrate':
             case 'mg':
             case 'ca':
                 $label = 'mg/l';
@@ -1180,6 +1196,8 @@ function getLastDiffParam($link, $type)
             case 'kh':
                 $label = 'dkh';
                 break;
+            case 'nitrate':
+            case 'phosphate':
             case 'mg':
             case 'ca':
                 $label = 'mg/l';
