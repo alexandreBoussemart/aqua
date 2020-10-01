@@ -341,7 +341,7 @@
                 return ("0" + (d.getDate())).slice(-2) + '/' +
                     ("0" + (d.getMonth() + 1)).slice(-2);
             },
-            goals: [15, 0, 25],
+            goals: [15, 0, 26],
             goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
             goalStrokeWidth: '2',
             pointStrokeColors: ['#2A3F54'],
