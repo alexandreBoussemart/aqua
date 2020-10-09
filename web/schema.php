@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -28,3 +30,5 @@
         <?php  require '../app/code/templates/js.php'; ?>
     </body>
 </html>
+
+<?php session_write_close(); ?>

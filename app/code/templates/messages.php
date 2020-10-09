@@ -1,5 +1,3 @@
-<?php session_start(); ?>
-
 <?php if (isset($_SESSION['success']) && count($_SESSION['success']) > 0): ?>
     <?php foreach ($_SESSION['success'] as $data): ?>
         <div class="row">
@@ -26,8 +24,6 @@
     <?php endforeach; ?>
     <?php unset($_SESSION['error']) ?>
 <?php endif; ?>
-
-<?php session_write_close(); ?>
 
 
 

@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -51,3 +53,4 @@
     </body>
 </html>
 
+<?php session_write_close(); ?>
