@@ -709,3 +709,26 @@ $(document).ready(function () {
         });
     });
 });
+
+$(document).ready(function () {
+    $(".btn-run").on("click", function (e) {
+        var path = $(this).data('file');
+        e.stopImmediatePropagation();
+        showLoader();
+        $.ajax({
+            type: "POST",
+            data: {file: path},
+            url: URL_RUN_CRON,
+            cache: false,
+            success: function (result) {
+                alert(result);
+            },
+            complete: function () {
+                hideLoader();
+            }
+        });
+    });
+});
+
+
+

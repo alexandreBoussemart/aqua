@@ -58,6 +58,11 @@
                             <i class="fa fa-power-off"></i> Test relais
                         </a>
                     </li>
+                    <li>
+                        <a href="<?= $data['database'][0]['base_url']; ?>crons">
+                            <i class="fa fa-list"></i> Liste cron
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -1418,3 +1418,24 @@ function getDaysBeforeAlert($link, $name, $value)
     return "Prochaine alerte dans " . $time;
 
 }
+
+/**
+ * @return array
+ */
+function getCrons()
+{
+    $directory = __DIR__ . '/../Cron/';
+    $results = [];
+    if ($handle = opendir($directory)) {
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != "." && $entry != "..") {
+                $results[] = ['type' => $entry, 'run' => $directory . $entry];
+            }
+        }
+        closedir($handle);
+
+        return $results;
+    }
+
+    return [];
+}
