@@ -36,6 +36,16 @@ try {
         define("THERMOMETER_SENSOR_PATH_BOITIER", $data['file_temperature_boitier']);
     }
 
+    // temerature rpi
+    $f = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
+    $temp = fgets($f);
+    $temperature_rpi = round($temp / 1000, 2);
+
+    // on log temperature du rpi
+    if ($minute % 15 == 0) {
+        insertTemperature($link, $temperature_rpi, "`data_temperature_rpi`");
+    }
+
     // première lecture, on quitte si résultat pas ok
     $content = readFileTemperatureBoitier($link);
     $temperature1 = readTemperature($content);
@@ -56,11 +66,6 @@ try {
     $temp_min = $temperature1 * 0.90;
     $temp_max = $temperature1 * 1.10;
 
-    // temerature rpi
-    $f = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
-    $temp = fgets($f);
-    $temperature_rpi = round($temp / 1000, 2);
-
     // si les deux temperatures on moins de 10% d'écart
     if ($temp_min < $temperature2 && $temperature2 < $temp_max) {
         // trop chaud on allume le ventilateur
@@ -76,10 +81,6 @@ try {
         if ($minute % 15 == 0) {
             insertTemperature($link, $temperature2, "`data_temperature_boitier`");
         }
-    }
-
-    if ($minute % 15 == 0) {
-        insertTemperature($link, $temperature_rpi, "`data_temperature_rpi`");
     }
 
     exit;
