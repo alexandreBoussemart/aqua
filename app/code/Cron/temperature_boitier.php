@@ -75,8 +75,11 @@ try {
         // on insère la temperature en bdd 1 fois toutes les 15 minutes
         if ($minute % 15 == 0) {
             insertTemperature($link, $temperature2, "`data_temperature_boitier`");
-            insertTemperature($link, $temperature_rpi, "`data_temperature_rpi`");
         }
+    }
+
+    if ($minute % 15 == 0) {
+        insertTemperature($link, $temperature_rpi, "`data_temperature_rpi`");
     }
 
     exit;
