@@ -8848,6 +8848,10 @@ ul.notifications {
   padding: 0 10px;
   line-height: 54px;
 
+  p {
+    margin: 0;
+  }
+
   @media (max-width: 450px) {
     span {
       display: none;
