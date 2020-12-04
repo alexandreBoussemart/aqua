@@ -214,8 +214,16 @@ function countChecked() {
     }
 }
 
-// Accordion
+function showLoader() {
+    $('.loading-mask').show();
+}
+
+function hideLoader() {
+    $('.loading-mask').hide();
+}
+
 $(document).ready(function () {
+    // Accordion
     $(".expand").on("click", function () {
         $(this).next().slideToggle(200);
         $expand = $(this).find(">:first-child");
@@ -226,17 +234,7 @@ $(document).ready(function () {
             $expand.text("+");
         }
     });
-});
 
-function showLoader() {
-    $('.loading-mask').show();
-}
-
-function hideLoader() {
-    $('.loading-mask').hide();
-}
-
-$(document).ready(function () {
     $("#actions-rapides .js-switch-label .js-switch").unbind();
     $('#actions-rapides .js-switch-label .js-switch').change(function (e) {
         e.stopImmediatePropagation()
@@ -254,9 +252,7 @@ $(document).ready(function () {
             }
         });
     });
-});
 
-$(document).ready(function () {
     $("#form-status .js-switch").unbind();
     $('#form-status .js-switch').change(function (e) {
         e.stopImmediatePropagation()
@@ -274,9 +270,7 @@ $(document).ready(function () {
             }
         });
     });
-});
 
-$(document).ready(function () {
     $('#current_debit').submit(function (e) {
         e.stopImmediatePropagation()
         showLoader();
@@ -292,9 +286,7 @@ $(document).ready(function () {
             }
         });
     });
-});
 
-$(document).ready(function () {
     $(".btn-run").on("click", function (e) {
         var path = $(this).data('file');
         e.stopImmediatePropagation();
@@ -314,5 +306,13 @@ $(document).ready(function () {
     });
 });
 
+function date_time() {
+    nowDate = moment().format('DD/M/Y');
+    nowHours = moment().format('HH:mm:ss');
+    document.getElementById('timer').innerHTML = nowHours;
+    document.getElementById('timer-date').innerHTML = nowDate;
+    setTimeout(function () { date_time(); }, 1000);
+}
+date_time();
 
 

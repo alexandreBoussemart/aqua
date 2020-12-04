@@ -1526,7 +1526,7 @@ h4.graph_title {
 .tile-stats .count {
   font-size: 38px;
   font-weight: bold;
-  line-height: 1.65857; }
+  line-height: 1.65857143; }
 
 .tile-stats .count, .tile-stats h3, .tile-stats p {
   position: relative;
@@ -4360,7 +4360,7 @@ h4.graph_title {
 .tile-stats .count {
   font-size: 38px;
   font-weight: bold;
-  line-height: 1.65857; }
+  line-height: 1.65857143; }
 
 .tile-stats .count, .tile-stats h3, .tile-stats p {
   position: relative;
@@ -6064,7 +6064,7 @@ header {
   border: 1px solid #cccccc;
   padding: 4px;
   box-sizing: content-box;
-  box-shadow: rgba(0, 0, 0, 0.07451) 0px 1px 1px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
@@ -6887,6 +6887,8 @@ ul.notifications {
   display: flex !important;
   padding: 0 10px;
   line-height: 54px; }
+  .heure p {
+    margin: 0; }
   @media (max-width: 450px) {
     .heure span {
       display: none; } }

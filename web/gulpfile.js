@@ -25,6 +25,7 @@ gulp.task('scripts', function () {
         'vendors/datatables.net-responsive/js/dataTables.responsive.min.js',
         'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js',
         'vendors/datatables.net-scroller/js/dataTables.scroller.min.js',
+        'vendors/moment/min/moment.min.js',
         'src/js/helpers/*.js',
         'src/js/*.js'
     ])
@@ -102,3 +103,6 @@ gulp.task('watch', function () {
 
 // Default Task
 gulp.task('default', ['browser-sync', 'watch']);
+
+gulp.task('all-sass', ['sass', 'sass-minify', 'library-minify']);
+gulp.task('all', ['sass', 'sass-minify', 'library-minify', 'scripts']);

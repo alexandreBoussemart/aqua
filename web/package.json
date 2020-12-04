@@ -43,6 +43,7 @@
     "doc": "docs"
   },
   "dependencies": {
-    "gulp-minify-css": "^1.2.4"
+    "gulp-minify-css": "^1.2.4",
+    "moment": "^2.29.1"
   }
 }
