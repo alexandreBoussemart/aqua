@@ -12,8 +12,8 @@
                     </a>
                 </li>
                 <li class="heure">
-                    <span><?= date("d/m/Y");  ?></span>
-                    &nbsp;<p><?= date("H:i:s");  ?></p>
+                    <span id="timer-date"><?= date("d/m/Y"); ?></span>&nbsp;
+                    <p id="timer"><?= date("H:i:s"); ?></p>
                 </li>
             </ul>
         </nav>
