@@ -55,8 +55,16 @@ try:
 
     # si les deux mesures sont identiques
     if state == state2:
+
+        # si sur off
+        status = functions.getstatus('on_off_osmolateur')
+        if status == 0 or status == "0":
+            functions.setosmolateur("off")
+            message = "Osmolateur - ERREUR - off"
+            functions.setcompletestate(path, 'state_5', 1, message, 1, 0)
+
         # niveau d'eau TO LOW
-        if TO_LOW_STATE == '1':
+        elif TO_LOW_STATE == '1':
             functions.setosmolateur("to_low")
             message = "Osmolateur - ERREUR - niveau eau TO LOW"
             functions.setcompletestate(path, 'state_4', 1, message, 1, 0)
