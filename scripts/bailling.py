@@ -10,11 +10,9 @@ import RPi.GPIO as GPIO
 bailling_1 = 8
 bailling_2 = 13
 bailling_3 = 22
-bailling_1_led = 12
-bailling_2_led = 19
-bailling_3_led = 26
 path = 'bailling'
 state = '222'
+message = ''
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -59,67 +57,46 @@ try:
         # niveau bailling 1 bas
         if state_current == '011':
             message = "Bailling - ERREUR - niveau 1 bas"
-            functions.offled(bailling_1_led)
-            functions.onled(bailling_2_led)
-            functions.onled(bailling_3_led)
             functions.setcompletestate(path, 'state_1', 1, message, 0, 0)
 
         # niveau bailling 1 et 2 bas
         elif state_current == '001':
             message = "Bailling - ERREUR - niveau 1 et 2 bas"
-            functions.offled(bailling_1_led)
-            functions.offled(bailling_2_led)
-            functions.onled(bailling_3_led)
             functions.setcompletestate(path, 'state_2', 1, message, 0, 0)
 
         # niveau bailling 1 et 3 bas
         elif state_current == '010':
             message = "Bailling - ERREUR - niveau 1 et 3 bas"
-            functions.offled(bailling_1_led)
-            functions.onled(bailling_2_led)
-            functions.offled(bailling_3_led)
+
             functions.setcompletestate(path, 'state_3', 1, message, 0, 0)
 
         # niveau bailling 2 et 3 bas
         elif state_current == '100':
             message = "Bailling - ERREUR - niveau 2 et 3 bas"
-            functions.onled(bailling_1_led)
-            functions.offled(bailling_2_led)
-            functions.offled(bailling_3_led)
+
             functions.setcompletestate(path, 'state_4', 1, message, 0, 0)
 
         # niveau bailling 1, 2 et 3 bas
         elif state_current == '000':
             message = "Bailling - ERREUR - niveau 1, 2 et 3 bas"
-            functions.offled(bailling_1_led)
-            functions.offled(bailling_2_led)
-            functions.offled(bailling_3_led)
             functions.setcompletestate(path, 'state_5', 1, message, 0, 0)
 
         # niveau bailling 2 bas
         elif state_current == '101':
             message = "Bailling - ERREUR - niveau 2 bas"
-            functions.onled(bailling_1_led)
-            functions.offled(bailling_2_led)
-            functions.onled(bailling_3_led)
             functions.setcompletestate(path, 'state_6', 1, message, 0, 0)
 
         # niveau bailling 3 bas
         elif state_current == '110':
             message = "Bailling - ERREUR - niveau 3 bas"
-            functions.onled(bailling_1_led)
-            functions.onled(bailling_2_led)
-            functions.offled(bailling_3_led)
             functions.setcompletestate(path, 'state_7', 1, message, 0, 0)
 
         # niveau des 3 ok
         elif state_current == '111':
             message = "Bailling - OK"
-            functions.onled(bailling_1_led)
-            functions.onled(bailling_2_led)
-            functions.onled(bailling_3_led)
             functions.setcompletestate(path, 'state_8', 0, message, 0, 0)
 
+    print(message)
     functions.setcontrole('controle_bailling')
     sys.exit()
 
