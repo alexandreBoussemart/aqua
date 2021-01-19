@@ -12,7 +12,6 @@ bailling_2 = 13
 bailling_3 = 22
 path = 'bailling'
 state = '222'
-message = ''
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -96,7 +95,6 @@ try:
             message = "Bailling - OK"
             functions.setcompletestate(path, 'state_8', 0, message, 0, 0)
 
-    print(message)
     functions.setcontrole('controle_bailling')
     sys.exit()
 
