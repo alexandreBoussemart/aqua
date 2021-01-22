@@ -8,11 +8,11 @@ import functions
 import RPi.GPIO as GPIO
 import os
 
-relais = 10
+relay = 10
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-functions.onled(relais)
+functions.on_relay(relay)
 
 if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/osmolateur") is False:
     f = open("/home/pi/Desktop/www/aqua/statusRelais/osmolateur", "w")

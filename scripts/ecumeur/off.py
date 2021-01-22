@@ -8,11 +8,11 @@ import functions
 import os
 import RPi.GPIO as GPIO
 
-relais = 11
+relay = 11
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-functions.offled(relais)
+functions.off_relay(relay)
 
 if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/ecumeur"):
   os.remove("/home/pi/Desktop/www/aqua/statusRelais/ecumeur")

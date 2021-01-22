@@ -8,12 +8,12 @@ import functions
 import os
 import RPi.GPIO as GPIO
 
-# relais pompe osmolateur
-relais = 21
+# relay pompe osmolateur
+relay = 21
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-functions.offled(relais)
+functions.off_relay(relay)
 
 if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/pompe_osmolateur"):
   os.remove("/home/pi/Desktop/www/aqua/statusRelais/pompe_osmolateur")

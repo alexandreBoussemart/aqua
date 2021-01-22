@@ -7,7 +7,7 @@ import functions
 
 import RPi.GPIO as GPIO
 
-relais = 21
+relay = 21
 to_high = 23
 level_ok = 24
 to_low = 27
@@ -102,6 +102,6 @@ except Exception as e:
     body = "<p style='color:red;text-transform:uppercase;'>" + message + " - " + str(e) + "</p>"
     functions.setcompletestate(path, 'state_6', 1, message + " - " + str(e), 1, 0)
     functions.mail(message, body)
-    functions.offled(relais)
+    functions.off_relay(relay)
 
     raise

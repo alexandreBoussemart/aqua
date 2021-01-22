@@ -164,20 +164,19 @@ def mail(m, b):
 
     except Exception as e:
         message = "Mail - ERREUR - mail"
-        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
         setlog(message + str(e))
         raise
 
 
-def offled(led):
-    GPIO.setup(led, GPIO.OUT)
-    GPIO.output(led, 0)
-    GPIO.cleanup(led)
+def off_relay(relay):
+    GPIO.setup(relay, GPIO.OUT)
+    GPIO.output(relay, GPIO.LOW)
+    GPIO.cleanup(relay)
 
 
-def onled(led):
-    GPIO.setup(led, GPIO.OUT)
-    GPIO.output(led, 1)
+def on_relay(relay):
+    GPIO.setup(relay, GPIO.OUT)
+    GPIO.output(relay, GPIO.HIGH)
 
 
 def read_file(emplacement):
