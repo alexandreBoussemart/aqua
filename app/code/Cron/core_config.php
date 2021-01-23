@@ -27,14 +27,6 @@ try {
 
         sleep(1);
 
-        if (getStatus($link, 'on_off_osmolateur') == true) {
-            // on allume
-            exec("python " . __DIR__ . "/../../../scripts/osmolateur/on.py");
-        } else {
-            // on éteint
-            exec("python " . __DIR__ . "/../../../scripts/osmolateur/off.py");
-        }
-
         if (getStatus($link, 'on_off_ecumeur') == true) {
             // on allume
             exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");

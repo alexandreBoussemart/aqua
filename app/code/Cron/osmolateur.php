@@ -43,10 +43,10 @@ try {
 
         // on exécute la commande pour savoir si la pompe est allumée depuis plus de 20 secondes
         if (isRun($link) && !isRunOver20seconds($link, $tempsMaxPompeOsmolateur)) {
-            // on eteint
+            // on allume
             exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/on.py");
         } else {
-            // on allume
+            // on éteint
             exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/off.py");
         }
 
