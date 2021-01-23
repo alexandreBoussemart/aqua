@@ -42,12 +42,12 @@ try {
         exec("python " . __DIR__ . "/../../../scripts/osmolateur.py");
 
         // on exécute la commande pour savoir si la pompe est allumée depuis plus de 20 secondes
-        if (isRunOver20seconds($link, $tempsMaxPompeOsmolateur)) {
+        if (isRun($link) && !isRunOver20seconds($link, $tempsMaxPompeOsmolateur)) {
             // on eteint
-            exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/off.py");
+            exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/on.py");
         } else {
             // on allume
-            exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/on.py");
+            exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/off.py");
         }
 
         usleep(500000);

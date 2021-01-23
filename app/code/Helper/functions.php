@@ -822,6 +822,33 @@ function isRunOver20seconds($link, $tempsMaxPompeOsmolateur)
 
 /**
  * @param $link
+ * @return bool
+ */
+function isRun($link)
+{
+    try {
+        // si c'est le state 3 c'est que c'est remplissage en cours
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT * 
+            FROM `state` 
+            WHERE `path` LIKE 'osmolateur' 
+            AND (`value` LIKE 'state_3')";
+        logInFile($link, "sql.log", $sql);
+        $controle = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($controle);
+
+        if ($row) {
+            return true;
+        }
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+
+    return false;
+}
+
+/**
+ * @param $link
  * @param $data
  * @param $type
  */
