@@ -169,12 +169,13 @@ def mail(m, b):
 
 
 def off_relay(relay):
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(relay, GPIO.OUT)
     GPIO.output(relay, GPIO.LOW)
-    GPIO.cleanup(relay)
 
 
 def on_relay(relay):
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(relay, GPIO.OUT)
     GPIO.output(relay, GPIO.HIGH)
 

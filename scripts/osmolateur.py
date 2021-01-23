@@ -81,7 +81,7 @@ try:
             message = "Osmolateur - niveau eau OK"
             functions.setcompletestate(path, 'state_2', 0, message, 0, 0)
 
-        # niveau d'eau OK
+        # remplissage en cours
         elif LEVEL_OK_STATE == '0':
             functions.setosmolateur("pump_on")
             message = "Osmolateur - remplissage en cours"

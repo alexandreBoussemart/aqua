@@ -11,8 +11,6 @@ import RPi.GPIO as GPIO
 # relay pompe osmolateur
 relay = 21
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
 functions.off_relay(relay)
 
 if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/pompe_osmolateur"):
