@@ -10,8 +10,6 @@ import RPi.GPIO as GPIO
 
 relay = 16
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
 functions.off_relay(relay)
 
 if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/reacteur_ventilateur"):

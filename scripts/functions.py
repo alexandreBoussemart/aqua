@@ -168,14 +168,14 @@ def mail(m, b):
         raise
 
 
-def off_relay(relay):
+def on_relay(relay):
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(relay, GPIO.OUT)
     GPIO.output(relay, GPIO.LOW)
 
 
-def on_relay(relay):
+def off_relay(relay):
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(relay, GPIO.OUT)

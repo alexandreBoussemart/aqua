@@ -10,8 +10,6 @@ import os
 
 relay = 11
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
 functions.on_relay(relay)
 
 if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/ecumeur") is False:
