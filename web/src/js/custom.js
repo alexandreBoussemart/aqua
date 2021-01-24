@@ -287,6 +287,22 @@ $(document).ready(function () {
         });
     });
 
+    $('#current_temperature').submit(function (e) {
+        e.stopImmediatePropagation()
+        showLoader();
+        $.ajax({
+            type: "POST",
+            url: URL_GET_CURRENT_TEMPERATURE,
+            cache: false,
+            success: function (result) {
+                alert(result);
+            },
+            complete: function () {
+                hideLoader();
+            }
+        });
+    });
+
     $(".btn-run").on("click", function (e) {
         var path = $(this).data('file');
         e.stopImmediatePropagation();

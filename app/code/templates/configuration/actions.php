@@ -42,6 +42,17 @@
                 </form>
             </div>
             <div class="x_content">
+                <form id="current_temperature" method="post" action="javascript:;" class="form-horizontal form-label-left switch-state">
+                    <input type="hidden" name="submit_actions_get_temperature" value="1"/>
+                    <button
+                            type="submit" class="btn btn-default">Température actuelle
+                    </button>
+                    <p class="info">
+                        <?= getCurrentTemperature($link, $data); ?>
+                    </p>
+                </form>
+            </div>
+            <div class="x_content">
                 <form id="current_debit" method="post" action="javascript:;" class="form-horizontal form-label-left switch-state">
                     <input type="hidden" name="submit_actions_get_debit" value="1"/>
                     <button
