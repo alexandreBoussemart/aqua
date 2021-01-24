@@ -746,7 +746,7 @@ $(document).ready(function () {
 });
 
 function date_time() {
-    nowDate = moment().format('DD/M/Y');
+    nowDate = moment().format('DD/MM/Y');
     nowHours = moment().format('HH:mm:ss');
     document.getElementById('timer').innerHTML = nowHours;
     document.getElementById('timer-date').innerHTML = nowDate;
