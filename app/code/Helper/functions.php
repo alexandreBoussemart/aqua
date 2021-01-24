@@ -3,6 +3,8 @@
 require_once __DIR__ . '/../../../vendor/autoload.php';
 require 'bdd.php';
 
+use Phelium\Component\MySQLBackup;
+
 $array_verif = [
     'controle_bailling',
     'controle_ecumeur',
@@ -1503,4 +1505,38 @@ function getContentTempFileCron($link)
     }
 
     return $content;
+}
+
+/**
+ * @param $data
+ * @param $transport
+ * @param $subject
+ * @return int
+ */
+function dumpBDD($data, $transport, $subject)
+{
+    $date = date('Ymd-H\hi');
+    $file = __DIR__ . "/../../../var/backup/dump_{$data['database'][0]['database']}_{$date}";
+
+    $Dump = new MySQLBackup(
+        $data['database'][0]['host'],
+        $data['database'][0]['user'],
+        $data['database'][0]['passwd'],
+        $data['database'][0]['database']
+    );
+    $Dump->setFilename($file);
+    $Dump->setCompress('zip');
+    $Dump->dump();
+
+    $mailer = new Swift_Mailer($transport);
+    $message = new Swift_Message($subject);
+    $message
+        ->setFrom([$data['gmail'][0]['mail'] => $data['gmail'][0]['name']])
+        ->setTo([$data['mail_to']])
+        ->setSubject($subject)
+        ->setBody($subject, 'text/html')
+        ->attach(Swift_Attachment::fromPath("{$file}.zip"));
+
+    return $mailer->send($message);
+
 }

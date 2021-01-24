@@ -7,7 +7,7 @@
 require __DIR__ . '/../Helper/functions.php';
 
 try {
-    //désavtiver toutes les cron
+    // désactive toutes les crons
     if (getStatus($link, 'disable_all_cron')) {
         setControle($link, 'controle_bailling');
         setState($link, 'bailling', 'state_98', 0, "Toutes les crons sont désactivées");

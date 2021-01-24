@@ -22,6 +22,10 @@ class ComposerStaticInita087cd26ddc811e0eac0284eacfcf6bb
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
             'Symfony\\Polyfill\\Iconv\\' => 23,
         ),
+        'P' => 
+        array (
+            'Phelium\\Component\\' => 18,
+        ),
         'E' => 
         array (
             'Egulias\\EmailValidator\\' => 23,
@@ -48,6 +52,10 @@ class ComposerStaticInita087cd26ddc811e0eac0284eacfcf6bb
         'Symfony\\Polyfill\\Iconv\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-iconv',
+        ),
+        'Phelium\\Component\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phelium/mysql-backup/src',
         ),
         'Egulias\\EmailValidator\\' => 
         array (

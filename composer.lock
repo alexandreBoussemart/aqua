@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "83b6abf6d841cdb5b1ce056b8fcfe973",
+    "content-hash": "869f844627634b40e8729e0990ed0db9",
     "packages": [
         {
             "name": "doctrine/lexer",
@@ -123,6 +123,49 @@
                 "validator"
             ],
             "time": "2019-08-13T17:33:27+00:00"
+        },
+        {
+            "name": "phelium/mysql-backup",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shevabam/mysql-backup.git",
+                "reference": "2e0a41c0ac4338f4022a9891fbfcf79da32217cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shevabam/mysql-backup/zipball/2e0a41c0ac4338f4022a9891fbfcf79da32217cf",
+                "reference": "2e0a41c0ac4338f4022a9891fbfcf79da32217cf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phelium\\Component\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "ShevAbam",
+                    "email": "me@shevarezo.fr"
+                }
+            ],
+            "description": "Backup easily your MySQL database !",
+            "homepage": "https://github.com/shevabam/mysql-backup",
+            "keywords": [
+                "backup",
+                "database",
+                "dump",
+                "mysql"
+            ],
+            "time": "2018-05-23T07:13:07+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
