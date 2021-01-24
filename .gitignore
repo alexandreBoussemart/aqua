@@ -9,4 +9,5 @@ var/log/*
 config/*
 state/*
 statusRelais/*
+var/backup
 var/backup/*
