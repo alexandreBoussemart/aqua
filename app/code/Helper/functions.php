@@ -1471,13 +1471,18 @@ function getCrons()
  */
 function getCurrentTemperature($link, $data)
 {
-    // on défini le chemin du fichier
-    if (!defined("THERMOMETER_SENSOR_PATH")) {
-        define("THERMOMETER_SENSOR_PATH", $data['file_temperature']);
+    try {
+        // on défini le chemin du fichier
+        if (!defined("THERMOMETER_SENSOR_PATH")) {
+            define("THERMOMETER_SENSOR_PATH", $data['file_temperature']);
+        }
+
+        $content = readFileTemperature($link);
+        $temperature = readTemperature($content);
+
+        return round($temperature, 2) . "°C";
+
+    } catch (\Exception $e) {
+        return $e->getMessage();
     }
-
-    $content = readFileTemperature($link);
-    $temperature = readTemperature($content);
-
-    return round($temperature, 2) . "°C";
 }
