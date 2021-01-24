@@ -48,7 +48,7 @@
                             type="submit" class="btn btn-default">Température actuelle
                     </button>
                     <p class="info">
-                        <?php echo getCurrentTemperature($link, $data); ?>
+                        <?= getCurrentTemperature($link, $data); ?>
                     </p>
                 </form>
             </div>

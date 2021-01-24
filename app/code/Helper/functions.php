@@ -112,27 +112,25 @@ function insertTemperature($link, $temp, $table = "`data_temperature`")
 
 /**
  * @param $link
- *
- * @return bool|string
+ * @return false|string
+ * @throws Exception
  */
 function readFileTemperature($link)
 {
-    try {
-        // on récupère le contenu du fichier
-        if (file_exists(THERMOMETER_SENSOR_PATH)) {
-            $thermometer = fopen(THERMOMETER_SENSOR_PATH, "r");
-            $content = fread($thermometer, filesize(THERMOMETER_SENSOR_PATH));
-            fclose($thermometer);
-        } else {
-            setState($link, 'temperature', 'state_1', true,
-                "Cron temperature - ERREUR - Le fichier : " . THERMOMETER_SENSOR_PATH . " n'existe pas.");
-            exit;
-        }
+    // on récupère le contenu du fichier
+    if (file_exists(THERMOMETER_SENSOR_PATH)) {
+        $thermometer = fopen(THERMOMETER_SENSOR_PATH, "r");
+        $content = fread($thermometer, filesize(THERMOMETER_SENSOR_PATH));
+        fclose($thermometer);
+    } else {
+        $message = "ERREUR - Le fichier : " . THERMOMETER_SENSOR_PATH . " n'existe pas.";
+        setState($link, 'temperature', 'state_1', true, $message);
 
-        return $content;
-    } catch (Exception $e) {
-        setLog($link, $e->getMessage());
+        throw new Exception($message);
     }
+
+    return $content;
+
 }
 
 /**
@@ -162,12 +160,16 @@ function readFileTemperatureBoitier($link)
 
 /**
  * @param $content
- *
- * @return bool|float|int
+ * @return bool|float
  */
 function readTemperature($content)
 {
     $lines = preg_split("/\n/", $content);
+    $arrayFilter = array_filter($lines);
+    if (!is_array($lines) || count($arrayFilter) == 0) {
+        return false;
+    }
+
     preg_match("/t=(.+)/", $lines[1], $matches);
 
     if (strpos($lines[0], 'NO') !== false || $matches[1] == "85000") {
@@ -177,7 +179,7 @@ function readTemperature($content)
     $temperature = floatval($matches[1]);
     $temperature = $temperature / 1000;
 
-    return $temperature;
+    return (float)$temperature;
 }
 
 /**
@@ -1485,4 +1487,20 @@ function getCurrentTemperature($link, $data)
     } catch (\Exception $e) {
         return $e->getMessage();
     }
+}
+
+/**
+ * @param $link
+ * @return false|string
+ */
+function getContentTempFileCron($link)
+{
+    try {
+        $content = readFileTemperature($link);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+        $content = "";
+    }
+
+    return $content;
 }
