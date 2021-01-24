@@ -428,9 +428,6 @@ function setStatus($link, $data, $code)
             if ($value == 1) {
                 // on allume
                 exec("python " . __DIR__ . "/../../../scripts/reacteur_eclairage/on.py");
-            } else {
-                // on éteint
-                exec("python " . __DIR__ . "/../../../scripts/reacteur_eclairage/off.py");
             }
         }
 
