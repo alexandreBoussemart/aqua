@@ -1437,13 +1437,16 @@ function getDaysBeforeAlert($link, $name, $value)
     $lastDate = $result["created_at"];
     $days = getNumberDaysBetweenDate($lastDate, date("Y-m-d H:i:s"));
     $leftTime = $value - $days;
-    if ($leftTime > 1) {
-        $time = $leftTime . " jours";
+
+    if ($leftTime == 0) {
+        $time = "aujourd'hui";
+    } elseif ($leftTime > 1) {
+        $time = "dans " . $leftTime . " jours";
     } else {
-        $time = $leftTime . " jour";
+        $time = "dans " . $leftTime . " jour";
     }
 
-    return "Prochaine alerte dans " . $time;
+    return "Prochaine alerte " . $time;
 
 }
 
