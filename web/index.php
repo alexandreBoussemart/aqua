@@ -26,10 +26,11 @@
                     <?php
                     require '../app/code/templates/dashboard/calendrier.php';
                     require '../app/code/templates/dashboard/state.php';
-                    require '../app/code/templates/dashboard/graph.php';
+                    require '../app/code/templates/dashboard/graph_temperature.php';
                     ?>
                     <div class="row">
                         <?php
+                        require '../app/code/templates/dashboard/graph_debit.php';
                         require '../app/code/templates/dashboard/changement_eau.php';
                         ?>
                     </div>

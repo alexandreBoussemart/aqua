@@ -23,12 +23,7 @@
                     ?>
                     <div class="row first-bloc">
                         <?php
-                        require '../app/code/templates/monitoring/graph.php';
                         require '../app/code/templates/monitoring/graph_rpi.php';
-                        ?>
-                    </div>
-                    <div class="row first-bloc">
-                        <?php
                         require '../app/code/templates/monitoring/controle.php';
                         ?>
                     </div>
