@@ -37,7 +37,7 @@ try {
 
     // on défini le chemin du fichier
     if (!defined("THERMOMETER_SENSOR_PATH")) {
-        define("THERMOMETER_SENSOR_PATH", $data['file_temperature']);
+        define("THERMOMETER_SENSOR_PATH", $data['file_temperature_eau']);
     }
 
     // première lecture, on quitte si résultat pas ok

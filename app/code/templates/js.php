@@ -20,9 +20,9 @@
     ?>
 
     <?php if(isset($temperature) && $temperature): ?>
-    if ($('#graph_temperature').length) {
+    if ($('#graph_temperature_eau').length) {
         Morris.Line({
-            element: 'graph_temperature',
+            element: 'graph_temperature_eau',
             xkey: 'datetime',
             ykeys: ['value'],
             labels: ['Température'],
@@ -66,7 +66,7 @@
             yLabelFormat: function (y) {
                 return y.toString() + ' °C';
             },
-            goals: [40, <?= getConfig($link, "temperature_max_rpi") ?>],
+            goals: [40, 55],
             goalLineColors: ['#ffc107', '#dc3545'],
             goalStrokeWidth: '2',
             pointStrokeColors: ['#2A3F54'],
@@ -94,16 +94,16 @@
     <?php endif; ?>
 
     <?php if(isset($temperature_systeme) && $temperature_systeme): ?>
-    if ($('#graph_temperature_boitier').length) {
+    if ($('#graph_temperature_air').length) {
         Morris.Line({
-            element: 'graph_temperature_boitier',
+            element: 'graph_temperature_air',
             xkey: 'datetime',
             ykeys: ['value'],
             labels: ['Température système'],
             yLabelFormat: function (y) {
                 return y.toString() + ' °C';
             },
-            goals: [<?= getConfig($link, "temperature_max_boitier") ?>, 40],
+            goals: [33, 40],
             goalLineColors: ['#ffc107', '#dc3545'],
             goalStrokeWidth: '2',
             pointStrokeColors: ['#2A3F54'],

@@ -99,7 +99,7 @@ function getStateRelais($link, $name)
  * @param        $temp
  * @param string $table
  */
-function insertTemperature($link, $temp, $table = "`data_temperature`")
+function insertTemperature($link, $temp, $table = "`data_temperature_eau`")
 {
     try {
         $sql = '# noinspection SqlNoDataSourceInspectionForFile 
@@ -522,11 +522,11 @@ function clear($link)
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM `data_temperature` 
+                DELETE FROM `data_temperature_eau` 
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM `data_temperature_boitier` 
+                DELETE FROM `data_temperature_air` 
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -752,7 +752,7 @@ function envoyerMail8h($link, $data, $transport)
         if ($current == $huit) {
             $content = "<p style='color:green;text-transform:none;'>Cron - contrôle 8h - OK</p>";
             $content .= "<p>Dernier débit enregistré : " . getLastData($link, "data_reacteur", " l/min") . "</p>";
-            $content .= "<p>Dernière température enregistrée : " . getLastData($link, "data_temperature",
+            $content .= "<p>Dernière température enregistrée : " . getLastData($link, "data_temperature_eau",
                     " °C") . "</p>";
 
             $checks = allCheckLastTimeCheck($data, $transport, $link, false);
@@ -1335,7 +1335,7 @@ function getOlderData($link)
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
-                FROM `data_temperature` 
+                FROM `data_temperature_eau` 
                 ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
@@ -1346,7 +1346,7 @@ function getOlderData($link)
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
-                FROM `data_temperature_boitier` 
+                FROM `data_temperature_air` 
                 ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
@@ -1481,7 +1481,7 @@ function getCurrentTemperature($link, $data)
     try {
         // on défini le chemin du fichier
         if (!defined("THERMOMETER_SENSOR_PATH")) {
-            define("THERMOMETER_SENSOR_PATH", $data['file_temperature']);
+            define("THERMOMETER_SENSOR_PATH", $data['file_temperature_eau']);
         }
 
         $content = readFileTemperature($link);

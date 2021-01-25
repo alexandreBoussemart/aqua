@@ -19,5 +19,6 @@
             "base_url": "/"
         }
     ],
-    "file_temperature": ""
+    "file_temperature_eau": "",
+    "file_temperature_air": ""
 }
