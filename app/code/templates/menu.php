@@ -3,7 +3,7 @@
         <div class="navbar nav_title" style="border: 0;">
             <a href="<?= $data['database'][0]['base_url']; ?>" class="site_title">
                 <img src="src/images/favicon.ico" alt="Récifal" />
-                <span>App récifal</span>
+                <span>Reef Pi</span>
             </a>
         </div>
         <div class="clearfix"></div>

@@ -1,5 +1,5 @@
 <?php if (count($checks) > 0): ?>
-    <div class="col-md-6 col-xs-12 col-sm-12">
+    <div class="col-md-6 col-xs-12 col-sm-12 todo-block">
         <div class="x_panel">
             <div class="x_title">
                 <h2>To Do List</h2>

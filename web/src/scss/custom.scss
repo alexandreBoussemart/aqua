@@ -8928,3 +8928,28 @@ ul.notifications {
 .hidden {
   display: none;
 }
+
+.todo-block {
+  .x_panel {
+    background: #FFCDD2;
+    border-color: transparent;
+
+    .x_title {
+      border-color: #B33A3A;
+
+      h2 {
+        color: #B33A3A;
+      }
+    }
+
+    .x_content {
+      li {
+        background: #fff;
+
+        p {
+          color: #B33A3A;
+        }
+      }
+    }
+  }
+}
