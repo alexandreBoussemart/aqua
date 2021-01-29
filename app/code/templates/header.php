@@ -1,6 +1,6 @@
 <?php
 
-require '../app/code/Helper/functions.php';
+require '../app/code/helper/functions.php';
 
 $count_osmolateur = 0;
 $date = new DateTime();

@@ -4,7 +4,7 @@
  * Tous les jours à 19h
  */
 
-require __DIR__ . '/../Helper/functions.php';
+require __DIR__ . '/../helper/functions.php';
 
 try {
     // désactive toutes les crons

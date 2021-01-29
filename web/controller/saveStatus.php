@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../../app/code/Helper/functions.php';
+require __DIR__ . '/../../app/code/helper/functions.php';
 
 // form statut
 setStatus($link, isset($_POST['osmolateur']) ? $_POST['osmolateur'] : null, 'osmolateur');
