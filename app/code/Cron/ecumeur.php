@@ -39,6 +39,17 @@ try {
         //on execute la commande
         exec("python " . __DIR__ . "/../../../scripts/ecumeur.py");
         usleep(500000);
+
+        if (getStatus($link, 'on_off_ecumeur') != true) {
+            // on éteint
+            exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
+        } else {
+            if(isRunEcumeur($link)){
+                exec("python " . __DIR__ . "/../../../scripts/ecumeur/on.py");
+            }else{
+                exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
+            }
+        }
     }
 
     exit;

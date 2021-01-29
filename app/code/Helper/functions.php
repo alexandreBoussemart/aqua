@@ -418,16 +418,6 @@ function setStatus($link, $data, $code)
             }
         }
 
-        if ($code == 'on_off_ecumeur') {
-            if ($value == 1) {
-                // on allume
-                exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
-            } else {
-                // on éteint
-                exec("python " . __DIR__ . "/../../../scripts/ecumeur/on.py");
-            }
-        }
-
         if ($code == 'force_turn_on_eclairage') {
             if ($value == 1) {
                 // on allume
@@ -834,6 +824,33 @@ function isRun($link)
             FROM `state` 
             WHERE `path` LIKE 'osmolateur' 
             AND (`value` LIKE 'state_3')";
+        logInFile($link, "sql.log", $sql);
+        $controle = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($controle);
+
+        if ($row) {
+            return true;
+        }
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
+
+    return false;
+}
+
+/**
+ * @param $link
+ * @return bool
+ */
+function isRunEcumeur($link)
+{
+    try {
+        // si c'est le state 2 c'est que niveau godet ok
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT * 
+            FROM `state` 
+            WHERE `path` LIKE 'ecumeur' 
+            AND (`value` LIKE 'state_2')";
         logInFile($link, "sql.log", $sql);
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
