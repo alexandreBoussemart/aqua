@@ -11,7 +11,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
         FROM `data_temperature_air` 
         WHERE `created_at` >= '" . $yesterday . "' 
         AND `created_at` <= '" . $today . "'";
-$temperature_systeme = mysqli_query($link, $sql);
+$temperature_air = mysqli_query($link, $sql);
 ?>
 
 <div class="row first-bloc">

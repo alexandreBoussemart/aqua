@@ -93,7 +93,7 @@
     }
     <?php endif; ?>
 
-    <?php if(isset($temperature_systeme) && $temperature_systeme): ?>
+    <?php if(isset($temperature_air) && $temperature_air): ?>
     if ($('#graph_temperature_air').length) {
         Morris.Line({
             element: 'graph_temperature_air',
@@ -103,17 +103,17 @@
             yLabelFormat: function (y) {
                 return y.toString() + ' °C';
             },
-            goals: [33, 40],
+            goals: [15, 25],
             goalLineColors: ['#ffc107', '#dc3545'],
             goalStrokeWidth: '2',
             pointStrokeColors: ['#2A3F54'],
             hideHover: 'auto',
-            ymin: 25,
-            ymax: 45,
+            ymin: 10,
+            ymax: 30,
             pointSize: 1,
             lineColors: ['#2A3F54'],
             data: [
-                <?php while($obj = $temperature_systeme->fetch_object()){ ?>
+                <?php while($obj = $temperature_air->fetch_object()){ ?>
                 {
                     datetime: '<?= $obj->created_at; ?>',
                     value: <?= $obj->value; ?>,
