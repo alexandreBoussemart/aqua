@@ -44,9 +44,12 @@ try {
             // on éteint
             exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
         } else {
-            if(isRunEcumeur($link)){
+            if (isNiveauToHigh($link)) {
+                // si osmolateur niveau to high, on éteint l'écumeur
+                exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
+            } elseif (isRunEcumeur($link)) {
                 exec("python " . __DIR__ . "/../../../scripts/ecumeur/on.py");
-            }else{
+            } else {
                 exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
             }
         }

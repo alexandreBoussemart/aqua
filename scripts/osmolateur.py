@@ -60,7 +60,7 @@ try:
         status = functions.getstatus('on_off_osmolateur')
         if status == 0 or status == "0":
             functions.setosmolateur("off")
-            message = "Osmolateur - ERREUR - off"
+            message = "Osmolateur - off"
             functions.setcompletestate(path, 'state_5', 1, message, 1, 0)
 
         # niveau d'eau TO LOW
@@ -91,7 +91,7 @@ try:
         # osmolateur off
         else:
             functions.setosmolateur("off")
-            message = "Osmolateur - ERREUR - off"
+            message = "Osmolateur - off"
             functions.setcompletestate(path, 'state_5', 1, message, 1, 0)
 
     functions.setcontrole('controle_osmolateur')

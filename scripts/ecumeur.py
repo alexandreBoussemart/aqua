@@ -28,8 +28,14 @@ try:
 
     if state_current == state_current2:
 
+        # si sur off
+        status = functions.getstatus('on_off_ecumeur')
+        if status == 0 or status == "0":
+            message = "Ecumeur - off"
+            functions.setcompletestate(path, 'state_4', 1, message, 1, 0)
+
         # niveau écumeur eau trop eau
-        if state_current2 == '0':
+        elif state_current2 == '0':
             message = "Ecumeur - ERREUR - niveau godet trop haut"
             functions.setcompletestate(path, 'state_1', 1, message, 0, 0)
 
