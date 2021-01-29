@@ -10,7 +10,7 @@ import os
 
 relay = 11
 
-functions.on_relay(relay)
+functions.off_relay(relay)
 
 if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/ecumeur") is False:
     f = open("/home/pi/Desktop/www/aqua/statusRelais/ecumeur", "w")

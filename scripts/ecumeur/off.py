@@ -10,7 +10,7 @@ import RPi.GPIO as GPIO
 
 relay = 11
 
-functions.off_relay(relay)
+functions.on_relay(relay)
 
 if os.path.exists("/home/pi/Desktop/www/aqua/statusRelais/ecumeur"):
   os.remove("/home/pi/Desktop/www/aqua/statusRelais/ecumeur")
