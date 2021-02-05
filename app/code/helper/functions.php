@@ -776,7 +776,7 @@ function isRunOver20seconds($link, $tempsMaxPompeOsmolateur)
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
             FROM ".TABLE_STATE." 
-            WHERE `path` LIKE ".OSMOLATEUR." 
+            WHERE `path` LIKE '".OSMOLATEUR."'
             AND (`value` LIKE 'state_3' OR `value` LIKE 'state_8')";
         logInFile($link, "sql.log", $sql);
         $controle = mysqli_query($link, $sql);
@@ -819,7 +819,7 @@ function isRun($link)
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
             FROM ".TABLE_STATE." 
-            WHERE `path` LIKE ".OSMOLATEUR." 
+            WHERE `path` LIKE '".OSMOLATEUR."'
             AND (`value` LIKE 'state_3')";
         logInFile($link, "sql.log", $sql);
         $controle = mysqli_query($link, $sql);
@@ -846,7 +846,7 @@ function isRunEcumeur($link)
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
             FROM ".TABLE_STATE." 
-            WHERE `path` LIKE ".ECUMEUR." 
+            WHERE `path` LIKE '".ECUMEUR."'
             AND (`value` LIKE 'state_2')";
         logInFile($link, "sql.log", $sql);
         $controle = mysqli_query($link, $sql);
@@ -874,7 +874,7 @@ function isNiveauToHigh($link)
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
             FROM ".TABLE_STATE." 
-            WHERE `path` LIKE ".OSMOLATEUR."
+            WHERE `path` LIKE '".OSMOLATEUR."'
             AND (`value` LIKE 'state_1')";
         logInFile($link, "sql.log", $sql);
         $controle = mysqli_query($link, $sql);
