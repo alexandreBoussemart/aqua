@@ -1,9 +1,9 @@
 <?php if (isset($_SESSION['success']) && count($_SESSION['success']) > 0): ?>
-    <?php foreach ($_SESSION['success'] as $data): ?>
+    <?php foreach ($_SESSION['success'] as $message): ?>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="alert alert-success" role="alert">
-                    <?= $data ?>
+                    <?= $message ?>
                 </div>
             </div>
         </div>
@@ -12,12 +12,12 @@
 <?php endif; ?>
 
 <?php if (isset($_SESSION['error']) && count($_SESSION['error']) > 0): ?>
-    <?php foreach ($_SESSION['error'] as $data): ?>
+    <?php foreach ($_SESSION['error'] as $message): ?>
         <br>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="alert alert-error" role="alert">
-                    <?= $data ?>
+                    <?= $message ?>
                 </div>
             </div>
         </div>
