@@ -2,7 +2,7 @@
 //liste des status
 $sql = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT * 
-        FROM `status`
+        FROM ".TABLE_STATUS."
         WHERE `name` = 'on_off_osmolateur'
         OR `name` = 'on_off_ecumeur'
         ORDER BY `groupe` ASC";

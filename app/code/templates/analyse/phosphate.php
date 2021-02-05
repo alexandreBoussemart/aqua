@@ -3,7 +3,7 @@ $sql_phosphate = "# noinspection SqlNoDataSourceInspectionForFile
         SELECT T.*
         FROM (
             SELECT * 
-            FROM `data_parametres_eau` 
+            FROM ".TABLE_DATA_EAU." 
             WHERE `type` LIKE 'phosphate' 
             ORDER BY `id` DESC 
             LIMIT 9 

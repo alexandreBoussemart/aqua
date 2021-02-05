@@ -23,7 +23,6 @@
                     require '../app/code/templates/logs/logs.php';
                     require '../app/code/templates/logs/logs_mail.php';
                     require '../app/code/templates/logs/logs_eau.php';
-                    require '../app/code/templates/logs/osmolateur.php';
                     ?>
                 </div>
                 <!-- /page content -->

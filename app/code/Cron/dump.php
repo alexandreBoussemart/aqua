@@ -8,7 +8,7 @@ require __DIR__ . '/../helper/functions.php';
 
 try {
     // désactive toutes les crons
-    if (getStatus($link, 'disable_all_cron')) {
+    if (getStatus($link, DISABLE_ALL_CRON)) {
         exit;
     }
 

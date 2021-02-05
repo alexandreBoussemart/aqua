@@ -8,17 +8,17 @@ require __DIR__ . '/../helper/functions.php';
 
 try {
     // désactive toutes les crons
-    if (getStatus($link, 'disable_all_cron')) {
-        setControle($link, 'controle_osmolateur');
-        setState($link, 'osmolateur', 'state_98', 0, "Toutes les crons sont désactivées");
+    if (getStatus($link, DISABLE_ALL_CRON)) {
+        setControle($link, CONTROLE_OSMOLATEUR);
+        setState($link, OSMOLATEUR, 'state_98', 0, "Toutes les crons sont désactivées");
 
         exit;
     }
 
     //check si la cron est activé
-    if (!getStatus($link, 'osmolateur')) {
-        setControle($link, 'controle_osmolateur');
-        setState($link, 'osmolateur', 'state_99', 0, "Osmolateur - Désactivé");
+    if (!getStatus($link, OSMOLATEUR)) {
+        setControle($link, CONTROLE_OSMOLATEUR);
+        setState($link, OSMOLATEUR, 'state_99', 0, "Osmolateur - Désactivé");
 
         exit;
     }
@@ -56,7 +56,7 @@ try {
     exit;
 
 } catch (Exception $e) {
-    setState($link, 'osmolateur', 'state_7', 1, "Cron osmolateur - ERREUR - " . $e->getMessage());
+    setState($link, OSMOLATEUR, 'state_7', 1, "Cron osmolateur - ERREUR - " . $e->getMessage());
     setLog($link, $e->getMessage());
 
     exit;

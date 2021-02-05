@@ -12,7 +12,7 @@
     // changement eau
     $sql = "# noinspection SqlNoDataSourceInspectionForFile  
         SELECT * 
-        FROM `data_changement_eau` 
+        FROM ".TABLE_DATA_CHANGEMENT_EAU." 
         LIMIT 50;";
     $request = mysqli_query($link, $sql);
     $changements = mysqli_query($link, $sql);

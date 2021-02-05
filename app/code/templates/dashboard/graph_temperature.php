@@ -1,14 +1,14 @@
 <?php
 $sql = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT * 
-        FROM `data_reacteur` 
+        FROM ".TABLE_DATA_REACTEUR." 
         WHERE `created_at` >= '" . $yesterday . "' 
         AND `created_at` <= '" . $today . "'";
 $reacteur = mysqli_query($link, $sql);
 
 $sql = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT * 
-        FROM `data_temperature_air` 
+        FROM ".TABLE_DATA_TEMP_AIR." 
         WHERE `created_at` >= '" . $yesterday . "' 
         AND `created_at` <= '" . $today . "'";
 $temperature_air = mysqli_query($link, $sql);

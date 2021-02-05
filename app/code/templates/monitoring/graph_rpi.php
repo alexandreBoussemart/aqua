@@ -1,7 +1,7 @@
 <?php
 $sql = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT * 
-        FROM `data_temperature_rpi` 
+        FROM ".TABLE_DATA_TEMP_RPI." 
         WHERE `created_at` >= '" . $yesterday . "' 
         AND `created_at` <= '" . $today . "'";
 $temperature_RPI = mysqli_query($link, $sql);

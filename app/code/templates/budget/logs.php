@@ -2,8 +2,8 @@
 // logs
 $sql = "# noinspection SqlNoDataSourceInspectionForFile  
         SELECT * 
-        FROM `data_depense` 
-        ORDER BY `data_depense`.`created_at` DESC";
+        FROM ".TABLE_DATA_DEPENSE." 
+        ORDER BY ".TABLE_DATA_DEPENSE.".`created_at` DESC";
 $budget = mysqli_query($link, $sql);
 ?>
 

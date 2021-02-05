@@ -2,7 +2,7 @@
 //liste des status
 $sql = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT * 
-        FROM `status`
+        FROM ".TABLE_STATUS."
         ORDER BY `groupe` ASC";
 $listes_status = mysqli_query($link, $sql);
 $last = '1';

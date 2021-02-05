@@ -1,7 +1,7 @@
 <?php
 $sql = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT * 
-        FROM `core_config`
+        FROM ".TABLE_CORE_CONFIG."
         ORDER BY `groupe` ASC";
 $core_config = mysqli_query($link, $sql);
 $core_config = mysqli_fetch_all($core_config);

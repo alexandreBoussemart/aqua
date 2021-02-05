@@ -2,7 +2,7 @@
 // logs
 $sql = "# noinspection SqlNoDataSourceInspectionForFile  
         SELECT * 
-        FROM `log` 
+        FROM ".TABLE_LOG." 
         ORDER BY `id` DESC 
         LIMIT 30;";
 $request = mysqli_query($link, $sql);
@@ -11,7 +11,7 @@ $logs = mysqli_query($link, $sql);
 // changement eau
 $sql = "# noinspection SqlNoDataSourceInspectionForFile  
         SELECT * 
-        FROM `data_changement_eau` 
+        FROM ".TABLE_DATA_CHANGEMENT_EAU." 
         ORDER BY `id` DESC 
         LIMIT 30;";
 $request = mysqli_query($link, $sql);

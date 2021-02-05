@@ -2,7 +2,7 @@
 // changement eau
 $sql = "# noinspection SqlNoDataSourceInspectionForFile  
         SELECT * 
-        FROM `data_changement_eau` 
+        FROM ".TABLE_DATA_CHANGEMENT_EAU." 
         ORDER BY `id` DESC 
         LIMIT 50;";
 $changements = mysqli_query($link, $sql);
@@ -10,7 +10,7 @@ $changements = mysqli_query($link, $sql);
 // logs
 $sql = "# noinspection SqlNoDataSourceInspectionForFile  
         SELECT SUM(`value`) as sum
-        FROM `data_changement_eau`";
+        FROM ".TABLE_DATA_CHANGEMENT_EAU."";
 $total_litre = mysqli_query($link, $sql);
 $total_litre = mysqli_fetch_assoc($total_litre);
 $total_litre = $total_litre['sum'];

@@ -10,17 +10,17 @@ require __DIR__ . '/../helper/functions.php';
 
 try {
     // désactive toutes les crons
-    if (getStatus($link, 'disable_all_cron')) {
-        setControle($link, 'controle_temperature');
-        setState($link, 'temperature', 'state_98', 0, "Toutes les crons sont désactivées");
+    if (getStatus($link, DISABLE_ALL_CRON)) {
+        setControle($link, CONTROLE_TEMPERATURE);
+        setState($link, TEMPERATURE, 'state_98', 0, "Toutes les crons sont désactivées");
 
         exit;
     }
 
     //check si la cron est activé
-    if (!getStatus($link, 'temperature')) {
-        setControle($link, 'controle_temperature');
-        setState($link, 'temperature', 'state_99', 0, "Température - Désactivé");
+    if (!getStatus($link, TEMPERATURE)) {
+        setControle($link, CONTROLE_TEMPERATURE);
+        setState($link, TEMPERATURE, 'state_99', 0, "Température - Désactivé");
 
         return false;
     }
@@ -30,7 +30,7 @@ try {
     $minute = $date->format('i');
     if ($minute % 5 != 0) {
         // mais on set comme quoi on est bien passé dans la cron
-        setControle($link, 'controle_temperature');
+        setControle($link, CONTROLE_TEMPERATURE);
 
         exit;
     }
@@ -44,7 +44,7 @@ try {
     $content = getContentTempFileCron($link);
     $temperature1 = readTemperature($content);
     if ($temperature1 == false) {
-        setState($link, 'temperature', 'state_2', 1, "Cron temperature - ERREUR - Format du fichier incorrect (" . $content . ")");
+        setState($link, TEMPERATURE, 'state_2', 1, "Cron temperature - ERREUR - Format du fichier incorrect (" . $content . ")");
 
         exit;
     }
@@ -56,7 +56,7 @@ try {
     $content = getContentTempFileCron($link);
     $temperature2 = readTemperature($content);
     if ($temperature2 == false) {
-        setState($link, 'temperature', 'state_2', 1, "Cron temperature - ERREUR - Format du fichier incorrect (" . $content . ")");
+        setState($link, TEMPERATURE, 'state_2', 1, "Cron temperature - ERREUR - Format du fichier incorrect (" . $content . ")");
 
         exit;
     }
@@ -70,15 +70,15 @@ try {
         if ($temperature2 < getConfig($link, "temperature_min")) {
             //trop froid
             $message = "Temperature - ERREUR Trop froid - " . $temperature2 . "°C";
-            $result = setState($link, 'temperature', 'state_5', 1, $message);
+            $result = setState($link, TEMPERATURE, 'state_5', 1, $message);
         } elseif ($temperature2 > getConfig($link, "temperature_max")) {
             //trop chaud
             $message = "Temperature - ERREUR Trop chaud - " . $temperature2 . "°C";
-            $result = setState($link, 'temperature', 'state_6', 1, $message);
+            $result = setState($link, TEMPERATURE, 'state_6', 1, $message);
         } else {
             //ok
             $message = "Temperature - OK - " . $temperature2 . "°C";
-            $result = setState($link, 'temperature', 'state_7', 0, $message);
+            $result = setState($link, TEMPERATURE, 'state_7', 0, $message);
         }
 
         // on insère la temperature en bdd 1 fois toutes les 15 minutes
@@ -94,17 +94,17 @@ try {
         }
 
         // on set comme quoi on est bien passé dans la cron
-        setControle($link, 'controle_temperature');
+        setControle($link, CONTROLE_TEMPERATURE);
 
     } else {
-        setState($link, 'temperature', 'state_3', 1, "Cron temperature - ERREUR - Plus de 10% d'écart");
+        setState($link, TEMPERATURE, 'state_3', 1, "Cron temperature - ERREUR - Plus de 10% d'écart");
     }
 
     exit;
 
 } catch (Exception $e) {
     setLog($link, $e->getMessage());
-    setState($link, 'temperature', 'state_4', 1, "Cron temperature - ERREUR - " . $e->getMessage());
+    setState($link, TEMPERATURE, 'state_4', 1, "Cron temperature - ERREUR - " . $e->getMessage());
 
     exit;
 }

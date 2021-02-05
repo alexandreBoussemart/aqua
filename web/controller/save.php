@@ -41,7 +41,7 @@ if (isset($_POST['submit_actions_clear_pompes'])) {
 // form changement d'eau
 if (isset($_POST['submit_eau'])) {
     if (isset($_POST['value']) && is_numeric($_POST['value'])) {
-        $sql = 'INSERT INTO `data_changement_eau` ( `value`) VALUES ("' . strval($_POST['value']) . '")';
+        $sql = 'INSERT INTO '.TABLE_DATA_CHANGEMENT_EAU.' ( `value`) VALUES ("' . strval($_POST['value']) . '")';
         $link->query($sql);
     }
     $message = "Le changement d'eau a été sauvegardé.";
@@ -53,7 +53,7 @@ if (isset($_POST['submit_eau'])) {
 //delete value changement d'eau
 if (isset($_POST['submit_delete_eau'])) {
     if (isset($_POST['id']) && is_numeric($_POST['id'])) {
-        $sql = 'DELETE FROM `data_changement_eau` WHERE `id` LIKE ' . $_POST['id'] . ';';
+        $sql = 'DELETE FROM '.TABLE_DATA_CHANGEMENT_EAU.' WHERE `id` LIKE ' . $_POST['id'] . ';';
         $message = "Le changement d'eau a été supprimé.";
         setMessage("success", $message);
         sendMail($data, $transport, $message, $message, $link);
@@ -66,7 +66,7 @@ if (isset($_POST['submit_delete_eau'])) {
 //delete value budget
 if (isset($_POST['submit_delete_budget'])) {
     if (isset($_POST['id']) && is_numeric($_POST['id'])) {
-        $sql = 'DELETE FROM `data_depense` WHERE `id` LIKE ' . $_POST['id'] . ';';
+        $sql = 'DELETE FROM '.TABLE_DATA_DEPENSE.' WHERE `id` LIKE ' . $_POST['id'] . ';';
         $message = "La dépense a été supprimé.";
         setMessage("success", $message);
         sendMail($data, $transport, $message, $message, $link);
@@ -107,7 +107,7 @@ if (isset($_POST['submit_budget']) && isset($_POST['value'])) {
 
     if (isset($_POST['value']) && is_float($price) && isset($_POST['comment']) && isset($_POST['date'])) {
         $date = $_POST['date'];
-        $sql = 'INSERT INTO `data_depense` ( `comment`,`value`,`created_at`) VALUES ("' . strval($_POST['comment']) . '",' . $price . ',"' . $date . '")';
+        $sql = 'INSERT INTO '.TABLE_DATA_DEPENSE.' ( `comment`,`value`,`created_at`) VALUES ("' . strval($_POST['comment']) . '",' . $price . ',"' . $date . '")';
         $link->query($sql);
     }
 

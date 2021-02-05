@@ -8,17 +8,17 @@ require __DIR__ . '/../helper/functions.php';
 
 try {
     // désactive toutes les crons
-    if (getStatus($link, 'disable_all_cron')) {
-        setControle($link, 'controle_ecumeur');
-        setState($link, 'ecumeur', 'state_98', 0, "Toutes les crons sont désactivées");
+    if (getStatus($link, DISABLE_ALL_CRON)) {
+        setControle($link, CONTROLE_ECUMEUR);
+        setState($link, ECUMEUR, 'state_98', 0, "Toutes les crons sont désactivées");
 
         exit;
     }
 
     //check si la cron est activé
-    if (!getStatus($link, 'ecumeur')) {
-        setControle($link, 'controle_ecumeur');
-        setState($link, 'ecumeur', 'state_99', 0, "Écumeur - Désactivé");
+    if (!getStatus($link, ECUMEUR)) {
+        setControle($link, CONTROLE_ECUMEUR);
+        setState($link, ECUMEUR, 'state_99', 0, "Écumeur - Désactivé");
 
         exit;
     }
@@ -58,7 +58,7 @@ try {
     exit;
 
 } catch (Exception $e) {
-    setState($link, 'ecumeur', 'state_4', 1, "Cron ecumeur - ERREUR - " . $e->getMessage());
+    setState($link, ECUMEUR, 'state_4', 1, "Cron ecumeur - ERREUR - " . $e->getMessage());
     setLog($link, $e->getMessage());
 
     exit;

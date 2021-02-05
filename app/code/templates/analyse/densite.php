@@ -3,7 +3,7 @@ $sql_densite = "# noinspection SqlNoDataSourceInspectionForFile
         SELECT T.*
         FROM (
             SELECT * 
-            FROM `data_parametres_eau` 
+            FROM ".TABLE_DATA_EAU." 
             WHERE `type` LIKE 'densite' 
             ORDER BY `id` DESC 
             LIMIT 9 

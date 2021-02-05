@@ -1,8 +1,8 @@
 <?php
 $sql = "# noinspection SqlNoDataSourceInspectionForFile
       SELECT s.`error` as error, s.`label` as label, la.`created_at` as date
-      FROM `state` s
-      INNER JOIN `last_activity` as la ON la.`value` = s.`path` 
+      FROM ".TABLE_STATE." s
+      INNER JOIN ".TABLE_LAST_ACTIVITY." as la ON la.`value` = s.`path` 
       WHERE `path` LIKE 'controle_%'";
 $states_cron = mysqli_query($link, $sql);
 ?>
@@ -20,8 +20,8 @@ $states_cron = mysqli_query($link, $sql);
 <?php
 $sql = "# noinspection SqlNoDataSourceInspectionForFile
         SELECT * 
-        FROM `state` 
-        WHERE `path` IN ('osmolateur','ecumeur','reacteur','temperature');";
+        FROM ".TABLE_STATE." 
+        WHERE `path` IN ('".OSMOLATEUR."','".ECUMEUR."','".REACTEUR."','".TEMPERATURE."');";
 $states = mysqli_query($link, $sql);
 ?>
 
@@ -35,9 +35,9 @@ $states = mysqli_query($link, $sql);
                 if ($obj->value == 'state_99') {
                     $message = explode('-', $obj->message);
                     $message = end($message);
-                }elseif ($obj->path == 'temperature') {
+                }elseif ($obj->path == TEMPERATURE) {
                     $message = getLastData($link, "data_temperature_eau", " °C");
-                } elseif ($obj->path == 'reacteur') {
+                } elseif ($obj->path == REACTEUR) {
                     $message = getLastData($link, "data_reacteur", " l/min");
                 } else {
                     $message = explode('-', $obj->message);
@@ -54,7 +54,7 @@ $states = mysqli_query($link, $sql);
 <?php
 $sql = "# noinspection SqlNoDataSourceInspectionForFile
         SELECT * 
-        FROM `state` 
+        FROM ".TABLE_STATE." 
         WHERE `path` = 'bailling'";
 $bailling = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($bailling);

@@ -2,7 +2,7 @@
 //liste des controles
 $sql = "# noinspection SqlNoDataSourceInspectionForFile 
         SELECT * 
-        FROM `last_activity`";
+        FROM ".TABLE_LAST_ACTIVITY."";
 $listes_controles = mysqli_query($link, $sql);
 ?>
 

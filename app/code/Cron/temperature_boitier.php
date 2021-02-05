@@ -10,7 +10,7 @@ require __DIR__ . '/../helper/functions.php';
 
 try {
     // désactive toutes les crons
-    if (getStatus($link, 'disable_all_cron')) {
+    if (getStatus($link, DISABLE_ALL_CRON)) {
         exit;
     }
 
@@ -37,7 +37,7 @@ try {
 
     // on log temperature du rpi
     if ($minute % 15 == 0) {
-        insertTemperature($link, $temperature_rpi, "`data_temperature_rpi`");
+        insertTemperature($link, $temperature_rpi, TABLE_DATA_TEMP_RPI);
     }
 
     // première lecture, on quitte si résultat pas ok
@@ -64,7 +64,7 @@ try {
     if ($temp_min < $temperature2 && $temperature2 < $temp_max) {
         // on insère la temperature en bdd 1 fois toutes les 15 minutes
         if ($minute % 15 == 0) {
-            insertTemperature($link, $temperature2, "`data_temperature_air`");
+            insertTemperature($link, $temperature2, TABLE_DATA_TEMP_AIR);
         }
     }
 

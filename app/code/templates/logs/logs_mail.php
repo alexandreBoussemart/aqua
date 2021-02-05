@@ -2,7 +2,7 @@
 // logs
 $sql = "# noinspection SqlNoDataSourceInspectionForFile  
         SELECT * 
-        FROM `log_mail` 
+        FROM ".TABLE_LOG_MAIL." 
         ORDER BY `id` DESC 
         LIMIT 50;";
 $logs_mails = mysqli_query($link, $sql);

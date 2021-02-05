@@ -8,7 +8,7 @@ require __DIR__ . '/../helper/functions.php';
 
 try {
     // désactive toutes les crons
-    if (getStatus($link, 'disable_all_cron')) {
+    if (getStatus($link, DISABLE_ALL_CRON)) {
         exit;
     }
 
@@ -27,7 +27,7 @@ try {
         //on prend que les lignes avec mail datant de -1 minutes
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT * 
-                FROM `last_activity` 
+                FROM ".TABLE_LAST_ACTIVITY." 
                 WHERE `value` = '" . $verif . "' 
                 AND `created_at` >= '" . $yesterday . "' 
                 AND `created_at` <= '" . $today . "' 
@@ -40,7 +40,7 @@ try {
             sleep(10);
             $sql = "# noinspection SqlNoDataSourceInspectionForFile
                     SELECT * 
-                    FROM `last_activity` 
+                    FROM ".TABLE_LAST_ACTIVITY." 
                     WHERE `value` = '" . $verif . "' 
                     AND `created_at` >= '" . $yesterday . "' 
                     AND `created_at` <= '" . $today . "' 

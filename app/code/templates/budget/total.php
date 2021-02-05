@@ -2,7 +2,7 @@
 // logs
 $sql = "# noinspection SqlNoDataSourceInspectionForFile  
         SELECT SUM(`value`) as sum
-        FROM `data_depense`";
+        FROM ".TABLE_DATA_DEPENSE."";
 $total = mysqli_query($link, $sql);
 $total = mysqli_fetch_assoc($total);
 ?>

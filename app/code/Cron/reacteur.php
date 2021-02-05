@@ -8,17 +8,17 @@ require __DIR__ . '/../helper/functions.php';
 
 try {
     // désactive toutes les crons
-    if (getStatus($link, 'disable_all_cron')) {
-        setControle($link, 'controle_reacteur');
-        setState($link, 'reacteur', 'state_98', 0, "Toutes les crons sont désactivées");
+    if (getStatus($link, DISABLE_ALL_CRON)) {
+        setControle($link, CONTROLE_REACTEUR);
+        setState($link, REACTEUR, 'state_98', 0, "Toutes les crons sont désactivées");
 
         exit;
     }
 
     //check si la cron est activé
-    if (!getStatus($link, 'reacteur')) {
-        setControle($link, 'controle_reacteur');
-        setState($link, 'reacteur', 'state_99', 0, "Réacteur - Désactivé");
+    if (!getStatus($link, REACTEUR)) {
+        setControle($link, CONTROLE_REACTEUR);
+        setState($link, REACTEUR, 'state_99', 0, "Réacteur - Désactivé");
 
         exit;
     }
@@ -44,7 +44,7 @@ try {
     exit;
 
 } catch (Exception $e) {
-    setState($link, 'reacteur', 'state_5', 1, "Cron reacteur - ERREUR - " . $e->getMessage());
+    setState($link, REACTEUR, 'state_5', 1, "Cron reacteur - ERREUR - " . $e->getMessage());
     setLog($link, $e->getMessage());
 
     exit;

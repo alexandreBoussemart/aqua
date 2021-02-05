@@ -8,17 +8,17 @@ require __DIR__ . '/../helper/functions.php';
 
 try {
     // désactive toutes les crons
-    if (getStatus($link, 'disable_all_cron')) {
-        setControle($link, 'controle_bailling');
-        setState($link, 'bailling', 'state_98', 0, "Toutes les crons sont désactivées");
+    if (getStatus($link, DISABLE_ALL_CRON)) {
+        setControle($link, CONTROLE_BAILLING);
+        setState($link, BAILLING, 'state_98', 0, "Toutes les crons sont désactivées");
 
         exit;
     }
 
     //check si la cron est activé
-    if (!getStatus($link, 'bailling')) {
-        setControle($link, 'controle_bailling');
-        setState($link, 'bailling', 'state_99', 0, "Baillling - Désactivé");
+    if (!getStatus($link, BAILLING)) {
+        setControle($link, CONTROLE_BAILLING);
+        setState($link, BAILLING, 'state_99', 0, "Baillling - Désactivé");
 
         exit;
     }
@@ -29,7 +29,7 @@ try {
     exit;
 
 } catch (Exception $e) {
-    setState($link, 'bailling', 'state_10', 1, "Cron bailling - ERREUR - " . $e->getMessage());
+    setState($link, BAILLING, 'state_10', 1, "Cron bailling - ERREUR - " . $e->getMessage());
     setLog($link, $e->getMessage());
 
     exit;
