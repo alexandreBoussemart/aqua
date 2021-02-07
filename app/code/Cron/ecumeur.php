@@ -4,7 +4,7 @@
  * Toutes les minutes
  */
 
-require __DIR__ . '/../helper/functions.php';
+require __DIR__ . '/../helper/app.php';
 
 try {
     // désactive toutes les crons
@@ -34,6 +34,15 @@ try {
         $now = $date->format('Y-m-d H:i:s');
         if ($now > $end) {
             break;
+        }
+
+        $ecumeurHaveTimer = havetimer($link, ECUMEUR);
+        if($ecumeurHaveTimer){
+            // on éteint
+            exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
+            setState($link, ECUMEUR, 'state_97', 0, "Écumeur - Pause timer");
+
+            continue;
         }
 
         //on execute la commande

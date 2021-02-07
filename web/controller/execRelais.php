@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../../app/code/helper/functions.php';
+require __DIR__ . '/../../app/code/helper/app.php';
 
 if (isset($_POST['relais_ventilateur_aquarium_on'])) {
     exec("python " . __DIR__ . "/../../scripts/aquarium_ventilateur/on.py 2>&1", $output, $return_var);

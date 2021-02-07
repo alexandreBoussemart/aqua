@@ -193,7 +193,7 @@ function setControle($link, $value)
 {
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                UPDATE ".TABLE_LAST_ACTIVITY." set `value`='" . $value . "', `created_at`=now() 
+                UPDATE " . TABLE_LAST_ACTIVITY . " set `value`='" . $value . "', `created_at`=now() 
                 WHERE `value`='" . $value . "'";
         logInFile($link, "sql.log", $sql);
         $link->query($sql);
@@ -220,7 +220,7 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
 
         if (!file_exists($file)) {
             $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                    UPDATE ".TABLE_STATE." set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0, `exclude_check`='" . $exclude . "' 
+                    UPDATE " . TABLE_STATE . " set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0, `exclude_check`='" . $exclude . "' 
                     WHERE `path`='" . $path . "'";
             logInFile($link, "sql.log", $sql);
             $link->query($sql);
@@ -255,7 +255,7 @@ function setLog($link, $message)
     $message = str_replace("'", "\'", $message);
     // met ligne dans table log
     $sql = '# noinspection SqlNoDataSourceInspectionForFile 
-            INSERT INTO '.TABLE_LOG.' (`message`) 
+            INSERT INTO ' . TABLE_LOG . ' (`message`) 
             VALUES ("' . $message . '")';
     logInFile($link, "sql.log", $sql);
     $link->query($sql);
@@ -331,6 +331,19 @@ function getFormattedDateWithouH($date)
 }
 
 /**
+ * @param $date
+ *
+ * @return string
+ * @throws Exception
+ */
+function getFormattedHours($date)
+{
+    $format = new DateTime($date);
+
+    return $format->format('H:i');
+}
+
+/**
  * @param $date1
  * @param $date2
  *
@@ -396,7 +409,7 @@ function setStatus($link, $data, $code)
             $value = 0;
         }
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                UPDATE ".TABLE_STATUS." 
+                UPDATE " . TABLE_STATUS . " 
                 SET `value`='" . $value . "' 
                 WHERE `name` = '$code'";
         logInFile($link, "sql.log", $sql);
@@ -451,7 +464,7 @@ function setConfig($link, $data, $code)
         }
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                UPDATE ".TABLE_CORE_CONFIG." 
+                UPDATE " . TABLE_CORE_CONFIG . " 
                 SET `value`='" . $value . "' 
                 WHERE `name` = '$code'";
         logInFile($link, "sql.log", $sql);
@@ -501,27 +514,27 @@ function clear($link)
         $limit = $date->format('Y-m-d H:i:s');
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM ".TABLE_LOG." 
+                DELETE FROM " . TABLE_LOG . " 
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM ".TABLE_DATA_REACTEUR." 
+                DELETE FROM " . TABLE_DATA_REACTEUR . " 
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM ".TABLE_DATA_TEMP_EAU." 
+                DELETE FROM " . TABLE_DATA_TEMP_EAU . " 
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM ".TABLE_DATA_TEMP_AIR." 
+                DELETE FROM " . TABLE_DATA_TEMP_AIR . " 
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM ".TABLE_DATA_TEMP_RPI." 
+                DELETE FROM " . TABLE_DATA_TEMP_RPI . " 
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM ".TABLE_LOG_MAIL." 
+                DELETE FROM " . TABLE_LOG_MAIL . " 
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
     } catch (Exception $e) {
@@ -563,7 +576,7 @@ function getConfig($link, $name)
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `value` 
-                FROM ".TABLE_CORE_CONFIG." 
+                FROM " . TABLE_CORE_CONFIG . " 
                 WHERE `name` = '" . $name . "'";
         $controle = mysqli_query($link, $sql);
         $row = mysqli_fetch_assoc($controle);
@@ -593,7 +606,7 @@ function envoyerMail($link, $data, $transport)
         // on fait le premier mail
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
-            FROM ".TABLE_STATE." 
+            FROM " . TABLE_STATE . " 
             WHERE `exclude_check` LIKE 0 
             AND `mail_send` LIKE 0";
         logInFile($link, "sql.log", $sql);
@@ -619,7 +632,7 @@ function envoyerMail($link, $data, $transport)
 
             // on set comme quoi le mail a été envoyé et on renit la date
             $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                UPDATE ".TABLE_STATE." 
+                UPDATE " . TABLE_STATE . " 
                 SET `mail_send`=1,`created_at`=now() 
                 WHERE `id` LIKE " . $id;
             logInFile($link, "sql.log", $sql);
@@ -646,7 +659,7 @@ function envoyerMailRappel($link, $data, $transport, $tempsMailRappel)
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
-            FROM ".TABLE_STATE." 
+            FROM " . TABLE_STATE . " 
             WHERE `exclude_check` LIKE 0 
             AND `error` LIKE 1 
             AND `created_at` < " . $date;
@@ -671,7 +684,7 @@ function envoyerMailRappel($link, $data, $transport, $tempsMailRappel)
 
             // on renit la date
             $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                UPDATE ".TABLE_STATE." 
+                UPDATE " . TABLE_STATE . " 
                 SET `created_at`=now() 
                 WHERE `id` LIKE " . $id;
             logInFile($link, "sql.log", $sql);
@@ -697,7 +710,7 @@ function checkDisableSendMail($link, $data, $transport)
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT count(*) as count
-            FROM ".TABLE_LOG_MAIL." 
+            FROM " . TABLE_LOG_MAIL . " 
             WHERE `created_at` > " . $date;
         logInFile($link, "sql.log", $sql);
         $result = mysqli_query($link, $sql);
@@ -775,8 +788,8 @@ function isRunOver20seconds($link, $tempsMaxPompeOsmolateur)
         // si c'est le state 3 et qu'il a moins de 20 secondes
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
-            FROM ".TABLE_STATE." 
-            WHERE `path` LIKE '".OSMOLATEUR."'
+            FROM " . TABLE_STATE . " 
+            WHERE `path` LIKE '" . OSMOLATEUR . "'
             AND (`value` LIKE 'state_3' OR `value` LIKE 'state_8')";
         logInFile($link, "sql.log", $sql);
         $controle = mysqli_query($link, $sql);
@@ -818,8 +831,8 @@ function isRun($link)
         // si c'est le state 3 c'est que c'est remplissage en cours
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
-            FROM ".TABLE_STATE." 
-            WHERE `path` LIKE '".OSMOLATEUR."'
+            FROM " . TABLE_STATE . " 
+            WHERE `path` LIKE '" . OSMOLATEUR . "'
             AND (`value` LIKE 'state_3')";
         logInFile($link, "sql.log", $sql);
         $controle = mysqli_query($link, $sql);
@@ -845,8 +858,8 @@ function isRunEcumeur($link)
         // si c'est le state 2 c'est que niveau godet ok
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
-            FROM ".TABLE_STATE." 
-            WHERE `path` LIKE '".ECUMEUR."'
+            FROM " . TABLE_STATE . " 
+            WHERE `path` LIKE '" . ECUMEUR . "'
             AND (`value` LIKE 'state_2')";
         logInFile($link, "sql.log", $sql);
         $controle = mysqli_query($link, $sql);
@@ -873,8 +886,8 @@ function isNiveauToHigh($link)
         // si c'est le state 1 osmolateur c'est que le niveau est trop haut
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT * 
-            FROM ".TABLE_STATE." 
-            WHERE `path` LIKE '".OSMOLATEUR."'
+            FROM " . TABLE_STATE . " 
+            WHERE `path` LIKE '" . OSMOLATEUR . "'
             AND (`value` LIKE 'state_1')";
         logInFile($link, "sql.log", $sql);
         $controle = mysqli_query($link, $sql);
@@ -901,7 +914,7 @@ function setParam($link, $data, $type)
         $data = str_replace(',', '.', $data);
         if (isset($data) && is_numeric($data)) {
             $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                INSERT INTO ".TABLE_DATA_EAU." (`type`, `value`) 
+                INSERT INTO " . TABLE_DATA_EAU . " (`type`, `value`) 
                 VALUES ('" . $type . "', '" . strval($data) . "')";
             logInFile($link, "sql.log", $sql);
             $link->query($sql);
@@ -1183,7 +1196,7 @@ function getLastParam($link, $type, $evolution)
         $label = '';
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT * 
-                FROM ".TABLE_DATA_EAU." 
+                FROM " . TABLE_DATA_EAU . " 
                 WHERE `type` = '" . $type . "' 
                 ORDER BY `id` DESC 
                 LIMIT 1";
@@ -1235,7 +1248,7 @@ function getLastDiffParam($link, $type)
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT * 
-                FROM ".TABLE_DATA_EAU." 
+                FROM " . TABLE_DATA_EAU . " 
                 WHERE `type` = '" . $type . "' 
                 ORDER BY `id` DESC 
                 LIMIT 1";
@@ -1246,7 +1259,7 @@ function getLastDiffParam($link, $type)
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT * 
-                FROM ".TABLE_DATA_EAU." 
+                FROM " . TABLE_DATA_EAU . " 
                 WHERE `type` = '" . $type . "' 
                 ORDER BY `id` DESC 
                 LIMIT 1,1";
@@ -1306,7 +1319,7 @@ function getLastChangementEau($link)
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT * 
-                FROM ".TABLE_DATA_CHANGEMENT_EAU." 
+                FROM " . TABLE_DATA_CHANGEMENT_EAU . " 
                 ORDER BY `id` DESC 
                 LIMIT 1";
         logInFile($link, "sql.log", $sql);
@@ -1344,7 +1357,7 @@ function getOlderData($link)
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
-                FROM ".TABLE_LOG." 
+                FROM " . TABLE_LOG . " 
                 ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
@@ -1355,7 +1368,7 @@ function getOlderData($link)
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
-                FROM ".TABLE_DATA_REACTEUR." 
+                FROM " . TABLE_DATA_REACTEUR . " 
                 ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
@@ -1366,7 +1379,7 @@ function getOlderData($link)
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
-                FROM ".TABLE_DATA_TEMP_EAU." 
+                FROM " . TABLE_DATA_TEMP_EAU . " 
                 ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
@@ -1377,7 +1390,7 @@ function getOlderData($link)
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
-                FROM ".TABLE_DATA_TEMP_AIR." 
+                FROM " . TABLE_DATA_TEMP_AIR . " 
                 ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
@@ -1388,7 +1401,7 @@ function getOlderData($link)
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
-                FROM ".TABLE_DATA_TEMP_RPI." 
+                FROM " . TABLE_DATA_TEMP_RPI . " 
                 ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
@@ -1399,7 +1412,7 @@ function getOlderData($link)
 
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 SELECT `created_at` 
-                FROM ".TABLE_LOG_MAIL." 
+                FROM " . TABLE_LOG_MAIL . " 
                 ORDER BY `id` ASC 
                 LIMIT 1";
         $request = mysqli_query($link, $sql);
@@ -1573,4 +1586,82 @@ function dumpBDD($data, $transport, $subject)
 
     return $mailer->send($message);
 
+}
+
+/**
+ * @param $link
+ * @param $type
+ * @return string
+ */
+function insertTimer($link, $type)
+{
+    try {
+        $periode = $temperature = getConfig($link, "timer_" . $type);
+
+        $date = new DateTime();
+        $date->modify($periode);
+        $date = $date->format('Y-m-d H:i:s');
+
+        $sql = '# noinspection SqlNoDataSourceInspectionForFile 
+                INSERT INTO ' . TABLE_TIMER . ' ( `type`, `off_until`) 
+                VALUES ("' . $type . '","' . $date . '")
+                ON DUPLICATE KEY UPDATE `off_until` = "' . $date . '"';
+        logInFile($link, "sql.log", $sql);
+        $link->query($sql);
+
+        return $date;
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
+    }
+}
+
+/**
+ * @param $link
+ * @param $type
+ * @return bool
+ */
+function havetimer($link, $type)
+{
+    try {
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT * 
+            FROM " . TABLE_TIMER . " 
+            WHERE `type` LIKE '" . $type . "'";
+        logInFile($link, "sql.log", $sql);
+        $timer = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($timer);
+
+        if ($row) {
+            return true;
+        }
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
+    }
+
+    return false;
+}
+
+/**
+ * @param $link
+ * @param $type
+ * @return bool
+ */
+function removeTimer($link, $type)
+{
+    try {
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM " . TABLE_TIMER . " 
+                WHERE `type` LIKE '" . $type . "';";
+        $link->query($sql);
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
+    }
+
+    return false;
 }

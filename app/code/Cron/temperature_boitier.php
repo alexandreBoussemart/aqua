@@ -6,7 +6,7 @@
  * /sys/bus/w1/devices/28-0213191aabaa/w1_slave
  */
 
-require __DIR__ . '/../helper/functions.php';
+require __DIR__ . '/../helper/app.php';
 
 try {
     // désactive toutes les crons

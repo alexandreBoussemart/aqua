@@ -8,6 +8,8 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
         ORDER BY `groupe` ASC";
 $listes_status_rapides = mysqli_query($link, $sql);
 $last = '1';
+
+$ecumeurHaveTimer = havetimer($link, ECUMEUR);
 ?>
 
 <?php
@@ -41,6 +43,26 @@ $checks = array_filter($checks);
                     </div>
                 <?php endforeach; ?>
             </form>
+            <div class="form-group form-timer">
+                <div class="">
+                    <form method="post" action="controller/saveTimer" class="form-horizontal form-label-left switch-timer">
+                        <input type="hidden" name="timer_ecumeur" value="1"/>
+                        <button type="submit"
+                                class="btn btn-default <?php if ($ecumeurHaveTimer): echo 'haveTimer'; else: echo 'noTimer'; endif;?>">
+                            Pause écumeur
+                        </button>
+                    </form>
+
+                    <?php if ($ecumeurHaveTimer): ?>
+                        <form method="post" action="controller/saveTimer" class="form-horizontal form-label-left switch-timer">
+                            <input type="hidden" name="remove_timer_ecumeur" value="1"/>
+                            <button type="submit"class="btn">
+                                <i class="fa fa-close"></i>
+                            </button>
+                        </form>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../../app/code/helper/functions.php';
+require __DIR__ . '/../../app/code/helper/app.php';
 
 $file = $_POST['file'];
 

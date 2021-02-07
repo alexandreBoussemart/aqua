@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../../app/code/helper/functions.php';
+require __DIR__ . '/../../app/code/helper/app.php';
 
 // form actions rapides
 setStatus($link, isset($_POST['on_off_osmolateur']) ? $_POST['on_off_osmolateur'] : null, 'on_off_osmolateur');

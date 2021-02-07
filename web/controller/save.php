@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../../app/code/helper/functions.php';
+require __DIR__ . '/../../app/code/helper/app.php';
 
 //form action clear data
 if (isset($_POST['submit_actions_clear'])) {

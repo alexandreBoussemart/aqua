@@ -8953,3 +8953,17 @@ ul.notifications {
     }
   }
 }
+
+.btn-default {
+  &.haveTimer {
+    background: #C8E6C9;
+  }
+}
+
+.form-timer {
+  margin-top: 15px;
+}
+
+.switch-timer {
+  display: inline-block;
+}

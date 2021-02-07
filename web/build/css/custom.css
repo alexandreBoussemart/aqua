@@ -6947,3 +6947,12 @@ ul.notifications {
     background: #fff; }
     .todo-block .x_panel .x_content li p {
       color: #B33A3A; }
+
+.btn-default.haveTimer {
+  background: #C8E6C9; }
+
+.form-timer {
+  margin-top: 15px; }
+
+.switch-timer {
+  display: inline-block; }

@@ -4,7 +4,7 @@
  * Toutes les minutes
  */
 
-require __DIR__ . '/../helper/functions.php';
+require __DIR__ . '/../helper/app.php';
 
 try {
     // désactive toutes les crons

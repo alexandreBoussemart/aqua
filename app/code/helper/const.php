@@ -26,5 +26,6 @@ const TABLE_DATA_TEMP_EAU = '`data_temperature_eau`';
 const TABLE_DATA_TEMP_AIR = '`data_temperature_air`';
 const TABLE_DATA_TEMP_RPI = '`data_temperature_rpi`';
 const TABLE_DATA_DEPENSE = '`data_depense`';
+const TABLE_TIMER = '`timer`';
 
 const DISABLE_ALL_CRON = 'disable_all_cron';
