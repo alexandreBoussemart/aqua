@@ -1683,7 +1683,7 @@ span.right {
   margin-top: 10px;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .tile_count .tile_stats_count:first-child:before {
     border-left: 0;
   }
@@ -1691,11 +1691,13 @@ span.right {
 
 .tile_count .tile_stats_count .count {
   font-size: 30px;
-  line-height: 47px;
+  line-height: 14px;
   font-weight: 600;
+  margin: 9px 0;
 
   small {
     font-size: 12px;
+    line-height: 0;
   }
 }
 
@@ -3277,13 +3279,11 @@ fieldset {
 @media (min-width: 768px) {
   .tile_count .tile_stats_count .count {
     font-size: 25px;
-    line-height: 35px;
     color: #4BB543;
   }
 }
 
 .tile_count .tile_stats_count .count {
-  line-height: 35px;
   color: #4BB543;
 }
 
@@ -3470,7 +3470,6 @@ fieldset {
 
 .tile_stats_count.osmolateur {
   .count {
-    line-height: 5px;
     display: block;
     margin: 2px 0 10px;
 
@@ -5342,15 +5341,8 @@ span.right {
   margin-top: 10px;
 }
 
-@media (min-width: 992px) {
-  .tile_count .tile_stats_count:first-child:before {
-    border-left: 0;
-  }
-}
-
 .tile_count .tile_stats_count .count {
   font-size: 30px;
-  line-height: 47px;
   font-weight: 600;
 
   small {
@@ -8417,13 +8409,11 @@ ul.notifications {
 @media (min-width: 768px) {
   .tile_count .tile_stats_count .count {
     font-size: 25px;
-    line-height: 35px;
     color: #4BB543;
   }
 }
 
 .tile_count .tile_stats_count .count {
-  line-height: 35px;
   color: #4BB543;
 }
 
@@ -8610,7 +8600,6 @@ ul.notifications {
 
 .tile_stats_count.osmolateur {
   .count {
-    line-height: 5px;
     display: block;
     margin: 2px 0 10px;
 
