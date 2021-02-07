@@ -332,15 +332,23 @@ function getFormattedDateWithouH($date)
 
 /**
  * @param $date
- *
+ * @param $link
  * @return string
- * @throws Exception
  */
-function getFormattedHours($date)
+function getFormattedHours($date, $link)
 {
-    $format = new DateTime($date);
+    try{
+        $format = new DateTime($date);
 
-    return $format->format('H:i');
+        return $format->format('H:i');
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
+    }
+
+    return '';
+
 }
 
 /**
@@ -1622,7 +1630,7 @@ function insertTimer($link, $type)
  * @param $type
  * @return bool
  */
-function havetimer($link, $type)
+function haveTimer($link, $type)
 {
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -1664,4 +1672,32 @@ function removeTimer($link, $type)
     }
 
     return false;
+}
+
+/**
+ * @param $link
+ * @param $type
+ * @return mixed|string|null
+ */
+function getTimer($link, $type)
+{
+    try {
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT `off_until`
+            FROM " . TABLE_TIMER . " 
+            WHERE `type` LIKE '" . $type . "'";
+        logInFile($link, "sql.log", $sql);
+        $timer = mysqli_query($link, $sql);
+        $row = mysqli_fetch_assoc($timer);
+
+        if ($row && $row['off_until']) {
+            return $row['off_until'];
+        }
+
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+        setMessage("error", $e->getMessage());
+    }
+
+    return null;
 }

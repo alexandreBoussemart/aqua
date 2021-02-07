@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
         <?php  require '../app/code/templates/head.php'; ?>
-        <title>Aquarium - Test relais</title>
+        <title>Reef Pi - Test relais</title>
     </head>
 
     <?php require '../app/code/templates/header.php'; ?>

@@ -8956,3 +8956,21 @@ ul.notifications {
 .switch-timer {
   display: inline-block;
 }
+
+.timer-forms {
+  display: flex;
+  align-items: center;
+
+  .btn {
+    margin-bottom: 0;
+
+    &.haveTimer {
+      background: #C8E6C9;
+    }
+  }
+
+  p {
+    display: inline-block;
+    margin: 0;
+  }
+}

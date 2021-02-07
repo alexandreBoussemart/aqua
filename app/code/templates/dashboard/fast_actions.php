@@ -9,7 +9,7 @@ $sql = "# noinspection SqlNoDataSourceInspectionForFile
 $listes_status_rapides = mysqli_query($link, $sql);
 $last = '1';
 
-$ecumeurHaveTimer = havetimer($link, ECUMEUR);
+$ecumeurHaveTimer = haveTimer($link, ECUMEUR);
 ?>
 
 <?php
@@ -44,7 +44,7 @@ $checks = array_filter($checks);
                 <?php endforeach; ?>
             </form>
             <div class="form-group form-timer">
-                <div class="">
+                <div class="timer-forms">
                     <form method="post" action="controller/saveTimer" class="form-horizontal form-label-left switch-timer">
                         <input type="hidden" name="timer_ecumeur" value="1"/>
                         <button type="submit"
@@ -52,7 +52,6 @@ $checks = array_filter($checks);
                             Pause écumeur
                         </button>
                     </form>
-
                     <?php if ($ecumeurHaveTimer): ?>
                         <form method="post" action="controller/saveTimer" class="form-horizontal form-label-left switch-timer">
                             <input type="hidden" name="remove_timer_ecumeur" value="1"/>
@@ -60,6 +59,7 @@ $checks = array_filter($checks);
                                 <i class="fa fa-close"></i>
                             </button>
                         </form>
+                        <p>jusqu'à <?= getFormattedHours(getTimer($link, ECUMEUR), $link) ?></p>
                     <?php endif; ?>
                 </div>
             </div>

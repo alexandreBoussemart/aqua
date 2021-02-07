@@ -6948,3 +6948,16 @@ ul.notifications {
 
 .switch-timer {
   display: inline-block; }
+
+.timer-forms {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center; }
+  .timer-forms .btn {
+    margin-bottom: 0; }
+    .timer-forms .btn.haveTimer {
+      background: #C8E6C9; }
+  .timer-forms p {
+    display: inline-block;
+    margin: 0; }

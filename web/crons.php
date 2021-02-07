@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
         <?php  require '../app/code/templates/head.php'; ?>
-        <title>Aquarium - Liste cron</title>
+        <title>Reef Pi - Liste cron</title>
     </head>
 
     <?php require '../app/code/templates/header.php'; ?>

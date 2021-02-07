@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
         <?php  require '../app/code/templates/head.php'; ?>
-        <title>Aquarium - Configuration</title>
+        <title>Reef Pi - Configuration</title>
     </head>
 
     <?php require '../app/code/templates/header.php'; ?>

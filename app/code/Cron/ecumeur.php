@@ -36,7 +36,7 @@ try {
             break;
         }
 
-        $ecumeurHaveTimer = havetimer($link, ECUMEUR);
+        $ecumeurHaveTimer = haveTimer($link, ECUMEUR);
         if($ecumeurHaveTimer){
             // on éteint
             exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");

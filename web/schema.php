@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
         <?php  require '../app/code/templates/head.php'; ?>
-        <title>Aquarium - Schéma de branchement</title>
+        <title>Reef Pi - Schéma de branchement</title>
     </head>
 
     <?php require '../app/code/templates/header.php'; ?>
