@@ -20,7 +20,7 @@ try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
             SELECT `type`
             FROM " . TABLE_TIMER .
-            "WHERE `off_until` < '" . $date . "'";
+            "WHERE `off_until` <= '" . $date . "'";
         logInFile($link, "sql.log", $sql);
         $request = mysqli_query($link, $sql);
         $rows = mysqli_fetch_assoc($request);
