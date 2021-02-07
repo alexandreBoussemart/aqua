@@ -900,9 +900,9 @@ function setParam($link, $data, $type)
     try {
         $data = str_replace(',', '.', $data);
         if (isset($data) && is_numeric($data)) {
-            $sql = '# noinspection SqlNoDataSourceInspectionForFile 
+            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 INSERT INTO ".TABLE_DATA_EAU." (`type`, `value`) 
-                VALUES ("' . $type . '", "' . strval($data) . '")';
+                VALUES ('" . $type . "', '" . strval($data) . "')";
             logInFile($link, "sql.log", $sql);
             $link->query($sql);
         }
