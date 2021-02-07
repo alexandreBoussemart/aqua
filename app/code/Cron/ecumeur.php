@@ -40,6 +40,7 @@ try {
         if($ecumeurHaveTimer){
             // on éteint
             exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
+            setControle($link, CONTROLE_ECUMEUR);
             setState($link, ECUMEUR, 'state_97', 0, "Écumeur - Pause timer");
 
             continue;
