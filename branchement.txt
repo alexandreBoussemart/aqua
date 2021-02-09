@@ -1,15 +1,14 @@
 +-------------+-------------+--------------+
-|   Capteur   |    Bouton   | Interrupteur |
-| osmolateur  |   poussoir  |     pompe    |
-|   réserve   |  Osmolateur |  Osmolateur  |
+|    Pompe    |   Capteur   | Interrupteur |
+|  osmolateur |  osmolateur |     pompe    |
+|             |             |  osmolateur  |
 +-------------+-------------+--------------+
-|    Pompe    |   Capteur   |  Ventilateur |
-|  Osmolateur |  Osmolateur |   Aquarium   |
+|   Capteur   |   Capteur   |  Ventilateur |
+|   bailling  | température |   aquarium   |
 +-------------+-------------+--------------+
-|   Capteur   |   Capteur   |    Capteur   |
-|   Bailling  | Température |    Écumeur   |
+|   Réacteur  |   Capteur   |    Capteur   |
+|  éclairage  |   réacteur  |    écumeur   |
+| ventilateur |             |              |
 +-------------+-------------+--------------+
-|   Réacteur  |   Capteur   |              |
-|  Éclairage  |   Reacteur  |              |
-| Ventilateur |             |              |
-+-------------+-------------+--------------+
+
+https://www.tablesgenerator.com/text_tables
