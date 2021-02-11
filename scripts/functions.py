@@ -26,7 +26,7 @@ def getstatus(value):
     try:
         mydb = connect()
         mycursor = mydb.cursor()
-        mycursor.execute("SELECT `value` FROM `status` WHERE `name` = '" + value + "' LIMIT 1")
+        mycursor.execute("SELECT `value` FROM `core_config_status` WHERE `name` = '" + value + "' LIMIT 1")
         myresult = mycursor.fetchone()[0]
         mydb.close()
 
@@ -45,7 +45,7 @@ def getconfig(value):
     try:
         mydb = connect()
         mycursor = mydb.cursor()
-        mycursor.execute("SELECT `value` FROM `core_config` WHERE `name` = '" + value + "' LIMIT 1")
+        mycursor.execute("SELECT `value` FROM `core_config_value` WHERE `name` = '" + value + "' LIMIT 1")
         myresult = mycursor.fetchone()[0]
         mydb.close()
 
@@ -232,7 +232,7 @@ def notinstatehuit():
         mydb = connect()
         mycursor = mydb.cursor()
         mycursor.execute(
-            "SELECT count(*) as count FROM `state` WHERE `path` = 'osmolateur' AND `value` = 'state_8'")
+            "SELECT count(*) as count FROM `core_config_state` WHERE `path` = 'osmolateur' AND `value` = 'state_8'")
         myresult = mycursor.fetchone()[0]
         mydb.close()
 
