@@ -31,3 +31,4 @@ BAILLING_3_STATE = str(GPIO.input(bailling_3))
 state_current = BAILLING_1_STATE + BAILLING_2_STATE + BAILLING_3_STATE
 
 print(state_current)
+

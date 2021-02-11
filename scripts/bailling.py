@@ -66,13 +66,11 @@ try:
         # niveau bailling 1 et 3 bas
         elif state_current == '010':
             message = "Bailling - ERREUR - niveau 1 et 3 bas"
-
             functions.setcompletestate(path, 'state_3', 1, message, 0, 0)
 
         # niveau bailling 2 et 3 bas
         elif state_current == '100':
             message = "Bailling - ERREUR - niveau 2 et 3 bas"
-
             functions.setcompletestate(path, 'state_4', 1, message, 0, 0)
 
         # niveau bailling 1, 2 et 3 bas
