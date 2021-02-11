@@ -548,10 +548,9 @@ function getStatusVentilateur($link, $currentTemperature): bool
 /**
  * @param $link
  * @param $name
- *
- * @return bool
+ * @return bool|mixed|string
  */
-function getConfig($link, $name): bool
+function getConfig($link, $name)
 {
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
