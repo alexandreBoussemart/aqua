@@ -8,13 +8,13 @@ $states_cron = mysqli_query($link, $sql);
 ?>
 
 <div class="row tile_count">
-    <?php while ($obj = $states_cron->fetch_object()) { ?>
+    <?php while ($obj = $states_cron->fetch_object()): ?>
         <div class="col-md-1-5 col-sm-1-5 col-xs-12 tile_stats_count <?php if ($obj->error == '1') echo 'error'; ?>">
             <span class="count_top"><i class="fa fa-power-off"></i> <?= $obj->label ?></span>
             <div class="count"><?php if ($obj->error == '1') echo 'ERREUR'; else echo 'OK'; ?></div>
             <span class="count_bottom">Dernière mise à jour le <?= getFormattedDate($obj->date); ?></span>
         </div>
-    <?php } ?>
+    <?php endwhile; ?>
 </div>
 
 <?php
@@ -26,18 +26,15 @@ $states = mysqli_query($link, $sql);
 ?>
 
 <div class="row tile_count">
-    <?php while ($obj = $states->fetch_object()) { ?>
+    <?php while ($obj = $states->fetch_object()): ?>
         <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if ($obj->error == '1') echo 'error'; ?>">
             <span class="count_top"><i class="fa fa-power-off"></i> <?= $obj->label ?></span>
             <div class="count"><?php if ($obj->error == '1') echo 'ERREUR'; else echo 'OK'; ?>
                 <?php
                 $message = '';
-                if ($obj->value == 'state_99') {
-                    $message = explode('-', $obj->message);
-                    $message = end($message);
-                }elseif ($obj->path == TEMPERATURE) {
+                if ($obj->path == TEMPERATURE && $obj->error == '0') {
                     $message = getLastData($link, "data_temperature_eau", " °C");
-                } elseif ($obj->path == REACTEUR) {
+                } elseif ($obj->path == REACTEUR && $obj->error == '0') {
                     $message = getLastData($link, "data_reacteur", " l/min");
                 } else {
                     $message = explode('-', $obj->message);
@@ -48,7 +45,7 @@ $states = mysqli_query($link, $sql);
             </div>
             <span class="count_bottom">Dernière mise à jour le <?= getFormattedDate($obj->created_at); ?></span>
         </div>
-    <?php } ?>
+    <?php endwhile; ?>
 </div>
 
 <?php
