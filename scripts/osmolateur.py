@@ -50,32 +50,27 @@ try:
         # si sur off
         status = functions.getstatus('on_off_osmolateur')
         if status == 0 or status == "0":
-            functions.setosmolateur("off")
             message = "Osmolateur - off"
             functions.setcompletestate(path, 'state_5', 1, message, 1, 0)
 
         # niveau d'eau TO HIGHT
         elif TO_HIGH_STATE == '1':
-            functions.setosmolateur("to_high")
             message = "Osmolateur - ERREUR - niveau eau TO HIGHT"
             functions.setcompletestate(path, 'state_1', 1, message, 0, 0)
 
         # niveau d'eau OK
         elif LEVEL_OK_STATE == '1':
-            functions.setosmolateur("ok")
             message = "Osmolateur - niveau eau OK"
             functions.setcompletestate(path, 'state_2', 0, message, 0, 0)
 
         # remplissage en cours
         elif LEVEL_OK_STATE == '0':
-            functions.setosmolateur("pump_on")
             message = "Osmolateur - remplissage en cours"
             if functions.notinstatehuit() is True:
                 functions.setcompletestate(path, 'state_3', 0, message, 0, 0)
 
         # osmolateur off
         else:
-            functions.setosmolateur("off")
             message = "Osmolateur - off"
             functions.setcompletestate(path, 'state_5', 1, message, 1, 0)
 

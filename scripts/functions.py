@@ -81,34 +81,6 @@ def setcontrole(value):
         raise
 
 
-def setosmolateur(state):
-    try:
-        state = str(state)
-
-        mydb = connect()
-        mycursor = mydb.cursor()
-        sql = "SELECT `state` FROM `data_osmolateur` ORDER BY `data_osmolateur`.`id`  DESC LIMIT 1"
-        mycursor.execute(sql)
-        myresult = mycursor.fetchone()[0]
-
-        if myresult != state:
-            mydb = connect()
-            mycursor = mydb.cursor()
-            sql = "INSERT INTO `data_osmolateur`( `state`) VALUES ('" + state + "')"
-            mycursor.execute(sql)
-
-            mydb.commit()
-            mydb.close()
-
-    except Exception as e:
-        message = "SQL - ERREUR - setosmolateur"
-        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
-        mail(message, body)
-        setlog(message + str(e))
-
-        raise
-
-
 def setdebit(value):
     try:
         mydb = connect()
