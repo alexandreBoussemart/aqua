@@ -36,6 +36,13 @@ try {
             break;
         }
 
+        if (haveTimer($link, REACTEUR)) {
+            setControle($link, CONTROLE_REACTEUR);
+            setState($link, REACTEUR, 'state_97', 0, "Réacteur - Pause timer");
+
+            continue;
+        }
+
         // on execute la commande
         exec("python " . __DIR__ . "/../../../scripts/reacteur.py");
         sleep(5);

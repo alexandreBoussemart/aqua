@@ -327,8 +327,16 @@ function date_time() {
     nowHours = moment().format('HH:mm:ss');
     document.getElementById('timer').innerHTML = nowHours;
     document.getElementById('timer-date').innerHTML = nowDate;
-    setTimeout(function () { date_time(); }, 1000);
+    setTimeout(function () {
+        date_time();
+    }, 1000);
 }
+
 date_time();
 
-
+$(function () {
+    function removeMessages() {
+        $("#messages").remove();
+    }
+    window.setTimeout(removeMessages, 3500);
+});

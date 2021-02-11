@@ -10,9 +10,8 @@ $listes_status_rapides = mysqli_query($link, $sql);
 $last = '1';
 
 $ecumeurHaveTimer = haveTimer($link, ECUMEUR);
-?>
+$reacteurHaveTimer = haveTimer($link, REACTEUR);
 
-<?php
 $checks = allCheckLastTimeCheck("", "", $link, false);
 $checks = array_filter($checks);
 ?>
@@ -60,6 +59,26 @@ $checks = array_filter($checks);
                             </button>
                         </form>
                         <p>jusqu'à <?= getFormattedHours(getTimer($link, ECUMEUR), $link) ?></p>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="form-group form-timer">
+                <div class="timer-forms">
+                    <form method="post" action="controller/saveTimer" class="form-horizontal form-label-left switch-timer">
+                        <input type="hidden" name="timer_reacteur" value="1"/>
+                        <button type="submit"
+                                class="btn btn-default <?php if ($reacteurHaveTimer): echo 'haveTimer'; else: echo 'noTimer'; endif;?>">
+                            Pause réacteur
+                        </button>
+                    </form>
+                    <?php if ($reacteurHaveTimer): ?>
+                        <form method="post" action="controller/saveTimer" class="form-horizontal form-label-left switch-timer">
+                            <input type="hidden" name="remove_timer_reacteur" value="1"/>
+                            <button type="submit"class="btn">
+                                <i class="fa fa-close"></i>
+                            </button>
+                        </form>
+                        <p>jusqu'à <?= getFormattedHours(getTimer($link, REACTEUR), $link) ?></p>
                     <?php endif; ?>
                 </div>
             </div>

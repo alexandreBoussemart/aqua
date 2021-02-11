@@ -36,8 +36,7 @@ try {
             break;
         }
 
-        $ecumeurHaveTimer = haveTimer($link, ECUMEUR);
-        if($ecumeurHaveTimer){
+        if(haveTimer($link, ECUMEUR)){
             // on éteint
             exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
             setControle($link, CONTROLE_ECUMEUR);
