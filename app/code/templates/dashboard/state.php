@@ -34,7 +34,7 @@ $states = mysqli_query($link, $sql);
                 $message = '';
                 if ($obj->path == TEMPERATURE && $obj->error == '0') {
                     $message = getLastData($link, "data_temperature_eau", " °C");
-                } elseif ($obj->path == REACTEUR && $obj->error == '0') {
+                } elseif ($obj->path == REACTEUR && $obj->error == '0' && $obj->value == 'state_97') {
                     $message = getLastData($link, "data_reacteur", " l/min");
                 } else {
                     $message = explode('-', $obj->message);
