@@ -13,9 +13,9 @@ const TEMPERATURE = 'temperature';
 const REACTEUR = 'reacteur';
 
 /* tables */
-const TABLE_CORE_CONFIG = '`core_config`';
+const TABLE_CORE_CONFIG = '`core_config_value`';
 const TABLE_STATE = '`state`';
-const TABLE_STATUS = '`status`';
+const TABLE_STATUS = '`core_config_status`';
 const TABLE_LOG_MAIL = '`log_mail`';
 const TABLE_DATA_EAU = '`data_parametres_eau`';
 const TABLE_DATA_CHANGEMENT_EAU = '`data_changement_eau`';
