@@ -33,14 +33,13 @@ $rappel = [
 ];
 
 /**
- * @param      $data
- * @param      $transport
- * @param      $subject
- * @param      $content
+ * @param $data
+ * @param $transport
+ * @param $subject
+ * @param $content
  * @param null $link
  * @param bool $force
- *
- * @return int
+ * @return bool|int
  */
 function sendMail($data, $transport, $subject, $content, $link = null, $force = false)
 {
@@ -72,7 +71,7 @@ function sendMail($data, $transport, $subject, $content, $link = null, $force = 
  *
  * @return bool
  */
-function getStatus($link, $name)
+function getStatus($link, $name): bool
 {
     try {
         return file_exists(__DIR__ . "/../../../config/" . $name);
@@ -86,7 +85,7 @@ function getStatus($link, $name)
  * @param $name
  * @return bool
  */
-function getStateRelais($link, $name)
+function getStateRelais($link, $name): bool
 {
     try {
         return file_exists(__DIR__ . "/../../../statusRelais/" . $name);
@@ -100,7 +99,7 @@ function getStateRelais($link, $name)
  * @param        $temp
  * @param string $table
  */
-function insertTemperature($link, $temp, $table = "`data_temperature_eau`")
+function insertTemperature($link, $temp, $table = "`data_temperature_eau`"): void
 {
     try {
         $sql = '# noinspection SqlNoDataSourceInspectionForFile 
@@ -189,7 +188,7 @@ function readTemperature($content)
  * @param $link
  * @param $value
  */
-function setControle($link, $value)
+function setControle($link, $value): void
 {
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -213,7 +212,7 @@ function setControle($link, $value)
  *
  * @return bool
  */
-function setState($link, $path, $value, $error, $message, $exclude = 0, $force_log = false)
+function setState($link, $path, $value, $error, $message, $exclude = 0, $force_log = false): bool
 {
     try {
         $file = __DIR__ . "/../../../state/" . $path . '-' . $value;
@@ -250,7 +249,7 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
  * @param $link
  * @param $message
  */
-function setLog($link, $message)
+function setLog($link, $message): void
 {
     $message = str_replace("'", "\'", $message);
     // met ligne dans table log
@@ -266,7 +265,7 @@ function setLog($link, $message)
  * @param $sujet
  * @param $message
  */
-function setLogMail($link, $sujet, $message)
+function setLogMail($link, $sujet, $message): void
 {
     $message = str_replace('"', "'", $message);
     $message = str_replace("'", "\'", $message);
@@ -280,37 +279,12 @@ function setLogMail($link, $sujet, $message)
 }
 
 /**
- * @param $key
- *
- * @return mixed
- */
-function getLabel($key)
-{
-    $array = [
-        '' => "",
-        'off' => "Off",
-        'ok' => "Niveau d'eau OK",
-        "pump_on" => "En cours de remplissage",
-        "to_low" => "Niveau d'eau bas",
-        "to_high" => "Niveau d'eau haut",
-        "off_rappel" => "RAPPEL - Off",
-        "to_low_rappel" => "RAPPEL - Niveau d'eau bas",
-        "pump_on_20" => "Pompe allumée plus de 20 secondes",
-        "pump_on_20_rappel" => "RAPPEL - Pompe allumée plus de 20 secondes",
-        "to_high_rappel" => "RAPPEL - Niveau d'eau haut",
-        "error" => "Erreur"
-    ];
-
-    return $array[$key];
-}
-
-/**
  * @param $date
  *
  * @return string
  * @throws Exception
  */
-function getFormattedDate($date)
+function getFormattedDate($date): string
 {
     $format = new DateTime($date);
 
@@ -323,7 +297,7 @@ function getFormattedDate($date)
  * @return string
  * @throws Exception
  */
-function getFormattedDateWithouH($date)
+function getFormattedDateWithouH($date): string
 {
     $format = new DateTime($date);
 
@@ -335,9 +309,9 @@ function getFormattedDateWithouH($date)
  * @param $link
  * @return string
  */
-function getFormattedHours($date, $link)
+function getFormattedHours($date, $link): string
 {
-    try{
+    try {
         $format = new DateTime($date);
 
         return $format->format('H:i');
@@ -348,17 +322,15 @@ function getFormattedHours($date, $link)
     }
 
     return '';
-
 }
 
 /**
  * @param $date1
  * @param $date2
- *
- * @return float|int
+ * @return int
  * @throws Exception
  */
-function getNumberDaysBetweenDate($date1, $date2)
+function getNumberDaysBetweenDate($date1, $date2): int
 {
     $dateStart = new DateTime($date1);
     $dateEnd = new DateTime($date2);
@@ -375,7 +347,7 @@ function getNumberDaysBetweenDate($date1, $date2)
             }
         }
 
-        return $result;
+        return (int)$result;
     }
 }
 
@@ -408,7 +380,7 @@ function days($x)
  * @param $data
  * @param $code
  */
-function setStatus($link, $data, $code)
+function setStatus($link, $data, $code): void
 {
     try {
         if (isset($data)) {
@@ -458,7 +430,7 @@ function setStatus($link, $data, $code)
  * @param $data
  * @param $code
  */
-function setConfig($link, $data, $code)
+function setConfig($link, $data, $code): void
 {
     try {
         if (isset($data)) {
@@ -487,7 +459,7 @@ function setConfig($link, $data, $code)
 /**
  * @return bool
  */
-function isOn()
+function isOn(): bool
 {
     $date = new DateTime();
     $now = $date->format('Y-m-d H:i:s');
@@ -513,7 +485,7 @@ function isOn()
 /**
  * @param $link
  */
-function clear($link)
+function clear($link): void
 {
     try {
         $date = new DateTime();
@@ -521,10 +493,6 @@ function clear($link)
         $date->modify($periode);
         $limit = $date->format('Y-m-d H:i:s');
 
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM " . TABLE_LOG . " 
-                WHERE `created_at` < '" . $limit . "';";
-        $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 DELETE FROM " . TABLE_DATA_REACTEUR . " 
                 WHERE `created_at` < '" . $limit . "';";
@@ -539,6 +507,10 @@ function clear($link)
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
                 DELETE FROM " . TABLE_DATA_TEMP_RPI . " 
+                WHERE `created_at` < '" . $limit . "';";
+        $link->query($sql);
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+                DELETE FROM " . TABLE_LOG . " 
                 WHERE `created_at` < '" . $limit . "';";
         $link->query($sql);
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -557,7 +529,7 @@ function clear($link)
  *
  * @return bool
  */
-function getStatusVentilateur($link, $currentTemperature)
+function getStatusVentilateur($link, $currentTemperature): bool
 {
     try {
         $result = false;
@@ -579,7 +551,7 @@ function getStatusVentilateur($link, $currentTemperature)
  *
  * @return bool
  */
-function getConfig($link, $name)
+function getConfig($link, $name): bool
 {
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -608,7 +580,7 @@ function getConfig($link, $name)
  * @param $data
  * @param $transport
  */
-function envoyerMail($link, $data, $transport)
+function envoyerMail($link, $data, $transport): void
 {
     try {
         // on fait le premier mail
@@ -657,7 +629,7 @@ function envoyerMail($link, $data, $transport)
  * @param $transport
  * @param $tempsMailRappel
  */
-function envoyerMailRappel($link, $data, $transport, $tempsMailRappel)
+function envoyerMailRappel($link, $data, $transport, $tempsMailRappel): void
 {
     try {
         //on fait le mail de rappel et renit la date a now
@@ -708,7 +680,7 @@ function envoyerMailRappel($link, $data, $transport, $tempsMailRappel)
  * @param $data
  * @param $transport
  */
-function checkDisableSendMail($link, $data, $transport)
+function checkDisableSendMail($link, $data, $transport): void
 {
     try {
         //on fait le mail de rappel et renit la date a now
@@ -725,7 +697,6 @@ function checkDisableSendMail($link, $data, $transport)
         $row = mysqli_fetch_assoc($result);
 
         $count = $row['count'];
-
         $status = getStatus($link, 'mail');
 
         if ($count && intval($count) > 10 && $status) {
@@ -738,7 +709,6 @@ function checkDisableSendMail($link, $data, $transport)
             sendMail($data, $transport, "Erreur - Spam mail", $body, $link, true);
             setLog($link, $message);
         }
-
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
@@ -749,7 +719,7 @@ function checkDisableSendMail($link, $data, $transport)
  * @param $data
  * @param $transport
  */
-function envoyerMail8h($link, $data, $transport)
+function envoyerMail8h($link, $data, $transport): void
 {
     try {
         //controle 8h
@@ -790,7 +760,7 @@ function envoyerMail8h($link, $data, $transport)
  *
  * @return bool
  */
-function isRunOver20seconds($link, $tempsMaxPompeOsmolateur)
+function isRunOver20seconds($link, $tempsMaxPompeOsmolateur): bool
 {
     try {
         // si c'est le state 3 et qu'il a moins de 20 secondes
@@ -833,7 +803,7 @@ function isRunOver20seconds($link, $tempsMaxPompeOsmolateur)
  * @param $link
  * @return bool
  */
-function isRun($link)
+function isRun($link): bool
 {
     try {
         // si c'est le state 3 c'est que c'est remplissage en cours
@@ -860,7 +830,7 @@ function isRun($link)
  * @param $link
  * @return bool
  */
-function isRunEcumeur($link)
+function isRunEcumeur($link): bool
 {
     try {
         // si c'est le state 2 c'est que niveau godet ok
@@ -883,12 +853,11 @@ function isRunEcumeur($link)
     return false;
 }
 
-
 /**
  * @param $link
  * @return bool
  */
-function isNiveauToHigh($link)
+function isNiveauToHigh($link): bool
 {
     try {
         // si c'est le state 1 osmolateur c'est que le niveau est trop haut
@@ -916,7 +885,7 @@ function isNiveauToHigh($link)
  * @param $data
  * @param $type
  */
-function setParam($link, $data, $type)
+function setParam($link, $data, $type): void
 {
     try {
         $data = str_replace(',', '.', $data);
@@ -1012,7 +981,7 @@ function checkLastTimeCheck($data, $transport, $link, array $param, $message, $s
  *
  * @return array
  */
-function allCheckLastTimeCheck($data, $transport, $link, $sendMail = true)
+function allCheckLastTimeCheck($data, $transport, $link, $sendMail = true): array
 {
     $result = [];
 
@@ -1086,7 +1055,7 @@ function allCheckLastTimeCheck($data, $transport, $link, $sendMail = true)
  *
  * @return string
  */
-function getLastData($link, $table, $suffix)
+function getLastData($link, $table, $suffix): string
 {
     try {
         // dernière temperature
@@ -1119,7 +1088,7 @@ function getLastData($link, $table, $suffix)
  *
  * @return bool
  */
-function clean($link, $type)
+function clean($link, $type): bool
 {
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -1168,7 +1137,7 @@ function getDateLastClean($link, $type)
  * @param $file
  * @param $message
  */
-function logInFile($link, $file, $message)
+function logInFile($link, $file, $message): void
 {
     if (getStatus($link, 'log_in_files') == true) {
         $file = __DIR__ . "/../../../var/log/" . $file;
@@ -1183,7 +1152,7 @@ function logInFile($link, $file, $message)
  * @param $type
  * @param $message
  */
-function setMessage($type, $message)
+function setMessage($type, $message): void
 {
     session_start();
     $data[$type][] = $message;
@@ -1198,7 +1167,7 @@ function setMessage($type, $message)
  *
  * @return string
  */
-function getLastParam($link, $type, $evolution)
+function getLastParam($link, $type, $evolution): string
 {
     try {
         $label = '';
@@ -1251,7 +1220,7 @@ function getLastParam($link, $type, $evolution)
  *
  * @return string
  */
-function getLastDiffParam($link, $type)
+function getLastDiffParam($link, $type): string
 {
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -1322,7 +1291,7 @@ function getLastDiffParam($link, $type)
  *
  * @return string
  */
-function getLastChangementEau($link)
+function getLastChangementEau($link): string
 {
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -1358,7 +1327,7 @@ function getLastChangementEau($link)
  *
  * @return string
  */
-function getOlderData($link)
+function getOlderData($link): string
 {
     try {
         $dates = [];
@@ -1452,7 +1421,7 @@ function getOlderData($link)
  * @return string
  * @throws Exception
  */
-function getDaysBeforeAlert($link, $name, $value)
+function getDaysBeforeAlert($link, $name, $value): string
 {
     $messages = [
         "check_changement_eau" => "Pas de changement d'eau depuis XX jours !",
@@ -1505,7 +1474,7 @@ function getDaysBeforeAlert($link, $name, $value)
 /**
  * @return array
  */
-function getCrons()
+function getCrons(): array
 {
     $directory = __DIR__ . '/../cron/';
     $results = [];
@@ -1528,7 +1497,7 @@ function getCrons()
  * @param $data
  * @return string
  */
-function getCurrentTemperature($link, $data)
+function getCurrentTemperature($link, $data): string
 {
     try {
         // on défini le chemin du fichier
@@ -1568,7 +1537,7 @@ function getContentTempFileCron($link)
  * @param $subject
  * @return int
  */
-function dumpBDD($data, $transport, $subject)
+function dumpBDD($data, $transport, $subject): int
 {
     $date = date('Ymd-H\hi');
     $file = __DIR__ . "/../../../var/backup/dump_{$data['database'][0]['database']}_{$date}";
@@ -1601,7 +1570,7 @@ function dumpBDD($data, $transport, $subject)
  * @param $type
  * @return string
  */
-function insertTimer($link, $type)
+function insertTimer($link, $type): string
 {
     try {
         $periode = $temperature = getConfig($link, "timer_" . $type);
@@ -1630,7 +1599,7 @@ function insertTimer($link, $type)
  * @param $type
  * @return bool
  */
-function haveTimer($link, $type)
+function haveTimer($link, $type): bool
 {
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -1658,7 +1627,7 @@ function haveTimer($link, $type)
  * @param $type
  * @return bool
  */
-function removeTimer($link, $type)
+function removeTimer($link, $type): bool
 {
     try {
         $sql = "# noinspection SqlNoDataSourceInspectionForFile 
