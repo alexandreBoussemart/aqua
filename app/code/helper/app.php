@@ -1507,7 +1507,7 @@ function getDaysBeforeAlert($link, $name, $value)
  */
 function getCrons()
 {
-    $directory = __DIR__ . '/../Cron/';
+    $directory = __DIR__ . '/../cron/';
     $results = [];
     if ($handle = opendir($directory)) {
         while (false !== ($entry = readdir($handle))) {
