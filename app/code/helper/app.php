@@ -1442,7 +1442,7 @@ function getDaysBeforeAlert($link, $name, $value): string
         "", $name, 0);
 
     if ($result) {
-        return "<p style='color:red'>" . $result . "</p>";
+        return '<div class="alert alert-danger" role="alert">' . $result . '</div>';
     }
 
     $sql = "# noinspection SqlNoDataSourceInspectionForFile 
@@ -1466,7 +1466,12 @@ function getDaysBeforeAlert($link, $name, $value): string
         $time = "dans " . $leftTime . " jour";
     }
 
-    return "Prochaine alerte " . $time;
+    $class = 'alert alert-dark';
+    if ($leftTime <= 2) {
+        $class = 'alert alert-warning';
+    }
+
+    return '<div class="' . $class . '" role="alert">Prochaine alerte ' . $time . '</div>';
 
 }
 
