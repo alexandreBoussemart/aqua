@@ -1466,7 +1466,7 @@ function getDaysBeforeAlert($link, $name, $value): string
         $time = "dans " . $leftTime . " jour";
     }
 
-    $class = 'alert alert-dark';
+    $class = 'alert alert-info';
     if ($leftTime <= 2) {
         $class = 'alert alert-warning';
     }
