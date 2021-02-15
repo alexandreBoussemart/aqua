@@ -6924,6 +6924,16 @@ ul.notifications {
 
 .input-conf > p {
   margin-bottom: 0; }
+.input-conf .alert {
+  margin-top: 10px;
+  margin-bottom: 0;
+  padding: 5px 10px; }
+  .input-conf .alert-info {
+    color: #004085; }
+  .input-conf .alert-warning {
+    color: #856404; }
+  .input-conf .alert-danger {
+    color: #721c24; }
 
 .hidden {
   display: none; }

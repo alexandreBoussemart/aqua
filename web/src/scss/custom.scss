@@ -8912,6 +8912,24 @@ ul.notifications {
   > p {
     margin-bottom: 0;
   }
+
+  .alert {
+    margin-top: 10px;
+    margin-bottom: 0;
+    padding: 5px 10px;
+
+    &-info {
+      color: #004085;
+    }
+
+    &-warning {
+      color: #856404;
+    }
+
+    &-danger {
+      color: #721c24;
+    }
+  }
 }
 
 .hidden {
