@@ -11,3 +11,4 @@ state/*
 statusRelais/*
 var/backup
 var/backup/*
+docs
