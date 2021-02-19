@@ -12,7 +12,7 @@
     // changement eau
     $sql = "# noinspection SqlNoDataSourceInspectionForFile  
         SELECT * 
-        FROM ".TABLE_DATA_CHANGEMENT_EAU." 
+        FROM " . TABLE_DATA_CHANGEMENT_EAU . " 
         LIMIT 50;";
     $request = mysqli_query($link, $sql);
     $changements = mysqli_query($link, $sql);
@@ -29,13 +29,13 @@
             yLabelFormat: function (y) {
                 return y.toString() + ' °C';
             },
-            goals: [<?= getConfig($link, "temperature_min") ?>, 25, <?= getConfig($link, "temperature_max") ?>],
-            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goals: [<?= getConfig($link, "temperature_min") ?>, 25, <?= getConfig($link, "config_temperature_declenchement") ?>, <?= getConfig($link, "temperature_max") ?>],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#ffc107', '#d43f3a'],
             goalStrokeWidth: '2',
             pointStrokeColors: ['#2A3F54'],
             hideHover: 'auto',
-            ymin: 15,
-            ymax: 35,
+            ymin: 20,
+            ymax: 30,
             pointSize: 1,
             lineColors: ['#2A3F54'],
             data: [
@@ -179,7 +179,7 @@
     $isFirst = true;
     $eventsChangementdeauFinal = [];
     while ($obj = $kh->fetch_object()) {
-        if($isFirst){
+        if ($isFirst) {
             $dateFirst = $obj->created_at;
             $isFirst = false;
         }
@@ -189,7 +189,7 @@
     $dateFirst = new DateTime($dateFirst);
     foreach ($changements as $changement) {
         $dateChangement = new DateTime($changement["created_at"]);
-        if($dateFirst <= $dateChangement && $dateLast >= $dateChangement ) {
+        if ($dateFirst <= $dateChangement && $dateLast >= $dateChangement) {
             $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
         }
     }
@@ -245,7 +245,7 @@
     $isFirst = true;
     $eventsChangementdeauFinal = [];
     while ($obj = $ca->fetch_object()) {
-        if($isFirst){
+        if ($isFirst) {
             $dateFirst = $obj->created_at;
             $isFirst = false;
         }
@@ -255,7 +255,7 @@
     $dateFirst = new DateTime($dateFirst);
     foreach ($changements as $changement) {
         $dateChangement = new DateTime($changement["created_at"]);
-        if($dateFirst <= $dateChangement && $dateLast >= $dateChangement ) {
+        if ($dateFirst <= $dateChangement && $dateLast >= $dateChangement) {
             $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
         }
     }
@@ -313,7 +313,7 @@
     $isFirst = true;
     $eventsChangementdeauFinal = [];
     while ($obj = $ca->fetch_object()) {
-        if($isFirst){
+        if ($isFirst) {
             $dateFirst = $obj->created_at;
             $isFirst = false;
         }
@@ -323,7 +323,7 @@
     $dateFirst = new DateTime($dateFirst);
     foreach ($changements as $changement) {
         $dateChangement = new DateTime($changement["created_at"]);
-        if($dateFirst <= $dateChangement && $dateLast >= $dateChangement ) {
+        if ($dateFirst <= $dateChangement && $dateLast >= $dateChangement) {
             $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
         }
     }
@@ -380,7 +380,7 @@
     $isFirst = true;
     $eventsChangementdeauFinal = [];
     while ($obj = $ca->fetch_object()) {
-        if($isFirst){
+        if ($isFirst) {
             $dateFirst = $obj->created_at;
             $isFirst = false;
         }
@@ -390,7 +390,7 @@
     $dateFirst = new DateTime($dateFirst);
     foreach ($changements as $changement) {
         $dateChangement = new DateTime($changement["created_at"]);
-        if($dateFirst <= $dateChangement && $dateLast >= $dateChangement ) {
+        if ($dateFirst <= $dateChangement && $dateLast >= $dateChangement) {
             $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
         }
     }
@@ -447,7 +447,7 @@
     $isFirst = true;
     $eventsChangementdeauFinal = [];
     while ($obj = $mg->fetch_object()) {
-        if($isFirst){
+        if ($isFirst) {
             $dateFirst = $obj->created_at;
             $isFirst = false;
         }
@@ -458,7 +458,7 @@
 
     foreach ($changements as $changement) {
         $dateChangement = new DateTime($changement["created_at"]);
-        if($dateFirst <= $dateChangement && $dateChangement <= $dateLast ) {
+        if ($dateFirst <= $dateChangement && $dateChangement <= $dateLast) {
             $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
         }
     }
@@ -516,7 +516,7 @@
     $isFirst = true;
     $eventsChangementdeauFinal = [];
     while ($obj = $densite->fetch_object()) {
-        if($isFirst){
+        if ($isFirst) {
             $dateFirst = $obj->created_at;
             $isFirst = false;
         }
@@ -527,7 +527,7 @@
 
     foreach ($changements as $changement) {
         $dateChangement = new DateTime($changement["created_at"]);
-        if($dateFirst <= $dateChangement && $dateChangement <= $dateLast ) {
+        if ($dateFirst <= $dateChangement && $dateChangement <= $dateLast) {
             $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
         }
     }
