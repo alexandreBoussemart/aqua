@@ -42,6 +42,8 @@
  * and open the template in the editor.
  */
 
+
+
 // Sidebar
 $(document).ready(function () {
     var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],

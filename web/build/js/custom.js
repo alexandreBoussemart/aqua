@@ -465,6 +465,8 @@ return a=K(a),this[a+"s"]()}function $c(a){return function(){return this._data[a
  * and open the template in the editor.
  */
 
+
+
 // Sidebar
 $(document).ready(function () {
     var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
