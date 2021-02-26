@@ -278,7 +278,8 @@ table.no-margin .progress {
       .top_nav .navbar-right .logo-mobile .logo-m span {
         font-weight: 400;
         font-size: 22px;
-        color: #5A738E; }
+        color: #5A738E;
+        padding: 0 20px; }
 
 .site_title {
   text-overflow: ellipsis;
