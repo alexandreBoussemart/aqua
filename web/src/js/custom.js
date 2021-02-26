@@ -332,11 +332,15 @@ function date_time() {
     }, 1000);
 }
 
-date_time();
-
 $(function () {
+    date_time();
+
     function removeMessages() {
         $("#messages").remove();
     }
     window.setTimeout(removeMessages, 3500);
+});
+
+$MENU_TOGGLE.on('click', function () {
+    $(window).resize();
 });

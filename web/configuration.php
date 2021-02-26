@@ -34,7 +34,7 @@
             </div>
         </div>
         <?php  require '../app/code/templates/footer.php'; ?>
-        <?php  require '../app/code/templates/js.php'; ?>
+        <?php  require '../app/code/templates/configuration/js.php'; ?>
     </body>
 </html>
 
