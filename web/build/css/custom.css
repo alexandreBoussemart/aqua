@@ -1344,28 +1344,6 @@ header {
 .alert {
   margin-bottom: 10px; }
 
-.loading-mask {
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  position: fixed;
-  right: 0;
-  top: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 99999999;
-  display: none; }
-  .loading-mask .loader:before {
-    content: "\f110";
-    font-family: "porto-icons";
-    animation: spin 2s infinite linear;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 30px;
-    margin-top: -15px;
-    margin-left: -15px;
-    color: #fff; }
-
 .form-actions-rapides {
   display: -ms-flexbox;
   display: flex;
@@ -4994,7 +4972,7 @@ ul.notifications {
   right: 0;
   top: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
+  z-index: 9999999;
   display: none; }
   .loading-mask .loader:before {
     content: "\f110";

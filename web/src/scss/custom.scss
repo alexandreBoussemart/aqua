@@ -1791,36 +1791,6 @@ header {
   margin-bottom: 10px;
 }
 
-.loading-mask {
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  position: fixed;
-  right: 0;
-  top: 0;
-  background: rgba(0, 0, 0, .5);
-  z-index: 99999999;
-  display: none;
-
-  .loader {
-    &:before {
-      content: "\f110";
-      font-family: "porto-icons";
-      -moz-animation: spin 2s infinite linear;
-      -o-animation: spin 2s infinite linear;
-      -webkit-animation: spin 2s infinite linear;
-      animation: spin 2s infinite linear;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      font-size: 30px;
-      margin-top: -15px;
-      margin-left: -15px;
-      color: #fff;
-    }
-  }
-}
-
 .form-actions-rapides {
   display: flex;
   align-items: center;
@@ -6466,7 +6436,7 @@ ul.notifications {
   right: 0;
   top: 0;
   background: rgba(0, 0, 0, .5);
-  z-index: 9999;
+  z-index: 9999999;
   display: none;
 
   .loader {
