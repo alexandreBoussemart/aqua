@@ -78,4 +78,47 @@
     }
     <?php endif; ?>
 
+    <?php if(isset($reacteur) && $reacteur): ?>
+    if ($('#graph_debit').length) {
+        Morris.Line({
+            element: 'graph_debit',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Débit'],
+            yLabelFormat: function (y) {
+                return y.toString();
+            },
+            xLabelFormat: function (d) {
+                return ("0" + (d.getHours())).slice(-2) + ':' +
+                    ("0" + (d.getMinutes())).slice(-2);
+            },
+            goals: [<?= getConfig($link, "debit_reacteur_min") ?>],
+            goalLineColors: ['#2B46F0'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 900,
+            ymax: 1500,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            data: [
+                <?php while($obj = $reacteur->fetch_object()){ ?>
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDate($obj->created_at); ?>'
+                },
+                <?php } ?>
+            ],
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                content = content.replace(row.value, row.value + ' l/h');
+
+                return (content);
+            }
+        });
+    }
+    <?php endif; ?>
+
 </script>

@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
         <?php  require '../app/code/templates/head.php'; ?>
-        <title>Reef Picf - Dashboard</title>
+        <title>Reef Pi - Dashboard</title>
     </head>
 
     <?php require '../app/code/templates/header.php'; ?>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <?php  require '../app/code/templates/footer.php'; ?>
-        <?php  require '../app/code/templates/analyse/js.php'; ?>
+        <?php  require '../app/code/templates/dashboard/js.php'; ?>
     </body>
 </html>
 
