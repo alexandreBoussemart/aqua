@@ -26,10 +26,10 @@ GPIO.add_event_detect(FLOW_SENSOR, GPIO.FALLING, callback=countpulse)
 
 
 start_counter = 1
-time.sleep(10)
+time.sleep(20)
 start_counter = 0
-flow = int(round((count * 60 * 7.5 / 10)))
-flow = int(flow / 10)
+flow = int(round((count * 60 * 7.5 / 20)))
+flow = int(flow / 20)
 
 print(str(flow) + " l/min")
 

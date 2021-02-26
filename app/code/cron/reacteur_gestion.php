@@ -12,21 +12,23 @@ try {
         exit;
     }
 
-    if(isOn()) {
+    if (isOn()) {
         if (getStatus($link, 'reacteur_eclairage')) {
             exec("python " . __DIR__ . "/../../../scripts/reacteur_eclairage/on.py");
-        }else {
+        } else {
             exec("python " . __DIR__ . "/../../../scripts/reacteur_eclairage/off.py");
+            setStatus($link, null, 'force_turn_on_eclairage');
         }
 
         if (getStatus($link, 'reacteur_ventilateur')) {
-            exec("python ".__DIR__."/../../../scripts/reacteur_ventilateur/on.py");
-        }else {
+            exec("python " . __DIR__ . "/../../../scripts/reacteur_ventilateur/on.py");
+        } else {
             exec("python " . __DIR__ . "/../../../scripts/reacteur_ventilateur/off.py");
         }
-    }else{
+    } else {
         exec("python " . __DIR__ . "/../../../scripts/reacteur_eclairage/off.py");
         exec("python " . __DIR__ . "/../../../scripts/reacteur_ventilateur/off.py");
+        setStatus($link, null, 'force_turn_on_eclairage');
     }
 
     exit;
