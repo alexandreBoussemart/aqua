@@ -10,7 +10,7 @@ php_flag display_errors 1
 Header set Cache-Control "max-age=2592000, public"
 </FilesMatch>
 
-<FilesMatch "\\.(x?html?|php)$">
+<FilesMatch "\\.(x?html?)$">
 Header set Cache-Control "max-age=600, private, must-revalidate"
 </FilesMatch>
 
