@@ -1,0 +1,416 @@
+<script>
+    <?php
+    // changement eau
+    $sql = "# noinspection SqlNoDataSourceInspectionForFile  
+        SELECT * 
+        FROM " . TABLE_DATA_CHANGEMENT_EAU . " 
+        LIMIT 50;";
+    $request = mysqli_query($link, $sql);
+    $changements = mysqli_query($link, $sql);
+    $eventsChangementdeau = [];
+    ?>
+
+    <?php if(isset($kh) && $kh): ?>
+    <?php
+    $dateLast = $dateFirst = "";
+    $isFirst = true;
+    $eventsChangementdeauFinal = [];
+    while ($obj = $kh->fetch_object()) {
+        if ($isFirst) {
+            $dateFirst = $obj->created_at;
+            $isFirst = false;
+        }
+        $dateLastStr = $obj->created_at;
+    }
+    $dateLast = new DateTime($dateLastStr);
+    $dateFirst = new DateTime($dateFirst);
+    foreach ($changements as $changement) {
+        $dateChangement = new DateTime($changement["created_at"]);
+        if ($dateFirst <= $dateChangement && $dateLast >= $dateChangement) {
+            $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
+        }
+    }
+    $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    $kh = mysqli_query($link, $sql_kh);
+    ?>
+
+    if ($('#graph_kh').length) {
+        Morris.Line({
+            element: 'graph_kh',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Kh'],
+            yLabelFormat: function (y) {
+                return y.toString() + ' dkh';
+            },
+            xLabelFormat: function (d) {
+                return ("0" + (d.getDate())).slice(-2) + '/' +
+                    ("0" + (d.getMonth() + 1)).slice(-2);
+            },
+            goals: [6, 7, 10],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 4,
+            ymax: 12,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            events: <?= $eventsChangementdeauFinal ?>,
+            eventLineColors: ['#007bff'],
+            data: [
+                <?php while($obj = $kh->fetch_object()){ ?>
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'
+                },
+                <?php } ?>
+            ],
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                return (content);
+            }
+        });
+    }
+    <?php endif; ?>
+
+    <?php if(isset($ca) && $ca): ?>
+    <?php
+    $dateLast = $dateFirst = "";
+    $isFirst = true;
+    $eventsChangementdeauFinal = [];
+    while ($obj = $ca->fetch_object()) {
+        if ($isFirst) {
+            $dateFirst = $obj->created_at;
+            $isFirst = false;
+        }
+        $dateLastStr = $obj->created_at;
+    }
+    $dateLast = new DateTime($dateLastStr);
+    $dateFirst = new DateTime($dateFirst);
+    foreach ($changements as $changement) {
+        $dateChangement = new DateTime($changement["created_at"]);
+        if ($dateFirst <= $dateChangement && $dateLast >= $dateChangement) {
+            $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
+        }
+    }
+    $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    $ca = mysqli_query($link, $sql_ca);
+    ?>
+
+    if ($('#graph_ca').length) {
+        Morris.Line({
+            element: 'graph_ca',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Ca'],
+            yLabelFormat: function (y) {
+                return y.toString()
+            },
+            xLabelFormat: function (d) {
+                return ("0" + (d.getDate())).slice(-2) + '/' +
+                    ("0" + (d.getMonth() + 1)).slice(-2);
+            },
+            goals: [400, 420, 450],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 350,
+            ymax: 500,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            events: <?= $eventsChangementdeauFinal ?>,
+            eventLineColors: ['#007bff'],
+            data: [
+                <?php while($obj = $ca->fetch_object()){ ?>
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'
+                },
+                <?php } ?>
+            ],
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                content = content.replace(row.value, row.value + ' mg/l');
+
+                return (content);
+            }
+        });
+    }
+    <?php endif; ?>
+
+    <?php if(isset($nitrate) && $nitrate): ?>
+    <?php
+    $dateLast = $dateFirst = "";
+    $isFirst = true;
+    $eventsChangementdeauFinal = [];
+    while ($obj = $ca->fetch_object()) {
+        if ($isFirst) {
+            $dateFirst = $obj->created_at;
+            $isFirst = false;
+        }
+        $dateLastStr = $obj->created_at;
+    }
+    $dateLast = new DateTime($dateLastStr);
+    $dateFirst = new DateTime($dateFirst);
+    foreach ($changements as $changement) {
+        $dateChangement = new DateTime($changement["created_at"]);
+        if ($dateFirst <= $dateChangement && $dateLast >= $dateChangement) {
+            $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
+        }
+    }
+    $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    $nitrate = mysqli_query($link, $sql_nitrate);
+    ?>
+    if ($('#graph_nitrate').length) {
+        Morris.Line({
+            element: 'graph_nitrate',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Nitrate'],
+            yLabelFormat: function (y) {
+                return y.toString()
+            },
+            xLabelFormat: function (d) {
+                return ("0" + (d.getDate())).slice(-2) + '/' +
+                    ("0" + (d.getMonth() + 1)).slice(-2);
+            },
+            goals: [15, 0, 26],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 0,
+            ymax: 100,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            events: <?= $eventsChangementdeauFinal ?>,
+            eventLineColors: ['#007bff'],
+            data: [
+                <?php while($obj = $nitrate->fetch_object()){ ?>
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'
+                },
+                <?php } ?>
+            ],
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                content = content.replace(row.value, row.value + ' mg/l');
+
+                return (content);
+            }
+        });
+    }
+    <?php endif; ?>
+
+    <?php if(isset($phosphate) && $phosphate): ?>
+    <?php
+    $dateLast = $dateFirst = "";
+    $isFirst = true;
+    $eventsChangementdeauFinal = [];
+    while ($obj = $ca->fetch_object()) {
+        if ($isFirst) {
+            $dateFirst = $obj->created_at;
+            $isFirst = false;
+        }
+        $dateLastStr = $obj->created_at;
+    }
+    $dateLast = new DateTime($dateLastStr);
+    $dateFirst = new DateTime($dateFirst);
+    foreach ($changements as $changement) {
+        $dateChangement = new DateTime($changement["created_at"]);
+        if ($dateFirst <= $dateChangement && $dateLast >= $dateChangement) {
+            $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
+        }
+    }
+    $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    $phosphate = mysqli_query($link, $sql_phosphate);
+    ?>
+    if ($('#graph_phosphate').length) {
+        Morris.Line({
+            element: 'graph_phosphate',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Phosphate'],
+            yLabelFormat: function (y) {
+                return y.toString()
+            },
+            xLabelFormat: function (d) {
+                return ("0" + (d.getDate())).slice(-2) + '/' +
+                    ("0" + (d.getMonth() + 1)).slice(-2);
+            },
+            goals: [0.10, 0, 1],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 0,
+            ymax: 3,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            events: <?= $eventsChangementdeauFinal ?>,
+            eventLineColors: ['#007bff'],
+            data: [
+                <?php while($obj = $phosphate->fetch_object()){ ?>
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'
+                },
+                <?php } ?>
+            ],
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                content = content.replace(row.value, row.value + ' mg/l');
+
+                return (content);
+            }
+        });
+    }
+    <?php endif; ?>
+
+    <?php if(isset($mg) && $mg): ?>
+    <?php
+    $dateLast = $dateFirst = "";
+    $isFirst = true;
+    $eventsChangementdeauFinal = [];
+    while ($obj = $mg->fetch_object()) {
+        if ($isFirst) {
+            $dateFirst = $obj->created_at;
+            $isFirst = false;
+        }
+        $dateLastStr = $obj->created_at;
+    }
+    $dateLast = new DateTime($dateLastStr);
+    $dateFirst = new DateTime($dateFirst);
+
+    foreach ($changements as $changement) {
+        $dateChangement = new DateTime($changement["created_at"]);
+        if ($dateFirst <= $dateChangement && $dateChangement <= $dateLast) {
+            $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
+        }
+    }
+    $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    $mg = mysqli_query($link, $sql_mg);
+    ?>
+
+    if ($('#graph_mg').length) {
+        Morris.Line({
+            element: 'graph_mg',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Mg'],
+            yLabelFormat: function (y) {
+                return y.toString();
+            },
+            xLabelFormat: function (d) {
+                return ("0" + (d.getDate())).slice(-2) + '/' +
+                    ("0" + (d.getMonth() + 1)).slice(-2);
+            },
+            goals: [1150, 1300, 1400],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 1100,
+            ymax: 1600,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            events: <?= $eventsChangementdeauFinal ?>,
+            eventLineColors: ['#007bff'],
+            data: [
+                <?php while($obj = $mg->fetch_object()){ ?>
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'
+                },
+                <?php } ?>
+            ],
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                content = content.replace(row.value, row.value + ' mg/l');
+
+                return (content);
+            }
+        });
+    }
+    <?php endif; ?>
+
+    <?php if(isset($densite) && $densite): ?>
+    <?php
+    $dateLast = $dateFirst = "";
+    $isFirst = true;
+    $eventsChangementdeauFinal = [];
+    while ($obj = $densite->fetch_object()) {
+        if ($isFirst) {
+            $dateFirst = $obj->created_at;
+            $isFirst = false;
+        }
+        $dateLastStr = $obj->created_at;
+    }
+    $dateLast = new DateTime($dateLastStr);
+    $dateFirst = new DateTime($dateFirst);
+
+    foreach ($changements as $changement) {
+        $dateChangement = new DateTime($changement["created_at"]);
+        if ($dateFirst <= $dateChangement && $dateChangement <= $dateLast) {
+            $eventsChangementdeauFinal[] = "'" . $changement["created_at"] . "'";
+        }
+    }
+    $eventsChangementdeauFinal = "[" . implode(",", $eventsChangementdeauFinal) . "]";
+    $densite = mysqli_query($link, $sql_densite);
+    ?>
+    if ($('#graph_densite').length) {
+        Morris.Line({
+            element: 'graph_densite',
+            xkey: 'datetime',
+            ykeys: ['value'],
+            labels: ['Densité'],
+            yLabelFormat: function (y) {
+                return y.toString();
+            },
+            xLabelFormat: function (d) {
+                return ("0" + (d.getDate())).slice(-2) + '/' +
+                    ("0" + (d.getMonth() + 1)).slice(-2);
+            },
+            goals: [1024, 1025, 1027],
+            goalLineColors: ['#2B46F0', '#7FFF00', '#d43f3a'],
+            goalStrokeWidth: '2',
+            pointStrokeColors: ['#2A3F54'],
+            hideHover: 'auto',
+            ymin: 1020,
+            ymax: 1028,
+            pointSize: 1,
+            lineColors: ['#2A3F54'],
+            events: <?= $eventsChangementdeauFinal ?>,
+            eventLineColors: ['#007bff'],
+            data: [
+                <?php while($obj = $densite->fetch_object()){ ?>
+                {
+                    datetime: '<?= $obj->created_at; ?>',
+                    value: <?= $obj->value; ?>,
+                    formatted_datetime: '<?= getFormattedDateWithouH($obj->created_at); ?>'
+                },
+                <?php } ?>
+            ],
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                content = content.replace(row.datetime, row.formatted_datetime);
+                return (content);
+            }
+        });
+    }
+    <?php endif; ?>
+
+</script>
