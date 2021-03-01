@@ -61,6 +61,10 @@ try:
         # niveau d'eau OK
         elif LEVEL_OK_STATE == '1':
             message = "Osmolateur - niveau eau OK"
+
+            if functions.instatetrois() is True:
+                sleep(5)
+
             functions.setcompletestate(path, 'state_2', 0, message, 0, 0)
 
         # remplissage en cours

@@ -267,3 +267,27 @@ def setlogmail(sujet, body):
         setlog(body)
 
         raise
+
+
+def instatetrois():
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        mycursor.execute(
+            "SELECT count(*) as count FROM `core_config_state` WHERE `path` = 'osmolateur' AND `value` = 'state_3'")
+        myresult = mycursor.fetchone()[0]
+        mydb.close()
+
+        if myresult == 0:
+            return False
+        else:
+            return True
+
+    except Exception as e:
+        message = "SQL - ERREUR - instatetrois"
+        body = "<p style='color:red;text-transform:uppercase;'>" + message + str(e) + "</p>"
+        mail(message, body)
+        setlog(message + str(e))
+
+        raise
+
