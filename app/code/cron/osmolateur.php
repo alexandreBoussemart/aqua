@@ -42,6 +42,9 @@ try {
             setControle($link, CONTROLE_OSMOLATEUR);
             setState($link, OSMOLATEUR, 'state_97', 0, "Osmolateur - Pause timer");
 
+            // on éteint
+            exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/off.py");
+
             continue;
         }
 
