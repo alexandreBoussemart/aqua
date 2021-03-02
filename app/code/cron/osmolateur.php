@@ -38,6 +38,13 @@ try {
             break;
         }
 
+        if (haveTimer($link, OSMOLATEUR)) {
+            setControle($link, CONTROLE_OSMOLATEUR);
+            setState($link, OSMOLATEUR, 'state_97', 0, "Osmolateur - Pause timer");
+
+            continue;
+        }
+
         // on execute la commande pour vérifier le statut de l'osmolateur
         exec("python " . __DIR__ . "/../../../scripts/osmolateur.py");
 
