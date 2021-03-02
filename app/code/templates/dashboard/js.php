@@ -3,6 +3,11 @@
 </script>
 
 <script>
+    $(document).ready(function () {
+        if ($(".progress .progress-bar")[0]) {
+            $('.progress .progress-bar').progressbar();
+        }
+    });
 
     <?php if(isset($temperature) && $temperature): ?>
     if ($('#graph_temperature_eau').length) {

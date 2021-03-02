@@ -4596,54 +4596,6 @@ fieldset {
   display: none; }
 
 /** jQuery Smart Wizard  **/
-/** bootstrap-progressbar  **/
-.progress {
-  border-radius: 0; }
-
-.progress-bar-info {
-  background-color: #3498DB; }
-
-.progress-bar-success {
-  background-color: #26B99A; }
-
-.progress_summary .progress {
-  margin: 5px 0 12px !important; }
-
-.progress_summary .row {
-  margin-bottom: 5px; }
-
-.progress_summary .row .col-xs-2 {
-  padding: 0; }
-
-.progress_summary .more_info span {
-  text-align: right;
-  float: right; }
-
-.progress_summary .data span {
-  text-align: right;
-  float: right; }
-
-.progress_summary p {
-  margin-bottom: 3px;
-  width: 100%; }
-
-.progress_title .left {
-  float: left;
-  text-align: left; }
-
-.progress_title .right {
-  float: right;
-  text-align: right;
-  font-weight: 300; }
-
-.progress.progress_sm {
-  border-radius: 0;
-  margin-bottom: 18px;
-  height: 10px !important; }
-
-.progress.progress_sm .progress-bar {
-  height: 10px !important; }
-
 .dashboard_graph p {
   margin: 0 0 4px; }
 
@@ -4654,9 +4606,6 @@ ul.verticle_bars li {
   width: 23%;
   height: 200px;
   margin: 0; }
-
-.progress.vertical.progress_wide {
-  width: 35px; }
 
 /** bootstrap-progressbar  **/
 /** PNotify **/
@@ -5143,3 +5092,11 @@ ul.notifications {
   .timer-forms p {
     display: inline-block;
     margin: 0; }
+
+.progress-bar-striped {
+  background-size: 1rem 1rem; }
+
+.progress-content p {
+  margin-bottom: 0; }
+.progress-content .progress {
+  margin-bottom: 4px; }

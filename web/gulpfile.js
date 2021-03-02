@@ -25,6 +25,7 @@ gulp.task('scripts', function () {
         'vendors/datatables.net-responsive/js/dataTables.responsive.min.js',
         'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js',
         'vendors/datatables.net-scroller/js/dataTables.scroller.min.js',
+        'vendors/bootstrap-progressbar/bootstrap-progressbar.min.js',
         'vendors/moment/min/moment.min.js',
         'src/js/helpers/*.js',
         'src/js/*.js'
@@ -58,7 +59,8 @@ var compileLibCSS = function (filename) {
             'vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css',
             'vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css',
             'vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css',
-            'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css'
+            'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css',
+            'vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.1.css'
         ]
     )
     // Auto-prefix css styles for cross browser compatibility

@@ -12,15 +12,9 @@ $last = '1';
 $ecumeurHaveTimer = haveTimer($link, ECUMEUR);
 $reacteurHaveTimer = haveTimer($link, REACTEUR);
 
-$checks = allCheckLastTimeCheck("", "", $link, false);
-$checks = array_filter($checks);
 ?>
 
-<?php if (count($checks) > 0): ?>
-    <div class="col-md-6 col-xs-12 col-sm-12">
-<?php else: ?>
-    <div class="col-md-12 col-xs-12 col-sm-12">
-<?php endif; ?>
+<div class="col-md-6 col-xs-12 col-sm-12">
     <div class="x_panel">
         <div class="x_title">
             <h2>Actions rapides</h2>

@@ -112,6 +112,8 @@ $(document).ready(function () {
         $('.dataTable').each(function () {
             $(this).dataTable().fnDraw();
         });
+
+        $(window).resize();
     });
 
     // check active menu
@@ -343,6 +345,3 @@ $(function () {
     window.setTimeout(removeMessages, 3500);
 });
 
-$MENU_TOGGLE.on('click', function () {
-    $(window).resize();
-});

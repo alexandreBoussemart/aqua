@@ -1674,3 +1674,45 @@ function getTimer($link, $type)
 
     return null;
 }
+
+/**
+ * @param $value
+ * @param $max
+ * @return false|float|int
+ */
+function getTransitiongoal($value, $max)
+{
+    if ($value >= $max) {
+        return 100;
+    }
+
+    return ceil($value * 100 / $max);
+}
+
+/**
+ * @param $table
+ * @param string $type
+ */
+function getDaysProgess($link, $table, $type = '')
+{
+    try {
+        $where = '';
+        if ($type) {
+            $where = "WHERE `type` = '{$type}'";
+        }
+
+        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
+            SELECT `created_at` 
+            FROM `{$table}`
+            {$where}
+            ORDER BY `id` DESC
+            LIMIT 1;";
+        $request = mysqli_query($link, $sql);
+        $date = mysqli_fetch_assoc($request);
+
+        return getNumberDaysBetweenDate($date["created_at"], date("Y-m-d H:i:s"));
+    } catch (Exception $e) {
+        return 0;
+    }
+
+}
