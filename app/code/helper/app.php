@@ -333,7 +333,9 @@ function getFormattedHours($date, $link): string
 function getNumberDaysBetweenDate($date1, $date2): int
 {
     $dateStart = new DateTime($date1);
+    $dateStart->setTime(0,0,0);
     $dateEnd = new DateTime($date2);
+    $dateEnd->setTime(0,0,0);
 
     $x1 = days($dateStart);
     $x2 = days($dateEnd);
