@@ -6612,6 +6612,10 @@ ul.notifications {
 
 .form-timer {
   margin-top: 15px;
+
+  button.btn-default {
+    min-width: 160px;
+  }
 }
 
 .switch-timer {

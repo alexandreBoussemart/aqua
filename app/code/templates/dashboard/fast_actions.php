@@ -44,7 +44,7 @@ $osmolateurHaveTimer = haveTimer($link, OSMOLATEUR);
                         <input type="hidden" name="timer_ecumeur" value="1"/>
                         <button type="submit"
                                 class="btn btn-default <?php if ($ecumeurHaveTimer): echo 'haveTimer'; else: echo 'noTimer'; endif; ?>">
-                            Pause écumeur
+                            <i class="fa fa-clock-o"></i> Pause écumeur
                         </button>
                     </form>
                     <?php if ($ecumeurHaveTimer): ?>
@@ -66,7 +66,7 @@ $osmolateurHaveTimer = haveTimer($link, OSMOLATEUR);
                         <input type="hidden" name="timer_reacteur" value="1"/>
                         <button type="submit"
                                 class="btn btn-default <?php if ($reacteurHaveTimer): echo 'haveTimer'; else: echo 'noTimer'; endif; ?>">
-                            Pause réacteur
+                            <i class="fa fa-clock-o"></i> Pause réacteur
                         </button>
                     </form>
                     <?php if ($reacteurHaveTimer): ?>
@@ -88,7 +88,7 @@ $osmolateurHaveTimer = haveTimer($link, OSMOLATEUR);
                         <input type="hidden" name="timer_osmolateur" value="1"/>
                         <button type="submit"
                                 class="btn btn-default <?php if ($osmolateurHaveTimer): echo 'haveTimer'; else: echo 'noTimer'; endif; ?>">
-                            Pause osmolateur
+                            <i class="fa fa-clock-o"></i> Pause osmolateur
                         </button>
                     </form>
                     <?php if ($osmolateurHaveTimer): ?>
