@@ -12,7 +12,6 @@ $last = '1';
 $ecumeurHaveTimer = haveTimer($link, ECUMEUR);
 $reacteurHaveTimer = haveTimer($link, REACTEUR);
 $osmolateurHaveTimer = haveTimer($link, OSMOLATEUR);
-
 ?>
 
 <div class="col-md-6 col-xs-12 col-sm-12">
@@ -101,6 +100,18 @@ $osmolateurHaveTimer = haveTimer($link, OSMOLATEUR);
                         </form>
                         <p>jusqu'à <?= getFormattedHours(getTimer($link, OSMOLATEUR), $link) ?></p>
                     <?php endif; ?>
+                </div>
+            </div>
+            <div class="form-group form-timer">
+                <div class="timer-forms">
+                    <form method="post" action="controller/saveTimer"
+                          class="form-horizontal form-label-left switch-timer">
+                        <input type="hidden" name="timer_changement_eau" value="1"/>
+                        <button type="submit"
+                                class="btn btn-default btn-changement-eau">
+                            <i class="fa fa-exchange"></i> Changement d'eau
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

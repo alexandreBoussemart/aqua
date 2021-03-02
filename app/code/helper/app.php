@@ -333,9 +333,9 @@ function getFormattedHours($date, $link): string
 function getNumberDaysBetweenDate($date1, $date2): int
 {
     $dateStart = new DateTime($date1);
-    $dateStart->setTime(0,0,0);
+    $dateStart->setTime(0, 0, 0);
     $dateEnd = new DateTime($date2);
-    $dateEnd->setTime(0,0,0);
+    $dateEnd->setTime(0, 0, 0);
 
     $x1 = days($dateStart);
     $x2 = days($dateEnd);
@@ -1156,6 +1156,7 @@ function logInFile($link, $file, $message): void
 function setMessage($type, $message): void
 {
     session_start();
+    $data = $_SESSION;
     $data[$type][] = $message;
     $_SESSION = $data;
     session_write_close();
@@ -1692,8 +1693,10 @@ function getTransitiongoal($value, $max)
 }
 
 /**
+ * @param $link
  * @param $table
  * @param string $type
+ * @return int
  */
 function getDaysProgess($link, $table, $type = '')
 {

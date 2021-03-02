@@ -765,7 +765,7 @@ $(function () {
     date_time();
 
     function removeMessages() {
-        $("#messages").remove();
+        $(".messages").remove();
     }
     window.setTimeout(removeMessages, 3500);
 });

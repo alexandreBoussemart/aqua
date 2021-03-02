@@ -5091,6 +5091,10 @@ ul.notifications {
     margin-bottom: 0; }
     .timer-forms .btn.haveTimer {
       background: #C8E6C9; }
+    .timer-forms .btn.btn-changement-eau {
+      background-color: #337ab7;
+      border-color: #337ab7;
+      color: #fff; }
   .timer-forms p {
     display: inline-block;
     margin: 0; }

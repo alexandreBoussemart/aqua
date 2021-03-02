@@ -6632,6 +6632,12 @@ ul.notifications {
     &.haveTimer {
       background: #C8E6C9;
     }
+
+    &.btn-changement-eau {
+      background-color: #337ab7;
+      border-color: #337ab7;
+      color: #fff;
+    }
   }
 
   p {
