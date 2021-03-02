@@ -5098,5 +5098,7 @@ ul.notifications {
 
 .progress-content p {
   margin-bottom: 0; }
+  .progress-content p span {
+    float: right; }
 .progress-content .progress {
   margin-bottom: 4px; }

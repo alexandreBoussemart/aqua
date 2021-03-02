@@ -6643,6 +6643,10 @@ ul.notifications {
 .progress-content {
   p {
     margin-bottom: 0;
+
+    span {
+      float: right;
+    }
   }
 
   .progress {
