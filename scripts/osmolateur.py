@@ -63,7 +63,8 @@ try:
             message = "Osmolateur - niveau eau OK"
 
             if functions.instatetrois() is True:
-                sleep(5)
+                temps = functions.getconfig('temps_mini_pompe_osmolateur')
+                sleep(temps)
 
             functions.setcompletestate(path, 'state_2', 0, message, 0, 0)
 
