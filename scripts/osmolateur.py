@@ -64,7 +64,7 @@ try:
 
             if functions.instatetrois() is True:
                 temps = functions.getconfig('temps_mini_pompe_osmolateur')
-                sleep(temps)
+                sleep(int(temps))
 
             functions.setcompletestate(path, 'state_2', 0, message, 0, 0)
 
