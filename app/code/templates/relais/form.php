@@ -10,7 +10,9 @@
                 <input type="hidden" name="relais_ventilateur_aquarium_on" value="1"/>
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-success">On</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-toggle-on"></i> On
+                        </button>
                     </div>
                 </div>
             </form>
@@ -19,7 +21,9 @@
                 <input type="hidden" name="relais_ventilateur_aquarium_off" value="1"/>
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-danger">Off</button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa fa-toggle-off"></i> Off
+                        </button>
                     </div>
                 </div>
             </form>
@@ -39,7 +43,9 @@
                 <input type="hidden" name="relais_ecumeur_on" value="1"/>
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-success">On</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-toggle-on"></i> On
+                        </button>
                     </div>
                 </div>
             </form>
@@ -48,7 +54,9 @@
                 <input type="hidden" name="relais_ecumeur_off" value="1"/>
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-danger">Off</button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa fa-toggle-off"></i> Off
+                        </button>
                     </div>
                 </div>
             </form>
@@ -68,7 +76,9 @@
                 <input type="hidden" name="relais_pompe_osmolateur_on" value="1"/>
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-success">On</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-toggle-on"></i> On
+                        </button>
                     </div>
                 </div>
             </form>
@@ -77,7 +87,9 @@
                 <input type="hidden" name="relais_pompe_osmolateur_off" value="1"/>
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-danger">Off</button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa fa-toggle-off"></i> Off
+                        </button>
                     </div>
                 </div>
             </form>
@@ -97,7 +109,9 @@
                 <input type="hidden" name="relais_reacteur_eclairage_on" value="1"/>
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-success">On</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-toggle-on"></i> On
+                        </button>
                     </div>
                 </div>
             </form>
@@ -106,7 +120,9 @@
                 <input type="hidden" name="relais_reacteur_eclairage_off" value="1"/>
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-danger">Off</button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa fa-toggle-off"></i> Off
+                        </button>
                     </div>
                 </div>
             </form>
@@ -126,7 +142,9 @@
                 <input type="hidden" name="relais_reacteur_ventilateur_on" value="1"/>
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-success">On</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-toggle-on"></i> On
+                        </button>
                     </div>
                 </div>
             </form>
@@ -135,7 +153,9 @@
                 <input type="hidden" name="relais_reacteur_ventilateur_off" value="1"/>
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-danger">Off</button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa fa-toggle-off"></i> Off
+                        </button>
                     </div>
                 </div>
             </form>

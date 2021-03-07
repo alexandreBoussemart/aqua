@@ -27,7 +27,7 @@ $crons = getCrons();
                                         data-file="<?= $cron["run"] ?>"
                                         class="btn btn-default btn-run"
                                         type="submit">
-                                    Run
+                                    <i class="fa fa-play"></i> Run
                                 </button>
                             </td>
                         </tr>

@@ -9,7 +9,8 @@
                 <form method="post" action="controller/save" class="form-horizontal form-label-left switch-state">
                     <input type="hidden" name="submit_actions_clear" value="1"/>
                     <button onclick="return confirm('Êtes-vous sûr de vouloir vider les données de BDD > 30 jours ?')"
-                            type="submit" class="btn btn-default">Vider BDD > 30 jours
+                            type="submit" class="btn btn-default">
+                        <i class="fa fa-trash"></i> Vider BDD > 30 jours
                     </button>
                     <p class="info"><?= getOlderData($link) ?></p>
                 </form>
@@ -18,7 +19,8 @@
                 <form method="post" action="controller/save" class="form-horizontal form-label-left switch-state">
                     <input type="hidden" name="submit_actions_clear_reacteur" value="1"/>
                     <button onclick="return confirm('Êtes-vous sûr de vouloir marquer le réacteur comme nettoyé ?')"
-                            type="submit" class="btn btn-default">Nettoyage réacteur
+                            type="submit" class="btn btn-default">
+                        <i class="fa fa-check-square-o"></i> Nettoyage réacteur
                     </button>
                     <p class="info"><?= getDateLastClean($link, "reacteur") ?></p>
                 </form>
@@ -27,7 +29,8 @@
                 <form method="post" action="controller/save" class="form-horizontal form-label-left switch-state">
                     <input type="hidden" name="submit_actions_clear_ecumeur" value="1"/>
                     <button onclick="return confirm('Êtes-vous sûr de vouloir marquer l\'écumeur comme nettoyé ?')"
-                            type="submit" class="btn btn-default">Nettoyage écumeur
+                            type="submit" class="btn btn-default">
+                        <i class="fa fa-check-square-o"></i> Nettoyage écumeur
                     </button>
                     <p class="info"><?= getDateLastClean($link, "ecumeur") ?></p>
                 </form>
@@ -36,7 +39,8 @@
                 <form method="post" action="controller/save" class="form-horizontal form-label-left switch-state">
                     <input type="hidden" name="submit_actions_clear_pompes" value="1"/>
                     <button onclick="return confirm('Êtes-vous sûr de vouloir marquer les pompes comme nettoyé ?')"
-                            type="submit" class="btn btn-default">Nettoyage pompes
+                            type="submit" class="btn btn-default">
+                        <i class="fa fa-check-square-o"></i> Nettoyage pompes
                     </button>
                     <p class="info"><?= getDateLastClean($link, "pompes") ?></p>
                 </form>
@@ -45,7 +49,8 @@
                 <form id="current_temperature" method="post" action="javascript:;" class="form-horizontal form-label-left switch-state">
                     <input type="hidden" name="submit_actions_get_temperature" value="1"/>
                     <button
-                            type="submit" class="btn btn-default">Température actuelle
+                            type="submit" class="btn btn-default">
+                        <i class="fa fa-thermometer"></i> Température actuelle
                     </button>
                     <p class="info">
                         <?= getCurrentTemperature($link, $data); ?>
