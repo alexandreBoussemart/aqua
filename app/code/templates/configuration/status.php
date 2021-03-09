@@ -26,7 +26,7 @@ $last = '1';
 
                     <div class="form-group">
                         <label class="control-label col-md-6 col-sm-6 col-xs-6"><?= $status['label'] ?></label>
-                        <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="col-md-6 col-sm-6 col-xs-6 text-right">
                             <div class="">
                                 <input name="<?= $status['name'] ?>" type="checkbox"
                                            class="js-switch" <?php if ($status['value'] == '1') echo 'checked'; ?> />
