@@ -149,7 +149,7 @@
     $dateLast = $dateFirst = "";
     $isFirst = true;
     $eventsChangementdeauFinal = [];
-    while ($obj = $ca->fetch_object()) {
+    while ($obj = $nitrate->fetch_object()) {
         if ($isFirst) {
             $dateFirst = $obj->created_at;
             $isFirst = false;
@@ -216,7 +216,7 @@
     $dateLast = $dateFirst = "";
     $isFirst = true;
     $eventsChangementdeauFinal = [];
-    while ($obj = $ca->fetch_object()) {
+    while ($obj = $phosphate->fetch_object()) {
         if ($isFirst) {
             $dateFirst = $obj->created_at;
             $isFirst = false;
