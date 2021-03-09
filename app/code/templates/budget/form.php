@@ -8,9 +8,9 @@
             <form method="post" action="controller/save" class="form-horizontal form-label-left switch-state">
                 <input type="hidden" name="submit_budget" value="1"/>
                 <div class="item form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align">Date <span class="required">*</span>
+                    <label class="control-label col-md-6 col-sm-6 col-xs-6">Date <span class="required">*</span>
                     </label>
-                    <div class="col-md-9 col-sm-9">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
                         <input id="date"
                                name="date"
                                class="date-picker form-control"
@@ -32,24 +32,24 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-3">Commentaire<span class="required">*</span>
+                    <label class="control-label col-md-6 col-sm-6 col-xs-6">Commentaire<span class="required">*</span>
                     </label>
-                    <div class="col-md-9 col-sm-9 col-xs-9">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
                         <input name="comment" class="date-picker form-control col-md-7 col-xs-12" required="required"
                                type="text" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-3">Prix<span class="required">*</span>
+                    <label class="control-label col-md-6 col-sm-6 col-xs-6">Prix<span class="required">*</span>
                     </label>
-                    <div class="col-md-9 col-sm-9 col-xs-9">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
                         <input name="value" class="date-picker form-control col-md-7 col-xs-12" required="required"
                                type="text" />
                     </div>
                 </div>
                 <div class="ln_solid"></div>
                 <div class="form-group">
-                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 text-center">
                         <button type="submit" class="btn btn-success">
                             <i class="fa fa-save"></i> Enregistrer
                         </button>

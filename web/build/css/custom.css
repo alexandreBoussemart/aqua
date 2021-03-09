@@ -4,6 +4,9 @@
   src: url(../fonts/porto-icons.woff2) format("woff2"); }
 .left_col {
   background: #2A3F54; }
+  @media (max-width: 768px) {
+    .left_col {
+      padding-bottom: 100px; } }
 
 .nav-sm .container.body .col-md-3.left_col {
   min-height: 100%;
