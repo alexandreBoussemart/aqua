@@ -47,6 +47,20 @@
                      data-transitiongoal="<?= $transitiongoal; ?>">
                 </div>
             </div>
+            <?php $numberNow = getDaysProgess($link, 'data_parametres_eau', $type = 'potassium') ?>
+            <?php $numberMax = getConfig($link, 'check_analyse_eau'); ?>
+            <?php $tempsRestant = max(0, $numberMax - $numberNow); ?>
+            <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
+            <p>
+                Test Potassium <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
+                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+            </p>
+            <div class="progress active">
+                <div class="progress-bar progress-bar-striped progress-bar-warning"
+                     role="progressbar"
+                     data-transitiongoal="<?= $transitiongoal; ?>">
+                </div>
+            </div>
             <?php $numberNow = getDaysProgess($link, 'data_parametres_eau', $type = 'densite') ?>
             <?php $numberMax = getConfig($link, 'check_analyse_eau'); ?>
             <?php $tempsRestant = max(0, $numberMax - $numberNow); ?>

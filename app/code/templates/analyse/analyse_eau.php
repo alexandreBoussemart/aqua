@@ -37,6 +37,17 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-3">Potassium<span
+                            class="required">*</span></label>
+                <div class="col-md-9 col-sm-9 col-xs-9">
+                    <input name="value_potassium" class="date-picker form-control col-md-7 col-xs-12"
+                           type="number" pattern="[0-9]*" inputmode="numeric"/>
+                    <p class="info">
+                        <?= getLastParam($link, 'potassium', getLastDiffParam($link, 'potassium')); ?>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-3">Densité<span
                             class="required">*</span></label>
                 <div class="col-md-9 col-sm-9 col-xs-9">
@@ -80,3 +91,14 @@
         </form>
     </div>
 </div>
+
+<?php
+// changement eau
+$sql = "# noinspection SqlNoDataSourceInspectionForFile  
+        SELECT * 
+        FROM " . TABLE_DATA_CHANGEMENT_EAU . " 
+        LIMIT 50;";
+$request = mysqli_query($link, $sql);
+$changements = mysqli_query($link, $sql);
+$eventsChangementdeau = [];
+?>

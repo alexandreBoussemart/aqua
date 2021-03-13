@@ -1035,6 +1035,12 @@ function allCheckLastTimeCheck($data, $transport, $link, $sendMail = true): arra
         $message, $subject, "check_analyse_eau", $sendMail);
 
     //si pas de mesure depuis plus d'1 semaine
+    $message = "Pas de mesure du Potassium depuis XX jours !";
+    $subject = "Rappel - faire une mesure du Potassium";
+    $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'potassium'],
+        $message, $subject, "check_analyse_eau", $sendMail);
+
+    //si pas de mesure depuis plus d'1 semaine
     $message = "Pas de mesure de nitrate depuis XX jours !";
     $subject = "Rappel - faire une mesure de Nitrate";
     $result[] = checkLastTimeCheck($data, $transport, $link, ['table' => 'data_parametres_eau', 'type' => 'nitrate'],
@@ -1190,6 +1196,7 @@ function getLastParam($link, $type, $evolution): string
                 break;
             case 'phosphate':
             case 'nitrate':
+            case 'potassium':
             case 'mg':
             case 'ca':
                 $label = 'mg/l';
@@ -1259,6 +1266,7 @@ function getLastDiffParam($link, $type): string
                 $label = 'dkh';
                 break;
             case 'nitrate':
+            case 'potassium':
             case 'phosphate':
             case 'mg':
             case 'ca':

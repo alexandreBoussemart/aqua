@@ -44,12 +44,16 @@
                         require '../app/code/templates/analyse/phosphate.php';
                         ?>
                     </div>
+                    <div class="row first-bloc">
+                        <?php
+                        require '../app/code/templates/analyse/potassium.php';
+                        ?>
+                    </div>
                 </div>
                 <!-- /page content -->
             </div>
         </div>
         <?php  require '../app/code/templates/footer.php'; ?>
-        <?php  require '../app/code/templates/analyse/js.php'; ?>
     </body>
 </html>
 
