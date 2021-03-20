@@ -272,7 +272,7 @@ function setLogMail($link, $sujet, $message): void
     $sujet = str_replace("'", "\'", $sujet);
     // met ligne dans table log
     $sql = '# noinspection SqlNoDataSourceInspectionForFile 
-            INSERT INTO ".TABLE_LOG_MAIL." (`sujet`, `message`) 
+            INSERT INTO '.TABLE_LOG_MAIL.' (`sujet`, `message`) 
             VALUES ("' . $sujet . '","' . $message . '")';
     logInFile($link, "sql.log", $sql);
     $link->query($sql);
