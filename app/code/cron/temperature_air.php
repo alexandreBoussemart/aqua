@@ -14,6 +14,11 @@ try {
         exit;
     }
 
+    //check si la cron est activé
+    if (!getStatus($link, TEMPERATURE_AIR)) {
+        return false;
+    }
+
     $force_stop = false;
     $date = new DateTime();
     $now = $date->format('Y-m-d H:i:s');

@@ -1,3 +1,3 @@
 <div class="footer">
-    v3.5.2 - Copyright © 2021
+    v3.6.0 - Copyright © 2021
 </div>
