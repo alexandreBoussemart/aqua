@@ -71,7 +71,12 @@ try {
     exit;
 
 } catch (Exception $e) {
-    setLog($link, $e->getMessage());
+    try {
+        setLog($link, $e->getMessage());
+        sendMail($data, $transport, "Error script temperature_boitier.php", $e->getMessage(), $link);
+    } catch (Exception $e) {
+        setLog($link, $e->getMessage());
+    }
 
     exit;
 }
