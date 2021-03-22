@@ -10,6 +10,7 @@ const ECUMEUR = 'ecumeur';
 const BAILLING = 'bailling';
 const OSMOLATEUR = 'osmolateur';
 const TEMPERATURE = 'temperature';
+const TEMPERATURE_AIR = 'temperature_air';
 const REACTEUR = 'reacteur';
 
 /* tables */
