@@ -11,7 +11,7 @@
             <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
             <p>
                 Test Ca <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
-                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+                <span><i><small>Temps restant : <?= $tempsRestant ?>J</small></i></span>
             </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped progress-bar-warning"
@@ -25,7 +25,7 @@
             <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
             <p>
                 Test Mg <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
-                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+                <span><i><small>Temps restant : <?= $tempsRestant ?>J</small></i></span>
             </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped progress-bar-warning"
@@ -39,7 +39,7 @@
             <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
             <p>
                 Test Kh <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
-                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+                <span><i><small>Temps restant : <?= $tempsRestant ?>J</small></i></span>
             </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped progress-bar-warning"
@@ -53,7 +53,7 @@
             <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
             <p>
                 Test Potassium <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
-                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+                <span><i><small>Temps restant : <?= $tempsRestant ?>J</small></i></span>
             </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped progress-bar-warning"
@@ -67,7 +67,7 @@
             <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
             <p>
                 Test densité <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
-                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+                <span><i><small>Temps restant : <?= $tempsRestant ?>J</small></i></span>
             </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped progress-bar-warning"
@@ -81,7 +81,7 @@
             <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
             <p>
                 Test nitrate <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
-                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+                <span><i><small>Temps restant : <?= $tempsRestant ?>J</small></i></span>
             </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped progress-bar-warning"
@@ -95,7 +95,7 @@
             <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
             <p>
                 Test phosphate <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
-                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+                <span><i><small>Temps restant : <?= $tempsRestant ?>J</small></i></span>
             </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped progress-bar-warning"
@@ -109,7 +109,7 @@
             <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
             <p>
                 Changement d'eau <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
-                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+                <span><i><small>Temps restant : <?= $tempsRestant ?>J</small></i></span>
             </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped"
@@ -123,7 +123,7 @@
             <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
             <p>
                 Nettoyage réacteur <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
-                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+                <span><i><small>Temps restant : <?= $tempsRestant ?>J</small></i></span>
             </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped progress-bar-success"
@@ -137,7 +137,7 @@
             <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
             <p>
                 Nettoyage écumeur <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
-                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+                <span><i><small>Temps restant : <?= $tempsRestant ?>J</small></i></span>
             </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped progress-bar-success"
@@ -151,7 +151,7 @@
             <?php $transitiongoal = getTransitiongoal($numberNow, $numberMax) ?>
             <p>
                 Nettoyages pompes <small>(<?= $numberNow; ?>/<?= $numberMax; ?>J)</small>
-                <span><small>Temps restant : <?= $tempsRestant ?>J</small></span>
+                <span><i><small>Temps restant : <?= $tempsRestant ?>J</small></i></span>
             </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped progress-bar-success"
