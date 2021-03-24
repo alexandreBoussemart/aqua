@@ -11,6 +11,7 @@ const BAILLING = 'bailling';
 const OSMOLATEUR = 'osmolateur';
 const TEMPERATURE = 'temperature';
 const TEMPERATURE_AIR = 'temperature_air';
+const TEMPERATURE_RPI = 'temperature_rpi';
 const REACTEUR = 'reacteur';
 
 /* tables */

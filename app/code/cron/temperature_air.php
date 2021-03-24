@@ -19,7 +19,6 @@ try {
         return false;
     }
 
-    $force_stop = false;
     $date = new DateTime();
     $now = $date->format('Y-m-d H:i:s');
 
@@ -33,16 +32,6 @@ try {
     // on défini le chemin du fichier
     if (!defined("THERMOMETER_SENSOR_PATH_BOITIER")) {
         define("THERMOMETER_SENSOR_PATH_BOITIER", $data['file_temperature_air']);
-    }
-
-    // temerature rpi
-    $f = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
-    $temp = fgets($f);
-    $temperature_rpi = round($temp / 1000, 2);
-
-    // on log temperature du rpi
-    if ($minute % 15 == 0) {
-        insertTemperature($link, $temperature_rpi, TABLE_DATA_TEMP_RPI);
     }
 
     // première lecture, on quitte si résultat pas ok
@@ -78,7 +67,7 @@ try {
 } catch (Exception $e) {
     try {
         setLog($link, $e->getMessage());
-        sendMail($data, $transport, "Error script temperature_air.php", $e->getMessage(), $link);
+        sendMail($data, $transport, "Erreur script temperature_air.php", $e->getMessage(), $link);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }

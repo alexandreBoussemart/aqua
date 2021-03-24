@@ -17,7 +17,7 @@ try {
 } catch (Exception $e) {
     try {
         setLog($link, $e->getMessage());
-        sendMail($data, $transport, "Error script dump.php", $e->getMessage(), $link);
+        sendMail($data, $transport, "Erreur script dump.php", $e->getMessage(), $link);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }

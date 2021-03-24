@@ -9,6 +9,7 @@ setStatus($link, isset($_POST[BAILLING]) ? $_POST[BAILLING] : null, BAILLING);
 setStatus($link, isset($_POST[REACTEUR]) ? $_POST[REACTEUR] : null, REACTEUR);
 setStatus($link, isset($_POST[TEMPERATURE]) ? $_POST[TEMPERATURE] : null, TEMPERATURE);
 setStatus($link, isset($_POST[TEMPERATURE_AIR]) ? $_POST[TEMPERATURE_AIR] : null, TEMPERATURE_AIR);
+setStatus($link, isset($_POST[TEMPERATURE_RPI]) ? $_POST[TEMPERATURE_RPI] : null, TEMPERATURE_RPI);
 setStatus($link, isset($_POST['reacteur_ventilateur']) ? $_POST['reacteur_ventilateur'] : null, 'reacteur_ventilateur');
 setStatus($link, isset($_POST['reacteur_eclairage']) ? $_POST['reacteur_eclairage'] : null, 'reacteur_eclairage');
 setStatus($link, isset($_POST['cron_controle']) ? $_POST['cron_controle'] : null, 'cron_controle');

@@ -36,7 +36,7 @@ try {
 } catch (Exception $e) {
     try {
         setLog($link, $e->getMessage());
-        sendMail($data, $transport, "Error script reacteur_gestion.php", $e->getMessage(), $link);
+        sendMail($data, $transport, "Erreur script reacteur_gestion.php", $e->getMessage(), $link);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
