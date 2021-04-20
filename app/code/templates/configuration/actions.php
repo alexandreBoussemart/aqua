@@ -50,10 +50,22 @@
                     <input type="hidden" name="submit_actions_get_temperature" value="1"/>
                     <button
                             type="submit" class="btn btn-default">
-                        <i class="fa fa-thermometer"></i> Température actuelle
+                        <i class="fa fa-thermometer"></i> Température eau
                     </button>
                     <p class="info">
                         <?= getCurrentTemperature($link, $data); ?>
+                    </p>
+                </form>
+            </div>
+            <div class="x_content">
+                <form id="current_temperature_air" method="post" action="javascript:;" class="form-horizontal form-label-left switch-state">
+                    <input type="hidden" name="submit_actions_get_temperature_air" value="1"/>
+                    <button
+                            type="submit" class="btn btn-default">
+                        <i class="fa fa-thermometer"></i> Température air
+                    </button>
+                    <p class="info">
+                        <?= getCurrentTemperatureAir($link, $data); ?>
                     </p>
                 </form>
             </div>

@@ -1532,6 +1532,29 @@ function getCurrentTemperature($link, $data): string
 
 /**
  * @param $link
+ * @param $data
+ * @return string
+ */
+function getCurrentTemperatureAir($link, $data): string
+{
+    try {
+        // on défini le chemin du fichier
+        if (!defined("THERMOMETER_SENSOR_PATH")) {
+            define("THERMOMETER_SENSOR_PATH", $data['file_temperature_air']);
+        }
+
+        $content = readFileTemperature($link);
+        $temperature = readTemperature($content);
+
+        return round($temperature, 2) . "°C";
+
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+}
+
+/**
+ * @param $link
  * @return false|string
  */
 function getContentTempFileCron($link)
