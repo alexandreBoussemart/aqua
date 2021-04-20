@@ -786,8 +786,9 @@ function isRunOver20seconds($link, $tempsMaxPompeOsmolateur): bool
                 //si moins de 20 secondes
                 return false;
             } else {
+                $tempsMaxPompeOsmolateurNumber = preg_replace('~\D~', '', $tempsMaxPompeOsmolateur);
                 // c'est que c'est plus de 20 secondes, donc on met en erreur
-                $message = "Osmolateur - ERREUR - pompe allumée plus de 20 secondes";
+                $message = "Osmolateur - ERREUR - pompe allumée plus de {$tempsMaxPompeOsmolateurNumber} secondes";
                 setState($link, OSMOLATEUR, 'state_8', 1, $message);
 
                 return true;
