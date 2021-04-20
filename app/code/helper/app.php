@@ -1539,11 +1539,11 @@ function getCurrentTemperatureAir($link, $data): string
 {
     try {
         // on défini le chemin du fichier
-        if (!defined("THERMOMETER_SENSOR_PATH")) {
-            define("THERMOMETER_SENSOR_PATH", $data['file_temperature_air']);
+        if (!defined("THERMOMETER_SENSOR_PATH_BOITIER")) {
+            define("THERMOMETER_SENSOR_PATH_BOITIER", $data['file_temperature_air']);
         }
 
-        $content = readFileTemperature($link);
+        $content = readFileTemperatureBoitier($link);
         $temperature = readTemperature($content);
 
         return round($temperature, 2) . "°C";
