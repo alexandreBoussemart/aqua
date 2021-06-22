@@ -78,6 +78,8 @@ function getStatus($link, $name): bool
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
+
+    return false;
 }
 
 /**
@@ -158,6 +160,8 @@ function readFileTemperatureBoitier($link)
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
+
+    return '';
 }
 
 /**
@@ -243,6 +247,8 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
+
+    return false;
 }
 
 /**
@@ -351,6 +357,8 @@ function getNumberDaysBetweenDate($date1, $date2): int
 
         return (int)$result;
     }
+
+    return 0;
 }
 
 /**
@@ -404,7 +412,7 @@ function setStatus($link, $data, $code): void
             exec("rm " . __DIR__ . "/../../../config/" . $code);
         }
 
-        if ($code == 'on_off_osmolateur') {
+        if ($code === 'on_off_osmolateur') {
             if ($value == 1) {
                 // on allume
                 exec("python " . __DIR__ . "/../../../scripts/osmolateur/on.py");
@@ -414,7 +422,7 @@ function setStatus($link, $data, $code): void
             }
         }
 
-        if ($code == 'force_turn_on_eclairage') {
+        if ($code === 'force_turn_on_eclairage') {
             if ($value == 1) {
                 // on allume
                 exec("python " . __DIR__ . "/../../../scripts/reacteur_eclairage/on.py");
@@ -436,7 +444,7 @@ function setConfig($link, $data, $code): void
 {
     try {
         if (isset($data)) {
-            if ($data == "on") {
+            if ($data === "on") {
                 $value = 1;
             } else {
                 $value = $data;
@@ -466,7 +474,7 @@ function isOn(): bool
     $date = new DateTime();
     $now = $date->format('Y-m-d H:i:s');
 
-    if (
+    return (
         ($now >= $date->format('Y-m-d 22:30:00') && $now < $date->format('Y-m-d 23:30:00')) ||
         ($now >= $date->format('Y-m-d 23:40:00') || $now < $date->format('Y-m-d 00:40:00')) ||
         ($now >= $date->format('Y-m-d 00:50:00') && $now < $date->format('Y-m-d 01:50:00')) ||
@@ -477,11 +485,7 @@ function isOn(): bool
         ($now >= $date->format('Y-m-d 06:40:00') && $now < $date->format('Y-m-d 07:40:00')) ||
         ($now >= $date->format('Y-m-d 07:50:00') && $now < $date->format('Y-m-d 08:50:00')) ||
         ($now >= $date->format('Y-m-d 09:00:00') && $now < $date->format('Y-m-d 10:00:00'))
-    ) {
-        return true;
-    }
-
-    return false;
+    );
 }
 
 /**
@@ -545,6 +549,8 @@ function getStatusVentilateur($link, $currentTemperature): bool
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
+
+    return false;
 }
 
 /**
@@ -574,6 +580,8 @@ function getConfig($link, $name)
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
+
+    return '';
 }
 
 /**
@@ -653,6 +661,15 @@ function envoyerMailRappel($link, $data, $transport, $tempsMailRappel): void
             $message = $row[5];
 
             $message = str_replace('ERREUR', 'RAPPEL ERREUR', $message);
+
+            if (TEMPERATURE === $row[2]) {
+                $explode = explode('-', $message);
+                array_pop($explode);
+                $explode[] = getLastData($link, "data_temperature_eau", "°C");
+                $result = array_map('trim', $explode);
+                $message = implode(' - ', $result);
+            }
+
             $body = "<p style='color: red; text-transform: uppercase'>" . $message . "</p>";
 
             // on envoie le mail
@@ -1222,6 +1239,8 @@ function getLastParam($link, $type, $evolution): string
         setLog($link, $e->getMessage());
         setMessage("error", $e->getMessage());
     }
+
+    return '';
 }
 
 /**
@@ -1295,6 +1314,8 @@ function getLastDiffParam($link, $type): string
         setLog($link, $e->getMessage());
         setMessage("error", $e->getMessage());
     }
+
+    return '';
 }
 
 /**
@@ -1331,6 +1352,8 @@ function getLastChangementEau($link): string
         setLog($link, $e->getMessage());
         setMessage("error", $e->getMessage());
     }
+
+    return '';
 }
 
 /**
@@ -1423,6 +1446,8 @@ function getOlderData($link): string
         setLog($link, $e->getMessage());
         setMessage("error", $e->getMessage());
     }
+
+    return '';
 }
 
 /**
@@ -1484,7 +1509,6 @@ function getDaysBeforeAlert($link, $name, $value): string
     }
 
     return '<div class="' . $class . '" role="alert">Prochaine alerte ' . $time . '</div>';
-
 }
 
 /**
@@ -1612,7 +1636,7 @@ function dumpBDD($data, $transport, $subject): int
 function insertTimer($link, $type): string
 {
     try {
-        $periode = $temperature = getConfig($link, "timer_" . $type);
+        $periode = getConfig($link, "timer_" . $type);
 
         $date = new DateTime();
         $date->modify($periode);
@@ -1631,6 +1655,8 @@ function insertTimer($link, $type): string
         setLog($link, $e->getMessage());
         setMessage("error", $e->getMessage());
     }
+
+    return '';
 }
 
 /**
@@ -1751,5 +1777,4 @@ function getDaysProgess($link, $table, $type = '')
     } catch (Exception $e) {
         return 0;
     }
-
 }
