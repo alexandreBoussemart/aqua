@@ -25,6 +25,11 @@ try {
         return false;
     }
 
+    //check si on doit éteindre les ventilateurs de l'aquarium en mode forcé
+    if (getStatus($link, 'force_turn_off_ventilateur')) {
+        exec("python " . __DIR__ . "/../../../scripts/aquarium_ventilateur/off.py");
+    }
+
     //si on est pas toutes les 5 minutes on quitte
     $date = new DateTime();
     $minute = $date->format('i');
@@ -87,7 +92,7 @@ try {
         }
 
         // on check si on doit allumer le ventilateur de l'aquarium
-        if (getStatusVentilateur($link, $temperature2)) {
+        if (getStatusVentilateur($link, $temperature2) && !getStatus($link, 'force_turn_off_ventilateur')) {
             exec("python " . __DIR__ . "/../../../scripts/aquarium_ventilateur/on.py");
         } else {
             exec("python " . __DIR__ . "/../../../scripts/aquarium_ventilateur/off.py");

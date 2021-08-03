@@ -19,6 +19,7 @@ setStatus($link, isset($_POST['on_off_osmolateur']) ? $_POST['on_off_osmolateur'
 setStatus($link, isset($_POST['on_off_ecumeur']) ? $_POST['on_off_ecumeur'] : null, 'on_off_ecumeur');
 setStatus($link, isset($_POST['log_in_files']) ? $_POST['log_in_files'] : null, 'log_in_files');
 setStatus($link, isset($_POST['force_turn_on_eclairage']) ? $_POST['force_turn_on_eclairage'] : null, 'force_turn_on_eclairage');
+setStatus($link, isset($_POST['force_turn_off_ventilateur']) ? $_POST['force_turn_off_ventilateur'] : null, 'force_turn_off_ventilateur');
 setStatus($link, isset($_POST[DISABLE_ALL_CRON]) ? $_POST[DISABLE_ALL_CRON] : null, DISABLE_ALL_CRON);
 
 $message = "Validation du formulaire de changement de statut.";
