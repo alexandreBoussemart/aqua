@@ -2,9 +2,10 @@
 exec("df -BM /tmp | tail -1 | awk '{print $4}'", $output);
 $used = (int)str_replace('G', '', $output[0]);
 $used = $used / 1000;
-
-echo round($used, 2)
+$used = round($used, 2);
+$transitiongoal = getTransitiongoal($used, 32)
 ?>
+
 
 <div class="col-md-6 col-sm-6 col-xs-12">
     <div class="x_panel">
@@ -13,7 +14,12 @@ echo round($used, 2)
             <div class="clearfix"></div>
         </div>
         <div class="x_content2 log">
-            aze
+            <div class="progress active">
+                <div class="progress-bar progress-bar-striped progress-bar-warning"
+                     role="progressbar"
+                     data-transitiongoal="<?= $transitiongoal; ?>">
+                </div>
+            </div>
         </div>
     </div>
 </div>
