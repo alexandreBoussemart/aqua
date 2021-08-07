@@ -5,8 +5,8 @@ from time import sleep
 
 sys.path.insert(1, '/home/pi/Desktop/www/aqua/scripts/')
 import functions
-import os
 import RPi.GPIO as GPIO
+import os
 
 relay = 11
 
