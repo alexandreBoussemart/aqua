@@ -1,7 +1,7 @@
 <?php
 exec("df -Bh /tmp | tail -1 | awk '{print $4}'", $output);
-var_dump($output);
-
+$used = (int) str_replace('G', '', $output);
+var_dump($used);
 ?>
 
 <div class="col-md-6 col-sm-6 col-xs-12">
