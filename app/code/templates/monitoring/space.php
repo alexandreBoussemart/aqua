@@ -13,6 +13,9 @@ $transitiongoal = getTransitiongoal($used, 32)
             <div class="clearfix"></div>
         </div>
         <div class="x_content2 log">
+            <p>
+                Espace utilisé <small>(<?= $used; ?>/<?= 32; ?>J)</small>
+            </p>
             <div class="progress active">
                 <div class="progress-bar progress-bar-striped progress-bar-warning"
                      role="progressbar"
