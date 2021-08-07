@@ -27,6 +27,11 @@
                         require '../app/code/templates/monitoring/controle.php';
                         ?>
                     </div>
+                    <div class="row first-bloc">
+                        <?php
+                        require '../app/code/templates/monitoring/space.php';
+                        ?>
+                    </div>
                 </div>
                 <!-- /page content -->
             </div>
