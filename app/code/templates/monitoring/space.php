@@ -6,7 +6,6 @@ $used = round($used, 2);
 $transitiongoal = getTransitiongoal($used, 32)
 ?>
 
-
 <div class="col-md-6 col-sm-6 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
@@ -23,4 +22,5 @@ $transitiongoal = getTransitiongoal($used, 32)
         </div>
     </div>
 </div>
+
 

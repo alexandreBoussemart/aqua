@@ -3,6 +3,11 @@
 </script>
 
 <script>
+    $(document).ready(function () {
+        if ($(".progress .progress-bar")[0]) {
+            $('.progress .progress-bar').progressbar();
+        }
+    });
 
     <?php if(isset($temperature_RPI) && $temperature_RPI): ?>
     if ($('#graph_temperature_rpi').length) {
