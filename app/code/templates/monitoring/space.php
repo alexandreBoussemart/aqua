@@ -1,6 +1,6 @@
 <?php
 exec("df -Bh /tmp | tail -1 | awk '{print $4}'", $output);
-$used = (int) str_replace('G', '', $output);
+$used = (int)str_replace('G', '', $output[0]);
 var_dump($used);
 ?>
 
