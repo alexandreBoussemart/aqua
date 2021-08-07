@@ -1,5 +1,6 @@
 <?php
-var_dump(size(disk_free_space('/')));
+exec("df -Bh /tmp | tail -1 | awk '{print $4}'", $output);
+var_dump($output);
 
 ?>
 
