@@ -1,6 +1,7 @@
 <?php
 exec("df -BM /tmp | tail -1 | awk '{print $4}'", $output);
-$used = (int)str_replace('G', '', $output[0]);
+$output = $output[0] ?? 0;
+$used = (int)str_replace('G', '', $output);
 $used = $used / 1000;
 $used = round($used, 2);
 $transitiongoal = getTransitiongoal($used, 32)
