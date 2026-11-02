@@ -1,5 +1,5 @@
-#! /usr/bin/python
-# -*-coding:Latin-1 -*
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import datetime
 import sys
 from time import sleep
@@ -30,7 +30,7 @@ try:
     # lecture GPIO bailling_3
     BAILLING_3_STATE = str(GPIO.input(bailling_3))
 
-    # on fait la chaine de caractère du statut
+    # on fait la chaine de caractÃ¨re du statut
     state_current = BAILLING_1_STATE + BAILLING_2_STATE + BAILLING_3_STATE
 
     sleep(20)
@@ -48,7 +48,7 @@ try:
     # lecture GPIO bailling_3
     BAILLING_3_STATE = str(GPIO.input(bailling_3))
 
-    # on fait la chaine de caractère du statut
+    # on fait la chaine de caractÃ¨re du statut
     state_current2 = BAILLING_1_STATE + BAILLING_2_STATE + BAILLING_3_STATE
 
     if state_current == state_current2:

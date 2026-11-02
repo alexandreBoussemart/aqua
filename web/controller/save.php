@@ -2,78 +2,55 @@
 
 require __DIR__ . '/../../app/code/helper/app.php';
 
-//form action clear data
+/**
+ * Message flash + mail de notification, puis redirection.
+ */
+function done(array $data, $transport, $link, string $message, string $page = ''): void
+{
+    setMessage("success", $message);
+    sendMail($data, $transport, $message, $message, $link);
+    redirect($data, $page);
+}
+
+// actions de maintenance (page configuration)
 if (isset($_POST['submit_actions_clear'])) {
     clear($link);
-    $message = "Les données de plus de 30 jours ont été supprimé.";
-    setMessage("success", $message);
-    sendMail($data, $transport, $message, $message, $link);
-    header('Location: ' . $data['database'][0]['base_url'] . "configuration"); ///aqua-web
+    done($data, $transport, $link, "Les données de plus de 30 jours ont été supprimées.", "configuration");
 }
 
-//form action clean reacteur
-if (isset($_POST['submit_actions_clear_reacteur'])) {
-    clean($link, "reacteur");
-    $message = "Le réacteur a été marqué comme nettoyé.";
-    setMessage("success", $message);
-    sendMail($data, $transport, $message, $message, $link);
-    header('Location: ' . $data['database'][0]['base_url'] . "configuration"); ///aqua-web
-}
-
-//form action clean ecumeur
-if (isset($_POST['submit_actions_clear_ecumeur'])) {
-    clean($link, "ecumeur");
-    $message = "L'écumeur a été marqué comme nettoyé.";
-    setMessage("success", $message);
-    sendMail($data, $transport, $message, $message, $link);
-    header('Location: ' . $data['database'][0]['base_url'] . "configuration"); ///aqua-web
-}
-
-//form action clean pompes
-if (isset($_POST['submit_actions_clear_pompes'])) {
-    clean($link, "pompes");
-    $message = "Les pompes ont été marqué comme nettoyé.";
-    setMessage("success", $message);
-    sendMail($data, $transport, $message, $message, $link);
-    header('Location: ' . $data['database'][0]['base_url'] . "configuration"); ///aqua-web
+$cleanActions = [
+    'submit_actions_clear_reacteur' => ['reacteur', "Le réacteur a été marqué comme nettoyé."],
+    'submit_actions_clear_ecumeur' => ['ecumeur', "L'écumeur a été marqué comme nettoyé."],
+    'submit_actions_clear_pompes' => ['pompes', "Les pompes ont été marquées comme nettoyées."],
+];
+foreach ($cleanActions as $field => [$type, $message]) {
+    if (isset($_POST[$field])) {
+        clean($link, $type);
+        done($data, $transport, $link, $message, "configuration");
+    }
 }
 
 // form changement d'eau
 if (isset($_POST['submit_eau'])) {
     if (isset($_POST['value']) && is_numeric($_POST['value'])) {
-        $sql = 'INSERT INTO '.TABLE_DATA_CHANGEMENT_EAU.' ( `value`) VALUES ("' . strval($_POST['value']) . '")';
-        $link->query($sql);
+        dbQuery($link, 'INSERT INTO ' . TABLE_DATA_CHANGEMENT_EAU . ' (`value`) VALUES (?)', [(string)$_POST['value']]);
     }
-    $message = "Le changement d'eau a été sauvegardé.";
-    setMessage("success", $message);
-    sendMail($data, $transport, $message, $message, $link);
-    header('Location: ' . $data['database'][0]['base_url']); ///aqua-web
+    done($data, $transport, $link, "Le changement d'eau a été sauvegardé.");
 }
 
-//delete value changement d'eau
-if (isset($_POST['submit_delete_eau'])) {
-    if (isset($_POST['id']) && is_numeric($_POST['id'])) {
-        $sql = 'DELETE FROM '.TABLE_DATA_CHANGEMENT_EAU.' WHERE `id` LIKE ' . $_POST['id'] . ';';
-        $message = "Le changement d'eau a été supprimé.";
-        setMessage("success", $message);
-        sendMail($data, $transport, $message, $message, $link);
-        $link->query($sql);
+// suppression d'un changement d'eau / d'une dépense
+$deleteActions = [
+    'submit_delete_eau' => [TABLE_DATA_CHANGEMENT_EAU, "Le changement d'eau a été supprimé.", "logs"],
+    'submit_delete_budget' => [TABLE_DATA_DEPENSE, "La dépense a été supprimée.", "budget"],
+];
+foreach ($deleteActions as $field => [$table, $message, $page]) {
+    if (isset($_POST[$field])) {
+        if (isset($_POST['id']) && ctype_digit((string)$_POST['id'])) {
+            dbQuery($link, 'DELETE FROM ' . $table . ' WHERE `id` = ?', [(int)$_POST['id']]);
+            done($data, $transport, $link, $message, $page);
+        }
+        redirect($data, $page);
     }
-
-    header('Location: ' . $data['database'][0]['base_url'] . "logs"); ///aqua-web
-}
-
-//delete value budget
-if (isset($_POST['submit_delete_budget'])) {
-    if (isset($_POST['id']) && is_numeric($_POST['id'])) {
-        $sql = 'DELETE FROM '.TABLE_DATA_DEPENSE.' WHERE `id` LIKE ' . $_POST['id'] . ';';
-        $message = "La dépense a été supprimé.";
-        setMessage("success", $message);
-        sendMail($data, $transport, $message, $message, $link);
-        $link->query($sql);
-    }
-
-    header('Location: ' . $data['database'][0]['base_url'] . "budget"); ///aqua-web
 }
 
 // form configuration
@@ -82,10 +59,7 @@ if (isset($_POST['submit_configuration'])) {
     foreach ($_POST as $key => $value) {
         setConfig($link, $value, $key);
     }
-    $message = "Les configurations ont été sauvegardé.";
-    setMessage("success", $message);
-    sendMail($data, $transport, $message, $message, $link);
-    header('Location: ' . $data['database'][0]['base_url'] . "configuration");
+    done($data, $transport, $link, "Les configurations ont été sauvegardées.", "configuration");
 }
 
 // form param d'eau
@@ -94,25 +68,31 @@ if (isset($_POST['submit_params'])) {
     foreach ($_POST as $key => $value) {
         setParam($link, $value, str_replace("value_", "", $key));
     }
-    $message = "Les paramètres d'eau ont été sauvegardé.";
-    setMessage("success", $message);
-    sendMail($data, $transport, $message, $message, $link);
-    header('Location: ' . $data['database'][0]['base_url'] . "analyse");
+    done($data, $transport, $link, "Les paramètres d'eau ont été sauvegardés.", "analyse");
 }
 
 // form dépense
-if (isset($_POST['submit_budget']) && isset($_POST['value'])) {
-    $price = str_replace(",", ".", $_POST['value']);
-    $price = (float)$price;
-
-    if (isset($_POST['value']) && is_float($price) && isset($_POST['comment']) && isset($_POST['date'])) {
-        $date = $_POST['date'];
-        $sql = 'INSERT INTO '.TABLE_DATA_DEPENSE.' ( `comment`,`value`,`created_at`) VALUES ("' . strval($_POST['comment']) . '",' . $price . ',"' . $date . '")';
-        $link->query($sql);
+if (isset($_POST['submit_budget'])) {
+    $price = (float)str_replace(",", ".", (string)($_POST['value'] ?? ''));
+    $date = false;
+    foreach (['Y-m-d', 'd-m-Y', 'd/m/Y'] as $format) {
+        $date = DateTime::createFromFormat('!' . $format, trim((string)($_POST['date'] ?? '')));
+        if ($date) {
+            break;
+        }
     }
 
-    $message = "Le dépense a été sauvegardé.";
-    setMessage("success", $message);
-    sendMail($data, $transport, $message, $message, $link);
-    header('Location: ' . $data['database'][0]['base_url'] . "budget"); ///aqua-web
+    if (!$date || !isset($_POST['comment'])) {
+        setMessage("error", "Dépense non enregistrée : date ou commentaire invalide.");
+        redirect($data, "budget");
+    }
+
+    dbQuery(
+        $link,
+        'INSERT INTO ' . TABLE_DATA_DEPENSE . ' (`comment`, `value`, `created_at`) VALUES (?, ?, ?)',
+        [(string)$_POST['comment'], $price, $date->format('Y-m-d')]
+    );
+    done($data, $transport, $link, "La dépense a été sauvegardée.", "budget");
 }
+
+redirect($data);

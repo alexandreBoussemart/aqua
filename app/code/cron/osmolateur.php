@@ -43,21 +43,21 @@ try {
             setState($link, OSMOLATEUR, 'state_97', 0, "Osmolateur - Pause timer");
 
             // on éteint
-            exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/off.py");
+            exec("python3 " . __DIR__ . "/../../../scripts/pompe_osmolateur/off.py");
 
             continue;
         }
 
         // on execute la commande pour vérifier le statut de l'osmolateur
-        exec("python " . __DIR__ . "/../../../scripts/osmolateur.py");
+        exec("python3 " . __DIR__ . "/../../../scripts/osmolateur.py");
 
         // on exécute la commande pour savoir si la pompe est allumée depuis plus de 20 secondes
         if (isRun($link) && !isRunOver20seconds($link, $tempsMaxPompeOsmolateur)) {
             // on allume
-            exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/on.py");
+            exec("python3 " . __DIR__ . "/../../../scripts/pompe_osmolateur/on.py");
         } else {
             // on éteint
-            exec("python " . __DIR__ . "/../../../scripts/pompe_osmolateur/off.py");
+            exec("python3 " . __DIR__ . "/../../../scripts/pompe_osmolateur/off.py");
         }
 
         usleep(500000);

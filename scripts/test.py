@@ -1,5 +1,5 @@
-# !/usr/bin/python
-# -*-coding:Latin-1 -*
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import RPi.GPIO as GPIO
 import time, sys
 import functions
@@ -27,7 +27,7 @@ BAILLING_2_STATE = str(GPIO.input(bailling_2))
 # lecture GPIO bailling_3
 BAILLING_3_STATE = str(GPIO.input(bailling_3))
 
-# on fait la chaine de caractère du statut
+# on fait la chaine de caractÃ¨re du statut
 state_current = BAILLING_1_STATE + BAILLING_2_STATE + BAILLING_3_STATE
 
 print(state_current)

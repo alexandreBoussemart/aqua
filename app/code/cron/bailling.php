@@ -24,7 +24,7 @@ try {
     }
 
     // on execute la commande
-    exec("python " . __DIR__ . "/../../../scripts/bailling.py");
+    exec("python3 " . __DIR__ . "/../../../scripts/bailling.py");
 
     exit;
 

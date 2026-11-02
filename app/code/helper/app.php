@@ -4,7 +4,11 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 require 'bdd.php';
 require 'const.php';
 
-use Phelium\Component\MySQLBackup;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Transport\TransportInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 
 $array_verif = [
     CONTROLE_BAILLING,
@@ -33,6 +37,38 @@ $rappel = [
 ];
 
 /**
+ * Exécute une requête préparée (paramètres liés, pas d'injection SQL possible).
+ * Retourne un mysqli_result pour un SELECT, true/false sinon (mysqli_report OFF).
+ *
+ * @param mysqli|null $link
+ * @param string $sql
+ * @param array $params
+ * @return mysqli_result|bool
+ */
+function dbQuery($link, string $sql, array $params = [])
+{
+    if (!$link instanceof mysqli) {
+        return false;
+    }
+    logInFile($link, "sql.log", $sql . ($params ? ' -- ' . json_encode($params, JSON_UNESCAPED_UNICODE) : ''));
+
+    return $link->execute_query($sql, $params ?: null);
+}
+
+/**
+ * @param mysqli|null $link
+ * @param string $sql
+ * @param array $params
+ * @return array|null première ligne ou null
+ */
+function dbFetchOne($link, string $sql, array $params = []): ?array
+{
+    $result = dbQuery($link, $sql, $params);
+
+    return ($result instanceof mysqli_result) ? $result->fetch_assoc() : null;
+}
+
+/**
  * @param $data
  * @param $transport
  * @param $subject
@@ -50,19 +86,52 @@ function sendMail($data, $transport, $subject, $content, $link = null, $force = 
         return true;
     }
 
-    $mailer = new Swift_Mailer($transport);
-    $message = new Swift_Message($subject);
-    $message
-        ->setFrom([$data['gmail'][0]['mail'] => $data['gmail'][0]['name']])
-        ->setTo([$data['mail_to']])
-        ->setSubject($subject)
-        ->setBody($content, 'text/html');
-
-    $result = $mailer->send($message);
+    $message = createEmail($data, $subject)->html($content);
+    (new Mailer($transport))->send($message);
 
     setLogMail($link, $subject, $content);
 
-    return $result;
+    return 1;
+}
+
+/**
+ * Transport SMTP (Symfony Mailer).
+ * - "mailer_dsn" dans config.json s'il est renseigné (ex. Docker : smtp://mailpit:1025)
+ * - sinon construit depuis le bloc gmail : port_php 465 => smtps (SSL), sinon smtp (STARTTLS)
+ *
+ * @param array $data
+ * @return TransportInterface
+ */
+function createMailerTransport(array $data): TransportInterface
+{
+    if (!empty($data['mailer_dsn'])) {
+        return Transport::fromDsn($data['mailer_dsn']);
+    }
+
+    $gmail = $data['gmail'][0];
+    $scheme = ((int)$gmail['port_php'] === 465) ? 'smtps' : 'smtp';
+
+    return Transport::fromDsn(sprintf(
+        '%s://%s:%s@%s:%d',
+        $scheme,
+        rawurlencode($gmail['mail']),
+        rawurlencode($gmail['password']),
+        $gmail['server'],
+        (int)$gmail['port_php']
+    ));
+}
+
+/**
+ * @param array $data
+ * @param string $subject
+ * @return Email
+ */
+function createEmail(array $data, string $subject): Email
+{
+    return (new Email())
+        ->from(new Address($data['gmail'][0]['mail'], $data['gmail'][0]['name']))
+        ->to($data['mail_to'])
+        ->subject($subject);
 }
 
 /**
@@ -94,6 +163,8 @@ function getStateRelais($link, $name): bool
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
+
+    return false;
 }
 
 /**
@@ -104,11 +175,7 @@ function getStateRelais($link, $name): bool
 function insertTemperature($link, $temp, $table = "`data_temperature_eau`"): void
 {
     try {
-        $sql = '# noinspection SqlNoDataSourceInspectionForFile 
-                INSERT INTO ' . $table . ' ( `value`) 
-                VALUES ("' . strval($temp) . '")';
-        logInFile($link, "sql.log", $sql);
-        $link->query($sql);
+        dbQuery($link, 'INSERT INTO ' . $table . ' (`value`) VALUES (?)', [strval($temp)]);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
@@ -195,11 +262,7 @@ function readTemperature($content)
 function setControle($link, $value): void
 {
     try {
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                UPDATE " . TABLE_LAST_ACTIVITY . " set `value`='" . $value . "', `created_at`=now() 
-                WHERE `value`='" . $value . "'";
-        logInFile($link, "sql.log", $sql);
-        $link->query($sql);
+        dbQuery($link, "UPDATE " . TABLE_LAST_ACTIVITY . " SET `created_at`=now() WHERE `value`=?", [$value]);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
     }
@@ -222,18 +285,20 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
         $file = __DIR__ . "/../../../state/" . $path . '-' . $value;
 
         if (!file_exists($file)) {
-            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                    UPDATE " . TABLE_STATE . " set `value`='" . $value . "',`error`='" . $error . "',`message`='" . $message . "', `created_at`=now(), `mail_send`=0, `exclude_check`='" . $exclude . "' 
-                    WHERE `path`='" . $path . "'";
-            logInFile($link, "sql.log", $sql);
-            $link->query($sql);
+            dbQuery(
+                $link,
+                "UPDATE " . TABLE_STATE . " SET `value`=?, `error`=?, `message`=?, `created_at`=now(), `mail_send`=0, `exclude_check`=? WHERE `path`=?",
+                [$value, (int)$error, $message, (int)$exclude, $path]
+            );
 
             // met ligne dans table log
             setLog($link, $message);
 
             //on créer le ficher state
-            exec("rm -f " . __DIR__ . "/../../../state/" . $path . '-*');
-            exec("touch " . $file);
+            foreach (glob(__DIR__ . "/../../../state/" . $path . '-*') ?: [] as $oldState) {
+                @unlink($oldState);
+            }
+            touch($file);
 
             return true;
         }
@@ -257,13 +322,7 @@ function setState($link, $path, $value, $error, $message, $exclude = 0, $force_l
  */
 function setLog($link, $message): void
 {
-    $message = str_replace("'", "\'", $message);
-    // met ligne dans table log
-    $sql = '# noinspection SqlNoDataSourceInspectionForFile 
-            INSERT INTO ' . TABLE_LOG . ' (`message`) 
-            VALUES ("' . $message . '")';
-    logInFile($link, "sql.log", $sql);
-    $link->query($sql);
+    dbQuery($link, 'INSERT INTO ' . TABLE_LOG . ' (`message`) VALUES (?)', [(string)$message]);
 }
 
 /**
@@ -273,15 +332,7 @@ function setLog($link, $message): void
  */
 function setLogMail($link, $sujet, $message): void
 {
-    $message = str_replace('"', "'", $message);
-    $message = str_replace("'", "\'", $message);
-    $sujet = str_replace("'", "\'", $sujet);
-    // met ligne dans table log
-    $sql = '# noinspection SqlNoDataSourceInspectionForFile 
-            INSERT INTO ' . TABLE_LOG_MAIL . ' (`sujet`, `message`) 
-            VALUES ("' . $sujet . '","' . $message . '")';
-    logInFile($link, "sql.log", $sql);
-    $link->query($sql);
+    dbQuery($link, 'INSERT INTO ' . TABLE_LOG_MAIL . ' (`sujet`, `message`) VALUES (?, ?)', [(string)$sujet, (string)$message]);
 }
 
 /**
@@ -398,34 +449,22 @@ function setStatus($link, $data, $code): void
         } else {
             $value = 0;
         }
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                UPDATE " . TABLE_STATUS . " 
-                SET `value`='" . $value . "' 
-                WHERE `name` = '$code'";
-        logInFile($link, "sql.log", $sql);
-        $link->query($sql);
+        dbQuery($link, "UPDATE " . TABLE_STATUS . " SET `value`=? WHERE `name`=?", [$value, $code]);
 
-        // on set le status en fichier
-        if ($value == 1) {
-            exec("touch " . __DIR__ . "/../../../config/" . $code);
-        } else {
-            exec("rm " . __DIR__ . "/../../../config/" . $code);
-        }
-
-        if ($code === 'on_off_osmolateur') {
+        // on set le status en fichier (le nom doit être un code simple : pas de chemin)
+        if (preg_match('/^[a-z0-9_]+$/', $code)) {
+            $statusFile = __DIR__ . "/../../../config/" . $code;
             if ($value == 1) {
-                // on allume
-                exec("python " . __DIR__ . "/../../../scripts/osmolateur/on.py");
-            } else {
-                // on éteint
-                exec("python " . __DIR__ . "/../../../scripts/osmolateur/off.py");
+                touch($statusFile);
+            } elseif (file_exists($statusFile)) {
+                unlink($statusFile);
             }
         }
 
         if ($code === 'force_turn_on_eclairage') {
             if ($value == 1) {
                 // on allume
-                exec("python " . __DIR__ . "/../../../scripts/reacteur_eclairage/on.py");
+                exec("python3 " . __DIR__ . "/../../../scripts/reacteur_eclairage/on.py");
             }
         }
 
@@ -453,12 +492,7 @@ function setConfig($link, $data, $code): void
             $value = 0;
         }
 
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                UPDATE " . TABLE_CORE_CONFIG . " 
-                SET `value`='" . $value . "' 
-                WHERE `name` = '$code'";
-        logInFile($link, "sql.log", $sql);
-        $link->query($sql);
+        dbQuery($link, "UPDATE " . TABLE_CORE_CONFIG . " SET `value`=? WHERE `name`=?", [(string)$value, (string)$code]);
 
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -499,30 +533,12 @@ function clear($link): void
         $date->modify($periode);
         $limit = $date->format('Y-m-d H:i:s');
 
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM " . TABLE_DATA_REACTEUR . " 
-                WHERE `created_at` < '" . $limit . "';";
-        $link->query($sql);
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM " . TABLE_DATA_TEMP_EAU . " 
-                WHERE `created_at` < '" . $limit . "';";
-        $link->query($sql);
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM " . TABLE_DATA_TEMP_AIR . " 
-                WHERE `created_at` < '" . $limit . "';";
-        $link->query($sql);
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM " . TABLE_DATA_TEMP_RPI . " 
-                WHERE `created_at` < '" . $limit . "';";
-        $link->query($sql);
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM " . TABLE_LOG . " 
-                WHERE `created_at` < '" . $limit . "';";
-        $link->query($sql);
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM " . TABLE_LOG_MAIL . " 
-                WHERE `created_at` < '" . $limit . "';";
-        $link->query($sql);
+        dbQuery($link, "DELETE FROM " . TABLE_DATA_REACTEUR . " WHERE `created_at` < ?", [$limit]);
+        dbQuery($link, "DELETE FROM " . TABLE_DATA_TEMP_EAU . " WHERE `created_at` < ?", [$limit]);
+        dbQuery($link, "DELETE FROM " . TABLE_DATA_TEMP_AIR . " WHERE `created_at` < ?", [$limit]);
+        dbQuery($link, "DELETE FROM " . TABLE_DATA_TEMP_RPI . " WHERE `created_at` < ?", [$limit]);
+        dbQuery($link, "DELETE FROM " . TABLE_LOG . " WHERE `created_at` < ?", [$limit]);
+        dbQuery($link, "DELETE FROM " . TABLE_LOG_MAIL . " WHERE `created_at` < ?", [$limit]);
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
         setMessage("error", $e->getMessage());
@@ -561,12 +577,7 @@ function getStatusVentilateur($link, $currentTemperature): bool
 function getConfig($link, $name)
 {
     try {
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                SELECT `value` 
-                FROM " . TABLE_CORE_CONFIG . " 
-                WHERE `name` = '" . $name . "'";
-        $controle = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($controle);
+        $row = dbFetchOne($link, "SELECT `value` FROM " . TABLE_CORE_CONFIG . " WHERE `name`=?", [(string)$name]);
 
         if ($row && intval($row['value']) == 1) {
             $result = true;
@@ -909,11 +920,7 @@ function setParam($link, $data, $type): void
     try {
         $data = str_replace(',', '.', $data);
         if (isset($data) && is_numeric($data)) {
-            $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                INSERT INTO " . TABLE_DATA_EAU . " (`type`, `value`) 
-                VALUES ('" . $type . "', '" . strval($data) . "')";
-            logInFile($link, "sql.log", $sql);
-            $link->query($sql);
+            dbQuery($link, "INSERT INTO " . TABLE_DATA_EAU . " (`type`, `value`) VALUES (?, ?)", [(string)$type, strval($data)]);
         }
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -1197,16 +1204,7 @@ function getLastParam($link, $type, $evolution): string
 {
     try {
         $label = '';
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                SELECT * 
-                FROM " . TABLE_DATA_EAU . " 
-                WHERE `type` = '" . $type . "' 
-                ORDER BY `id` DESC 
-                LIMIT 1";
-        logInFile($link, "sql.log", $sql);
-
-        $request = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($request);
+        $row = dbFetchOne($link, "SELECT * FROM " . TABLE_DATA_EAU . " WHERE `type`=? ORDER BY `id` DESC LIMIT 1", [(string)$type]);
 
         switch ($type) {
             case 'kh':
@@ -1252,27 +1250,8 @@ function getLastParam($link, $type, $evolution): string
 function getLastDiffParam($link, $type): string
 {
     try {
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                SELECT * 
-                FROM " . TABLE_DATA_EAU . " 
-                WHERE `type` = '" . $type . "' 
-                ORDER BY `id` DESC 
-                LIMIT 1";
-        logInFile($link, "sql.log", $sql);
-
-        $request = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($request);
-
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                SELECT * 
-                FROM " . TABLE_DATA_EAU . " 
-                WHERE `type` = '" . $type . "' 
-                ORDER BY `id` DESC 
-                LIMIT 1,1";
-        logInFile($link, "sql.log", $sql);
-
-        $request = mysqli_query($link, $sql);
-        $row2 = mysqli_fetch_assoc($request);
+        $row = dbFetchOne($link, "SELECT * FROM " . TABLE_DATA_EAU . " WHERE `type`=? ORDER BY `id` DESC LIMIT 1", [(string)$type]);
+        $row2 = dbFetchOne($link, "SELECT * FROM " . TABLE_DATA_EAU . " WHERE `type`=? ORDER BY `id` DESC LIMIT 1,1", [(string)$type]);
 
         $date1 = $row["created_at"];
         $date2 = $row2["created_at"];
@@ -1520,11 +1499,12 @@ function getCrons(): array
     $results = [];
     if ($handle = opendir($directory)) {
         while (false !== ($entry = readdir($handle))) {
-            if ($entry != "." && $entry != "..") {
+            if (substr($entry, -4) === '.php') {
                 $results[] = ['type' => $entry, 'run' => $directory . $entry];
             }
         }
         closedir($handle);
+        usort($results, fn($a, $b) => strcmp($a['type'], $b['type']));
 
         return $results;
     }
@@ -1595,6 +1575,46 @@ function getContentTempFileCron($link)
 }
 
 /**
+ * Dump SQL de la base via mariadb-dump (ou mysqldump), compressé en {$file}.zip (contient {$file}.sql).
+ *
+ * @param array $db bloc "database" de config.json
+ * @param string $file chemin sans extension
+ * @throws Exception
+ */
+function dumpDatabaseToZip(array $db, string $file): void
+{
+    $binary = trim((string)shell_exec('command -v mariadb-dump || command -v mysqldump'));
+    if ($binary === '') {
+        throw new Exception('mariadb-dump / mysqldump introuvable');
+    }
+
+    $sqlFile = $file . '.sql';
+    $command = sprintf(
+        'MYSQL_PWD=%s %s --host=%s --user=%s --single-transaction --routines --databases %s > %s 2>&1',
+        escapeshellarg($db['passwd']),
+        escapeshellarg($binary),
+        escapeshellarg($db['host']),
+        escapeshellarg($db['user']),
+        escapeshellarg($db['database']),
+        escapeshellarg($sqlFile)
+    );
+    exec($command, $output, $returnVar);
+    if ($returnVar !== 0) {
+        $error = is_file($sqlFile) ? file_get_contents($sqlFile, false, null, 0, 500) : '';
+        @unlink($sqlFile);
+        throw new Exception('Erreur dump BDD : ' . $error);
+    }
+
+    $zip = new ZipArchive();
+    if ($zip->open($file . '.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+        throw new Exception('Impossible de créer ' . $file . '.zip');
+    }
+    $zip->addFile($sqlFile, basename($sqlFile));
+    $zip->close();
+    unlink($sqlFile);
+}
+
+/**
  * @param $data
  * @param $transport
  * @param $subject
@@ -1605,26 +1625,14 @@ function dumpBDD($data, $transport, $subject): int
     $date = date('Ymd-H\hi');
     $file = __DIR__ . "/../../../var/backup/dump_{$data['database'][0]['database']}_{$date}";
 
-    $Dump = new MySQLBackup(
-        $data['database'][0]['host'],
-        $data['database'][0]['user'],
-        $data['database'][0]['passwd'],
-        $data['database'][0]['database']
-    );
-    $Dump->setFilename($file);
-    $Dump->setCompress('zip');
-    $Dump->dump();
+    dumpDatabaseToZip($data['database'][0], $file);
 
-    $mailer = new Swift_Mailer($transport);
-    $message = new Swift_Message($subject);
-    $message
-        ->setFrom([$data['gmail'][0]['mail'] => $data['gmail'][0]['name']])
-        ->setTo([$data['mail_to']])
-        ->setSubject($subject)
-        ->setBody($subject, 'text/html')
-        ->attach(Swift_Attachment::fromPath("{$file}.zip"));
+    $message = createEmail($data, $subject)
+        ->html($subject)
+        ->attachFromPath("{$file}.zip");
+    (new Mailer($transport))->send($message);
 
-    return $mailer->send($message);
+    return 1;
 
 }
 
@@ -1642,12 +1650,11 @@ function insertTimer($link, $type): string
         $date->modify($periode);
         $date = $date->format('Y-m-d H:i:s');
 
-        $sql = '# noinspection SqlNoDataSourceInspectionForFile 
-                INSERT INTO ' . TABLE_TIMER . ' ( `type`, `off_until`) 
-                VALUES ("' . $type . '","' . $date . '")
-                ON DUPLICATE KEY UPDATE `off_until` = "' . $date . '"';
-        logInFile($link, "sql.log", $sql);
-        $link->query($sql);
+        dbQuery(
+            $link,
+            'INSERT INTO ' . TABLE_TIMER . ' (`type`, `off_until`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `off_until` = VALUES(`off_until`)',
+            [(string)$type, $date]
+        );
 
         return $date;
 
@@ -1667,13 +1674,7 @@ function insertTimer($link, $type): string
 function haveTimer($link, $type): bool
 {
     try {
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-            SELECT * 
-            FROM " . TABLE_TIMER . " 
-            WHERE `type` LIKE '" . $type . "'";
-        logInFile($link, "sql.log", $sql);
-        $timer = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($timer);
+        $row = dbFetchOne($link, "SELECT * FROM " . TABLE_TIMER . " WHERE `type`=?", [(string)$type]);
 
         if ($row) {
             return true;
@@ -1695,10 +1696,7 @@ function haveTimer($link, $type): bool
 function removeTimer($link, $type): bool
 {
     try {
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-                DELETE FROM " . TABLE_TIMER . " 
-                WHERE `type` LIKE '" . $type . "';";
-        $link->query($sql);
+        dbQuery($link, "DELETE FROM " . TABLE_TIMER . " WHERE `type`=?", [(string)$type]);
 
     } catch (Exception $e) {
         setLog($link, $e->getMessage());
@@ -1716,13 +1714,7 @@ function removeTimer($link, $type): bool
 function getTimer($link, $type)
 {
     try {
-        $sql = "# noinspection SqlNoDataSourceInspectionForFile 
-            SELECT `off_until`
-            FROM " . TABLE_TIMER . " 
-            WHERE `type` LIKE '" . $type . "'";
-        logInFile($link, "sql.log", $sql);
-        $timer = mysqli_query($link, $sql);
-        $row = mysqli_fetch_assoc($timer);
+        $row = dbFetchOne($link, "SELECT `off_until` FROM " . TABLE_TIMER . " WHERE `type`=?", [(string)$type]);
 
         if ($row && $row['off_until']) {
             return $row['off_until'];
@@ -1779,7 +1771,7 @@ function getDaysProgess($link, $table, $type = '')
     }
 }
 
-function size($size, array $options = null)
+function size($size, ?array $options = null)
 {
 
     $o = [
@@ -1822,3 +1814,27 @@ function size($size, array $options = null)
                     $o['sufix'][$o['binary'] ? 'binary' : 'decimal']
                 );
 }
+
+/**
+ * Redirige vers une page de l'appli et arrête le script.
+ *
+ * @param array $data config
+ * @param string $page chemin relatif à base_url ("" = dashboard)
+ */
+function redirect(array $data, string $page = ''): void
+{
+    header('Location: ' . $data['database'][0]['base_url'] . $page);
+    exit;
+}
+
+/**
+ * Échappement HTML pour l'affichage.
+ *
+ * @param mixed $value
+ * @return string
+ */
+function e($value): string
+{
+    return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+

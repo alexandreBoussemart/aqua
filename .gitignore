@@ -12,3 +12,10 @@ statusRelais/*
 var/backup
 var/backup/*
 docs
+# Docker local
+docker/db/*.sql
+
+# Dépendances de build front (npm install dans web/ si besoin de recompiler les assets)
+node_modules/
+web/node_modules/
+web/.sass-cache/

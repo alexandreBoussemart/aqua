@@ -25,12 +25,12 @@ $osmolateurHaveTimer = haveTimer($link, OSMOLATEUR);
                   class="form-horizontal form-label-left switch-state">
                 <?php foreach ($listes_status_rapides as $status): ?>
                     <div class="form-group form-actions-rapides">
-                        <label class="control-label"><?= $status['label'] ?></label>
+                        <label class="control-label"><?= e($status['label']) ?></label>
                         <div class="">
                             <div class="js-switch-label">
-                                <label for="<?= $status['name'] ?>"></label>
-                                <input name="<?= $status['name'] ?>" type="checkbox"
-                                       class="js-switch <?= $status['name'] ?>" <?php if ($status['value'] == '1') echo 'checked'; ?> />
+                                <label for="<?= e($status['name']) ?>"></label>
+                                <input name="<?= e($status['name']) ?>" type="checkbox"
+                                       class="js-switch <?= e($status['name']) ?>" <?php if ($status['value'] == '1') echo 'checked'; ?> />
                             </div>
                         </div>
                     </div>

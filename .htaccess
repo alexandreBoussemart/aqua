@@ -1,0 +1,4 @@
+# Protection de la racine du projet : seul web/ doit être servi par Apache.
+# Tout le reste (config.json, raspberry.txt, config/, state/, var/backup/, scripts/, vendor/…) est interdit.
+Options -Indexes
+Require all denied

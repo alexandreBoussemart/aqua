@@ -38,7 +38,7 @@ try {
 
         if(haveTimer($link, ECUMEUR)){
             // on éteint
-            exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
+            exec("python3 " . __DIR__ . "/../../../scripts/ecumeur/off.py");
             setControle($link, CONTROLE_ECUMEUR);
             setState($link, ECUMEUR, 'state_97', 0, "Écumeur - Pause timer");
 
@@ -46,20 +46,20 @@ try {
         }
 
         //on execute la commande
-        exec("python " . __DIR__ . "/../../../scripts/ecumeur.py");
+        exec("python3 " . __DIR__ . "/../../../scripts/ecumeur.py");
         usleep(500000);
 
         if (getStatus($link, 'on_off_ecumeur') != true) {
             // on éteint
-            exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
+            exec("python3 " . __DIR__ . "/../../../scripts/ecumeur/off.py");
         } else {
             if (isNiveauToHigh($link)) {
                 // si osmolateur niveau to high, on éteint l'écumeur
-                exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
+                exec("python3 " . __DIR__ . "/../../../scripts/ecumeur/off.py");
             } elseif (isRunEcumeur($link)) {
-                exec("python " . __DIR__ . "/../../../scripts/ecumeur/on.py");
+                exec("python3 " . __DIR__ . "/../../../scripts/ecumeur/on.py");
             } else {
-                exec("python " . __DIR__ . "/../../../scripts/ecumeur/off.py");
+                exec("python3 " . __DIR__ . "/../../../scripts/ecumeur/off.py");
             }
         }
     }

@@ -27,7 +27,7 @@ try {
 
     //check si on doit éteindre les ventilateurs de l'aquarium en mode forcé
     if (getStatus($link, 'force_turn_off_ventilateur')) {
-        exec("python " . __DIR__ . "/../../../scripts/aquarium_ventilateur/off.py");
+        exec("python3 " . __DIR__ . "/../../../scripts/aquarium_ventilateur/off.py");
     }
 
     //si on est pas toutes les 5 minutes on quitte
@@ -93,9 +93,9 @@ try {
 
         // on check si on doit allumer le ventilateur de l'aquarium
         if (getStatusVentilateur($link, $temperature2) && !getStatus($link, 'force_turn_off_ventilateur')) {
-            exec("python " . __DIR__ . "/../../../scripts/aquarium_ventilateur/on.py");
+            exec("python3 " . __DIR__ . "/../../../scripts/aquarium_ventilateur/on.py");
         } else {
-            exec("python " . __DIR__ . "/../../../scripts/aquarium_ventilateur/off.py");
+            exec("python3 " . __DIR__ . "/../../../scripts/aquarium_ventilateur/off.py");
         }
 
         // on set comme quoi on est bien passé dans la cron

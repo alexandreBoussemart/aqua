@@ -1,6 +1,5 @@
 {
     "require": {
-        "swiftmailer/swiftmailer": "^6.0",
-        "phelium/mysql-backup": "^1.0"
+        "symfony/mailer": "^7.4"
     }
 }

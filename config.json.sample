@@ -20,5 +20,6 @@
         }
     ],
     "file_temperature_eau": "",
-    "file_temperature_air": ""
+    "file_temperature_air": "",
+    "mailer_dsn": ""
 }

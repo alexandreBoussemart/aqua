@@ -21,10 +21,10 @@ $crons = getCrons();
                     <tbody>
                     <?php foreach ($crons as $cron): ?>
                         <tr>
-                            <td><?= $cron["type"] ?></td>
+                            <td><?= e($cron["type"]) ?></td>
                             <td>
                                 <button
-                                        data-file="<?= $cron["run"] ?>"
+                                        data-file="<?= e($cron["type"]) ?>"
                                         class="btn btn-default btn-run"
                                         type="submit">
                                     <i class="fa fa-play"></i> Run

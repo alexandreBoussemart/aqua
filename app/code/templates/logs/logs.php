@@ -29,7 +29,7 @@ $logs = mysqli_query($link, $sql);
                         <tr>
                             <td><?= $log["id"] ?></td>
                             <td><?= getFormattedDate($log["created_at"]) ?></td>
-                            <td><?= $log["message"] ?></td>
+                            <td><?= e($log["message"]) ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

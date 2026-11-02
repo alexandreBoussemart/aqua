@@ -16,7 +16,7 @@ $listes_controles = mysqli_query($link, $sql);
             <ul class="quick-list">
                 <?php foreach ($listes_controles as $controle): ?>
                     <li><i class="fa fa-check-square-o"></i><a href="#"><strong style="text-transform: uppercase">
-                                <?= $controle['label'] ?> </strong>Dernière mise à jour le
+                                <?= e($controle['label']) ?> </strong>Dernière mise à jour le
                             <strong><?= getFormattedDate($controle['created_at']) ?></strong></a></li>
                 <?php endforeach; ?>
             </ul>

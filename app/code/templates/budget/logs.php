@@ -32,7 +32,7 @@ $budget = mysqli_query($link, $sql);
                             <td><?= $log["id"] ?></td>
                             <td class="hidden"><?= $log["created_at"] ?></td>
                             <td data-sort="<?= $log["created_at"] ?>"><?= getFormattedDateWithouH($log["created_at"]) ?></td>
-                            <td><?= $log["comment"] ?></td>
+                            <td><?= e($log["comment"]) ?></td>
                             <td><?= number_format($log["value"], 2, ',', ' ') ?>€</td>
                             <td class="action_grid">
                                 <form method="post" action="controller/save"

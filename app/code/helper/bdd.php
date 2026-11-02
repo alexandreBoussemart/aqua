@@ -1,11 +1,14 @@
 <?php
 
+// PHP >= 8.1 : mysqli lève des exceptions par défaut. Le code (écrit pour PHP 7) teste les valeurs de retour
+// et connect_error : on rétablit le comportement historique.
+mysqli_report(MYSQLI_REPORT_OFF);
+
 try {
     $strJsonFileContents = file_get_contents(__DIR__ . "/../../../config.json");
     $data = json_decode($strJsonFileContents, true);
 
-    $transport = new Swift_SmtpTransport($data['gmail'][0]['server'], $data['gmail'][0]['port_php'], 'ssl');
-    $transport->setUsername($data['gmail'][0]['mail'])->setPassword($data['gmail'][0]['password']);
+    $transport = createMailerTransport($data);
 
     $link = new mysqli($data['database'][0]['host'], $data['database'][0]['user'], $data['database'][0]['passwd'],
         $data['database'][0]['database']);

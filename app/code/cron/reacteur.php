@@ -44,7 +44,7 @@ try {
         }
 
         // on execute la commande
-        exec("python " . __DIR__ . "/../../../scripts/reacteur.py");
+        exec("python3 " . __DIR__ . "/../../../scripts/reacteur.py");
         sleep(5);
     }
 

@@ -10,7 +10,7 @@ $states_cron = mysqli_query($link, $sql);
 <div class="row tile_count">
     <?php while ($obj = $states_cron->fetch_object()): ?>
         <div class="col-md-1-5 col-sm-1-5 col-xs-12 tile_stats_count <?php if ($obj->error == '1') echo 'error'; ?>">
-            <span class="count_top"><i class="fa fa-power-off"></i> <?= $obj->label ?></span>
+            <span class="count_top"><i class="fa fa-power-off"></i> <?= e($obj->label) ?></span>
             <div class="count"><?php if ($obj->error == '1') echo 'ERREUR'; else echo 'OK'; ?></div>
             <span class="count_bottom">Dernière mise à jour le <?= getFormattedDate($obj->date); ?></span>
         </div>
@@ -28,7 +28,7 @@ $states = mysqli_query($link, $sql);
 <div class="row tile_count">
     <?php while ($obj = $states->fetch_object()): ?>
         <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count <?php if ($obj->error == '1') echo 'error'; ?>">
-            <span class="count_top"><i class="fa fa-power-off"></i> <?= $obj->label ?></span>
+            <span class="count_top"><i class="fa fa-power-off"></i> <?= e($obj->label) ?></span>
             <div class="count"><?php if ($obj->error == '1') echo 'ERREUR'; else echo 'OK'; ?>
                 <?php
                 $message = '';
@@ -41,7 +41,7 @@ $states = mysqli_query($link, $sql);
                     $message = end($message);
                 }
                 ?>
-                <small><?= trim($message) ?></small>
+                <small><?= e(trim($message)) ?></small>
             </div>
             <span class="count_bottom">Dernière mise à jour le <?= getFormattedDate($obj->created_at); ?></span>
         </div>
@@ -73,7 +73,7 @@ $errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state
                 $message = explode('-', $row['message']);
                 $message = end($message);
             ?>
-            <small><?= trim($message) ?></small>
+            <small><?= e(trim($message)) ?></small>
             <?php endif; ?>
         </div>
         <span class="count_bottom">Dernière mise à jour le <?= $date_bailling ?></span>
@@ -87,7 +87,7 @@ $errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state
                 $message = explode('-', $row['message']);
                 $message = end($message);
                 ?>
-                <small><?= trim($message) ?></small>
+                <small><?= e(trim($message)) ?></small>
             <?php endif; ?>
         </div>
         <span class="count_bottom">Dernière mise à jour le <?= $date_bailling ?></span>
@@ -101,7 +101,7 @@ $errorBailling3 = ['state_3', 'state_4', 'state_5', 'state_7', 'state_9', 'state
                 $message = explode('-', $row['message']);
                 $message = end($message);
                 ?>
-                <small><?= trim($message) ?></small>
+                <small><?= e(trim($message)) ?></small>
             <?php endif; ?>
         </div>
         <span class="count_bottom">Dernière mise à jour le <?= $date_bailling ?></span>

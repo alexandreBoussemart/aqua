@@ -31,7 +31,7 @@ $logs_mails = mysqli_query($link, $sql);
                         <tr>
                             <td><?= $log["id"] ?></td>
                             <td><?= getFormattedDate($log["created_at"]) ?></td>
-                            <td><?= $log["sujet"] ?></td>
+                            <td><?= e($log["sujet"]) ?></td>
                             <td><?= $log["message"] ?></td>
                         </tr>
                     <?php endforeach; ?>

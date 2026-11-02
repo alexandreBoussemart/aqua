@@ -2,7 +2,7 @@
     <?php foreach ($_SESSION['success'] as $message): ?>
         <div class="messages" class="row">
             <div class="alert alert-success" role="alert">
-                <?= $message ?>
+                <?= e($message) ?>
             </div>
         </div>
     <?php endforeach; ?>
@@ -13,7 +13,7 @@
     <?php foreach ($_SESSION['error'] as $message): ?>
         <div class="messages" class="row">
             <div class="alert alert-error" role="alert">
-                <?= $message ?>
+                <?= e($message) ?>
             </div>
         </div>
     <?php endforeach; ?>

@@ -41,7 +41,7 @@ $total_litre = $total_litre['sum'];
                         <tr>
                             <td><?= $changement["id"] ?></td>
                             <td><?= getFormattedDate($changement["created_at"]) ?></td>
-                            <td><?= $changement["value"] ?> Litres</td>
+                            <td><?= e($changement["value"]) ?> Litres</td>
                             <td class="action_grid">
                                 <form method="post" action="controller/save"
                                       class="form-horizontal form-label-left switch-state">
