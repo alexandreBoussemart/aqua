@@ -3,7 +3,7 @@
 namespace App\Config;
 
 /**
- * Lecture de config.json (fichier partagé avec les scripts Python) :
+ * Lecture de config.json (non versionné) :
  * BDD, SMTP, destinataire des alertes, sondes 1-Wire, utilisateur de l'interface.
  */
 final class AppConfig

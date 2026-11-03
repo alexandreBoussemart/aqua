@@ -6,7 +6,7 @@ Application de supervision et de pilotage d'un aquarium récifal sur Raspberry P
 - Pilotage des relais : alimentation de l'écumeur, pompe de l'osmolateur, éclairage du refuge.
 - Alertes par mail, rappels d'entretien, suivi des analyses d'eau avec graphiques.
 
-**Stack** : Symfony 7.4 · PHP 8.5 · MariaDB 11.8 · Doctrine DBAL · Twig · Python 3.13 (scripts GPIO) · Chart.js · Docker.
+**Stack** : Symfony 7.4 · PHP 8.5 · MariaDB 11.8 · Doctrine DBAL · Twig · Python 3.13 (service GPIO) · Chart.js · Docker.
 
 ## Démarrage rapide (local)
 
@@ -25,7 +25,7 @@ make migrate       # applique les migrations SQL
 | Mailpit (mails interceptés) | http://localhost:8025 |
 | MariaDB | `localhost:3307` (root / root, base `aqua`) |
 
-En local, le GPIO est simulé : un faux `RPi.GPIO` lit les entrées dans `docker/gpio/<pin>` et trace les sorties dans `var/log/gpio-fake.log`. Les sondes de température sont factices (`docker/sensors/`).
+En local, le GPIO est simulé : un faux `RPi.GPIO` lit les entrées dans `docker/gpio/<pin>` (ex. `echo 0 > docker/gpio/24` = osmolateur en manque d'eau) et trace les sorties dans `var/log/gpio-fake.log`. `make gpio` affiche l'état des relais et des capteurs. Les sondes de température sont factices (`docker/sensors/`).
 
 ## Commandes
 
@@ -42,7 +42,8 @@ En local, le GPIO est simulé : un faux `RPi.GPIO` lit les entrées dans `docker
 | `make console c="debug:router"` | commande Symfony quelconque |
 | `make composer c="require foo/bar"` | Composer |
 | `make cc` | vide le cache Symfony |
-| `make test` | tests unitaires (PHPUnit) |
+| `make gpio` / `make logs-gpio` | état des relais et capteurs (`make gpio a="on refuge_eclairage"` pour piloter) / logs du service GPIO |
+| `make test` | tests unitaires PHP et Python |
 | `make e2e` | test de bout en bout, puis suppression des données qu'il a créées |
 | `make css` / `make css-watch` | compile le SCSS (Dart Sass + Autoprefixer) |
 | `make db` / `make pma` / `make mail` | client MariaDB / phpMyAdmin / Mailpit |
@@ -50,7 +51,7 @@ En local, le GPIO est simulé : un faux `RPi.GPIO` lit les entrées dans `docker
 ## Organisation
 
 ```
-config/          configuration Symfony (security, services…)
+config/          configuration Symfony (security, services…) et brochage GPIO (gpio.json)
 src/
   Command/       commandes console : crons (app:cron:*), migrations, planificateur
   Controller/    pages (dashboard, configuration, analyse, logs, monitoring, relais, crons, GPIO…)
@@ -59,12 +60,21 @@ src/
   Scheduler/     planificateur unique (remplace la crontab)
   Service/       sondes, relais, rappels, graphiques, sauvegarde…
 templates/       vues Twig
-scripts/         scripts Python (GPIO) appelés par les crons
+scripts/         service GPIO permanent (Python)
 migrations/      migrations SQL (appliquées par app:db:migrate)
 assets/src/scss/ thème « Récif » → public/build/css
 docker/          image PHP (dev/prod), config locale, faux GPIO, sondes factices
 tests/           tests unitaires (Unit/) et de bout en bout (E2E/)
 ```
+
+## Matériel (GPIO)
+
+Un seul processus touche aux broches : le **service GPIO** (`scripts/gpio_service.py`, conteneur `gpio`). Il lit les capteurs de niveau et pilote les relais à la demande de l'application PHP, qui contient toute la logique (`src/Domain/Levels.php`, crons `app:cron:*`). Brochage : `config/gpio.json`, schéma sur la page **Câblage GPIO**.
+
+Sécurités :
+- tous les relais sont coupés au démarrage et à l'arrêt du service ;
+- la pompe de l'osmolateur est coupée si le cron ne la confirme plus depuis 15 s ;
+- en cas d'erreur, le cron osmolateur coupe la pompe avant toute autre action.
 
 ## Planification des tâches
 

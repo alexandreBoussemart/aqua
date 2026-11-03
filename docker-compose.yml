@@ -39,6 +39,26 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      gpio:
+        condition: service_started
+
+  # Service GPIO permanent (scripts/gpio_service.py) : seul à toucher aux broches ; en local, faux RPi.GPIO
+  #   capteur simulé : echo 0 > docker/gpio/<broche BCM>   ·   sorties : var/log/gpio-fake.log
+  gpio:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      target: dev
+    container_name: aqua-gpio
+    command: ["python3", "scripts/gpio_service.py"]
+    restart: unless-stopped
+    stop_grace_period: 5s
+    volumes:
+      - ./:/var/www/html/aqua
+      - ./docker/gpio:/opt/gpio
+      - ./docker/python:/opt/fake_python:ro
+    environment:
+      TZ: Europe/Paris
 
   db:
     image: mariadb:11.8

@@ -35,7 +35,7 @@ final class Equipment
         self::OSMOLATEUR => "L'osmolateur",
     ];
 
-    /** relais pilotables depuis l'interface : dossier scripts/<x>/on|off.py => libellé */
+    /** relais pilotables (noms de config/gpio.json) => libellé */
     public const RELAYS = [
         'ecumeur' => 'Relais alimentation écumeur',
         'pompe_osmolateur' => 'Relais pompe osmolateur',

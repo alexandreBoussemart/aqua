@@ -379,6 +379,7 @@ ul.to_do li {
 // --- Relais ---------------------------------------------------------------------------------
 .title-relais.on h2::after { background: $seaweed !important; box-shadow: 0 0 10px $seaweed; }
 .title-relais.off h2::after { background: $coral !important; }
+.title-relais.unknown h2::after { background: #9AA9B5 !important; }
 
 // --- Pied de page : sable --------------------------------------------------------------------
 .footer {

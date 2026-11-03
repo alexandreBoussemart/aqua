@@ -1,0 +1,16 @@
+{
+  "_doc": "Brochage GPIO (numérotation BCM) partagé par scripts/gpio_service.py et PHP (App\\Gpio). Toute modification doit aussi être reportée dans src/Domain/GpioWiring.php (vérifié par tests/Unit/GpioWiringTest.php).",
+  "inputs": {
+    "ecumeur_godet": 18,
+    "osmolateur_trop_haut": 23,
+    "osmolateur_niveau_ok": 24,
+    "bailling_1": 8,
+    "bailling_2": 13,
+    "bailling_3": 22
+  },
+  "relays": {
+    "ecumeur": {"pin": 11, "active_low": false},
+    "pompe_osmolateur": {"pin": 21, "active_low": true, "watchdog": 15},
+    "refuge_eclairage": {"pin": 6, "active_low": true}
+  }
+}

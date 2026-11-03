@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Domain\Equipment;
+use App\Gpio\GpioException;
 use App\Service\Relay;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -20,12 +21,13 @@ final class HardwareController extends AbstractController
     #[Route('/relais', name: 'relais', methods: ['GET'])]
     public function relays(Relay $relay): Response
     {
+        $states = $relay->states();
         $relays = [];
         foreach (Equipment::RELAYS as $name => $label) {
-            $relays[] = ['name' => $name, 'label' => $label, 'on' => $relay->isOn($name)];
+            $relays[] = ['name' => $name, 'label' => $label, 'on' => $states[$name] ?? null];
         }
 
-        return $this->render('relais/index.html.twig', ['relays' => $relays]);
+        return $this->render('relais/index.html.twig', ['relays' => $relays, 'gpio_available' => $states !== null]);
     }
 
     #[Route('/relais/{name}/{action}', name: 'relais_switch', requirements: ['action' => 'on|off'], methods: ['POST'])]
@@ -34,9 +36,11 @@ final class HardwareController extends AbstractController
         if (!isset(Equipment::RELAYS[$name])) {
             throw $this->createNotFoundException();
         }
-        $output = $relay->switch($name, $action);
-        if ($output !== '') {
-            $this->addFlash('warning', $output);
+        try {
+            $relay->switch($name, $action);
+            $this->addFlash('success', sprintf('%s : %s.', Equipment::RELAYS[$name], $action === 'on' ? 'allumé' : 'éteint'));
+        } catch (GpioException $e) {
+            $this->addFlash('error', $e->getMessage());
         }
 
         return $this->redirectToRoute('relais');

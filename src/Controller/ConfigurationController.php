@@ -8,6 +8,7 @@ use App\Repository\MeasureRepository;
 use App\Repository\StatusRepository;
 use App\Service\Dates;
 use App\Service\Reminders;
+use App\Gpio\GpioException;
 use App\Service\Relay;
 use App\Service\SensorReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -102,7 +103,11 @@ final class ConfigurationController extends AbstractController
             $status->set($name, $request->request->has($name));
         }
         if ($request->request->has('force_turn_on_eclairage')) {
-            $relay->on('refuge_eclairage');
+            try {
+                $relay->on('refuge_eclairage');
+            } catch (GpioException $e) {
+                return new Response($e->getMessage(), Response::HTTP_SERVICE_UNAVAILABLE);
+            }
         }
         $this->notifier->trySend('Validation du formulaire de changement de statut.', 'Validation du formulaire de changement de statut.');
 

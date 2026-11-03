@@ -11,8 +11,8 @@ URL     ?= http://localhost:8080/aqua
 
 .DEFAULT_GOAL := help
 .PHONY: help up start down stop restart reset build ps logs logs-web shell console migrate status-sync \
-        cron crons composer cc test e2e css css-watch db pma mail \
-        pi-up pi-down pi-logs pi-migrate pi-shell
+        cron crons gpio logs-gpio composer cc test test-php test-python e2e css css-watch db pma mail \
+        pi-up pi-down pi-logs pi-migrate pi-shell pi-gpio
 
 help: ## Affiche cette aide
 	@awk 'BEGIN {FS = ":.*## "} /^##@/ {printf "\n\033[1m%s\033[0m\n", substr($$0, 5)} /^[a-zA-Z0-9_-]+:.*## / {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -20,7 +20,7 @@ help: ## Affiche cette aide
 	@echo "  App : $(URL)/ (admin / admin) · phpMyAdmin : http://localhost:8081 · Mailpit : http://localhost:8025"
 
 ##@ Conteneurs
-up: ## Construit et démarre tout (web, scheduler, db, phpmyadmin, mailpit)
+up: ## Construit et démarre tout (web, scheduler, gpio, db, phpmyadmin, mailpit)
 	$(DC) up -d --build
 start: up
 down: ## Arrête les conteneurs
@@ -41,6 +41,8 @@ logs: ## Suit les logs du planificateur (crons)
 	docker logs -f aqua-scheduler
 logs-web: ## Suit les logs Apache/PHP
 	docker logs -f aqua-web
+logs-gpio: ## Suit les logs du service GPIO (relais, coupures de sécurité)
+	docker logs -f aqua-gpio
 shell: ## Shell dans le conteneur web
 	$(EXEC) bash
 
@@ -55,14 +57,19 @@ cron: ## Lance un cron à la main : make cron n=osmolateur
 	$(CONSOLE) app:cron:$(n)
 crons: ## Liste les crons disponibles
 	$(CONSOLE) list app:cron
+gpio: ## Service GPIO : état (make gpio) ou pilotage (make gpio a="on refuge_eclairage")
+	$(CONSOLE) app:gpio $(a)
 composer: ## Composer : make composer c="require foo/bar"
 	docker exec -i $(TTY) -e COMPOSER_ALLOW_SUPERUSER=1 aqua-web composer $(c)
 cc: ## Vide le cache Symfony
 	$(CONSOLE) cache:clear
 
 ##@ Qualité
-test: ## Tests unitaires (PHPUnit)
+test: test-php test-python ## Tous les tests unitaires (PHP + Python)
+test-php: ## Tests PHPUnit
 	$(EXEC_T) php bin/phpunit
+test-python: ## Tests du service GPIO (faux RPi.GPIO)
+	$(EXEC_T) python3 -m unittest discover -s tests/Python
 E2E_TABLES := data_parametres_eau data_changement_eau data_clean_refuge data_clean_ecumeur data_clean_pompes
 e2e: ## Test de bout en bout (pages, formulaires, CSRF…) puis suppression des mesures qu'il a créées : make e2e [URL=…]
 	@since=$$(docker exec aqua-db date '+%F %T'); status=0; \
@@ -95,3 +102,5 @@ pi-migrate: ## Applique les migrations
 	$(DC_PI) exec web php bin/console app:db:migrate
 pi-shell: ## Shell dans le conteneur web
 	$(DC_PI) exec web bash
+pi-gpio: ## État des relais et capteurs (vrais GPIO)
+	$(DC_PI) exec web php bin/console app:gpio $(a)

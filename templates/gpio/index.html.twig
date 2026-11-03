@@ -55,7 +55,7 @@
                 <div class="x_content2">
                     <table class="table table-striped table-bordered gpio-table">
                         <thead>
-                        <tr><th>Broche</th><th>GPIO (BCM)</th><th>Branchement</th><th>Type</th><th>Remarque</th><th>Script</th></tr>
+                        <tr><th>Broche</th><th>GPIO (BCM)</th><th>Branchement</th><th>Type</th><th>Remarque</th><th>Nom (config/gpio.json)</th></tr>
                         </thead>
                         <tbody>
                         {% for pin, c in connections %}
@@ -65,15 +65,16 @@
                                 <td><strong>{{ c.label }}</strong></td>
                                 <td>{{ type_labels[c.type] }}</td>
                                 <td><small>{{ c.detail }}</small></td>
-                                <td>{% if c.script is defined and c.script %}<code>scripts/{{ c.script[0] }}</code>{% elseif c.type == 'onewire' %}<code>/boot/config.txt</code>{% else %}—{% endif %}</td>
+                                <td>{% if c.gpio is defined and c.gpio %}<code>{{ c.gpio }}</code>{% elseif c.type == 'onewire' %}<code>/boot/config.txt</code>{% else %}—{% endif %}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                     <p class="info">
                         <i class="fa fa-info-circle"></i>
-                        Les capteurs de niveau sont des contacts secs reliés entre la broche et la masse (résistance de tirage interne activée par les scripts).
-                        Les relais sont pilotés via <code>scripts/&lt;relais&gt;/on.py|off.py</code> (cf. page <a href="{{ path('relais') }}">Test relais</a>).
+                        Les capteurs de niveau sont des contacts secs reliés entre la broche et la masse (résistance de tirage interne activée par le service GPIO).
+                        Toutes les broches sont gérées par le service GPIO permanent <code>scripts/gpio_service.py</code> (brochage : <code>config/gpio.json</code>) ;
+                        au démarrage et à l'arrêt du service, tous les relais sont coupés (cf. page <a href="{{ path('relais') }}">Test relais</a>).
                     </p>
                 </div>
             </div>

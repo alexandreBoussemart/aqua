@@ -3,58 +3,53 @@
 namespace App\Service;
 
 use App\Domain\Equipment;
-use Symfony\Component\Process\Process;
+use App\Gpio\GpioClient;
+use App\Gpio\GpioException;
 
-/**
- * Pilotage matériel : lance les scripts Python (RPi.GPIO) de scripts/.
- * Les relais on/off maintiennent aussi var/relais/<nom> (état affiché sur la page Relais).
- */
+/** Pilotage des relais via le service GPIO (l'état réel est celui que le service maintient). */
 final class Relay
 {
-    public function __construct(private readonly string $scriptsDir, private readonly string $varDir)
+    public function __construct(private readonly GpioClient $gpio)
     {
     }
 
-    public function on(string $relay): string
+    public function on(string $relay): void
     {
-        return $this->switch($relay, 'on');
+        $this->switch($relay, 'on');
     }
 
-    public function off(string $relay): string
+    public function off(string $relay): void
     {
-        return $this->switch($relay, 'off');
+        $this->switch($relay, 'off');
     }
 
-    public function switch(string $relay, string $action): string
+    /** Coupe sans lever d'exception (chemins d'erreur : on coupe d'abord, on signale ensuite). */
+    public function tryOff(string $relay): bool
+    {
+        try {
+            $this->off($relay);
+
+            return true;
+        } catch (\Throwable) {
+            return false;
+        }
+    }
+
+    public function switch(string $relay, string $action): void
     {
         if (!isset(Equipment::RELAYS[$relay]) || !in_array($action, ['on', 'off'], true)) {
             throw new \InvalidArgumentException(sprintf('Relais inconnu : %s/%s', $relay, $action));
         }
-
-        return $this->python($relay . '/' . $action . '.py');
+        $this->gpio->setRelay($relay, $action === 'on');
     }
 
-    /** Lance un script de lecture de capteurs (osmolateur.py, ecumeur.py, bailling.py). */
-    public function runScript(string $script): string
+    /** @return array<string, bool>|null état de chaque relais, null si le service GPIO est injoignable */
+    public function states(): ?array
     {
-        if (preg_match('/^[a-z_]+\.py$/', $script) !== 1) {
-            throw new \InvalidArgumentException('Script invalide : ' . $script);
+        try {
+            return $this->gpio->relays();
+        } catch (GpioException) {
+            return null;
         }
-
-        return $this->python($script);
-    }
-
-    public function isOn(string $relay): bool
-    {
-        return isset(Equipment::RELAYS[$relay]) && is_file($this->varDir . '/relais/' . $relay);
-    }
-
-    private function python(string $relativePath): string
-    {
-        $process = new Process(['python3', $this->scriptsDir . '/' . $relativePath]);
-        $process->setTimeout(120);
-        $process->run();
-
-        return trim($process->getOutput() . $process->getErrorOutput());
     }
 }

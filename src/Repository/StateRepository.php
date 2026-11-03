@@ -8,7 +8,6 @@ use Doctrine\DBAL\Connection;
 /**
  * Table core_config_state : état courant de chaque équipement (state_X, erreur, message).
  * Le fichier var/state/<path>-<value> sert de cache : l'état n'est réécrit (et logué) que s'il change.
- * Les scripts Python utilisent la même convention (scripts/functions.py::setcompletestate).
  */
 final class StateRepository
 {

@@ -3,8 +3,9 @@
 namespace App\Domain;
 
 /**
- * Câblage du connecteur GPIO 40 broches du Raspberry Pi 4 (numérotation BCM des scripts Python).
- * Source de vérité de la page « Câblage GPIO » ; tests/Unit/GpioWiringTest.php vérifie la cohérence avec scripts/*.py.
+ * Câblage du connecteur GPIO 40 broches du Raspberry Pi 4 (numérotation BCM).
+ * Source de la page « Câblage GPIO » ; tests/Unit/GpioWiringTest.php vérifie la cohérence avec config/gpio.json
+ * (brochage utilisé par le service GPIO scripts/gpio_service.py).
  */
 final class GpioWiring
 {
@@ -42,23 +43,23 @@ final class GpioWiring
 
     /**
      * Branchements : broche physique => détail.
-     * script = fichier (relatif à scripts/) et variable Python qui déclarent la broche (vérifié par test).
+     * gpio = nom de l'entrée ou du relais dans config/gpio.json (vérifié par test).
      */
     public const CONNECTIONS = [
         1 => ['type' => self::TYPE_POWER_3V3, 'label' => 'Alimentation sondes DS18B20', 'detail' => 'VDD des sondes + résistance de tirage 4,7 kΩ vers DATA'],
         2 => ['type' => self::TYPE_POWER_5V, 'label' => 'Module relais (VCC)', 'detail' => 'Alimentation 5 V de la carte relais'],
         6 => ['type' => self::TYPE_GROUND, 'label' => 'Masse commune', 'detail' => 'GND sondes, capteurs de niveau et carte relais'],
-        7 => ['type' => self::TYPE_ONEWIRE, 'bcm' => 4, 'label' => 'Sondes DS18B20 (eau + air)', 'detail' => 'Bus 1-Wire (dtoverlay=w1-gpio), les deux sondes en parallèle', 'script' => null],
-        12 => ['type' => self::TYPE_SENSOR, 'bcm' => 18, 'label' => 'Écumeur : niveau du godet', 'detail' => 'Entrée pull-up ; 0 = godet trop plein', 'script' => ['ecumeur.py', 'port']],
-        15 => ['type' => self::TYPE_SENSOR, 'bcm' => 22, 'label' => 'Bailling : capteur 3', 'detail' => 'Entrée pull-up ; 0 = niveau bas', 'script' => ['bailling.py', 'bailling_3']],
-        16 => ['type' => self::TYPE_SENSOR, 'bcm' => 23, 'label' => 'Osmolateur : niveau trop haut', 'detail' => 'Entrée pull-up ; 1 = niveau trop haut', 'script' => ['osmolateur.py', 'to_high']],
-        18 => ['type' => self::TYPE_SENSOR, 'bcm' => 24, 'label' => 'Osmolateur : niveau OK', 'detail' => 'Entrée pull-up ; 0 = remplissage nécessaire', 'script' => ['osmolateur.py', 'level_ok']],
-        23 => ['type' => self::TYPE_RELAY, 'bcm' => 11, 'label' => 'Relais alimentation écumeur', 'detail' => 'Sortie ; logique inversée (on.py met la broche à l\'état haut)', 'script' => ['ecumeur/on.py', 'relay']],
-        24 => ['type' => self::TYPE_SENSOR, 'bcm' => 8, 'label' => 'Bailling : capteur 1', 'detail' => 'Entrée pull-up ; 0 = niveau bas', 'script' => ['bailling.py', 'bailling_1']],
-        31 => ['type' => self::TYPE_RELAY, 'bcm' => 6, 'label' => 'Relais éclairage refuge', 'detail' => 'Sortie active à l\'état bas (LOW = allumé)', 'script' => ['refuge_eclairage/on.py', 'relay']],
-        33 => ['type' => self::TYPE_SENSOR, 'bcm' => 13, 'label' => 'Bailling : capteur 2', 'detail' => 'Entrée pull-up ; 0 = niveau bas', 'script' => ['bailling.py', 'bailling_2']],
+        7 => ['type' => self::TYPE_ONEWIRE, 'bcm' => 4, 'label' => 'Sondes DS18B20 (eau + air)', 'detail' => 'Bus 1-Wire (dtoverlay=w1-gpio), les deux sondes en parallèle', 'gpio' => null],
+        12 => ['type' => self::TYPE_SENSOR, 'bcm' => 18, 'label' => 'Écumeur : niveau du godet', 'detail' => 'Entrée pull-up ; 0 = godet trop plein', 'gpio' => 'ecumeur_godet'],
+        15 => ['type' => self::TYPE_SENSOR, 'bcm' => 22, 'label' => 'Bailling : capteur 3', 'detail' => 'Entrée pull-up ; 0 = niveau bas', 'gpio' => 'bailling_3'],
+        16 => ['type' => self::TYPE_SENSOR, 'bcm' => 23, 'label' => 'Osmolateur : niveau trop haut', 'detail' => 'Entrée pull-up ; 1 = niveau trop haut', 'gpio' => 'osmolateur_trop_haut'],
+        18 => ['type' => self::TYPE_SENSOR, 'bcm' => 24, 'label' => 'Osmolateur : niveau OK', 'detail' => 'Entrée pull-up ; 0 = remplissage nécessaire', 'gpio' => 'osmolateur_niveau_ok'],
+        23 => ['type' => self::TYPE_RELAY, 'bcm' => 11, 'label' => 'Relais alimentation écumeur', 'detail' => 'Sortie active à l\'état haut (HIGH = écumeur alimenté)', 'gpio' => 'ecumeur'],
+        24 => ['type' => self::TYPE_SENSOR, 'bcm' => 8, 'label' => 'Bailling : capteur 1', 'detail' => 'Entrée pull-up ; 0 = niveau bas', 'gpio' => 'bailling_1'],
+        31 => ['type' => self::TYPE_RELAY, 'bcm' => 6, 'label' => 'Relais éclairage refuge', 'detail' => 'Sortie active à l\'état bas (LOW = allumé)', 'gpio' => 'refuge_eclairage'],
+        33 => ['type' => self::TYPE_SENSOR, 'bcm' => 13, 'label' => 'Bailling : capteur 2', 'detail' => 'Entrée pull-up ; 0 = niveau bas', 'gpio' => 'bailling_2'],
         39 => ['type' => self::TYPE_GROUND, 'label' => 'Masse carte relais', 'detail' => 'GND de la carte relais (si 2e fil de masse)'],
-        40 => ['type' => self::TYPE_RELAY, 'bcm' => 21, 'label' => 'Relais pompe osmolateur', 'detail' => 'Sortie active à l\'état bas (LOW = pompe en marche)', 'script' => ['pompe_osmolateur/on.py', 'relay']],
+        40 => ['type' => self::TYPE_RELAY, 'bcm' => 21, 'label' => 'Relais pompe osmolateur', 'detail' => 'Sortie active à l\'état bas (LOW = pompe en marche)', 'gpio' => 'pompe_osmolateur'],
     ];
 
     public const TYPE_LABELS = [

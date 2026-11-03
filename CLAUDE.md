@@ -2,7 +2,7 @@
 
 Application **Symfony 7.4 / PHP 8.5** qui pilote et supervise un aquarium récifal depuis un Raspberry Pi 4 :
 température (eau, air, CPU), osmolateur, écumeur, bailling, éclairage du refuge, analyses d'eau, logs, alertes mail.
-Les entrées/sorties matérielles (GPIO) sont gérées par des scripts **Python 3** (`scripts/`) appelés par l'application.
+Les entrées/sorties matérielles (GPIO) passent par un **service Python 3 permanent** (`scripts/gpio_service.py`, conteneur `gpio`) que PHP interroge en TCP ; toute la logique métier est en PHP.
 Langue du projet et des échanges : **français**.
 
 ## Architecture
@@ -10,36 +10,42 @@ Langue du projet et des échanges : **français**.
 ```
 bin/console                  commandes (crons app:cron:*, planificateur, migrations)
 config/                      config Symfony (security.yaml, services.yaml…)
-config.json                  config partagée PHP + Python (BDD, SMTP, sondes, utilisateur) — ignoré par git
+config.json                  config de l'appli (BDD, SMTP, sondes, utilisateur) — ignoré par git
+config/gpio.json             brochage GPIO (entrées, relais, logique active haut/bas, watchdog) partagé PHP + service GPIO
 migrations/*.sql             migrations SQL maison (app:db:migrate, table app_migration)
 public/                      seul dossier exposé (index.php, build/css|js|fonts, favicon)
 src/
   Command/Cron/*Command.php  un cron = une commande app:cron:* (+ CronTools : services communs)
-  Command/                   app:scheduler:work, app:db:migrate, app:status:sync
+  Command/                   app:scheduler:work, app:db:migrate, app:status:sync, app:gpio (état / pilotage manuel)
   Scheduler/Scheduler.php    planificateur unique (expressions cron en BDD, table cron_task)
   Controller/                Dashboard, Configuration, Analyse, Action (pauses, changements d'eau), Page (logs, monitoring, schéma, câblage GPIO), Hardware (relais, crons), Security
   Repository/                accès BDD Doctrine DBAL (requêtes préparées) : Config, Status, State, Log, Activity, Timer, Measure, CronTask
-  Service/                   Relay (scripts Python), SensorReader (1-Wire), Reminders, WaterParams, Charts, Backup, Dates
+  Gpio/GpioClient.php        client du service GPIO (read, readStable = double lecture anti-rebond, setRelay, relays)
+  Service/                   Relay (via GpioClient), SensorReader (1-Wire), Reminders, WaterParams, Charts, Backup, Dates
   Mail/                      Notifier (Symfony Mailer), AlertMailer (mails d'état, rappels, rapport 8h, anti-spam)
   Domain/Equipment.php       constantes métier (équipements, contrôles, relais, calendrier de nourrissage)
+  Domain/Levels.php          interprétation des capteurs de niveau (osmolateur, écumeur, bailling) → états
   Config/AppConfig.php       lecture de config.json ; Database/ConnectionFactory ; Security/ConfigUserProvider
   EventSubscriber/CsrfGuardSubscriber.php   jeton CSRF obligatoire sur tout POST
 templates/                   Twig (base + un dossier par page, _partials/)
-scripts/                     Python : osmolateur.py, ecumeur.py, bailling.py, <relais>/on|off.py, functions.py
+scripts/gpio_service.py      service GPIO permanent (seul processus qui touche aux broches ; pas de BDD ni de mail)
+tests/                       Unit/ (PHPUnit), Python/ (service GPIO, faux RPi.GPIO), E2E/smoke.py
 assets/                      sources front (src/scss, src/js) + anciens outils gulp (non utilisés)
-var/                         state/ (cache d'état), status/ (interrupteurs), relais/ (état des relais), backup/, cache/, log/
+var/                         state/ (cache d'état), status/ (interrupteurs), backup/, cache/, log/
 docker/                      Dockerfile (cibles dev/prod), conf Apache, entrypoint, faux GPIO, sondes factices, build CSS
 ```
 
 ### Câblage GPIO (page `/aqua/cablage-gpio`)
-- Source de vérité : `src/Domain/GpioWiring.php` (broche physique → branchement). `tests/Unit/GpioWiringTest.php` vérifie que chaque broche correspond à la variable déclarée dans le script Python (et que on.py/off.py d'un relais utilisent la même broche) : **toute modification de câblage = mettre à jour les scripts ET GpioWiring**.
+- Brochage utilisé : `config/gpio.json` (noms d'entrées / relais → GPIO BCM). Schéma de la page : `src/Domain/GpioWiring.php` (clé `gpio` = nom dans gpio.json). `tests/Unit/GpioWiringTest.php` vérifie la cohérence des deux, l'absence de broche en double et le watchdog de la pompe : **toute modification de câblage = mettre à jour gpio.json ET GpioWiring**.
 - Broches (BCM → physique) : DS18B20 eau + air 1-Wire GPIO4 → 7 (3,3 V broche 1, pull-up 4,7 kΩ) · écumeur godet GPIO18 → 12 · osmolateur trop haut GPIO23 → 16 · osmolateur niveau OK GPIO24 → 18 · bailling 1/2/3 GPIO8 → 24 / GPIO13 → 33 / GPIO22 → 15 · relais pompe osmolateur GPIO21 → 40 · relais alimentation écumeur GPIO11 → 23 (logique inversée) · relais éclairage refuge GPIO6 → 31 · carte relais 5 V broche 2, GND 6/39.
-- Relais actifs à l'état bas (`on_relay` = LOW), capteurs de niveau en entrée pull-up (contact vers GND). `scripts/test.py` (debug) a bailling 2/3 inversés : la référence est `bailling.py`.
+- Relais pompe et refuge actifs à l'état bas (LOW = allumé), écumeur actif à l'état haut (`active_low: false`). Capteurs de niveau en entrée pull-up (contact vers GND).
 
 ### Fonctionnement
 - **Interrupteurs** (`core_config_status`) : valeur en BDD + fichier `var/status/<nom>` (lecture rapide par les crons). `app:status:sync` recrée les fichiers depuis la BDD.
-- **États** (`core_config_state`) : `StateRepository::set()` n'écrit/logue que si l'état change (cache `var/state/<path>-<value>`, même convention côté Python).
-- **Relais** (`Domain/Equipment::RELAYS`) : `Relay::switch()` lance `scripts/<relais>/on|off.py` ; état affiché via `var/relais/<relais>`. Relais restants : `ecumeur` (« Relais alimentation écumeur »), `pompe_osmolateur`, `refuge_eclairage`.
+- **États** (`core_config_state`) : `StateRepository::set()` n'écrit/logue que si l'état change (cache `var/state/<path>-<value>`).
+- **Service GPIO** (`scripts/gpio_service.py`, conteneur `gpio`, port 7070 interne, `GPIO_SERVICE` dans `.env`) : une requête JSON par ligne (`ping`, `read`, `set`, `status`), entrées et relais désignés par leur nom. Garde les broches réservées (les relais conservent leur état). Tous les relais coupés au démarrage et à l'arrêt. **Watchdog** : la pompe de l'osmolateur est coupée si aucune commande « on » ne la confirme depuis 15 s (cron planté). Service injoignable ⇒ crons en erreur GPIO (osmolateur `state_6`, écumeur `state_3`, bailling `state_9`), mail via le cron mail.
+- **Crons d'équipement** : double lecture anti-rebond (`GpioClient::readStable` : osmolateur 0,5 s, écumeur 2 s, bailling 20 s), interprétation par `Domain/Levels`. Osmolateur : pompe coupée **en premier** en cas d'erreur ; appoint après niveau atteint (`temps_mini_pompe_osmolateur`) en surveillant le flotteur trop haut ; durée max. de remplissage (`state_8`).
+- **Relais** (`Domain/Equipment::RELAYS`) : `Relay::switch()` → service GPIO ; état réel lu auprès du service (page Relais : « état inconnu » si injoignable). Relais restants : `ecumeur` (« Relais alimentation écumeur »), `pompe_osmolateur`, `refuge_eclairage`.
 - **Crons** : un seul processus `app:scheduler:work` (conteneur `scheduler`) lance chaque minute les commandes `app:cron:*` dues selon `cron_task.expression` (modifiable sur `/aqua/crons`, avec activation, prochaine exécution, dernier résultat et bouton Run). Pas de chevauchement : une tâche encore en cours à son échéance est relancée dès sa fin dans la même minute, sinon sautée. Les commandes qui bouclent (osmolateur, écumeur, mail) s'arrêtent à :57.
 - **Sécurité** : connexion obligatoire (form_login, utilisateur unique `auth` de config.json, hash bcrypt via `bin/console security:hash-password`), CSRF sur tous les POST (champ `_token` ou en-tête `X-CSRF-TOKEN` ajouté par `$.ajaxSetup`), Twig échappe tout, SQL uniquement via DBAL avec paramètres, noms de tables en liste blanche.
 - **Mails** : `Notifier::send()` respecte l'interrupteur `mail` (sinon seulement `log_mail`). DSN = `mailer_dsn` de config.json ou construit depuis le bloc `gmail`. Anti-spam : plus de 10 mails en 2 min ⇒ interrupteur `mail` coupé.
@@ -62,26 +68,27 @@ docker/                      Dockerfile (cibles dev/prod), conf Apache, entrypoi
 Toutes les commandes passent par le **Makefile** (`make` ou `make help` affiche la liste) :
 
 ```bash
-make up                   # construire et démarrer (web + scheduler + db + phpmyadmin + mailpit)
+make up                   # construire et démarrer (web + scheduler + gpio + db + phpmyadmin + mailpit)
 make down                 # arrêter
 make reset                # ⚠ supprimer la BDD locale, réimporter le dump et appliquer les migrations
 make restart | ps | shell # redémarrer web + scheduler / état / shell dans aqua-web
 make logs | logs-web      # suivre le planificateur / Apache
 make migrate              # appliquer les migrations SQL
 make cron n=osmolateur    # lancer un cron à la main (ou bouton Run sur /aqua/crons) ; make crons = liste
+make gpio                 # état des relais et capteurs ; make gpio a="on refuge_eclairage" ; make logs-gpio
 make console c="debug:router"   # n'importe quelle commande Symfony ; make cc = vider le cache
 make composer c="require foo/bar"
-make test                 # tests unitaires (PHPUnit)
+make test                 # tests unitaires PHP + Python (make test-php / test-python)
 make e2e                  # test de bout en bout (tests/E2E/smoke.py) puis suppression des mesures qu'il a créées
 make css | css-watch      # compiler le SCSS (assets/src/scss → public/build/css) / recompiler à chaque modification
 make db | pma | mail      # client MariaDB / phpMyAdmin / Mailpit
-make pi-up | pi-down | pi-logs | pi-migrate | pi-shell   # sur le Raspberry (docker-compose.pi.yml)
+make pi-up | pi-down | pi-logs | pi-migrate | pi-shell | pi-gpio   # sur le Raspberry (docker-compose.pi.yml)
 ```
 
 Équivalents bruts : `docker compose up -d --build`, `docker compose down [-v]`, `docker exec aqua-web php bin/console …`, `docker compose run --rm assets [--watch]`.
 
 - App : http://localhost:8080/aqua/ (**admin / admin**) · phpMyAdmin : http://localhost:8081 · Mailpit : http://localhost:8025 · MariaDB 11.8 : `localhost:3307` (root/root, base `aqua`).
-- Image `docker/php/Dockerfile`, cible `dev` (contexte = racine du dépôt) : PHP 8.5 + Apache (`docker/php/aqua.conf` : `Alias /aqua → public/`), pdo_mysql, zip, pcntl, client MariaDB, Python 3.13 + mysql-connector, faux `RPi.GPIO` (`docker/python/RPi/GPIO.py`, entrées dans `docker/gpio/<pin>`, sorties tracées dans `var/log/gpio-fake.log`).
+- Image `docker/php/Dockerfile`, cible `dev` (contexte = racine du dépôt) : PHP 8.5 + Apache (`docker/php/aqua.conf` : `Alias /aqua → public/`), pdo_mysql, zip, pcntl, client MariaDB, Python 3.13 (service GPIO, sans dépendance), faux `RPi.GPIO` (`docker/python/RPi/GPIO.py`, monté dans le conteneur `gpio` : entrées dans `docker/gpio/<pin>` — défaut 1, sauf 23 « trop haut » à 0 —, sorties tracées dans `var/log/gpio-fake.log`). Simuler un capteur : `echo 0 > docker/gpio/24` ; voir l'état : `make gpio`.
 - Le dépôt est monté dans les conteneurs ; `docker/config.docker.json` est monté par-dessus `config.json` (BDD `db`, Mailpit, sondes factices `docker/sensors/w1_slave_*`, utilisateur admin/admin).
 - `docker/db/01-dump.sql` (ignoré par git) : dump importé au premier démarrage, puis `app:db:migrate`.
 - Compilation CSS : service `assets` (profil `tools`, `node:22-alpine`, `docker/assets/build-css.sh`) = Dart Sass + Autoprefixer (`.browserslistrc` : `last 2 versions, > 5%`). Remplace l'ancienne chaîne gulp 3 / Ruby Sass. `library.min.css` et `custom.min.js` sont figés.
@@ -90,7 +97,7 @@ make pi-up | pi-down | pi-logs | pi-migrate | pi-shell   # sur le Raspberry (doc
 ## Production cible : Docker sur le Raspberry
 
 - Décision (2026-11-02) : l'appli tournera **dans Docker sur le Pi** (Raspberry Pi OS **64 bits** sur une carte SD neuve ; l'image MariaDB n'existe pas en 32 bits).
-- `docker-compose.pi.yml` : `web` (port 80, http://<pi>/aqua/), `scheduler`, `db` (MariaDB 11.8), `phpmyadmin` (8081). Image `prod` construite sur le Pi (arm64) : code copié, `composer install --no-dev`, OPcache, **rpi-lgpio** (bibliothèque `lg` 0.2.2 compilée), accès GPIO via `devices: /dev/gpiochip0` (l'entrypoint ajoute www-data au groupe du périphérique). `/sys` (sondes 1-Wire, CPU) est lisible dans le conteneur. Image testée en build arm64 sur le Mac.
+- `docker-compose.pi.yml` : `web` (port 80, http://<pi>/aqua/), `scheduler`, `gpio`, `db` (MariaDB 11.8), `phpmyadmin` (8081). Image `prod` construite sur le Pi (arm64) : code copié, `composer install --no-dev`, OPcache, **rpi-lgpio** (bibliothèque `lg` 0.2.2 compilée). Seul le conteneur `gpio` a `devices: /dev/gpiochip0` (l'entrypoint ajoute www-data au groupe du périphérique ; service lancé sous www-data). La connexion BDD est `lazy` (le préchauffage du cache au build n'a pas besoin de config.json). `/sys` (sondes 1-Wire, CPU) est lisible dans le conteneur. Image testée en build arm64 sur le Mac.
 - Fichiers à créer sur le Pi : `config.json` (host `db`, `auth`), `docker/pi/pi.env` (cf. `pi.env.sample` : APP_SECRET, MARIADB_ROOT_PASSWORD), dump dans `docker/db/`.
 - `RPi.GPIO` ne gère plus la détection de fronts sur les noyaux ≥ 6.6 → `rpi-lgpio` (même API).
 
@@ -130,3 +137,5 @@ make pi-up | pi-down | pi-logs | pi-migrate | pi-shell   # sur le Raspberry (doc
 - **2026-11-02** — Refonte **Symfony 7.4** (branche `symfony`) : Twig, Doctrine DBAL, Security (login + CSRF), commandes console, migrations SQL ; suppression de l'ancien code `app/` et `web/`. Commande de compilation CSS (Dart Sass). Suppressions : débit réacteur, ventilateurs réacteur, budget, ventilateur aquarium. Planificateur unique avec planification éditable sur `/crons` (remplace la crontab, en local comme sur le Pi). Image `prod` arm64 avec rpi-lgpio et `docker-compose.pi.yml`. Relais écumeur renommé « Relais alimentation écumeur ». Thème graphique « Récif » (poissons, coraux, bulles, page de connexion sous-marine), vérifié par captures Playwright (desktop + mobile). Menu réduit retravaillé (icônes + petit libellé + bulle). Page « Câblage GPIO » (brochage du Pi 4 + tableau, cohérence avec les scripts vérifiée par test). Graphiques Chart.js avec gestion des dépassements. Descriptions de tous les réglages en bulle d'aide récifale. Libellés des réglages réécrits (migration 007), bulle d'aide positionnée en JS (`public/build/js/reef-ui.js`, au-dessus ou en dessous selon la place, rattachée au body), icône « i » en bout de libellé. Éclairage du réacteur : plage horaire configurable sans pauses (migration 008), réglages de type `time` validés à l'enregistrement. Icônes d'aide à droite des champs ; loader poisson-clown à chaque enregistrement. Bloc « Actions » de la configuration en cartes (nettoyages avec jauge jusqu'au rappel, relecture des sondes sans popup, purge isolée en corail) ; températures affichées à la française (« 25,63 °C »). Le réacteur devient le **refuge** partout (code, scripts, BDD, interface). `app:status:sync` supprime les fichiers d'état orphelins. Messages flash avec marges et icône. Blocs côte à côte de même hauteur sur toutes les pages.
 - **2026-11-03** — README.md à la racine ; commit de la refonte Symfony sur la branche `symfony`.
 - **2026-11-03** — Analyse : changements d'eau vérifiés sur les 7 graphiques ; corrigé le repère du jour de la dernière mesure (placé à midi, il sortait de l'axe) et les changements faits après la dernière analyse (ignorés). **Makefile** pour toutes les commandes Docker ; test e2e versionné (`tests/E2E/smoke.py`, `make e2e` nettoie ses données) ; données de test parasites supprimées de la BDD locale.
+- **2026-11-03** — Merge de `symfony` dans `master` (fast-forward, push GitHub refusé : la clé SSH du Mac est celle du compte `aboussemart`). Effet de bord : l'ancien `master` versionnait `vendor/` → `vendor/autoload.php` supprimé au checkout, appli locale cassée ~20 min (08:12-08:35), réparé par `composer install` ; logs parasites supprimés.
+- **2026-11-03** — Scripts Python remplacés par un **service GPIO permanent** (`scripts/gpio_service.py`, conteneur `gpio`, brochage `config/gpio.json`) ; logique des niveaux portée en PHP (`Domain/Levels`, `GpioClient`). Corrigé : pompe non coupée si la BDD tombait, récursion infinie mail/log quand la BDD était en panne, flotteur trop haut non surveillé pendant l'appoint, ~240 processus Python/min, relais libérés à la fin de chaque script (rpi-lgpio), mails SMTP envoyés depuis la boucle osmolateur, `test.py` faux. Ajouts : watchdog pompe 15 s, `app:gpio` / `make gpio`, tests Python + PHP (Levels, GpioClient, cohérence gpio.json). Scénarios vérifiés en local : remplissage, appoint, trop haut pendant l'appoint, durée max., planificateur tué (pompe coupée à 15 s), service GPIO arrêté/redémarré. Connexion BDD `lazy` (le build prod échouait au préchauffage du cache).

@@ -1,4 +1,4 @@
-# Image unique de l'application (web Apache + planificateur), deux cibles :
+# Image unique de l'application (web Apache, planificateur, service GPIO), deux cibles :
 #   dev  : Docker local, code monté en volume, faux RPi.GPIO
 #   prod : Raspberry Pi (arm64), code copié dans l'image, rpi-lgpio (vrais GPIO)
 # Versions : PHP 8.5, Python 3.13 (Debian 13 Trixie)
@@ -6,7 +6,6 @@
 FROM php:8.5-apache AS base
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libzip-dev unzip mariadb-client python3 python3-pip \
-    && pip3 install --no-cache-dir --break-system-packages mysql-connector-python \
     && docker-php-ext-install pdo_mysql zip pcntl \
     && apt-mark manual libzip5 \
     && a2enmod rewrite headers \
@@ -15,7 +14,7 @@ RUN apt-get update \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY docker/php/aqua.conf /etc/apache2/conf-enabled/aqua.conf
 COPY docker/php/entrypoint.sh /usr/local/bin/aqua-entrypoint
-ENV TZ=Europe/Paris
+ENV TZ=Europe/Paris PYTHONUNBUFFERED=1
 WORKDIR /var/www/html/aqua
 ENTRYPOINT ["aqua-entrypoint"]
 CMD ["apache2-foreground"]
@@ -23,7 +22,7 @@ CMD ["apache2-foreground"]
 # --- développement local -------------------------------------------------------
 FROM base AS dev
 RUN printf "display_errors=On\nerror_reporting=E_ALL\n" > /usr/local/etc/php/conf.d/dev.ini
-# Faux RPi.GPIO : les scripts Python tournent réellement (BDD, fichiers d'état), seules les GPIO sont simulées
+# Faux RPi.GPIO pour le service GPIO : entrées lues dans /opt/gpio/<broche>, sorties tracées dans var/log/gpio-fake.log
 COPY docker/python/ /opt/fake_python/
 ENV PYTHONPATH=/opt/fake_python
 

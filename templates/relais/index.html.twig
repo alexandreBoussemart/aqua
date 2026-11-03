@@ -2,12 +2,17 @@
 {% block title %}Relais{% endblock %}
 
 {% block body %}
+    {% if not gpio_available %}
+        <div class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-circle"></i> Service GPIO injoignable : l'état des relais est inconnu et ils ne peuvent pas être pilotés (conteneur <code>gpio</code>, <code>make logs-gpio</code>).
+        </div>
+    {% endif %}
     {% for relay in relays %}
         <div class="row{{ loop.first ? ' first-bloc' }}">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                    <div class="x_title title-relais {{ relay.on ? 'on' : 'off' }}">
-                        <h2>{{ relay.label }}</h2>
+                    <div class="x_title title-relais {{ relay.on is same as(null) ? 'unknown' : (relay.on ? 'on' : 'off') }}">
+                        <h2>{{ relay.label }}{% if relay.on is same as(null) %} <small>(état inconnu)</small>{% endif %}</h2>
                         <div class="clearfix"></div>
                     </div>
                     {% for action, style in {on: 'success', off: 'danger'} %}

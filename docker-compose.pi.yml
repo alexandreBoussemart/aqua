@@ -12,9 +12,7 @@ x-app: &app
   volumes:
     - ./config.json:/var/www/html/aqua/config.json:ro
     - aqua_var:/var/www/html/aqua/var
-  # GPIO (relais, capteurs de niveau) via rpi-lgpio ; /sys (sondes 1-Wire, température CPU) est lisible par défaut
-  devices:
-    - /dev/gpiochip0:/dev/gpiochip0
+  # /sys (sondes 1-Wire, température CPU) est lisible par défaut ; les GPIO passent par le service « gpio »
   depends_on:
     db:
       condition: service_healthy
@@ -31,6 +29,16 @@ services:
     <<: *app
     container_name: aqua-scheduler
     command: ["php", "bin/console", "app:scheduler:work"]
+
+  # Service GPIO permanent (rpi-lgpio) : seul conteneur ayant accès aux broches ; garde les relais dans leur état
+  gpio:
+    <<: *app
+    container_name: aqua-gpio
+    command: ["python3", "scripts/gpio_service.py"]
+    stop_grace_period: 5s
+    devices:
+      - /dev/gpiochip0:/dev/gpiochip0
+    depends_on: []
 
   db:
     image: mariadb:11.8

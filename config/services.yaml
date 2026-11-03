@@ -1,7 +1,6 @@
 parameters:
     app.config_file: '%env(resolve:APP_CONFIG_FILE)%'
     app.var_dir: '%kernel.project_dir%/var'
-    app.scripts_dir: '%kernel.project_dir%/scripts'
 
 services:
     _defaults:
@@ -10,7 +9,7 @@ services:
         bind:
             string $projectDir: '%kernel.project_dir%'
             string $varDir: '%app.var_dir%'
-            string $scriptsDir: '%app.scripts_dir%'
+            string $gpioService: '%env(GPIO_SERVICE)%'
 
     App\:
         resource: '../src/'
@@ -19,6 +18,8 @@ services:
         arguments:
             $configFile: '%app.config_file%'
 
-    # Connexion DBAL construite depuis config.json (partagé avec les scripts Python)
+    # Connexion DBAL construite depuis config.json, à la première requête seulement (lazy : le préchauffage du
+    # cache, à la construction de l'image prod, n'a pas besoin de config.json)
     Doctrine\DBAL\Connection:
         factory: ['@App\Database\ConnectionFactory', 'create']
+        lazy: true
