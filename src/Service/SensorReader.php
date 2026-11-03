@@ -37,7 +37,7 @@ final class SensorReader
      */
     public function parse(string $content): ?float
     {
-        $lines = preg_split('/\n/', trim($content));
+        $lines = preg_split('/\n/', trim($content)) ?: [];
         if (count($lines) < 2 || str_contains($lines[0], 'NO') || !preg_match('/t=(-?\d+)/', $lines[1], $m) || $m[1] === '85000') {
             return null;
         }

@@ -1,0 +1,44 @@
+# Tests à chaque push / pull request : PHPUnit, PHPStan, lints Symfony, tests du service GPIO (Python).
+# Aucune base de données ni matériel nécessaires (SQLite en mémoire, faux RPi.GPIO).
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  php:
+    name: PHP (tests, PHPStan, lints)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_mysql, pdo_sqlite, zip, pcntl
+          coverage: none
+      - name: Dépendances Composer
+        run: composer install --no-interaction --no-progress --prefer-dist
+      - name: PHPUnit
+        run: php bin/phpunit
+      - name: PHPStan
+        run: php vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+      - name: Lints Symfony
+        run: |
+          php bin/console lint:twig templates
+          php bin/console lint:yaml config
+          php bin/console lint:container
+
+  python:
+    name: Python (service GPIO)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Tests du service GPIO (faux RPi.GPIO)
+        run: python -m unittest discover -s tests/Python -v
+        env:
+          FAKE_GPIO_LOG: /dev/null

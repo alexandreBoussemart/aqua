@@ -8,6 +8,9 @@
             "ref": "fdd756167454623e21f1d769c5b814b243782a67"
         }
     },
+    "phpstan/phpstan": {
+        "version": "2.3.4"
+    },
     "phpunit/phpunit": {
         "version": "11.5",
         "recipe": {
@@ -78,6 +81,18 @@
             "src/Controller/.gitignore",
             "src/Kernel.php",
             ".editorconfig"
+        ]
+    },
+    "symfony/lock": {
+        "version": "7.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.2",
+            "ref": "8e937ff2b4735d110af1770f242c1107fdab4c8e"
+        },
+        "files": [
+            "config/packages/lock.yaml"
         ]
     },
     "symfony/mailer": {

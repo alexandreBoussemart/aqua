@@ -15,7 +15,9 @@ Protocole : TCP, une requête JSON par ligne, une réponse JSON par ligne.
 Sécurité :
   - au démarrage, tous les relais sont coupés ; à l'arrêt (SIGTERM), aussi ;
   - « watchdog » (secondes, config/gpio.json) : un relais allumé sans nouvelle commande « on » pendant
-    ce délai est coupé (pompe de l'osmolateur : si le cron PHP plante en plein remplissage).
+    ce délai est coupé (pompe de l'osmolateur : si le cron PHP plante en plein remplissage) ;
+  - auto-contrôle : le service s'interroge lui-même toutes les 30 s ; après 3 échecs consécutifs (serveur
+    figé), il coupe les relais et s'arrête : Docker le relance.
 """
 import argparse
 import json
@@ -148,6 +150,18 @@ class Server(socketserver.ThreadingTCPServer):
         self.board = board
 
 
+def self_ping(port, timeout=5):
+    """True si le serveur répond à un ping sur 127.0.0.1:port."""
+    import socket
+    try:
+        with socket.create_connection(('127.0.0.1', port), timeout=timeout) as conn:
+            conn.settimeout(timeout)
+            conn.sendall(b'{"op": "ping"}\n')
+            return json.loads(conn.makefile('rb').readline().decode('utf-8')).get('ok') is True
+    except (OSError, ValueError):
+        return False
+
+
 def load_config(path):
     with open(path) as f:
         return json.load(f)
@@ -167,8 +181,16 @@ def main(argv=None):
     stop = threading.Event()
 
     def watchdog():
+        failures, tick = 0, 0
         while not stop.wait(1):
             board.check_watchdogs()
+            tick += 1
+            if tick % 30 == 0:
+                failures = 0 if self_ping(args.port) else failures + 1
+                if failures >= 3:
+                    log.error('le service ne répond plus à ses propres requêtes : arrêt (Docker le relance)')
+                    board.all_off()
+                    os._exit(1)
 
     def shutdown(signum, frame):
         log.info('arrêt demandé (signal %s) : relais coupés', signum)

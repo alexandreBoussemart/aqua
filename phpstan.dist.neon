@@ -1,0 +1,9 @@
+# Analyse statique : make stan
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests/Unit
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+    tmpDir: var/cache/phpstan

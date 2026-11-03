@@ -53,7 +53,7 @@ final class GpioCommand extends Command
 
         $io->section('Capteurs (1 = contact ouvert)');
         $rows = [];
-        foreach ($this->gpio->read(array_keys($config['inputs'])) as $name => $value) {
+        foreach ($this->gpio->read(array_map('strval', array_keys($config['inputs']))) as $name => $value) {
             $rows[] = [$name, 'GPIO ' . $config['inputs'][$name], $value];
         }
         $io->table(['Entrée', 'Broche', 'Valeur'], $rows);

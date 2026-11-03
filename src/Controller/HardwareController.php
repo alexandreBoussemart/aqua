@@ -77,7 +77,7 @@ final class HardwareController extends AbstractController
         $enabled = $request->request->all('enabled');
         $errors = [];
         foreach (array_keys($this->cronCommands($kernel)) as $name) {
-            $expression = preg_replace('/\s+/', ' ', trim((string)($expressions[$name] ?? '')));
+            $expression = (string)preg_replace('/\s+/', ' ', trim((string)($expressions[$name] ?? '')));
             if (!Scheduler::isValid($expression)) {
                 $errors[] = sprintf('%s : expression « %s » invalide', $name, $expression);
                 continue;
@@ -109,7 +109,7 @@ final class HardwareController extends AbstractController
         $application = new Application($kernel);
         $commands = [];
         foreach ($application->all('app:cron') as $command) {
-            $commands[$command->getName()] = $command->getDescription();
+            $commands[(string)$command->getName()] = $command->getDescription();
         }
         ksort($commands);
 

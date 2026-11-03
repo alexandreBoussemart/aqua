@@ -1,0 +1,5 @@
+-- Durée max. de remplissage de l'osmolateur : « -25 seconds » devient un simple nombre de secondes (bornes 5 à 600, cf. ConfigRepository::BOUNDS)
+UPDATE `core_config_value` SET `value` = CAST(REGEXP_REPLACE(`value`, '[^0-9]', '') AS UNSIGNED) WHERE `name` = 'temps_coupure_pompe_osmolateur' AND `value` NOT REGEXP '^[0-9]+$';
+UPDATE `core_config_value` SET `value` = '25' WHERE `name` = 'temps_coupure_pompe_osmolateur' AND (`value` = '' OR `value` = '0');
+UPDATE `core_config_value` SET `type` = 'numeric', `label` = 'Sécurité : durée max. de remplissage (secondes)', `description` = 'Sécurité anti-débordement : si la pompe tourne plus longtemps sans que le niveau soit atteint, elle est coupée et l''osmolateur passe en erreur. Entre 5 et 600 secondes.' WHERE `name` = 'temps_coupure_pompe_osmolateur';
+UPDATE `core_config_value` SET `description` = 'Quand le niveau redevient OK, la pompe continue encore ce nombre de secondes pour faire un petit appoint (le flotteur « trop haut » reste surveillé). Entre 0 et 60 secondes.' WHERE `name` = 'temps_mini_pompe_osmolateur';

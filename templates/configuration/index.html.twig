@@ -18,7 +18,7 @@
                                     <div class="input-with-info">
                                         {% set input_type = c.type == 'time' ? 'time' : (c.type == 'numeric' ? 'number' : 'text') %}
                                         <input id="cfg-{{ c.name }}" value="{{ c.value }}" name="{{ c.name }}" class="form-control" required="required"
-                                               type="{{ input_type }}"{% if input_type == 'number' %} step="any" inputmode="decimal"{% elseif input_type == 'time' %} step="60"{% endif %}>
+                                               type="{{ input_type }}"{% if c.min is not null %} min="{{ c.min }}" max="{{ c.max }}" step="1" inputmode="numeric"{% elseif input_type == 'number' %} step="any" inputmode="decimal"{% elseif input_type == 'time' %} step="60"{% endif %}>
                                         {% if c.description %}{{ include('_partials/info.html.twig', {text: c.description, title: c.label}) }}{% endif %}
                                     </div>
                                     {% if c.alert %}<div class="{{ c.alert.class }}" role="alert">{{ c.alert.text }}</div>{% endif %}

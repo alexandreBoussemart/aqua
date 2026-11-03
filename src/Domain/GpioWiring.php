@@ -84,7 +84,10 @@ final class GpioWiring
         };
     }
 
-    /** Lignes du connecteur (broche impaire à gauche, paire à droite). @return list<array<string, mixed>> */
+    /**
+     * Lignes du connecteur (broche impaire à gauche, paire à droite). @return list<array<string, mixed>>
+     * @return list<array{left: array<string, mixed>, right: array<string, mixed>}>
+     */
     public static function rows(): array
     {
         $rows = [];

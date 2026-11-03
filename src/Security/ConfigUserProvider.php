@@ -12,6 +12,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 /**
  * Utilisateur unique déclaré dans config.json :
  *   "auth": {"username": "admin", "password_hash": "<bin/console security:hash-password>"}
+ *
+ * @implements UserProviderInterface<InMemoryUser>
  */
 final class ConfigUserProvider implements UserProviderInterface
 {

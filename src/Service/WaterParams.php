@@ -18,13 +18,26 @@ final class WaterParams
         'potassium' => ['Potassium', 'mg/l', ['min' => 390, 'ideal' => 400, 'max' => 410], [380, 420]],
     ];
 
+    /** type => [symbole affiché sur la carte, nom complet] */
+    public const META = [
+        'ca' => ['Ca', 'Calcium'],
+        'kh' => ['KH', 'Dureté carbonatée'],
+        'mg' => ['Mg', 'Magnésium'],
+        'densite' => ['SG', 'Densité (salinité)'],
+        'nitrate' => ['NO₃', 'Nitrates'],
+        'phosphate' => ['PO₄', 'Phosphates'],
+        'potassium' => ['K', 'Potassium'],
+    ];
+
+    public const STATE_LABELS = ['ok' => 'Dans la cible', 'low' => 'Trop bas', 'high' => 'Trop haut', 'warn' => 'À surveiller'];
+
     public function __construct(private readonly MeasureRepository $measures)
     {
     }
 
     /**
-     * Dernière valeur + évolution par rapport à la précédente.
-     * @return array{value: string, unit: string, diff: float|null, days: int, ago: string}|null
+     * Dernière valeur + évolution par rapport à la précédente, état par rapport aux limites et jauge.
+     * @return array<string, mixed>|null
      */
     public function summary(string $type): ?array
     {
@@ -40,7 +53,55 @@ final class WaterParams
             'diff' => $previous ? round((float)$last['value'] - (float)$previous['value'], 2) : null,
             'days' => $previous ? Dates::daysBetween($previous['created_at'], $last['created_at']) : 0,
             'ago' => Dates::ago($last['created_at']),
+            'date' => (new \DateTimeImmutable($last['created_at']))->format('d/m/Y'),
+        ] + self::assess($type, (float)$last['value']);
+    }
+
+    /**
+     * État d'une valeur (ok / low / high / warn) et positions sur la jauge (en % de l'échelle suggérée).
+     * @return array{state: string, gauge: array{value: float, from: float, to: float}}
+     */
+    public static function assess(string $type, float $value): array
+    {
+        $limits = self::limits($type);
+        [$scaleMin, $scaleMax] = self::PARAMS[$type][3];
+        $min = $limits['min'] ?? null;
+        $max = $limits['max'] ?? null;
+        $warn = $limits['warn'] ?? null;
+        $state = match (true) {
+            $max !== null && $value > $max => 'high',
+            $min !== null && $value < $min => 'low',
+            $warn !== null && $value > $warn => 'warn',
+            default => 'ok',
+        };
+        $percent = static fn(float $v) => round(max(0, min(100, ($v - $scaleMin) * 100 / ($scaleMax - $scaleMin))), 1);
+
+        return [
+            'state' => $state,
+            'gauge' => [
+                'value' => $percent($value),
+                'from' => $percent((float)($min ?? $scaleMin)),
+                'to' => $percent((float)($warn ?? $max ?? $scaleMax)),
+            ],
         ];
+    }
+
+    /** @return array{min?: float|int, ideal?: float|int, warn?: float|int, max?: float|int} */
+    private static function limits(string $type): array
+    {
+        return self::PARAMS[$type][2];
+    }
+
+    /** Plage cible lisible (« 400 – 450 », « < 15 »). */
+    public static function targetLabel(string $type): string
+    {
+        $limits = self::limits($type);
+        $fmt = static fn(float $v) => rtrim(rtrim(number_format($v, 3, ',', ' '), '0'), ',');
+        if (isset($limits['min'], $limits['max'])) {
+            return $fmt((float)$limits['min']) . ' – ' . $fmt((float)$limits['max']);
+        }
+
+        return '< ' . $fmt((float)($limits['warn'] ?? $limits['max'] ?? 0));
     }
 
     /**

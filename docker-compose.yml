@@ -18,6 +18,12 @@ services:
     environment:
       TZ: Europe/Paris
     networks: [default, traefik]
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://localhost/aqua/login"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
     labels:
       # Traefik (projet OUTILS/TRAEFIKV2) relaie le TLS de reef-pi.app.local tel quel vers Apache:443
       - traefik.enable=true
@@ -40,7 +46,16 @@ services:
       target: dev
     container_name: aqua-scheduler
     command: ["php", "bin/console", "app:scheduler:work"]
+    # mini-init (tini) en PID 1 : sans lui, le noyau ignore le SIGALRM du chien de garde (PID 1 protégé)
+    init: true
     restart: unless-stopped
+    # battement de cœur écrit à chaque tour de boucle (le processus se tue lui-même s'il se fige > 120 s)
+    healthcheck:
+      test: ["CMD-SHELL", "test $$(( $$(date +%s) - $$(stat -c %Y var/scheduler.heartbeat) )) -lt 90"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     volumes:
       - ./:/var/www/html/aqua
       - ./docker/config.docker.json:/var/www/html/aqua/config.json:ro
@@ -63,8 +78,15 @@ services:
       target: dev
     container_name: aqua-gpio
     command: ["python3", "scripts/gpio_service.py"]
+    init: true
     restart: unless-stopped
     stop_grace_period: 5s
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import sys; sys.path.insert(0, 'scripts'); import gpio_service; sys.exit(0 if gpio_service.self_ping(7070) else 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     volumes:
       - ./:/var/www/html/aqua
       - ./docker/gpio:/opt/gpio

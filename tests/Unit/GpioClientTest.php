@@ -11,6 +11,7 @@ final class GpioClientTest extends TestCase
     public function testReadStableReturnsNullWhenLevelMoves(): void
     {
         $client = new class('test:0') extends GpioClient {
+            /** @var list<array<string, int>> */
             public array $responses = [];
 
             protected function request(array $payload): array

@@ -53,7 +53,10 @@ final class StatusRepository
         return $this->db->fetchFirstColumn('SELECT `name` FROM `core_config_status`');
     }
 
-    /** @param list<string> $names @return list<array<string, mixed>> */
+    /**
+     * @param list<string> $names @return list<array<string, mixed>>
+     * @return list<array<string, mixed>>
+     */
     public function findByNames(array $names): array
     {
         return $this->db->fetchAllAssociative(

@@ -1,5 +1,7 @@
 # Aqua — Reef Pi
 
+[![CI](https://github.com/alexandreBoussemart/aqua/actions/workflows/ci.yml/badge.svg)](https://github.com/alexandreBoussemart/aqua/actions/workflows/ci.yml)
+
 Application de supervision et de pilotage d'un aquarium récifal sur Raspberry Pi 4.
 
 - Lecture des sondes : température de l'eau et de l'air (1-Wire DS18B20), CPU du Pi, niveaux de l'osmolateur, du godet d'écumeur et du bailling.
@@ -51,6 +53,7 @@ En local, le GPIO est simulé : un faux `RPi.GPIO` lit les entrées dans `docker
 | `make cc` | vide le cache Symfony |
 | `make gpio` / `make logs-gpio` | état des relais et capteurs (`make gpio a="on refuge_eclairage"` pour piloter) / logs du service GPIO |
 | `make test` | tests unitaires PHP et Python |
+| `make stan` / `make lint` | analyse statique PHPStan (niveau 8) / lints Twig, YAML et conteneur |
 | `make e2e` | test de bout en bout, puis suppression des données qu'il a créées |
 | `make css` / `make css-watch` | compile le SCSS (Dart Sass + Autoprefixer) |
 | `make db` / `make pma` / `make mail` | client MariaDB / phpMyAdmin / Mailpit |

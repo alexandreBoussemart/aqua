@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 final class RefugeEclairageCommandTest extends TestCase
 {
+    /** @return iterable<string, array{string, bool}> */
     public static function overnight(): iterable
     {
         // plage par défaut 22:30 → 10:00 (passe minuit), sans pause

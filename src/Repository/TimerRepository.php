@@ -39,6 +39,6 @@ final class TimerRepository
     /** Supprime les pauses expirées. @return int nombre supprimé */
     public function removeExpired(): int
     {
-        return $this->db->executeStatement('DELETE FROM `timer` WHERE `off_until` <= now()');
+        return (int)$this->db->executeStatement('DELETE FROM `timer` WHERE `off_until` <= now()');
     }
 }

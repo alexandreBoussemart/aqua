@@ -14,6 +14,10 @@ security:
         main:
             lazy: true
             provider: config_user
+            # 5 essais ratés par utilisateur+IP (et 25 par IP) sur 15 min, puis blocage temporaire
+            login_throttling:
+                max_attempts: 5
+                interval: '15 minutes'
             form_login:
                 login_path: app_login
                 check_path: app_login

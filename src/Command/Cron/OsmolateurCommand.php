@@ -35,26 +35,9 @@ final class OsmolateurCommand extends Command
 
                 return Command::SUCCESS;
             }
-            $maxPumpTime = (string)$this->t->config->getRaw('temps_coupure_pompe_osmolateur');
-            $topUpSeconds = max(0, $this->t->config->getInt('temps_mini_pompe_osmolateur'));
-
-            $this->t->untilEndOfMinute(function () use ($maxPumpTime, $topUpSeconds) {
-                if ($this->t->timers->has(E::OSMOLATEUR)) {
-                    $this->t->relay->off(self::PUMP);
-                    $this->t->activity->touch(E::CONTROLE_OSMOLATEUR);
-                    $this->t->states->set(E::OSMOLATEUR, 'state_97', false, 'Osmolateur - Pause timer');
-
-                    return;
-                }
-                $this->readLevels($topUpSeconds);
-                $this->t->activity->touch(E::CONTROLE_OSMOLATEUR);
-
-                if ($this->t->states->isIn(E::OSMOLATEUR, ['state_3']) && !$this->pumpRunningTooLong($maxPumpTime)) {
-                    $this->t->relay->on(self::PUMP);
-                } else {
-                    $this->t->relay->off(self::PUMP);
-                }
-            }, 120, 0.5);
+            $maxPumpSeconds = $this->t->config->getBounded('temps_coupure_pompe_osmolateur');
+            $topUpSeconds = $this->t->config->getBounded('temps_mini_pompe_osmolateur');
+            $this->t->untilEndOfMinute(fn() => $this->tick($maxPumpSeconds, $topUpSeconds), 120, 0.5);
         } catch (\Throwable $e) {
             // la pompe d'abord : l'erreur peut venir de la BDD, l'enregistrer pourrait échouer à son tour
             $this->t->relay->tryOff(self::PUMP);
@@ -71,6 +54,26 @@ final class OsmolateurCommand extends Command
         }
 
         return Command::SUCCESS;
+    }
+
+    /** Un passage : lecture des flotteurs, mise à jour de l'état, pompe allumée ou coupée. */
+    public function tick(int $maxPumpSeconds, int $topUpSeconds): void
+    {
+        if ($this->t->timers->has(E::OSMOLATEUR)) {
+            $this->t->relay->off(self::PUMP);
+            $this->t->activity->touch(E::CONTROLE_OSMOLATEUR);
+            $this->t->states->set(E::OSMOLATEUR, 'state_97', false, 'Osmolateur - Pause timer');
+
+            return;
+        }
+        $this->readLevels($topUpSeconds);
+        $this->t->activity->touch(E::CONTROLE_OSMOLATEUR);
+
+        if ($this->t->states->isIn(E::OSMOLATEUR, ['state_3']) && !$this->pumpRunningTooLong($maxPumpSeconds)) {
+            $this->t->relay->on(self::PUMP);
+        } else {
+            $this->t->relay->off(self::PUMP);
+        }
     }
 
     private function readLevels(int $topUpSeconds): void
@@ -123,18 +126,17 @@ final class OsmolateurCommand extends Command
         return true;
     }
 
-    /** Sécurité : remplissage (state_3) depuis plus longtemps que $maxPumpTime (ex. "-25 seconds") => erreur state_8. */
-    private function pumpRunningTooLong(string $maxPumpTime): bool
+    /** Sécurité : remplissage (state_3) depuis plus de $maxPumpSeconds secondes => erreur state_8. */
+    private function pumpRunningTooLong(int $maxPumpSeconds): bool
     {
         $state = $this->t->states->find(E::OSMOLATEUR);
         if ($state === null || $state['value'] !== 'state_3') {
             return true;
         }
-        if (new \DateTimeImmutable($state['created_at']) > new \DateTimeImmutable($maxPumpTime)) {
+        if (new \DateTimeImmutable($state['created_at']) > new \DateTimeImmutable("-{$maxPumpSeconds} seconds")) {
             return false;
         }
-        $seconds = preg_replace('~\D~', '', $maxPumpTime);
-        $this->t->states->set(E::OSMOLATEUR, 'state_8', true, "Osmolateur - ERREUR - pompe allumée plus de {$seconds} secondes");
+        $this->t->states->set(E::OSMOLATEUR, 'state_8', true, "Osmolateur - ERREUR - pompe allumée plus de {$maxPumpSeconds} secondes");
 
         return true;
     }

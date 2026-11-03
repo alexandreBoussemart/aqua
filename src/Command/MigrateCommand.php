@@ -56,12 +56,15 @@ final class MigrateCommand extends Command
         return Command::SUCCESS;
     }
 
-    /** Découpe un fichier SQL simple (pas de procédures, une requête se termine par « ; » en fin de ligne). @return list<string> */
+    /**
+     * Découpe un fichier SQL simple (pas de procédures, une requête se termine par « ; » en fin de ligne). @return list<string>
+     * @return list<string>
+     */
     private function statements(string $sql): array
     {
-        $lines = array_filter(preg_split('/\R/', $sql), static fn(string $l) => !str_starts_with(ltrim($l), '--'));
+        $lines = array_filter(preg_split('/\R/', $sql) ?: [], static fn(string $l) => !str_starts_with(ltrim($l), '--'));
 
         // une requête se termine par « ; » en fin de ligne (les « ; » à l'intérieur d'un texte sont conservés)
-        return array_values(array_filter(array_map('trim', preg_split('/;\s*$/m', implode("\n", $lines)))));
+        return array_values(array_filter(array_map('trim', preg_split('/;\s*$/m', implode("\n", $lines)) ?: [])));
     }
 }

@@ -28,7 +28,10 @@ final class Levels
         '110' => ['state_7', true, 'Bailling - ERREUR - niveau 3 bas'],
     ];
 
-    /** @param array<string, int> $values @return array{0: string, 1: bool, 2: string} */
+    /**
+     * @param array<string, int> $values
+     * @return array{0: string, 1: bool, 2: string}
+     */
     public static function bailling(array $values): array
     {
         $key = implode('', array_map(static fn(string $input) => (string)(int)$values[$input], self::BAILLING_INPUTS));
@@ -36,7 +39,10 @@ final class Levels
         return self::BAILLING[$key];
     }
 
-    /** @param array<string, int> $values @return array{0: string, 1: bool, 2: string} */
+    /**
+     * @param array<string, int> $values
+     * @return array{0: string, 1: bool, 2: string}
+     */
     public static function ecumeur(array $values): array
     {
         return (int)$values['ecumeur_godet'] === 0

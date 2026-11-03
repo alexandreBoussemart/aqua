@@ -115,6 +115,18 @@ class ServerTest(unittest.TestCase):
             server.shutdown()
             server.server_close()
 
+    def test_self_ping(self):
+        GPIO._LOG = os.devnull
+        server = gpio_service.Server(('127.0.0.1', 0), gpio_service.Board(CONFIG))
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        port = server.server_address[1]
+        try:
+            self.assertTrue(gpio_service.self_ping(port))
+        finally:
+            server.shutdown()
+            server.server_close()
+        self.assertFalse(gpio_service.self_ping(port, timeout=1), 'serveur arrêté : ping en échec')
+
 
 if __name__ == '__main__':
     unittest.main()

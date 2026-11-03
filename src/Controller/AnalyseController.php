@@ -19,6 +19,9 @@ final class AnalyseController extends AbstractController
 
         return $this->render('analyse/index.html.twig', [
             'params' => WaterParams::PARAMS,
+            'meta' => WaterParams::META,
+            'targets' => array_combine($types, array_map(WaterParams::targetLabel(...), $types)),
+            'state_labels' => WaterParams::STATE_LABELS,
             'summaries' => array_combine($types, array_map($params->summary(...), $types)),
             'charts' => array_combine($types, array_map($params->chart(...), $types)),
         ]);

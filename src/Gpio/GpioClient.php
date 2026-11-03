@@ -25,10 +25,13 @@ class GpioClient
         }
     }
 
-    /** @param list<string> $inputs @return array<string, int> */
+    /**
+     * @param list<string> $inputs @return array<string, int>
+     * @return array<string, int>
+     */
     public function read(array $inputs): array
     {
-        return $this->request(['op' => 'read', 'inputs' => array_values($inputs)])['values'];
+        return $this->request(['op' => 'read', 'inputs' => $inputs])['values'];
     }
 
     /**
@@ -56,7 +59,11 @@ class GpioClient
         return $this->request(['op' => 'status'])['relays'];
     }
 
-    /** @param array<string, mixed> $payload @return array<string, mixed> */
+    /**
+     * @param array<string, mixed> $payload @return array<string, mixed>
+     * @param array<string, mixed> $payload
+     * @return array<string, mixed>
+     */
     protected function request(array $payload): array
     {
         $errno = 0;

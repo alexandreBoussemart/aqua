@@ -9,9 +9,10 @@ namespace App\Service;
 final class ChartBuilder
 {
     /**
-     * @param list<array{created_at: string, value: mixed}> $rows
+     * @param list<array<string, mixed>> $rows lignes {created_at, value}
      * @param array{min?: float|null, max?: float|null, ideal?: float|null, warn?: float|null} $limits
      * @param list<string> $events dates (Y-m-d H:i:s) à marquer d'un trait vertical (changements d'eau)
+     * @return array<string, mixed>
      */
     public static function build(
         string $id,
@@ -31,7 +32,7 @@ final class ChartBuilder
 
         foreach ($rows as $row) {
             $value = (float)$row['value'];
-            $date = new \DateTimeImmutable($row['created_at']);
+            $date = new \DateTimeImmutable((string)$row['created_at']);
             $state = match (true) {
                 $limits['max'] !== null && $value > $limits['max'] => 'above',
                 $limits['min'] !== null && $value < $limits['min'] => 'below',

@@ -49,7 +49,7 @@ check("accès anonyme redirigé vers login", st == 302 and "/login" in (h.get("L
 # --- login
 st, body, _ = fetch("/login")
 token = re.search(r'name="_csrf_token" value="([^"]+)"', body).group(1)
-st, _, h = fetch("/login", {"_username": USER, "_password": "mauvais", "_csrf_token": token})
+st, _, h = fetch("/login", {"_username": "e2e-intrus", "_password": "mauvais", "_csrf_token": token})
 st2, body2, _ = fetch("/login")
 check("mauvais mot de passe refusé", "Identifiants invalides" in body2)
 token = re.search(r'name="_csrf_token" value="([^"]+)"', body2).group(1)
@@ -60,7 +60,7 @@ check("login", st == 302 and "/login" not in (h.get("Location") or ""), f"{st} {
 app_token = None
 for page in PAGES:
     st, body, _ = fetch(page)
-    errs = errors(body)
+    errs = errors(body) if page != "/logs" else []  # /logs affiche le journal, qui peut contenir des messages d'erreur
     check(f"GET {page}", st == 200 and not errs, f"{st} {errs[:2]}")
     m = re.search(r'name="_token" value="([^"]+)"', body)
     app_token = app_token or (m and m.group(1))

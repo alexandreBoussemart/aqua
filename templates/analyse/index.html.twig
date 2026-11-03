@@ -6,31 +6,55 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title"><h2>Analyse d'eau</h2><div class="clearfix"></div></div>
-                <form method="post" action="{{ path('analyse_save') }}" class="form-horizontal form-label-left switch-state">
+                <form method="post" action="{{ path('analyse_save') }}" class="water-form">
                     {{ include('_partials/csrf.html.twig') }}
-                    {% for type, p in params %}
-                        {% set s = summaries[type] %}
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-3">{{ p[0] }}</label>
-                            <div class="col-md-9 col-sm-9 col-xs-9">
-                                <input name="value_{{ type }}" class="form-control col-md-7 col-xs-12" type="text" inputmode="decimal"/>
+                    <p class="water-intro"><i class="fa fa-flask"></i> Saisis les résultats de tes tests : seuls les champs remplis sont enregistrés.</p>
+                    <div class="water-grid">
+                        {% for type, p in params %}
+                            {% set s = summaries[type] %}
+                            <div class="water-card {{ s ? 'is-' ~ s.state : 'is-empty' }}">
+                                <div class="water-card-head">
+                                    <span class="water-symbol">{{ meta[type][0] }}</span>
+                                    <span class="water-name">
+                                        <strong>{{ meta[type][1] }}</strong>
+                                        <small>Cible {{ targets[type] }}{{ p[1] ? ' ' ~ p[1] }}</small>
+                                    </span>
+                                </div>
+
                                 {% if s %}
-                                    <p class="info">
-                                        {{ s.value }} {{ s.unit }}
+                                    <div class="water-last">
+                                        <span class="water-value">{{ s.value|num }}</span>
+                                        <span class="water-unit">{{ p[1] }}</span>
+                                        <span class="water-badge">{{ state_labels[s.state] }}</span>
+                                    </div>
+                                    <div class="water-gauge" aria-hidden="true">
+                                        <span class="water-gauge-zone" style="left: {{ s.gauge.from }}%; width: {{ s.gauge.to - s.gauge.from }}%"></span>
+                                        <span class="water-gauge-dot" style="left: {{ s.gauge.value }}%"></span>
+                                    </div>
+                                    <div class="water-meta">
+                                        <span class="water-date" title="{{ s.date }}"><i class="fa fa-clock-o"></i> {{ s.date }}</span>
                                         {% if s.diff is not null %}
-                                            ( <span style="color:{{ s.diff >= 0 ? '#4BB543' : '#B33A3A' }}">{{ s.diff >= 0 ? '+' }}{{ s.diff }} {{ s.unit }} en {{ s.days }} jour{{ s.days > 1 ? 's' }}</span> )
+                                            <span class="water-trend" title="Évolution depuis la mesure précédente ({{ s.days }} jour{{ s.days > 1 ? 's' }} avant)">
+                                                <i class="fa fa-{{ s.diff > 0 ? 'arrow-up' : (s.diff < 0 ? 'arrow-down' : 'minus') }}"></i>
+                                                {{ s.diff > 0 ? '+' }}{{ s.diff|num }} en {{ s.days }} j
+                                            </span>
                                         {% endif %}
-                                        {{ s.ago }}
-                                    </p>
+                                    </div>
+                                {% else %}
+                                    <div class="water-last water-none">Aucune mesure</div>
                                 {% endif %}
+
+                                <label class="water-input">
+                                    <span class="sr-only">Nouvelle valeur {{ meta[type][1] }}</span>
+                                    <input name="value_{{ type }}" type="text" inputmode="decimal" autocomplete="off"
+                                           placeholder="Nouvelle mesure"/>
+                                    {% if p[1] %}<span class="water-input-unit">{{ p[1] }}</span>{% endif %}
+                                </label>
                             </div>
-                        </div>
-                    {% endfor %}
-                    <div class="ln_solid"></div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Enregistrer</button>
-                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="water-actions">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Enregistrer les mesures</button>
                     </div>
                 </form>
             </div>

@@ -46,7 +46,7 @@ final class MeasureRepository
         $this->db->executeStatement('INSERT INTO ' . $this->table($table) . ' (`value`) VALUES (?)', [(string)$value]);
     }
 
-    /** @return list<array{created_at: string, value: string}> */
+    /** @return list<array<string, mixed>> lignes {created_at, value} */
     public function between(string $table, \DateTimeInterface $from, \DateTimeInterface $to): array
     {
         return $this->db->fetchAllAssociative(
@@ -55,7 +55,10 @@ final class MeasureRepository
         );
     }
 
-    /** Dernière ligne (filtrée par type pour data_parametres_eau). @return array<string, mixed>|null */
+    /**
+     * Dernière ligne (filtrée par type pour data_parametres_eau). @return array<string, mixed>|null
+     * @return array<string, mixed>|null
+     */
     public function last(string $table, ?string $type = null, int $offset = 0): ?array
     {
         $sql = 'SELECT * FROM ' . $this->table($table) . ($type !== null ? ' WHERE `type` = ?' : '') . ' ORDER BY `id` DESC LIMIT ' . $offset . ',1';
@@ -103,7 +106,10 @@ final class MeasureRepository
         $this->db->insert(self::WATER_PARAMS, ['type' => $type, 'value' => $value]);
     }
 
-    /** N dernières mesures d'un paramètre, dans l'ordre chronologique. @return list<array<string, mixed>> */
+    /**
+     * N dernières mesures d'un paramètre, dans l'ordre chronologique. @return list<array<string, mixed>>
+     * @return list<array<string, mixed>>
+     */
     public function lastWaterParams(string $type, int $limit = 9): array
     {
         return array_reverse($this->db->fetchAllAssociative(
@@ -120,7 +126,10 @@ final class MeasureRepository
         return $this->db->fetchAllAssociative('SELECT * FROM `data_changement_eau` ORDER BY `id` DESC LIMIT ' . $limit);
     }
 
-    /** Dates des changements d'eau depuis $since (inclus), du plus ancien au plus récent. @return list<string> */
+    /**
+     * Dates des changements d'eau depuis $since (inclus), du plus ancien au plus récent. @return list<string>
+     * @return list<string>
+     */
     public function waterChangeDatesSince(string $since): array
     {
         return $this->db->fetchFirstColumn(

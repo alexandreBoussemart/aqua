@@ -64,7 +64,10 @@ final class StateRepository
         );
     }
 
-    /** @param list<string> $paths @return list<array<string, mixed>> */
+    /**
+     * @param list<string> $paths @return list<array<string, mixed>>
+     * @return list<array<string, mixed>>
+     */
     public function findByPaths(array $paths): array
     {
         return $this->db->fetchAllAssociative(
@@ -74,7 +77,10 @@ final class StateRepository
         );
     }
 
-    /** États des contrôles de crons + date de dernière activité. @return list<array<string, mixed>> */
+    /**
+     * États des contrôles de crons + date de dernière activité. @return list<array<string, mixed>>
+     * @return list<array<string, mixed>>
+     */
     public function controles(): array
     {
         return $this->db->fetchAllAssociative(
@@ -86,13 +92,19 @@ final class StateRepository
         );
     }
 
-    /** États à notifier par mail (nouveaux changements). @return list<array<string, mixed>> */
+    /**
+     * États à notifier par mail (nouveaux changements). @return list<array<string, mixed>>
+     * @return list<array<string, mixed>>
+     */
     public function pendingNotifications(): array
     {
         return $this->db->fetchAllAssociative('SELECT * FROM `core_config_state` WHERE `exclude_check` = 0 AND `mail_send` = 0');
     }
 
-    /** Erreurs toujours actives depuis avant $before (mail de rappel). @return list<array<string, mixed>> */
+    /**
+     * Erreurs toujours actives depuis avant $before (mail de rappel). @return list<array<string, mixed>>
+     * @return list<array<string, mixed>>
+     */
     public function errorsSince(\DateTimeInterface $before): array
     {
         return $this->db->fetchAllAssociative(

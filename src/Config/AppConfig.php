@@ -8,19 +8,25 @@ namespace App\Config;
  */
 final class AppConfig
 {
+    /** @var array<string, mixed>|null */
     private ?array $data = null;
 
     public function __construct(private readonly string $configFile)
     {
     }
 
+    /** @return array<string, mixed> */
     public function all(): array
     {
         if ($this->data === null) {
             if (!is_readable($this->configFile)) {
                 throw new \RuntimeException(sprintf('Fichier de configuration introuvable : %s', $this->configFile));
             }
-            $this->data = json_decode((string)file_get_contents($this->configFile), true, 512, JSON_THROW_ON_ERROR);
+            $data = json_decode((string)file_get_contents($this->configFile), true, 512, JSON_THROW_ON_ERROR);
+            if (!is_array($data)) {
+                throw new \RuntimeException(sprintf('Fichier de configuration invalide : %s', $this->configFile));
+            }
+            $this->data = $data;
         }
 
         return $this->data;
@@ -32,7 +38,7 @@ final class AppConfig
         return $this->all()['database'][0];
     }
 
-    /** @return array{mail: string, password: string, port: int, server: string, port_php: int, name: string} */
+    /** @return array{mail: string, password: string, port: int, server: string, port_php: int, name?: string} */
     public function smtp(): array
     {
         return $this->all()['gmail'][0];

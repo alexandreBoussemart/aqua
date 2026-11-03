@@ -15,7 +15,13 @@
                 <h1><img src="{{ asset('build/img/clownfish.svg') }}" alt=""/> Reef Pi</h1>
                 <p class="login-subtitle">Supervision de l'aquarium récifal</p>
                 {% if error %}
-                    <div class="alert alert-danger">Identifiants invalides.</div>
+                    <div class="alert alert-danger">
+                        {%- if error.messageKey starts with 'Too many failed login attempts' -%}
+                            Trop de tentatives : réessaie dans {{ error.messageData['%minutes%'] ?? 15 }} minute{{ (error.messageData['%minutes%'] ?? 15) > 1 ? 's' }}.
+                        {%- else -%}
+                            Identifiants invalides.
+                        {%- endif -%}
+                    </div>
                 {% endif %}
                 <div><input type="text" name="_username" value="{{ last_username }}" class="form-control" placeholder="Utilisateur" required autofocus autocomplete="username"/></div>
                 <div><input type="password" name="_password" class="form-control" placeholder="Mot de passe" required autocomplete="current-password"/></div>

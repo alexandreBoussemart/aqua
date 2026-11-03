@@ -29,6 +29,7 @@ final class ConfigurationController extends AbstractController
         $values = $config->all();
         foreach ($values as &$value) {
             $value['alert'] = $value['show_time_left'] ? $reminders->nextAlert($value['name']) : null;
+            [$value['min'], $value['max']] = ConfigRepository::BOUNDS[$value['name']] ?? [null, null];
         }
 
         $oldest = array_filter(array_map(fn(string $t) => $measures->oldestDate($t), MeasureRepository::PURGEABLE));
@@ -43,7 +44,10 @@ final class ConfigurationController extends AbstractController
         ]);
     }
 
-    /** Cartes « nettoyage » : dernière date, jours écoulés et échéance du rappel. @return list<array<string, mixed>> */
+    /**
+     * Cartes « nettoyage » : dernière date, jours écoulés et échéance du rappel. @return list<array<string, mixed>>
+     * @return list<array<string, mixed>>
+     */
     private function cleanings(MeasureRepository $measures, ConfigRepository $config): array
     {
         $cards = [];
@@ -84,6 +88,14 @@ final class ConfigurationController extends AbstractController
             if ($types[$name] === 'numeric' && !is_numeric(str_replace(',', '.', $value))) {
                 $errors[] = "Nombre invalide pour « {$name} » : {$value}";
                 continue;
+            }
+            if (isset(ConfigRepository::BOUNDS[$name])) {
+                [$min, $max] = ConfigRepository::BOUNDS[$name];
+                $number = (float)str_replace(',', '.', $value);
+                if ($number < $min || $number > $max || floor($number) != $number) {
+                    $errors[] = "« {$name} » doit être un nombre entier entre {$min} et {$max} : {$value}";
+                    continue;
+                }
             }
             $config->set($name, $types[$name] === 'numeric' ? str_replace(',', '.', $value) : $value);
         }

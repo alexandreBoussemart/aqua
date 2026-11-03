@@ -25,9 +25,8 @@
 __pycache__/
 *.pyc
 
-# Front (npm install dans assets/ pour recompiler)
+# Front (CSS compilé par make css, sans npm local)
 /node_modules/
-/assets/node_modules/
 /assets/.sass-cache/
 /web/.sass-cache/
 .idea/

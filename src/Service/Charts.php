@@ -12,6 +12,7 @@ final class Charts
     {
     }
 
+    /** @return array<string, mixed> */
     public function waterTemperature(): array
     {
         return ChartBuilder::build('graph_temperature_eau', 'Température eau', '°C', $this->last24h(M::WATER_TEMPERATURE), [
@@ -21,6 +22,7 @@ final class Charts
         ], 21, 29);
     }
 
+    /** @return array<string, mixed> */
     public function airTemperature(): array
     {
         return ChartBuilder::build('graph_temperature_air', 'Température air', '°C', $this->last24h(M::AIR_TEMPERATURE), [
@@ -29,6 +31,7 @@ final class Charts
         ], 12, 28);
     }
 
+    /** @return array<string, mixed> */
     public function cpuTemperature(): array
     {
         return ChartBuilder::build('graph_temperature_rpi', 'Température raspberry', '°C', $this->last24h(M::CPU_TEMPERATURE), [
@@ -37,6 +40,7 @@ final class Charts
         ], 25, 65);
     }
 
+    /** @return list<array<string, mixed>> */
     private function last24h(string $table): array
     {
         return $this->measures->between($table, new \DateTimeImmutable('-1 day'), new \DateTimeImmutable());

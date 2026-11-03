@@ -13,7 +13,7 @@ URL     ?= http://localhost:8080/aqua
 
 .PHONY: certs
 .PHONY: help up start down stop restart reset build ps logs logs-web shell console migrate status-sync \
-        cron crons gpio logs-gpio composer cc test test-php test-python e2e css css-watch db pma mail \
+        cron crons gpio logs-gpio composer cc test test-php test-python stan lint e2e css css-watch db pma mail \
         pi-up pi-down pi-logs pi-migrate pi-shell pi-gpio
 
 help: ## Affiche cette aide
@@ -75,6 +75,12 @@ test-php: ## Tests PHPUnit
 test-python: ## Tests du service GPIO (faux RPi.GPIO)
 	$(EXEC_T) python3 -m unittest discover -s tests/Python
 E2E_TABLES := data_parametres_eau data_changement_eau data_clean_refuge data_clean_ecumeur data_clean_pompes
+stan: ## Analyse statique PHPStan (niveau 8)
+	$(EXEC_T) php vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+lint: ## Vérifie Twig, YAML et le conteneur Symfony
+	$(EXEC_T) php bin/console lint:twig templates
+	$(EXEC_T) php bin/console lint:yaml config
+	$(EXEC_T) php bin/console lint:container
 e2e: ## Test de bout en bout (pages, formulaires, CSRF…) puis suppression des mesures qu'il a créées : make e2e [URL=…]
 	@since=$$(docker exec aqua-db date '+%F %T'); status=0; \
 	python3 tests/E2E/smoke.py $(URL) || status=$$?; \

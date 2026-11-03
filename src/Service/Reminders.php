@@ -70,7 +70,10 @@ final class Reminders
         return $result;
     }
 
-    /** Envoie un mail (et un log) par rappel en retard. @return array<string, string> */
+    /**
+     * Envoie un mail (et un log) par rappel en retard.
+     * @return array<string, string>
+     */
     public function notifyOverdue(): array
     {
         $overdue = $this->allOverdue();
@@ -82,7 +85,10 @@ final class Reminders
         return $overdue;
     }
 
-    /** Barres de progression du dashboard. @return list<array<string, mixed>> */
+    /**
+     * Barres de progression du dashboard.
+     * @return list<array<string, mixed>>
+     */
     public function progress(): array
     {
         $rows = [];
@@ -102,7 +108,10 @@ final class Reminders
         return $rows;
     }
 
-    /** Encart affiché sous un délai de la page Configuration. @return array{class: string, text: string}|null */
+    /**
+     * Encart affiché sous un délai de la page Configuration.
+     * @return array{class: string, text: string}|null
+     */
     public function nextAlert(string $configKey): ?array
     {
         $key = self::CONFIG_TO_CHECK[$configKey] ?? null;
