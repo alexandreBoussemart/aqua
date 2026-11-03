@@ -15,7 +15,7 @@ relay = 21
 
 functions.off_relay(relay)
 
-if os.path.exists(os.path.join(BASE_DIR, "statusRelais/pompe_osmolateur")):
-  os.remove(os.path.join(BASE_DIR, "statusRelais/pompe_osmolateur"))
+if os.path.exists(os.path.join(BASE_DIR, "var", "relais", "pompe_osmolateur")):
+  os.remove(os.path.join(BASE_DIR, "var", "relais", "pompe_osmolateur"))
 
 sys.exit()

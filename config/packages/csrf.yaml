@@ -1,0 +1,3 @@
+# CSRF stocké en session : formulaire de login + garde globale sur toutes les requêtes POST (CsrfGuardSubscriber)
+framework:
+    csrf_protection: true

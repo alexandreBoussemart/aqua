@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reef Pi - {% block title %}Dashboard{% endblock %}</title>
+    {{ include('_partials/head_assets.html.twig') }}
+    <script src="{{ asset('build/js/custom.min.js') }}"></script>
+    <script>
+        // jeton CSRF envoyé automatiquement avec tous les appels AJAX
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': '{{ csrf_token('app') }}'}});
+    </script>
+</head>
+<body class="nav-md">
+<script>
+    // menu latéral réduit/déplié : préférence mémorisée dans le navigateur
+    try { if (localStorage.getItem('aqua-nav') === 'sm') { document.body.className = 'nav-sm'; } } catch (e) {}
+</script>
+{{ include('_partials/reef_decor.html.twig') }}
+<div class="loading-mask" aria-live="polite">
+    <div class="reef-loader" role="status">
+        <div class="reef-loader-tank">
+            <span class="reef-loader-fish"><img src="{{ asset('build/img/clownfish.svg') }}" alt=""></span>
+            <span class="reef-loader-bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <span class="reef-loader-sand" aria-hidden="true"></span>
+        </div>
+        <p class="reef-loader-text">Enregistrement…</p>
+    </div>
+</div>
+<div class="container body">
+    <div class="main_container">
+        {{ include('_partials/menu.html.twig') }}
+        {{ include('_partials/top_nav.html.twig') }}
+        <div class="right_col" role="main">
+            {{ include('_partials/messages.html.twig') }}
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</div>
+<div class="footer">
+    v4.0.0 - Copyright © 2027
+</div>
+<script>
+    $('#menu_toggle').on('click', function () {
+        setTimeout(function () {
+            try { localStorage.setItem('aqua-nav', $('body').hasClass('nav-sm') ? 'sm' : 'md'); } catch (e) {}
+        }, 0);
+    });
+</script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

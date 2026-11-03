@@ -1,0 +1,11 @@
+{# Décor sous-marin : barrière de corail, poissons, crevette et bulles (aria-hidden, purement décoratif) #}
+<div class="reef-decor" aria-hidden="true">
+    {% for i in 1..10 %}<span class="bubble"></span>{% endfor %}
+    <div class="fish f1"><img src="{{ asset('build/img/clownfish.svg') }}" alt=""></div>
+    <div class="fish f2 reverse"><img src="{{ asset('build/img/bluetang.svg') }}" alt=""></div>
+    <div class="fish f3"><img src="{{ asset('build/img/clownfish.svg') }}" alt=""></div>
+    <div class="fish f4"><img src="{{ asset('build/img/chelmon.svg') }}" alt=""></div>
+    <div class="fish f5 reverse"><img src="{{ asset('build/img/yellowtang.svg') }}" alt=""></div>
+    <div class="reef-bottom"></div>
+    <div class="shrimp"><img src="{{ asset('build/img/lysmata.svg') }}" alt=""></div>
+</div>

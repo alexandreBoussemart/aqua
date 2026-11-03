@@ -1,77 +1,132 @@
 # AQUA — Supervision d'aquarium récifal
 
-Application PHP (sans framework) qui pilote et supervise un aquarium récifal depuis un Raspberry Pi :
-températures (eau, air, CPU du Pi), osmolateur, écumeur, réacteur, bailling, relais, analyses d'eau, budget, logs, crons.
+Application **Symfony 7.4 / PHP 8.5** qui pilote et supervise un aquarium récifal depuis un Raspberry Pi 4 :
+température (eau, air, CPU), osmolateur, écumeur, bailling, éclairage du refuge, analyses d'eau, logs, alertes mail.
+Les entrées/sorties matérielles (GPIO) sont gérées par des scripts **Python 3** (`scripts/`) appelés par l'application.
 Langue du projet et des échanges : **français**.
 
 ## Architecture
 
-- `web/` — DocumentRoot. Pages (`index.php`, `configuration.php`, `analyse.php`, `schema.php`, `logs.php`, `monitoring.php`, `budget.php`, `relais.php`, `crons.php`). `.htaccess` réécrit `/page` → `/page.php`.
-- `web/controller/` — endpoints AJAX/POST (`save*.php`, `getCurrent*.php`, `runCron.php`, `execRelais.php`).
-- `app/code/helper/` — `app.php` (≈1800 lignes, toute la logique métier), `bdd.php` (lit `config.json` à la racine, `mysqli_report(MYSQLI_REPORT_OFF)` pour garder le comportement PHP 7, ouvre `$link` mysqli et `$transport` Symfony Mailer via `createMailerTransport()`), `const.php` (noms des tables et des contrôles).
-- `app/code/templates/` — fragments PHP inclus par les pages.
-- `app/code/cron/` — scripts PHP lancés par la crontab du Pi (temperature, osmolateur, ecumeur, reacteur, bailling, mail, dump…).
-- `scripts/` — scripts Python 3 (UTF-8) qui pilotent les GPIO (`RPi.GPIO`) et accèdent à la BDD (`mysql.connector`). Chemins relatifs au dépôt (`BASE_DIR`), plus de `/home/pi/...` en dur. Appelés par PHP via `exec("python3 …")`.
-- Mails PHP : `symfony/mailer` (remplace Swiftmailer, abandonné). DSN = `mailer_dsn` de `config.json` s'il est renseigné, sinon construit depuis `gmail` (`port_php` 465 → `smtps`). Mails Python : `smtplib` + STARTTLS sur `gmail.port`.
-- Dump BDD (`cron/dump.php` → `dumpDatabaseToZip()`) : `mariadb-dump`/`mysqldump` + `ZipArchive` (remplace `phelium/mysql-backup`, abandonné). Nécessite l'extension PHP `zip` et le client MariaDB.
-- `config/`, `state/`, `statusRelais/` — fichiers « drapeaux » vides utilisés comme état (créés et supprimés via `exec("touch …")` / `rm`). Ignorés par git.
-- `var/log`, `var/backup` — logs et dumps SQL automatiques. Ignorés par git.
-- Base MariaDB `aqua` (17 tables : `core_config_*`, `data_*`, `log`, `log_mail`, `timer`, `last_activity`).
-- `config.json` (ignoré par git) : identifiants SMTP Gmail, BDD, `base_url`, chemins des sondes 1-Wire.
+```
+bin/console                  commandes (crons app:cron:*, planificateur, migrations)
+config/                      config Symfony (security.yaml, services.yaml…)
+config.json                  config partagée PHP + Python (BDD, SMTP, sondes, utilisateur) — ignoré par git
+migrations/*.sql             migrations SQL maison (app:db:migrate, table app_migration)
+public/                      seul dossier exposé (index.php, build/css|js|fonts, favicon)
+src/
+  Command/Cron/*Command.php  un cron = une commande app:cron:* (+ CronTools : services communs)
+  Command/                   app:scheduler:work, app:db:migrate, app:status:sync
+  Scheduler/Scheduler.php    planificateur unique (expressions cron en BDD, table cron_task)
+  Controller/                Dashboard, Configuration, Analyse, Action (pauses, changements d'eau), Page (logs, monitoring, schéma, câblage GPIO), Hardware (relais, crons), Security
+  Repository/                accès BDD Doctrine DBAL (requêtes préparées) : Config, Status, State, Log, Activity, Timer, Measure, CronTask
+  Service/                   Relay (scripts Python), SensorReader (1-Wire), Reminders, WaterParams, Charts, Backup, Dates
+  Mail/                      Notifier (Symfony Mailer), AlertMailer (mails d'état, rappels, rapport 8h, anti-spam)
+  Domain/Equipment.php       constantes métier (équipements, contrôles, relais, calendrier de nourrissage)
+  Config/AppConfig.php       lecture de config.json ; Database/ConnectionFactory ; Security/ConfigUserProvider
+  EventSubscriber/CsrfGuardSubscriber.php   jeton CSRF obligatoire sur tout POST
+templates/                   Twig (base + un dossier par page, _partials/)
+scripts/                     Python : osmolateur.py, ecumeur.py, bailling.py, <relais>/on|off.py, functions.py
+assets/                      sources front (src/scss, src/js) + anciens outils gulp (non utilisés)
+var/                         state/ (cache d'état), status/ (interrupteurs), relais/ (état des relais), backup/, cache/, log/
+docker/                      Dockerfile (cibles dev/prod), conf Apache, entrypoint, faux GPIO, sondes factices, build CSS
+```
 
-## Production (Raspberry Pi)
+### Câblage GPIO (page `/aqua/cablage-gpio`)
+- Source de vérité : `src/Domain/GpioWiring.php` (broche physique → branchement). `tests/Unit/GpioWiringTest.php` vérifie que chaque broche correspond à la variable déclarée dans le script Python (et que on.py/off.py d'un relais utilisent la même broche) : **toute modification de câblage = mettre à jour les scripts ET GpioWiring**.
+- Broches (BCM → physique) : DS18B20 eau + air 1-Wire GPIO4 → 7 (3,3 V broche 1, pull-up 4,7 kΩ) · écumeur godet GPIO18 → 12 · osmolateur trop haut GPIO23 → 16 · osmolateur niveau OK GPIO24 → 18 · bailling 1/2/3 GPIO8 → 24 / GPIO13 → 33 / GPIO22 → 15 · relais pompe osmolateur GPIO21 → 40 · relais alimentation écumeur GPIO11 → 23 (logique inversée) · relais éclairage refuge GPIO6 → 31 · carte relais 5 V broche 2, GND 6/39.
+- Relais actifs à l'état bas (`on_relay` = LOW), capteurs de niveau en entrée pull-up (contact vers GND). `scripts/test.py` (debug) a bailling 2/3 inversés : la référence est `bailling.py`.
 
-- Raspbian Buster, Apache 2.4.38, PHP 7.4 (mod_php), MariaDB. Appli servie sur `http://192.168.1.16/aqua/web/`.
-- Projet sur le Pi : `/home/pi/Desktop/www/aqua` (DocumentRoot `/home/pi/Desktop/www`, vhost `000-default.conf` avec `AllowOverride All` → les `.htaccess` sont actifs). phpMyAdmin sur `/phpmyadmin` (symlink vers `/usr/share/phpmyadmin`), protégé depuis le 2026-11-02 par une auth HTTP Basic : `/etc/apache2/conf-available/phpmyadmin-restrict.conf` (activée via `a2enconf`), utilisateur `admin`, fichier `/etc/apache2/.htpasswd-phpmyadmin` (mot de passe à changer avec `sudo htpasswd -B /etc/apache2/.htpasswd-phpmyadmin admin`). Localhost exempté.
-- SSH : `ssh pi@192.168.1.16` par clé (`~/.ssh/id_ed25519`, ajoutée le 2026-11-02). `sudo` sans mot de passe. L'IP `.18` notée dans `raspberry.txt` est obsolète.
-- Sondes 1-Wire : au 2026-11-02, aucun capteur `28-*` n'est détecté sur le Pi (débranché ou HS) → « fichier w1_slave n'existe pas ».
-- Le dossier `http://192.168.1.16/aqua/` est listable (directory index). C'est là qu'on récupère `config.json`, `config/`, `state/`, `statusRelais/` et `var/backup/dump_aqua_*.zip`.
-- Sondes : DS18B20 sur `/sys/bus/w1/devices/28-*/w1_slave`. Température du CPU sur `/sys/class/thermal/thermal_zone0/temp` (en dur dans `cron/temperature_rpi.php`).
-- MariaDB 10.3 sur le Pi : un seul compte `root@localhost` (mysql_native_password). Son mot de passe a été changé le 2026-11-02 et n'est stocké que dans `config.json` sur le Pi (l'appli PHP, les crons et les scripts Python le lisent tous dans ce fichier). `config.json` est en 640 pi:www-data ; sauvegarde de l'ancien : `config.json.bak-20261102` (ancien mot de passe, désormais invalide).
-- ⚠️ `raspberry.txt` et `config.json` contiennent des mots de passe en clair : ne jamais les recopier dans le dépôt ni dans ce fichier.
+### Fonctionnement
+- **Interrupteurs** (`core_config_status`) : valeur en BDD + fichier `var/status/<nom>` (lecture rapide par les crons). `app:status:sync` recrée les fichiers depuis la BDD.
+- **États** (`core_config_state`) : `StateRepository::set()` n'écrit/logue que si l'état change (cache `var/state/<path>-<value>`, même convention côté Python).
+- **Relais** (`Domain/Equipment::RELAYS`) : `Relay::switch()` lance `scripts/<relais>/on|off.py` ; état affiché via `var/relais/<relais>`. Relais restants : `ecumeur` (« Relais alimentation écumeur »), `pompe_osmolateur`, `refuge_eclairage`.
+- **Crons** : un seul processus `app:scheduler:work` (conteneur `scheduler`) lance chaque minute les commandes `app:cron:*` dues selon `cron_task.expression` (modifiable sur `/aqua/crons`, avec activation, prochaine exécution, dernier résultat et bouton Run). Pas de chevauchement : une tâche encore en cours à son échéance est relancée dès sa fin dans la même minute, sinon sautée. Les commandes qui bouclent (osmolateur, écumeur, mail) s'arrêtent à :57.
+- **Sécurité** : connexion obligatoire (form_login, utilisateur unique `auth` de config.json, hash bcrypt via `bin/console security:hash-password`), CSRF sur tous les POST (champ `_token` ou en-tête `X-CSRF-TOKEN` ajouté par `$.ajaxSetup`), Twig échappe tout, SQL uniquement via DBAL avec paramètres, noms de tables en liste blanche.
+- **Mails** : `Notifier::send()` respecte l'interrupteur `mail` (sinon seulement `log_mail`). DSN = `mailer_dsn` de config.json ou construit depuis le bloc `gmail`. Anti-spam : plus de 10 mails en 2 min ⇒ interrupteur `mail` coupé.
+
+## Thème graphique « Récif »
+- Base Gentelella (`library.min.css`, `custom.min.css`) + surcouche `assets/src/scss/reef.scss` → `public/build/css/reef.min.css` (chargée en dernier via `templates/_partials/head_assets.html.twig`).
+- Palette : abysse `#031D33`, océan `#0B5C80`, lagon `#0096C7`, aqua `#48CAE4`, corail `#FF6F61`, anémone `#F77F00`, sable `#F6E7CB`, algue `#2A9D8F`. Polices Google : Fredoka (titres), Nunito (texte).
+- Illustrations SVG maison dans `public/build/img/` : `clownfish.svg` (poisson-clown), `bluetang.svg` (chirurgien bleu), `yellowtang.svg` (chirurgien jaune, *Zebrasoma flavescens*), `chelmon.svg` (*Chelmon rostratus*), `lysmata.svg` (crevette *Lysmata debelius*, marche sur le sable), `reef-bottom.svg` (barrière de corail), `sidebar-coral.svg`. Décor animé : `templates/_partials/reef_decor.html.twig`, désactivé si `prefers-reduced-motion`. Poissons orientés vers la droite dans les SVG ; classe `.reverse` = nage vers la gauche (retournement via la propriété CSS `scale`, cumulable avec l'animation `transform`).
+- Barre du haut (`_partials/top_nav.html.twig`) : horloge en pastille (date en toutes lettres, heure, secondes), soleil le jour / lune la nuit (plage d’éclairage du refuge), mise à jour par `date_time()` dans `custom.js` (sources + build + min). La barre `.nav_menu` (fixe, 55 px) est ancrée entre le menu latéral et le bord droit.
+- Menu latéral réduit (☰, préférence mémorisée en `localStorage` `aqua-nav`) : pastilles d'icônes + libellé court sous l'icône (`short` dans `_partials/menu.html.twig`) + bulle avec le libellé complet au survol.
+- Poisson-clown redessiné (*Amphiprion ocellaris* : queue arrondie, nageoires bordées de noir, bande médiane en pointe vers l'avant).
+- Graphiques : **Chart.js 4.4.7 + chartjs-plugin-annotation 3.1.0** (servis localement, `public/build/js/vendor/`), rendu par `public/build/js/reef-charts.js` à partir de `App\Service\ChartBuilder` (limites min/idéal/vigilance/max par graphique dans `Service/Charts.php` et `WaterParams::PARAMS`). Zone de confort verte, seuils étiquetés, points/segments hors limites en corail (au-dessus) ou bleu foncé (en dessous), pastille « N valeurs hors limites », axe élargi automatiquement (pas arrondi, jamais négatif pour des grandeurs positives), courbes monotones, année affichée si la période dépasse 10 mois, changements d'eau en traits verticaux sur les 7 graphiques de l'analyse (un repère par jour, à l'heure réelle, depuis la 1re mesure affichée ; un changement postérieur à la dernière analyse prolonge l'axe X). Morris.js n'est plus utilisé.
+- Loader : aquarium avec poisson-clown qui nage (`.loading-mask` / `.reef-loader` dans `base.html.twig`), affiché par `showLoader()` (AJAX des interrupteurs) et par `reef-ui.js` à l'envoi de tout formulaire POST (attribut `data-no-loader` pour l'éviter).
+- Bulle d'aide : `{{ include('_partials/info.html.twig', {text: …, title: …}) }}` (icône « i », bulle océan avec poisson-clown et bulles au survol/focus). Icône placée à droite du champ (`.input-with-info`) ou de l'interrupteur (`.switch-with-info`). Textes des réglages et interrupteurs : colonne `description` de `core_config_value` / `core_config_status` (migration 006).
+- Mise en page : à partir de 768 px, chaque `.row` du contenu passe en flex : les blocs côte à côte ont la même hauteur (le `.x_panel` remplit sa colonne). Une colonne = un panneau.
+- Tuiles d'état : vert algue = OK, corail pulsant = erreur. Graphiques Morris : couleurs dans `_partials/morris_line.html.twig` et `Service/Charts.php`.
 
 ## Environnement local (Docker)
 
+Toutes les commandes passent par le **Makefile** (`make` ou `make help` affiche la liste) :
+
 ```bash
-docker compose up -d --build      # démarrer
-docker compose down               # arrêter
-docker compose down -v            # arrêter ET supprimer la BDD (réimport du dump au prochain up)
-docker exec aqua-web php app/code/cron/<script>.php   # lancer un cron à la main
+make up                   # construire et démarrer (web + scheduler + db + phpmyadmin + mailpit)
+make down                 # arrêter
+make reset                # ⚠ supprimer la BDD locale, réimporter le dump et appliquer les migrations
+make restart | ps | shell # redémarrer web + scheduler / état / shell dans aqua-web
+make logs | logs-web      # suivre le planificateur / Apache
+make migrate              # appliquer les migrations SQL
+make cron n=osmolateur    # lancer un cron à la main (ou bouton Run sur /aqua/crons) ; make crons = liste
+make console c="debug:router"   # n'importe quelle commande Symfony ; make cc = vider le cache
+make composer c="require foo/bar"
+make test                 # tests unitaires (PHPUnit)
+make e2e                  # test de bout en bout (tests/E2E/smoke.py) puis suppression des mesures qu'il a créées
+make css | css-watch      # compiler le SCSS (assets/src/scss → public/build/css) / recompiler à chaque modification
+make db | pma | mail      # client MariaDB / phpMyAdmin / Mailpit
+make pi-up | pi-down | pi-logs | pi-migrate | pi-shell   # sur le Raspberry (docker-compose.pi.yml)
 ```
 
-- App : http://localhost:8080/aqua/web/ · phpMyAdmin 5.2 : http://localhost:8081 · Mailpit (mails capturés) : http://localhost:8025 · MariaDB 11.8 : `localhost:3307` (root/root, base `aqua`).
-- `docker/php/Dockerfile` (contexte `docker/`) — `php:8.5-apache` (Debian Trixie) + mysqli, pdo_mysql, zip, client MariaDB, Python 3.13 + `mysql-connector-python`, Composer, mod_rewrite/headers, `AllowOverride All`, `display_errors` + `E_ALL`.
-- Composer : `docker compose run --rm --no-deps -e COMPOSER_ALLOW_SUPERUSER=1 web composer <cmd>` (`vendor/` est versionné).
-- Le dépôt est monté sur `/var/www/html/aqua`. `docker/config.docker.json` est monté **par-dessus** `config.json` (host `db`, `base_url` local, sondes factices, SMTP → Mailpit). Aucun `config.json` local n'est nécessaire.
-- `docker/db/01-dump.sql` — dump importé automatiquement au **premier** démarrage (volume `db_data` vide). Fichier ignoré par git.
-  Actuellement : `dump_aqua_20220214-00h00` (récupéré sur le Pi, un jour plus récent que `../dump_aqua_20220213-00h00.zip`).
-- `docker/python/RPi/GPIO.py` — faux module `RPi.GPIO` (`PYTHONPATH`) : les scripts Python tournent vraiment (BDD, fichiers d'état, mails), seules les GPIO sont simulées. Sorties tracées dans `var/log/gpio-fake.log` ; entrées lues dans `docker/gpio/<pin BCM>` (0/1, défaut 1).
-- `docker/sensors/w1_slave_eau|air` — fausses sondes 1-Wire (25,6 °C / 21,9 °C) ; il suffit de modifier `t=` pour simuler une autre température.
-- Limites connues : `cron/temperature_rpi.php` lit `/sys/class/thermal/...` en dur (indisponible dans Docker) ; le débit réacteur vaut 0 (pas d'impulsions simulées).
+Équivalents bruts : `docker compose up -d --build`, `docker compose down [-v]`, `docker exec aqua-web php bin/console …`, `docker compose run --rm assets [--watch]`.
 
-## Sécurité (.htaccess)
+- App : http://localhost:8080/aqua/ (**admin / admin**) · phpMyAdmin : http://localhost:8081 · Mailpit : http://localhost:8025 · MariaDB 11.8 : `localhost:3307` (root/root, base `aqua`).
+- Image `docker/php/Dockerfile`, cible `dev` (contexte = racine du dépôt) : PHP 8.5 + Apache (`docker/php/aqua.conf` : `Alias /aqua → public/`), pdo_mysql, zip, pcntl, client MariaDB, Python 3.13 + mysql-connector, faux `RPi.GPIO` (`docker/python/RPi/GPIO.py`, entrées dans `docker/gpio/<pin>`, sorties tracées dans `var/log/gpio-fake.log`).
+- Le dépôt est monté dans les conteneurs ; `docker/config.docker.json` est monté par-dessus `config.json` (BDD `db`, Mailpit, sondes factices `docker/sensors/w1_slave_*`, utilisateur admin/admin).
+- `docker/db/01-dump.sql` (ignoré par git) : dump importé au premier démarrage, puis `app:db:migrate`.
+- Compilation CSS : service `assets` (profil `tools`, `node:22-alpine`, `docker/assets/build-css.sh`) = Dart Sass + Autoprefixer (`.browserslistrc` : `last 2 versions, > 5%`). Remplace l'ancienne chaîne gulp 3 / Ruby Sass. `library.min.css` et `custom.min.js` sont figés.
+- Test de bout en bout : `tests/E2E/smoke.py` (Python 3 sur l'hôte, sans dépendance : login, toutes les pages, tous les formulaires, AJAX, CSRF, XSS). Il enregistre des mesures factices (valeurs 1, changements d'eau de 12 L) : toujours le lancer via `make e2e`, qui les supprime ensuite.
 
-- `.htaccess` à la racine : `Options -Indexes` + `Require all denied` → seul `web/` est public (protège `config.json`, `raspberry.txt`, `config/`, `state/`, `var/backup/`, `scripts/`, `vendor/`…).
-- `web/.htaccess` : `Require all granted`, `Options -Indexes`, blocage de `package*.json`, `gulpfile.js`, `.sass-cache/`, `*.map|scss|lock|md|sql|zip|bak|log`.
-- Nécessite `AllowOverride All` (ou au minimum `AuthConfig Options FileInfo`) sur le vhost du Pi.
-- Déployé sur le Pi le 2026-11-02 (sauvegarde : `web/.htaccess.bak-20261102`). Vérifié : 403 sur tous les fichiers sensibles, 200 sur toutes les pages.
+## Production cible : Docker sur le Raspberry
+
+- Décision (2026-11-02) : l'appli tournera **dans Docker sur le Pi** (Raspberry Pi OS **64 bits** sur une carte SD neuve ; l'image MariaDB n'existe pas en 32 bits).
+- `docker-compose.pi.yml` : `web` (port 80, http://<pi>/aqua/), `scheduler`, `db` (MariaDB 11.8), `phpmyadmin` (8081). Image `prod` construite sur le Pi (arm64) : code copié, `composer install --no-dev`, OPcache, **rpi-lgpio** (bibliothèque `lg` 0.2.2 compilée), accès GPIO via `devices: /dev/gpiochip0` (l'entrypoint ajoute www-data au groupe du périphérique). `/sys` (sondes 1-Wire, CPU) est lisible dans le conteneur. Image testée en build arm64 sur le Mac.
+- Fichiers à créer sur le Pi : `config.json` (host `db`, `auth`), `docker/pi/pi.env` (cf. `pi.env.sample` : APP_SECRET, MARIADB_ROOT_PASSWORD), dump dans `docker/db/`.
+- `RPi.GPIO` ne gère plus la détection de fronts sur les noyaux ≥ 6.6 → `rpi-lgpio` (même API).
+
+## Raspberry actuel (ancienne appli, jusqu'à la migration)
+
+- Pi 4 Model B, Raspbian 10 Buster **32 bits**, Wi-Fi uniquement, IP fixe `192.168.1.16` (dhcpcd). SSH `pi@192.168.1.16` par clé (`~/.ssh/id_ed25519`), `sudo` sans mot de passe. L'IP `.18` de `raspberry.txt` est obsolète.
+- Ancienne appli PHP 7.4 dans `/home/pi/Desktop/www/aqua` (vhost `AllowOverride All`), crons dans la crontab **root** (suspendus le 2026-11-02, lignes préfixées `#PAUSE-UPGRADE#`). L'appli du Pi ne pilote pas un aquarium réel actuellement.
+- 2026-11-02 : mise à jour sur place Buster → Bullseye lancée (`/root/dist-upgrade.sh`, log `/root/upgrade-bullseye.log`, miroir `ftp.halifax.rwth-aachen.de`). **Ne pas poursuivre** vers Bookworm/Trixie : la cible est une carte SD neuve 64 bits + Docker.
+- Sauvegardes du Pi (BDD complète, /etc, projet, crontab, config.txt) : `/Users/alex/Workspaces/AQUA/backup-pi-20261102/`.
+- Sécurité appliquée sur l'ancien Pi : `.htaccess` (seul `web/` public), phpMyAdmin derrière une auth HTTP Basic (`/etc/apache2/conf-available/phpmyadmin-restrict.conf`, utilisateur `admin`), mot de passe root MariaDB changé (stocké uniquement dans `config.json` du Pi).
+- Sondes 1-Wire : aucun capteur `28-*` détecté sur le Pi au 2026-11-02 (débranché ou HS).
+- ⚠️ `raspberry.txt` et `config.json` contiennent des mots de passe : ne jamais les recopier dans le dépôt ni ici. Le mot de passe Gmail `raspberrypi.recifal` a été exposé : **à changer**.
+
+## Vocabulaire
+- **Refuge** (ex-« réacteur », renommé le 2026-11-02, migration 009) : nettoyage (`data_clean_refuge`, `check_clean_refuge`), éclairage en plage horaire (`refuge_eclairage`, `eclairage_refuge_debut|fin`, commande `app:cron:refuge-eclairage`, scripts `scripts/refuge_eclairage/`, relais GPIO6). Ne plus utiliser « réacteur » pour ces fonctions.
+
+## Fonctionnalités supprimées (2026-11-02, migrations dans `migrations/`)
+- Débit du réacteur (capteur, `reacteur.py`, table `data_reacteur`, seuil, pause réacteur, contrôle `controle_reacteur`).
+- Ventilateurs du réacteur la nuit (`reacteur_ventilateur`) — l’éclairage (devenu celui du refuge) est conservé.
+- Cycles d'éclairage du réacteur (1 h allumé / 10 min de pause) : remplacés par une plage horaire simple, réglages `eclairage_refuge_debut` / `eclairage_refuge_fin` (type `time`, défaut 22:30 → 10:00, peut passer minuit). L'horloge jour/nuit de la barre du haut suit cette plage (`lighting_period()` Twig + `data-start`/`data-end`).
+- Page Budget (`/budget`, table `data_depense`).
+- Relais ventilateur aquarium (pilotage selon la température, `config_temperature_declenchement`, `force_turn_off_ventilateur`).
+- Paramètres obsolètes : `timer_reacteur`, `log_in_files`.
 
 ## Conventions
-
-- PHP procédural, fonctions globales dans `app.php`, `$link` (mysqli) et `$data` (config) en variables globales.
-- **SQL** : toujours passer par `dbQuery($link, $sql, $params)` / `dbFetchOne()` (requêtes préparées, `mysqli::execute_query`, PHP ≥ 8.2). Jamais de concaténation de valeurs. Seuls les noms de tables (constantes `TABLE_*`) sont concaténés. Python : `functions.execute()` / `query_one()` avec des paramètres `%s`.
-- **Affichage** : échapper toute donnée venant de la BDD ou de l'utilisateur avec `e()` dans les templates. Exception volontaire : le corps HTML des mails dans `logs/logs_mail.php`.
-- **Contrôleurs** : terminer par `redirect($data, 'page')` (header + exit). `runCron.php` n'accepte qu'un nom de fichier présent dans `app/code/cron/` (liste blanche). `execRelais.php` utilise un tableau bouton → script.
-- Ne pas modifier le code applicatif pour l'adapter au local : passer par `docker/` (config montée, stubs).
-- Pistes non traitées : l'appli n'a aucune authentification (n'importe qui sur le réseau local peut piloter les relais) → à protéger par une auth HTTP Basic sur `/aqua/web` comme pour phpMyAdmin ; pas de protection CSRF ; Twig (échappement automatique) pourrait remplacer les templates PHP.
-- Test des formulaires : script `form_test.py` (soumet tous les formulaires POST et cherche les erreurs PHP) — à recréer si besoin.
+- Code et messages en français. PSR-4 `App\`, services autowirés, contrôleurs à attributs `#[Route]`.
+- Toute modification de schéma/données = nouveau fichier `migrations/AAAA_MM_JJ_NNN_description.sql` (ne jamais modifier une migration déjà appliquée). Une requête se termine par `;` **en fin de ligne** (les `;` dans un texte sont autorisés) ; pas de procédures stockées.
+- Toute nouvelle commande `app:cron:*` est ajoutée automatiquement à `cron_task` (planifiée chaque minute) au démarrage du planificateur ou à l'ouverture de `/crons`.
+- Ne pas adapter le code au local : passer par `docker/` (config montée, faux GPIO, sondes factices).
+- Pied de page : « v4.0.0 - Copyright © 2027 ».
 
 ## Journal des échanges
-
-- **2026-11-02** — Création de l'environnement Docker local (web PHP 7.3 + MariaDB 10.6 + phpMyAdmin), récupération des fichiers manquants depuis le Pi (`config/`, `state/`, `statusRelais/`, dernier dump), stub Python/GPIO, fausses sondes, création de ce CLAUDE.md. Vérifié : toutes les pages répondent en 200 sans erreur PHP, lecture de la température OK, le cron osmolateur tourne.
-- **2026-11-02** — Constat : sur le Pi, `http://192.168.1.16/aqua/` affiche la liste des fichiers et sert `config.json` et `raspberry.txt` (mots de passe en clair). Ajout de `.htaccess` (racine) et durcissement de `web/.htaccess` ; validé en local (403 sur les fichiers sensibles, 200 sur toutes les pages). Reste à les copier sur le Pi puis à changer le mot de passe Gmail de `raspberrypi.recifal`.
-- **2026-11-02** — Accès SSH par clé au Pi (il a fallu corriger les permissions : `/home/pi` était en 777, StrictModes refusait la clé). `.htaccess` déployés en SSH et vérifiés sur le Pi. Docker passé en PHP 7.4 (version réelle du Pi). **À faire** : changer le mot de passe Gmail (exposé publiquement jusqu'ici), vérifier les sondes 1-Wire.
-- **2026-11-02** — phpMyAdmin du Pi restreint par une auth HTTP Basic (Apache, `<Location /phpmyadmin>`). Vérifié : 401 sans identifiants ou avec un mauvais mot de passe, 200 avec le bon ; appli aqua non impactée. Le mot de passe n'est pas stocké dans le dépôt. Reste : le compte MariaDB root/root est faible.
-- **2026-11-02** — Mot de passe root MariaDB du Pi changé (n'est plus `root`), `config.json` du Pi mis à jour. Vérifié : ancien mot de passe refusé, nouveau OK, pages web en 200 sans erreur BDD, cron `timer.php` OK, connexion Python `mysql.connector` OK, crons en tâche de fond toujours actifs. Le Docker local garde root/root (indépendant).
-- **2026-11-02** — Montée de version dans Docker : PHP 8.5, MariaDB 11.8, phpMyAdmin 5.2, Python 3.13 (+ Mailpit). Swiftmailer → symfony/mailer ; phelium/mysql-backup → mariadb-dump + ZipArchive ; scripts Python 2 → 3 (UTF-8, chemins relatifs) ; `python` → `python3` dans le PHP ; `size(?array)` ; `mysqli_report(OFF)`. Validé : 9 pages + contrôleurs AJAX sans erreur ni avertissement (E_ALL), tous les crons PHP, tous les scripts Python (vraie BDD + faux GPIO), mails PHP et Python reçus dans Mailpit, dump zip OK, soumission de tous les formulaires OK. **Pi pas encore migré** (Buster 32 bits ne propose pas PHP 8.5 → changement d'OS nécessaire).
-- **2026-11-02** — Amélioration du code (carte blanche) : requêtes préparées partout où des données entrent en SQL (PHP `dbQuery`, Python `%s`) ; `runCron.php` vulnérable à une injection de commande (`exec("php " . $_POST['file'])`) → liste blanche ; échappement XSS (`e()`) dans les templates ; contrôleurs simplifiés (`execRelais`, `saveStatus`, `saveTimer`, `save`) avec `redirect()` + exit ; suppression des appels à `scripts/osmolateur/on|off.py` (inexistants) ; bug Python `force_log` (str == int) corrigé ; `functions.py` refactoré (connexion fermée proprement, plus de boucle mail ↔ getstatus) ; validation de la date des dépenses ; `getStateRelais` sans retour corrigé. `node_modules/`, `web/node_modules/` et `.sass-cache/` retirés de git (≈ 14 000 fichiers, toujours sur le disque). Tout est revalidé dans Docker (pages, formulaires, crons, scripts Python, tentatives d'injection et de XSS bloquées).
+- **2026-11-02** — Docker local (PHP 7.3 puis 7.4) ; récupération des fichiers du Pi ; création de ce fichier.
+- **2026-11-02** — Pi : `.htaccess` (le dossier `/aqua/` était listable, `config.json` et `raspberry.txt` lisibles), clé SSH (`/home/pi` était en 777), phpMyAdmin protégé, mot de passe root MariaDB changé.
+- **2026-11-02** — Montée de version : PHP 8.5, MariaDB 11.8, phpMyAdmin 5.2, Python 3 ; Swiftmailer → symfony/mailer ; dump via mariadb-dump ; sécurisation (requêtes préparées, XSS, injection de commande dans runCron). Commit `7870be72` sur la branche `upgrade-php85`.
+- **2026-11-02** — Pi : sauvegardes, crons suspendus, mise à jour Buster → Bullseye lancée (1re tentative échouée sur des miroirs injoignables, relancée avec un miroir fixe).
+- **2026-11-02** — Refonte **Symfony 7.4** (branche `symfony`) : Twig, Doctrine DBAL, Security (login + CSRF), commandes console, migrations SQL ; suppression de l'ancien code `app/` et `web/`. Commande de compilation CSS (Dart Sass). Suppressions : débit réacteur, ventilateurs réacteur, budget, ventilateur aquarium. Planificateur unique avec planification éditable sur `/crons` (remplace la crontab, en local comme sur le Pi). Image `prod` arm64 avec rpi-lgpio et `docker-compose.pi.yml`. Relais écumeur renommé « Relais alimentation écumeur ». Thème graphique « Récif » (poissons, coraux, bulles, page de connexion sous-marine), vérifié par captures Playwright (desktop + mobile). Menu réduit retravaillé (icônes + petit libellé + bulle). Page « Câblage GPIO » (brochage du Pi 4 + tableau, cohérence avec les scripts vérifiée par test). Graphiques Chart.js avec gestion des dépassements. Descriptions de tous les réglages en bulle d'aide récifale. Libellés des réglages réécrits (migration 007), bulle d'aide positionnée en JS (`public/build/js/reef-ui.js`, au-dessus ou en dessous selon la place, rattachée au body), icône « i » en bout de libellé. Éclairage du réacteur : plage horaire configurable sans pauses (migration 008), réglages de type `time` validés à l'enregistrement. Icônes d'aide à droite des champs ; loader poisson-clown à chaque enregistrement. Bloc « Actions » de la configuration en cartes (nettoyages avec jauge jusqu'au rappel, relecture des sondes sans popup, purge isolée en corail) ; températures affichées à la française (« 25,63 °C »). Le réacteur devient le **refuge** partout (code, scripts, BDD, interface). `app:status:sync` supprime les fichiers d'état orphelins. Messages flash avec marges et icône. Blocs côte à côte de même hauteur sur toutes les pages.
+- **2026-11-03** — README.md à la racine ; commit de la refonte Symfony sur la branche `symfony`.
+- **2026-11-03** — Analyse : changements d'eau vérifiés sur les 7 graphiques ; corrigé le repère du jour de la dernière mesure (placé à midi, il sortait de l'axe) et les changements faits après la dernière analyse (ignorés). **Makefile** pour toutes les commandes Docker ; test e2e versionné (`tests/E2E/smoke.py`, `make e2e` nettoie ses données) ; données de test parasites supprimées de la BDD locale.

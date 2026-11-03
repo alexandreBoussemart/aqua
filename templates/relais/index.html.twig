@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}Relais{% endblock %}
+
+{% block body %}
+    {% for relay in relays %}
+        <div class="row{{ loop.first ? ' first-bloc' }}">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title title-relais {{ relay.on ? 'on' : 'off' }}">
+                        <h2>{{ relay.label }}</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    {% for action, style in {on: 'success', off: 'danger'} %}
+                        <form method="post" action="{{ path('relais_switch', {name: relay.name, action: action}) }}" class="form-relais form-horizontal form-label-left switch-state">
+                            {{ include('_partials/csrf.html.twig') }}
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-{{ style }}">
+                                    <i class="fa fa-toggle-{{ action }}"></i> {{ action|capitalize }}
+                                </button>
+                            </div>
+                        </form>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

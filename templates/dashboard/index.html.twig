@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if overdue is not empty %}
+        <div class="row">
+            <div class="col-md-12 col-xs-12 col-sm-12 todo-block">
+                <div class="x_panel">
+                    <div class="x_title"><h2>To Do List</h2><div class="clearfix"></div></div>
+                    <div class="x_content">
+                        <ul class="to_do">
+                            {% for message in overdue %}<li><p>{{ message }}</p></li>{% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        {{ include('dashboard/_quick_actions.html.twig') }}
+        {{ include('dashboard/_progress.html.twig') }}
+    </div>
+
+    {{ include('dashboard/_calendar.html.twig') }}
+
+    <div class="row tile_count">
+        {% for controle in controles %}
+            <div class="col-md-1-5 col-sm-1-5 col-xs-12 tile_stats_count {{ controle.error ? 'error' }}">
+                <span class="count_top"><i class="fa fa-heartbeat"></i> {{ controle.label }}</span>
+                <div class="count">{{ controle.error ? 'ERREUR' : 'OK' }}</div>
+                <span class="count_bottom">Dernière mise à jour le {{ controle.date|date_fr }}</span>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row tile_count">
+        {% for state in equipments %}
+            <div class="col-md-3 col-sm-3 col-xs-12 tile_stats_count {{ state.error ? 'error' }}">
+                <span class="count_top"><i class="fa {{ state.icon }}"></i> {{ state.label }}</span>
+                <div class="count">{{ state.error ? 'ERREUR' : 'OK' }} <small>{{ state.detail }}</small></div>
+                <span class="count_bottom">Dernière mise à jour le {{ state.created_at|date_fr }}</span>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row tile_count">
+        {% for tile in bailling %}
+            <div class="col-md-4 col-sm-4 col-xs-12 tile_stats_count {{ tile.error ? 'error' }}">
+                <span class="count_top"><i class="fa fa-flask"></i> {{ tile.label }}</span>
+                <div class="count">{{ tile.error ? 'ERREUR' : 'OK' }} {% if tile.detail %}<small>{{ tile.detail }}</small>{% endif %}</div>
+                <span class="count_bottom">Dernière mise à jour le {{ tile.date|date_fr }}</span>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row first-bloc">
+        {{ include('_partials/panel_chart.html.twig', {title: 'Température eau (°C)', chart: charts.water}) }}
+        {{ include('_partials/panel_chart.html.twig', {title: 'Température air (°C)', chart: charts.air}) }}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title"><h2>Changement d'eau</h2><div class="clearfix"></div></div>
+                <form method="post" action="{{ path('water_change_add') }}" class="form-horizontal form-label-left switch-state">
+                    {{ include('_partials/csrf.html.twig') }}
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Volume<span class="required">*</span></label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <input name="value" class="form-control col-md-7 col-xs-12" required="required"
+                                   type="number" min="0" step="any" inputmode="decimal"/>
+                            <p class="info">{{ last_change }}</p>
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Enregistrer</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var URL_SAVE_ACTIONS_RAPIDES = '{{ path('quick_actions') }}';
+        $(function () {
+            if ($(".progress .progress-bar")[0]) {
+                $('.progress .progress-bar').progressbar();
+            }
+        });
+    </script>
+{% endblock %}

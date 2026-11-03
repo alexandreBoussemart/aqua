@@ -14,7 +14,7 @@ relay = 21
 
 functions.on_relay(relay)
 
-if os.path.exists(os.path.join(BASE_DIR, "statusRelais/pompe_osmolateur")) is False:
-    open(os.path.join(BASE_DIR, "statusRelais/pompe_osmolateur"), "w").close()
+if os.path.exists(os.path.join(BASE_DIR, "var", "relais", "pompe_osmolateur")) is False:
+    open(os.path.join(BASE_DIR, "var", "relais", "pompe_osmolateur"), "w").close()
 
 sys.exit()

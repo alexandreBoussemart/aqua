@@ -1,0 +1,24 @@
+parameters:
+    app.config_file: '%env(resolve:APP_CONFIG_FILE)%'
+    app.var_dir: '%kernel.project_dir%/var'
+    app.scripts_dir: '%kernel.project_dir%/scripts'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            string $projectDir: '%kernel.project_dir%'
+            string $varDir: '%app.var_dir%'
+            string $scriptsDir: '%app.scripts_dir%'
+
+    App\:
+        resource: '../src/'
+
+    App\Config\AppConfig:
+        arguments:
+            $configFile: '%app.config_file%'
+
+    # Connexion DBAL construite depuis config.json (partagé avec les scripts Python)
+    Doctrine\DBAL\Connection:
+        factory: ['@App\Database\ConnectionFactory', 'create']

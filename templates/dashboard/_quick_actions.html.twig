@@ -1,0 +1,52 @@
+<div class="col-md-6 col-xs-12 col-sm-12">
+    <div class="x_panel">
+        <div class="x_title"><h2>Actions rapides</h2><div class="clearfix"></div></div>
+        <div class="x_content">
+            <form id="actions-rapides" method="post" action="{{ path('quick_actions') }}"
+                  class="form-horizontal form-label-left switch-state">
+                {{ include('_partials/csrf.html.twig') }}
+                {% for status in quick_statuses %}
+                    <div class="form-group form-actions-rapides">
+                        <label class="control-label">{{ status.label }}</label>
+                        <div class="js-switch-label">
+                            <label for="{{ status.name }}"></label>
+                            <input name="{{ status.name }}" type="checkbox"
+                                   class="js-switch {{ status.name }}" {{ status.value ? 'checked' }}/>
+                        </div>
+                    </div>
+                {% endfor %}
+            </form>
+
+            {% set pauses = {ecumeur: 'Pause écumeur', osmolateur: 'Pause osmolateur'} %}
+            {% for type, label in pauses %}
+                <div class="form-group form-timer">
+                    <div class="timer-forms">
+                        <form method="post" action="{{ path('timer_pause', {type: type}) }}" class="form-horizontal form-label-left switch-timer">
+                            {{ include('_partials/csrf.html.twig') }}
+                            <button type="submit" class="btn btn-default {{ timers[type] ? 'haveTimer' : 'noTimer' }}">
+                                <i class="fa fa-clock-o"></i> {{ label }}
+                            </button>
+                        </form>
+                        {% if timers[type] %}
+                            <form method="post" action="{{ path('timer_resume', {type: type}) }}" class="form-horizontal form-label-left switch-timer">
+                                {{ include('_partials/csrf.html.twig') }}
+                                <button type="submit" class="btn"><i class="fa fa-close"></i></button>
+                            </form>
+                            <p>jusqu'à {{ timers[type]|date('H:i') }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="form-group form-timer">
+                <div class="timer-forms">
+                    <form method="post" action="{{ path('timer_water_change') }}" class="form-horizontal form-label-left switch-timer">
+                        {{ include('_partials/csrf.html.twig') }}
+                        <button type="submit" class="btn btn-default btn-changement-eau">
+                            <i class="fa fa-exchange"></i> Changement d'eau
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

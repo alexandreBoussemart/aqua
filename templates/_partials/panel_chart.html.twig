@@ -1,0 +1,25 @@
+{# Panneau graphique : title, chart (App\Service\ChartBuilder) #}
+<div class="col-md-6 col-sm-6 col-xs-12">
+    <div class="x_panel reef-chart-panel{{ chart.outOfRange.summary ? ' has-alert' }}">
+        <div class="x_title">
+            <h2>{{ title }}</h2>
+            <div class="reef-chart-badges">
+                {% if chart.outOfRange.summary %}
+                    <span class="reef-chart-badge is-alert"><i class="fa fa-exclamation-triangle"></i> {{ chart.outOfRange.summary }}</span>
+                {% elseif chart.points is not empty %}
+                    <span class="reef-chart-badge is-ok"><i class="fa fa-check"></i> dans les limites</span>
+                {% endif %}
+                {% if chart.last %}
+                    <span class="reef-chart-badge is-{{ chart.last.s }}" title="Dernière mesure : {{ chart.last.d }}">
+                        dernière : {{ chart.last.y|num }} {{ chart.unit }}
+                    </span>
+                {% endif %}
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content2 reef-chart-box">
+            <canvas id="{{ chart.id }}"></canvas>
+        </div>
+    </div>
+</div>
+<script>document.addEventListener('DOMContentLoaded', function () { ReefChart.render({{ chart|json_encode|raw }}); });</script>

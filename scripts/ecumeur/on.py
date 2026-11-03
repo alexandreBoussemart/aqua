@@ -14,7 +14,7 @@ relay = 11
 
 functions.off_relay(relay)
 
-if os.path.exists(os.path.join(BASE_DIR, "statusRelais/ecumeur")) is False:
-    open(os.path.join(BASE_DIR, "statusRelais/ecumeur"), "w").close()
+if os.path.exists(os.path.join(BASE_DIR, "var", "relais", "ecumeur")) is False:
+    open(os.path.join(BASE_DIR, "var", "relais", "ecumeur"), "w").close()
 
 sys.exit()

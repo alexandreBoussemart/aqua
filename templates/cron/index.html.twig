@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+{% block title %}Crons{% endblock %}
+
+{% block body %}
+    <div class="row first-bloc">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Planification des crons <small>exécutés par le planificateur unique (app:scheduler:work)</small></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content2">
+                    <form method="post" action="{{ path('crons_save') }}">
+                        {{ include('_partials/csrf.html.twig') }}
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Commande</th>
+                                <th style="width: 170px;">Planification <small>(min h j mois jsem)</small></th>
+                                <th style="width: 60px;">Actif</th>
+                                <th>Prochaine exécution</th>
+                                <th>Dernière exécution</th>
+                                <th style="width: 80px;">Run</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for task in tasks %}
+                                <tr>
+                                    <td><code>{{ task.name }}</code><br><small>{{ task.description }}</small></td>
+                                    <td>
+                                        <input type="text" name="expression[{{ task.name }}]" value="{{ task.expression }}"
+                                               class="form-control{{ task.valid ? '' : ' alert-danger' }}" required pattern="\S+( \S+){4}">
+                                        <small>{{ task.human }}</small>
+                                    </td>
+                                    <td class="text-center"><input type="checkbox" name="enabled[{{ task.name }}]" {{ task.enabled ? 'checked' }}></td>
+                                    <td>{{ task.next ? task.next|date_fr : '—' }}</td>
+                                    <td>
+                                        {% if task.last_started_at %}
+                                            {{ task.last_started_at|date_fr }}
+                                            {% if task.last_exit_code is not null %}
+                                                <span class="label label-{{ task.last_exit_code == 0 ? 'success' : 'danger' }}">
+                                                    {{ task.last_exit_code == 0 ? 'OK' : 'code ' ~ task.last_exit_code }}
+                                                </span>
+                                                <small>{{ task.last_duration }} s</small>
+                                            {% else %}
+                                                <span class="label label-info">en cours</span>
+                                            {% endif %}
+                                            {% if task.last_output %}<br><small><code>{{ task.last_output|u.truncate(150, '…') }}</code></small>{% endif %}
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                    </td>
+                                    <td><button data-file="{{ task.name }}" class="btn btn-default btn-run" type="button"><i class="fa fa-play"></i> Run</button></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Enregistrer la planification</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>var URL_RUN_CRON = '{{ path('crons_run') }}';</script>
+{% endblock %}

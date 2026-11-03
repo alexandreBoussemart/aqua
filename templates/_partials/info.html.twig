@@ -1,0 +1,10 @@
+{# Petite icône « i » + bulle d'aide au survol / au toucher (thème récif). Paramètres : text, title (optionnel) #}
+<span class="reef-info" tabindex="0" role="button" aria-expanded="false" aria-label="Aide : {{ text }}">
+    <i class="fa fa-info" aria-hidden="true"></i>
+    <span class="reef-info-pop" role="tooltip">
+        <img class="reef-info-fish" src="{{ asset('build/img/clownfish.svg') }}" alt="">
+        {% if title is defined and title %}<strong class="reef-info-title">{{ title }}</strong>{% endif %}
+        <span class="reef-info-text">{{ text }}</span>
+        <span class="reef-info-bubbles" aria-hidden="true"><i></i><i></i><i></i></span>
+    </span>
+</span>

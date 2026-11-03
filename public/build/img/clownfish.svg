@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 84">
+  <!-- poisson-clown (Amphiprion ocellaris), orienté vers la droite -->
+  <defs>
+    <linearGradient id="o" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FF9E2C"/><stop offset="0.6" stop-color="#FF7F11"/><stop offset="1" stop-color="#F26B00"/>
+    </linearGradient>
+    <clipPath id="b">
+      <path d="M130 44 C128 30 116 20 98 17 C80 14 58 15 42 22 C34 26 28 31 25 37 L25 51 C28 57 34 62 42 66 C58 72 80 73 98 70 C116 67 128 58 130 44 Z"/>
+    </clipPath>
+  </defs>
+  <g stroke="#141414" stroke-linejoin="round">
+    <!-- queue arrondie en éventail, bordée de noir -->
+    <path d="M27 38 C18 28 9 24 4 28 C0 36 0 52 4 60 C9 64 18 60 27 50 Z" fill="#141414" stroke-width="1"/>
+    <path d="M26 39 C19 31 12 28 8 31 C5 37 5 51 8 57 C12 60 19 57 26 49 Z" fill="url(#o)" stroke-width="0"/>
+    <!-- dorsale épineuse (avant) et dorsale molle (arrière, plus haute) -->
+    <path d="M94 18 C92 10 86 6 80 8 C76 9 74 12 72 15 C70 10 64 8 60 12 L58 17 Z" fill="#141414" stroke-width="1"/>
+    <path d="M92 18 C90 12 85 10 81 11 C78 12 76 14 74 17 C72 13 67 11 63 14 L61 18 Z" fill="url(#o)" stroke-width="0"/>
+    <path d="M58 17 C56 6 46 2 38 6 C33 9 31 15 32 22 Z" fill="#141414" stroke-width="1"/>
+    <path d="M56 18 C54 10 47 6 41 9 C37 11 35 16 36 21 Z" fill="url(#o)" stroke-width="0"/>
+    <!-- anale et pelvienne arrondies, bordées de noir -->
+    <path d="M60 70 C58 80 46 84 38 78 C35 75 34 70 36 66 Z" fill="#141414" stroke-width="1"/>
+    <path d="M58 70 C56 77 47 80 41 76 C39 74 38 71 39 68 Z" fill="url(#o)" stroke-width="0"/>
+    <path d="M90 70 C90 79 82 83 76 79 C74 77 74 74 75 71 Z" fill="#141414" stroke-width="1"/>
+    <path d="M88 70 C88 76 82 79 78 77 C77 75 77 73 77 71 Z" fill="url(#o)" stroke-width="0"/>
+  </g>
+  <!-- corps -->
+  <path d="M130 44 C128 30 116 20 98 17 C80 14 58 15 42 22 C34 26 28 31 25 37 L25 51 C28 57 34 62 42 66 C58 72 80 73 98 70 C116 67 128 58 130 44 Z" fill="url(#o)"/>
+  <!-- 3 bandes blanches liserées de noir : tête, milieu (pointe vers l'avant), pédoncule -->
+  <g clip-path="url(#b)" fill="#FFFFFF" stroke="#141414" stroke-width="2">
+    <path d="M100 6 C112 26 112 62 100 82 L90 82 C100 62 100 26 90 6 Z"/>
+    <path d="M66 4 C64 22 70 34 76 44 C70 54 64 66 66 84 L54 84 C52 66 58 54 63 44 C58 34 52 22 54 4 Z"/>
+    <path d="M36 6 C40 26 40 62 36 82 L28 82 C32 62 32 26 28 6 Z"/>
+  </g>
+  <!-- contour du corps -->
+  <path d="M130 44 C128 30 116 20 98 17 C80 14 58 15 42 22 C34 26 28 31 25 37 L25 51 C28 57 34 62 42 66 C58 72 80 73 98 70 C116 67 128 58 130 44 Z" fill="none" stroke="#141414" stroke-width="2"/>
+  <!-- pectorale orange bordée de noir -->
+  <path d="M90 46 C82 50 78 56 80 60 C86 60 92 54 90 46 Z" fill="url(#o)" stroke="#141414" stroke-width="1.6"/>
+  <!-- œil (iris orangé) et bouche -->
+  <circle cx="115" cy="38" r="5.4" fill="#FFB347" stroke="#141414" stroke-width="1.2"/>
+  <circle cx="115.6" cy="38" r="3.6" fill="#141414"/>
+  <circle cx="116.8" cy="36.8" r="1.2" fill="#FFFFFF"/>
+  <path d="M129 47 Q126 49 123 48" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round"/>
+</svg>

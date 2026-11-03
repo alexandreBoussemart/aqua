@@ -14,7 +14,7 @@ relay = 11
 
 functions.on_relay(relay)
 
-if os.path.exists(os.path.join(BASE_DIR, "statusRelais/ecumeur")):
-  os.remove(os.path.join(BASE_DIR, "statusRelais/ecumeur"))
+if os.path.exists(os.path.join(BASE_DIR, "var", "relais", "ecumeur")):
+  os.remove(os.path.join(BASE_DIR, "var", "relais", "ecumeur"))
 
 sys.exit()

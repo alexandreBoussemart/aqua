@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 160">
+  <!-- silhouettes de coraux pour le bas de la barre latérale -->
+  <g fill="#48CAE4" fill-opacity="0.18">
+    <path d="M20 160 L26 110 L12 80 L20 76 L32 102 L38 66 L47 68 L43 106 L58 82 L65 87 L50 120 L47 160 Z"/>
+    <ellipse cx="120" cy="158" rx="50" ry="30"/>
+    <rect x="175" y="100" width="12" height="60" rx="6"/><rect x="191" y="84" width="12" height="76" rx="6"/><rect x="207" y="110" width="12" height="50" rx="6"/>
+  </g>
+  <g fill="none" stroke="#48CAE4" stroke-opacity="0.22" stroke-width="5" stroke-linecap="round">
+    <path d="M90 160 C82 130 104 112 92 82 C86 64 100 52 96 34"/>
+    <path d="M150 160 C160 136 140 118 152 94"/>
+  </g>
+</svg>

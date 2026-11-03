@@ -1,0 +1,17 @@
+<div class="col-md-6 col-xs-12 col-sm-12">
+    <div class="x_panel">
+        <div class="x_title"><h2>Suivi entretien</h2><div class="clearfix"></div></div>
+        <div class="x_content progress-content">
+            {% for item in progress %}
+                <p>
+                    {{ item.label }} <small>({{ item.days }}/{{ item.max }}J)</small>
+                    <span><i><small>Temps restant : {{ item.remaining }}J</small></i></span>
+                </p>
+                <div class="progress active">
+                    <div class="progress-bar progress-bar-striped {{ item.class }}" role="progressbar"
+                         data-transitiongoal="{{ item.percent }}"></div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

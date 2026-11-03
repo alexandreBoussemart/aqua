@@ -1,0 +1,27 @@
+{% set jours = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'] %}
+{% set mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
+{% set hm = 'now'|date('H:i') %}
+{% set periode = lighting_period() %}
+{% set nuit = periode.on %}
+<div class="top_nav">
+    <div class="nav_menu">
+        <nav>
+            <div class="nav toggle">
+                <a id="menu_toggle" title="Réduire / afficher le menu"><i class="fa fa-bars"></i></a>
+            </div>
+            <a href="{{ path('dashboard') }}" class="reef-brand-mobile">
+                <img src="{{ asset('build/img/clownfish.svg') }}" alt=""> Reef Pi
+            </a>
+            <div id="reef-clock" class="reef-clock{{ nuit ? ' is-night' }}" data-start="{{ periode.start }}" data-end="{{ periode.end }}"
+                 title="{{ nuit ? 'Éclairage du refuge actif (' ~ periode.start ~ ' → ' ~ periode.end ~ ')' : 'Jour' }}">
+                <span class="reef-clock-icon" aria-hidden="true">
+                    <i class="fa fa-sun-o"></i><i class="fa fa-moon-o"></i>
+                </span>
+                <span class="reef-clock-text">
+                    <span id="clock-date" class="reef-clock-date">{{ jours['now'|date('w')] }} {{ 'now'|date('j') }} {{ mois['now'|date('n') - 1] }}</span>
+                    <span class="reef-clock-time"><span id="clock-hm">{{ hm }}</span><small>:<span id="clock-s">{{ 'now'|date('s') }}</span></small></span>
+                </span>
+            </div>
+        </nav>
+    </div>
+</div>

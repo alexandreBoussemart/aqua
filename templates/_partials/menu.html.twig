@@ -1,0 +1,42 @@
+{% set route = app.request.attributes.get('_route') %}
+{% set items = [
+    {route: 'dashboard', icon: 'fa-home', label: 'Dashboard', short: 'Accueil'},
+    {route: 'configuration', icon: 'fa-wrench', label: 'Configuration', short: 'Config'},
+    {route: 'analyse', icon: 'fa-line-chart', label: "Analyse d'eau", short: 'Analyse'},
+    {route: 'schema', icon: 'fa-map-o', label: 'Schéma de branchement', short: 'Schéma'},
+    {route: 'gpio', icon: 'fa-plug', label: 'Câblage GPIO', short: 'GPIO'},
+    {route: 'logs', icon: 'fa-hdd-o', label: 'Log', short: 'Logs'},
+    {route: 'monitoring', icon: 'fa-bar-chart', label: 'Monitoring système', short: 'Système'},
+    {route: 'relais', icon: 'fa-power-off', label: 'Test relais', short: 'Relais'},
+    {route: 'crons', icon: 'fa-list', label: 'Liste cron', short: 'Crons'},
+] %}
+<div class="col-md-3 left_col menu_fixed">
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title" style="border: 0;">
+            <a href="{{ path('dashboard') }}" class="site_title">
+                <span class="reef-logo"><img src="{{ asset('build/img/clownfish.svg') }}" alt=""></span>
+                <span class="site-name">Reef Pi</span>
+            </a>
+        </div>
+        <div class="clearfix"></div>
+        <div class="profile clearfix">
+            <div class="profile_info">
+                <span>Bonjour,</span>
+                <h2>{{ app.user ? app.user.userIdentifier|capitalize : '' }}</h2>
+            </div>
+        </div>
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+                <h3>Général</h3>
+                <ul class="nav side-menu">
+                    {% for item in items %}
+                        <li{% if route == item.route %} class="active"{% endif %}>
+                            <a href="{{ path(item.route) }}" aria-label="{{ item.label }}"><i class="fa {{ item.icon }}"></i> <span class="menu-label">{{ item.label }}</span><span class="menu-short" aria-hidden="true">{{ item.short }}</span></a>
+                        </li>
+                    {% endfor %}
+                    <li class="menu-logout"><a href="{{ path('app_logout') }}" aria-label="Déconnexion"><i class="fa fa-sign-out"></i> <span class="menu-label">Déconnexion</span><span class="menu-short" aria-hidden="true">Quitter</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

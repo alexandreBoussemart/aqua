@@ -1,0 +1,16 @@
+.git
+.idea
+vendor
+var
+node_modules
+assets/node_modules
+assets/vendors
+docker/db
+docker/gpio
+docker/sensors
+config.json
+config.json.*
+!config.json.sample
+.env.local
+.env.*.local
+tests

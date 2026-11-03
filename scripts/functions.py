@@ -15,7 +15,10 @@ import RPi.GPIO as GPIO
 # Racine du projet (scripts/..) : fonctionne sur le Pi comme dans Docker
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
-STATE_DIR = os.path.join(BASE_DIR, 'state')
+STATE_DIR = os.path.join(BASE_DIR, 'var', 'state')
+RELAIS_DIR = os.path.join(BASE_DIR, 'var', 'relais')
+for _d in (STATE_DIR, RELAIS_DIR):
+    os.makedirs(_d, exist_ok=True)
 
 
 def load_config():
@@ -77,10 +80,6 @@ def getconfig(value):
 def setcontrole(value):
     _guarded("setcontrole " + str(value), execute,
              "UPDATE `last_activity` SET `created_at` = now() WHERE `value` = %s", (str(value),))
-
-
-def setdebit(value):
-    _guarded("setdebit", execute, "INSERT INTO `data_reacteur` (`value`) VALUES (%s)", (value,))
 
 
 def mail(subject, body):

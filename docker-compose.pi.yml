@@ -1,0 +1,65 @@
+# Production sur le Raspberry Pi 4 (Raspberry Pi OS 64 bits + Docker)
+#   docker compose -f docker-compose.pi.yml up -d --build
+# Prérequis : config.json (host "db") et docker/pi/pi.env (cf. docker/pi/pi.env.sample) à la racine du projet.
+x-app: &app
+  build:
+    context: .
+    dockerfile: docker/php/Dockerfile
+    target: prod
+  image: aqua-app:prod
+  restart: unless-stopped
+  env_file: docker/pi/pi.env
+  volumes:
+    - ./config.json:/var/www/html/aqua/config.json:ro
+    - aqua_var:/var/www/html/aqua/var
+  # GPIO (relais, capteurs de niveau) via rpi-lgpio ; /sys (sondes 1-Wire, température CPU) est lisible par défaut
+  devices:
+    - /dev/gpiochip0:/dev/gpiochip0
+  depends_on:
+    db:
+      condition: service_healthy
+
+services:
+  web:
+    <<: *app
+    container_name: aqua-web
+    ports:
+      - "80:80"
+
+  # Planificateur unique (remplace la crontab) : planification modifiable sur /aqua/crons
+  scheduler:
+    <<: *app
+    container_name: aqua-scheduler
+    command: ["php", "bin/console", "app:scheduler:work"]
+
+  db:
+    image: mariadb:11.8
+    container_name: aqua-db
+    restart: unless-stopped
+    env_file: docker/pi/pi.env
+    environment:
+      MARIADB_DATABASE: aqua
+      MARIADB_AUTO_UPGRADE: "1"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    container_name: aqua-pma
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+  aqua_var:

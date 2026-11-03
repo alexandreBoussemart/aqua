@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 220" preserveAspectRatio="xMidYMax slice">
+  <!-- barrière de corail en bas de page (décor, faible opacité appliquée en CSS) -->
+  <defs>
+    <linearGradient id="sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F6E7CB"/><stop offset="1" stop-color="#E9D3A8"/>
+    </linearGradient>
+  </defs>
+  <!-- algues -->
+  <g fill="none" stroke="#2A9D8F" stroke-width="7" stroke-linecap="round">
+    <path d="M70 210 C60 170 90 150 75 110 C65 85 85 70 80 45"/>
+    <path d="M95 210 C110 175 85 150 100 120 C110 100 95 85 105 65"/>
+    <path d="M1300 210 C1290 170 1320 150 1305 110 C1295 85 1315 70 1310 50"/>
+    <path d="M1330 210 C1345 180 1320 160 1335 130 C1345 110 1330 95 1340 75"/>
+    <path d="M760 210 C750 180 775 165 765 135"/>
+  </g>
+  <!-- corail branchu (Acropora) -->
+  <g fill="#FF6F61">
+    <path d="M230 210 L238 150 L222 110 L230 106 L244 140 L250 95 L260 97 L255 145 L272 115 L280 120 L262 160 L258 210 Z"/>
+    <circle cx="226" cy="108" r="7"/><circle cx="255" cy="95" r="7"/><circle cx="277" cy="117" r="7"/>
+    <path d="M1100 210 L1106 160 L1090 125 L1098 121 L1110 150 L1116 110 L1125 112 L1121 155 L1136 128 L1143 133 L1128 170 L1125 210 Z"/>
+    <circle cx="1094" cy="123" r="6"/><circle cx="1120" cy="110" r="6"/><circle cx="1140" cy="130" r="6"/>
+  </g>
+  <!-- corail cerveau -->
+  <g>
+    <ellipse cx="420" cy="205" rx="70" ry="45" fill="#F4A261"/>
+    <path d="M365 200 Q385 180 405 200 T445 200 T475 195 M375 185 Q395 168 415 185 T455 183" fill="none" stroke="#D97B3A" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="960" cy="208" rx="55" ry="35" fill="#E76F51"/>
+    <path d="M915 205 Q930 190 948 205 T980 203 T1000 200" fill="none" stroke="#B9472F" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <!-- corail en éventail (gorgone) -->
+  <g fill="none" stroke="#C77DFF" stroke-width="4" stroke-linecap="round">
+    <path d="M600 210 L600 150 M600 170 L570 120 M600 165 L630 115 M585 145 L560 130 M615 140 L645 128 M600 150 L600 95 M590 120 L578 92 M610 118 L624 90"/>
+  </g>
+  <!-- anémone -->
+  <g stroke="#FF8FAB" stroke-width="6" stroke-linecap="round" fill="none">
+    <path d="M820 210 Q812 180 800 168 M826 210 Q824 176 818 160 M832 210 Q836 176 842 160 M838 210 Q848 180 860 170 M829 210 Q830 170 830 155"/>
+  </g>
+  <!-- corail tubulaire -->
+  <g fill="#48CAE4">
+    <rect x="1210" y="150" width="16" height="60" rx="8"/><rect x="1230" y="130" width="16" height="80" rx="8"/><rect x="1250" y="160" width="16" height="50" rx="8"/>
+  </g>
+  <!-- sable -->
+  <path d="M0 200 Q180 185 360 198 T720 196 T1080 200 T1440 194 L1440 220 L0 220 Z" fill="url(#sand)"/>
+</svg>

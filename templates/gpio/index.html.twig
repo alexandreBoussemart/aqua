@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block title %}Câblage GPIO{% endblock %}
+
+{% macro pin_label(pin, side) %}
+    <div class="gpio-label gpio-label-{{ side }}{{ pin.connection ? ' is-used gpio-' ~ pin.type }}">
+        {% if pin.connection %}
+            <span class="gpio-label-title">{{ pin.connection.label }}</span>
+            <span class="gpio-label-sub">{{ pin.name }}</span>
+        {% else %}
+            <span class="gpio-label-free">{{ pin.name }}</span>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% block body %}
+    <div class="row first-bloc">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Câblage GPIO <small>Raspberry Pi 4 · connecteur 40 broches · vue de dessus, connecteur à droite et ports USB vers le bas (broche 1 en haut à gauche)</small></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content2">
+                    <ul class="gpio-legend">
+                        {% for type, label in type_labels %}
+                            <li><span class="gpio-dot gpio-{{ type }}"></span>{{ label }}</li>
+                        {% endfor %}
+                        <li><span class="gpio-dot gpio-gpio"></span>Broche libre</li>
+                    </ul>
+
+                    <div class="gpio-scroll">
+                        <div class="gpio-board">
+                            <div class="gpio-board-title"><i class="fa fa-plug"></i> Raspberry Pi 4 — GPIO</div>
+                            {% for row in rows %}
+                                <div class="gpio-row">
+                                    {{ _self.pin_label(row.left, 'left') }}
+                                    <span class="gpio-wire{{ row.left.connection ? ' is-used gpio-' ~ row.left.type }}"></span>
+                                    <span class="gpio-pin gpio-{{ row.left.type }}{{ row.left.connection ? ' is-used' }}" title="Broche {{ row.left.number }} · {{ row.left.name }}">{{ row.left.number }}</span>
+                                    <span class="gpio-pin gpio-{{ row.right.type }}{{ row.right.connection ? ' is-used' }}" title="Broche {{ row.right.number }} · {{ row.right.name }}">{{ row.right.number }}</span>
+                                    <span class="gpio-wire{{ row.right.connection ? ' is-used gpio-' ~ row.right.type }}"></span>
+                                    {{ _self.pin_label(row.right, 'right') }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title"><h2>Détail des branchements</h2><div class="clearfix"></div></div>
+                <div class="x_content2">
+                    <table class="table table-striped table-bordered gpio-table">
+                        <thead>
+                        <tr><th>Broche</th><th>GPIO (BCM)</th><th>Branchement</th><th>Type</th><th>Remarque</th><th>Script</th></tr>
+                        </thead>
+                        <tbody>
+                        {% for pin, c in connections %}
+                            <tr>
+                                <td><span class="gpio-pin gpio-{{ c.type }} is-used">{{ pin }}</span></td>
+                                <td>{{ c.bcm is defined ? 'GPIO ' ~ c.bcm : '—' }}</td>
+                                <td><strong>{{ c.label }}</strong></td>
+                                <td>{{ type_labels[c.type] }}</td>
+                                <td><small>{{ c.detail }}</small></td>
+                                <td>{% if c.script is defined and c.script %}<code>scripts/{{ c.script[0] }}</code>{% elseif c.type == 'onewire' %}<code>/boot/config.txt</code>{% else %}—{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <p class="info">
+                        <i class="fa fa-info-circle"></i>
+                        Les capteurs de niveau sont des contacts secs reliés entre la broche et la masse (résistance de tirage interne activée par les scripts).
+                        Les relais sont pilotés via <code>scripts/&lt;relais&gt;/on.py|off.py</code> (cf. page <a href="{{ path('relais') }}">Test relais</a>).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

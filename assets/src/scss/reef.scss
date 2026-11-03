@@ -1,0 +1,1435 @@
+// =============================================================================
+// Thème « Récif » — surcouche de custom.scss (compilée dans public/build/css/reef.min.css)
+// Palette : abysse, lagon, turquoise, corail, sable, algue.
+// =============================================================================
+@use "sass:color";
+
+$abyss: #031D33;
+$deep: #063A5B;
+$ocean: #0B5C80;
+$lagoon: #0096C7;
+$aqua: #48CAE4;
+$foam: #CAF0F8;
+$coral: #FF6F61;
+$coral-dark: #E04F42;
+$anemone: #F77F00;
+$sand: #F6E7CB;
+$seaweed: #2A9D8F;
+$violet: #9B5DE5;
+$ink: #12344D;
+$muted: #5B7C93;
+$radius: 16px;
+$font: "Nunito", "Helvetica Neue", Roboto, Arial, sans-serif;
+$font-title: "Fredoka", "Nunito", sans-serif;
+
+@mixin glass($alpha: 0.82) {
+  background: rgba(255, 255, 255, $alpha);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+// --- Fond : eau claire du lagon vers le sable ----------------------------------
+html, body, .nav-md, .nav-sm {
+  background: linear-gradient(180deg, #DFF6FB 0%, #F2FBFD 45%, #FBF4E6 100%) fixed !important;
+  font-family: $font;
+  color: $ink;
+}
+
+body .container.body .right_col {
+  background: transparent !important;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 140px;
+}
+
+.main_container {
+  position: relative;
+  z-index: 1;
+}
+
+// --- Barre latérale : fond marin -----------------------------------------------
+.left_col, .nav-md .container.body .col-md-3.left_col, .nav-sm .container.body .col-md-3.left_col {
+  background:
+    url("../img/sidebar-coral.svg") no-repeat center bottom / 100% auto,
+    radial-gradient(ellipse at 20% 0%, rgba(144, 224, 239, 0.25) 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 30%, rgba(72, 202, 228, 0.12) 0%, transparent 40%),
+    linear-gradient(180deg, $ocean 0%, $deep 45%, $abyss 100%) !important;
+}
+
+.nav_title {
+  background: transparent !important;
+}
+
+.site_title {
+  font-family: $font-title;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+
+  .reef-logo {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #90E0EF 0%, $lagoon 70%, $ocean 100%);
+    box-shadow: 0 0 0 3px rgba($aqua, 0.35), 0 4px 14px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    img {
+      width: 34px;
+      height: auto;
+      animation: reef-bob 3s ease-in-out infinite;
+    }
+  }
+}
+
+.profile_info {
+  span { color: rgba($foam, 0.75); }
+  h2 { color: #fff; font-family: $font-title; }
+}
+
+.menu_section h3 {
+  color: rgba($foam, 0.6) !important;
+  letter-spacing: 2px;
+  text-shadow: none !important;
+}
+
+.nav.side-menu > li {
+  margin: 3px 10px;
+
+  > a {
+    color: rgba(255, 255, 255, 0.85) !important;
+    border-radius: 12px;
+    transition: background 0.25s, color 0.25s, transform 0.25s;
+
+    i { color: $aqua; transition: color 0.25s; }
+
+    &:hover {
+      background: rgba($aqua, 0.16) !important;
+      color: #fff !important;
+      transform: translateX(3px);
+    }
+  }
+
+  &.active > a, &.current-page > a {
+    background: linear-gradient(90deg, rgba($coral, 0.95), rgba($anemone, 0.85)) !important;
+    color: #fff !important;
+    box-shadow: 0 6px 16px rgba($coral, 0.35);
+    text-shadow: none !important;
+
+    i { color: #fff; }
+  }
+
+  &.active, &.current-page {
+    border-right: 0 !important;
+  }
+}
+
+// --- Barre du haut : surface de l'eau -------------------------------------------
+.top_nav .nav_menu {
+  @include glass(0.75);
+  border-bottom: 0 !important;
+  box-shadow: 0 6px 24px rgba($deep, 0.08);
+  position: relative;
+
+  &::after {
+    // reflets ondulants sous la barre
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    height: 8px;
+    background: radial-gradient(ellipse at 10px -2px, rgba($aqua, 0.35) 6px, transparent 7px) repeat-x;
+    background-size: 20px 8px;
+    opacity: 0.6;
+  }
+}
+
+.toggle a, .toggle a:hover { color: $ocean !important; }
+
+.heure {
+  margin: 8px 15px 0 0 !important;
+  padding: 6px 14px !important;
+  border-radius: 999px;
+  background: linear-gradient(90deg, $lagoon, $aqua);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba($lagoon, 0.35);
+
+  p, span { color: #fff !important; }
+}
+
+// --- Panneaux -------------------------------------------------------------------
+.x_panel {
+  @include glass(0.88);
+  border: 1px solid rgba($aqua, 0.25) !important;
+  border-radius: $radius !important;
+  box-shadow: 0 10px 30px rgba($deep, 0.08);
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow 0.3s, transform 0.3s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg, $lagoon, $aqua 40%, $coral 75%, $anemone);
+  }
+
+  &:hover {
+    box-shadow: 0 14px 36px rgba($deep, 0.13);
+  }
+}
+
+.x_title {
+  border-bottom: 2px dashed rgba($aqua, 0.35) !important;
+
+  h2 {
+    font-family: $font-title;
+    font-weight: 600;
+    color: $ocean !important;
+
+    small { color: $muted; }
+  }
+}
+
+// --- Tuiles d'état ----------------------------------------------------------------
+.row.tile_count {
+  margin: 0 -5px 10px !important;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tile_count .tile_stats_count {
+  @include glass(0.9);
+  border-radius: $radius;
+  margin: 6px 5px;
+  padding: 14px 16px !important;
+  flex: 1 1 180px;
+  border: 1px solid rgba($seaweed, 0.25);
+  border-left: 6px solid $seaweed !important;
+  box-shadow: 0 8px 22px rgba($deep, 0.07);
+  transition: transform 0.25s;
+
+  &::before { display: none !important; }
+
+  &:hover { transform: translateY(-3px); }
+
+  .count_top { color: $muted !important; font-weight: 700; }
+  .count_top i { color: $seaweed !important; }
+  .count { color: $seaweed !important; font-family: $font-title; font-weight: 600; }
+  .count small { color: $ink; font-family: $font; }
+  .count_bottom { color: $muted; }
+
+  &.error {
+    border-color: rgba($coral, 0.4);
+    border-left-color: $coral !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba($coral, 0.12)) !important;
+    animation: reef-alert 2.4s ease-in-out infinite;
+
+    .count, .count_top i { color: $coral-dark !important; }
+  }
+}
+
+// --- To do / rappels --------------------------------------------------------------
+ul.to_do li {
+  background: linear-gradient(90deg, rgba($coral, 0.12), rgba($anemone, 0.08)) !important;
+  border-left: 4px solid $coral;
+  border-radius: 10px;
+
+  p { color: $ink; font-weight: 600; }
+}
+
+// --- Barres de progression -----------------------------------------------------------
+.progress {
+  background: rgba($foam, 0.7) !important;
+  border-radius: 999px !important;
+  height: 14px !important;
+  box-shadow: inset 0 1px 3px rgba($deep, 0.12);
+}
+
+.progress-bar {
+  background-color: $lagoon !important;
+  background-image: linear-gradient(90deg, $lagoon, $aqua) !important;
+  border-radius: 999px;
+
+  &.progress-bar-warning { background-image: linear-gradient(90deg, $anemone, $coral) !important; }
+  &.progress-bar-success { background-image: linear-gradient(90deg, $seaweed, #52D3A8) !important; }
+}
+
+.progress-content p small, .progress-content p span { color: $muted; }
+
+// --- Boutons -------------------------------------------------------------------------
+.btn {
+  border-radius: 999px !important;
+  font-weight: 700;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover { transform: translateY(-1px); }
+}
+
+.btn-success {
+  background: linear-gradient(90deg, $lagoon, $aqua) !important;
+  border: 0 !important;
+  box-shadow: 0 6px 16px rgba($lagoon, 0.35);
+}
+
+.btn-danger {
+  background: linear-gradient(90deg, $coral-dark, $coral) !important;
+  border: 0 !important;
+  box-shadow: 0 6px 16px rgba($coral, 0.35);
+}
+
+.btn-default {
+  background: #fff !important;
+  border: 2px solid rgba($lagoon, 0.35) !important;
+  color: $ocean !important;
+
+  &:hover { border-color: $lagoon !important; box-shadow: 0 4px 12px rgba($lagoon, 0.2); }
+
+  &.haveTimer {
+    background: linear-gradient(90deg, $anemone, $coral) !important;
+    border-color: transparent !important;
+    color: #fff !important;
+  }
+}
+
+.btn-changement-eau {
+  background: linear-gradient(90deg, $seaweed, #52D3A8) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+
+.form-control {
+  border-radius: 10px !important;
+  border: 1px solid rgba($lagoon, 0.3) !important;
+
+  &:focus { border-color: $lagoon !important; box-shadow: 0 0 0 3px rgba($aqua, 0.25) !important; }
+}
+
+.info { color: $muted; }
+
+// --- Calendrier de nourrissage -------------------------------------------------------
+.calendrier {
+  gap: 8px;
+
+  .days {
+    border: 0 !important;
+    margin: 0 !important;
+    border-radius: 14px;
+    background: rgba($foam, 0.35);
+    overflow: hidden;
+
+    &.today {
+      background: linear-gradient(180deg, rgba($sand, 0.95), rgba($sand, 0.5)) !important;
+      box-shadow: 0 0 0 2px $anemone inset;
+
+      .title { color: $coral-dark !important; }
+    }
+
+    .title {
+      border-bottom: 0 !important;
+      color: $ocean !important;
+      font-family: $font-title !important;
+      letter-spacing: 1px;
+    }
+
+    .event {
+      border-radius: 999px !important;
+      border: 0 !important;
+      padding: 4px 10px !important;
+      font-family: $font !important;
+      font-weight: 700;
+      background: $lagoon !important;
+
+      &.coraux { background: $coral !important; }
+      &.algue { background: $seaweed !important; }
+      &.bacterie { background: $violet !important; }
+    }
+  }
+}
+
+// --- Tableaux -------------------------------------------------------------------------
+.table > thead > tr > th {
+  background: rgba($foam, 0.6);
+  color: $ocean;
+  border-bottom: 2px solid rgba($aqua, 0.4) !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) { background: rgba($foam, 0.18); }
+
+// --- Messages flash ----------------------------------------------------------------------
+.messages .alert {
+  border-radius: 14px;
+  border: 0;
+  box-shadow: 0 8px 22px rgba($deep, 0.12);
+
+  &.alert-success { background: linear-gradient(90deg, rgba($seaweed, 0.95), rgba(#52D3A8, 0.95)); color: #fff; }
+  &.alert-danger { background: linear-gradient(90deg, $coral-dark, $coral); color: #fff; }
+  &.alert-warning { background: linear-gradient(90deg, $anemone, #FFB347); color: #fff; }
+}
+
+// --- Relais ---------------------------------------------------------------------------------
+.title-relais.on h2::after { background: $seaweed !important; box-shadow: 0 0 10px $seaweed; }
+.title-relais.off h2::after { background: $coral !important; }
+
+// --- Pied de page : sable --------------------------------------------------------------------
+.footer {
+  background: transparent !important;
+  color: $muted;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+// --- Chargement : petit poisson-clown qui nage dans un aquarium -------------------------------------------------
+// (affiché par showLoader() de custom.js pour les AJAX et par reef-ui.js à l'envoi d'un formulaire)
+.loading-mask {
+  background: rgba($abyss, 0.35) !important;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 30000 !important;
+
+  .loader { display: none !important; }
+}
+
+.reef-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.reef-loader-tank {
+  position: relative;
+  width: 220px;
+  height: 110px;
+  border-radius: 28px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(144, 224, 239, 0.55) 0%, transparent 60%),
+    linear-gradient(180deg, $aqua 0%, $lagoon 55%, $ocean 100%);
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 20px 45px rgba($abyss, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+
+  // reflet de surface ondulé
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 8px;
+    height: 8px;
+    background: radial-gradient(ellipse at 10px 0, rgba(255, 255, 255, 0.55) 5px, transparent 6px) repeat-x;
+    background-size: 20px 8px;
+    animation: reef-loader-wave 1.6s linear infinite;
+  }
+}
+
+.reef-loader-fish {
+  position: absolute;
+  left: 12px;
+  top: 34px;
+  width: 64px;
+  animation: reef-loader-swim 3.2s ease-in-out infinite;
+
+  img { width: 100%; display: block; animation: reef-bob 0.8s ease-in-out infinite; }
+}
+
+.reef-loader-sand {
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  bottom: -14px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, $sand, #E9D3A8);
+}
+
+.reef-loader-bubbles i {
+  position: absolute;
+  bottom: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.2);
+  animation: reef-loader-bubble 2.2s ease-in infinite;
+
+  &:nth-child(1) { left: 30%; width: 8px; height: 8px; }
+  &:nth-child(2) { left: 55%; width: 5px; height: 5px; animation-delay: 0.6s; }
+  &:nth-child(3) { left: 75%; width: 7px; height: 7px; animation-delay: 1.2s; }
+  &:nth-child(4) { left: 45%; width: 4px; height: 4px; animation-delay: 1.7s; }
+}
+
+.reef-loader-text {
+  margin: 0;
+  padding: 5px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: $ocean;
+  font-family: $font-title;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba($abyss, 0.3);
+}
+
+// aller-retour avec demi-tour à chaque bord
+@keyframes reef-loader-swim {
+  0% { transform: translateX(0) scaleX(1); }
+  45% { transform: translateX(130px) scaleX(1); }
+  50% { transform: translateX(130px) scaleX(-1); }
+  95% { transform: translateX(0) scaleX(-1); }
+  100% { transform: translateX(0) scaleX(1); }
+}
+
+@keyframes reef-loader-bubble {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateY(-90px); opacity: 0; }
+}
+
+@keyframes reef-loader-wave {
+  to { background-position: 20px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reef-loader-fish, .reef-loader-fish img, .reef-loader-bubbles i, .reef-loader-tank::before { animation: none; }
+}
+
+// --- Décor animé : poissons, bulles, récif ----------------------------------------------------------
+.reef-decor {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+
+  .reef-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 220px;
+    background: url("../img/reef-bottom.svg") repeat-x center bottom / auto 220px;
+    opacity: 0.55;
+  }
+
+  .fish {
+    position: absolute;
+    left: -160px;
+    width: 90px;
+    animation: reef-swim linear infinite;
+    filter: drop-shadow(0 6px 8px rgba($deep, 0.18));
+
+    img { width: 100%; display: block; animation: reef-bob 2.5s ease-in-out infinite; }
+
+    &.f1 { top: 22%; animation-duration: 38s; animation-delay: -4s; }
+    &.f2 { top: 48%; width: 64px; animation-duration: 52s; animation-delay: -20s; }
+    &.f3 { top: 70%; width: 76px; animation-duration: 44s; animation-delay: -33s; }
+    &.reverse { animation-name: reef-swim-back; left: auto; right: -160px; img { scale: -1 1; } } // « scale » se cumule avec le transform de reef-bob
+  }
+
+  .bubble {
+    position: absolute;
+    bottom: -30px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba($aqua, 0.25) 60%, rgba($aqua, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    animation: reef-bubble linear infinite;
+
+    @for $i from 1 through 10 {
+      &:nth-child(#{$i}) {
+        left: #{($i * 9.3) % 100%};
+        width: #{6 + ($i * 7) % 14}px;
+        height: #{6 + ($i * 7) % 14}px;
+        animation-duration: #{9 + ($i * 5) % 11}s;
+        animation-delay: -#{($i * 3.7) % 12}s;
+      }
+    }
+  }
+}
+
+// --- Page de connexion ----------------------------------------------------------------------------
+body.login {
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(144, 224, 239, 0.45) 0%, transparent 55%),
+    linear-gradient(180deg, $lagoon 0%, $ocean 45%, $abyss 100%) fixed !important;
+  min-height: 100vh;
+
+  .reef-decor .reef-bottom { opacity: 0.9; }
+  .reef-decor .bubble { border-color: rgba(255, 255, 255, 0.45); }
+
+  .login_wrapper { position: relative; z-index: 2; margin-top: 8vh; }
+
+  .login_content {
+    @include glass(0.9);
+    border-radius: 24px;
+    padding: 30px 30px 10px !important;
+    box-shadow: 0 25px 60px rgba($abyss, 0.45);
+    text-shadow: none !important;
+
+    h1 {
+      font-family: $font-title;
+      color: $ocean;
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+
+      &::before, &::after { display: none !important; }
+
+      img { width: 70px; animation: reef-bob 3s ease-in-out infinite; }
+    }
+
+    .login-subtitle { color: $muted; margin: -10px 0 20px; }
+
+    input[type="text"], input[type="password"] {
+      border-radius: 12px !important;
+      border: 1px solid rgba($lagoon, 0.35) !important;
+      box-shadow: none !important;
+      padding: 12px 14px !important;
+      height: auto !important;
+    }
+
+    .btn.submit {
+      width: 100%;
+      margin: 10px 0 20px !important;
+      padding: 12px !important;
+      background: linear-gradient(90deg, $coral, $anemone) !important;
+      color: #fff !important;
+      border: 0 !important;
+      font-size: 16px;
+      box-shadow: 0 10px 22px rgba($coral, 0.4);
+    }
+  }
+}
+
+// --- Animations ---------------------------------------------------------------------------------------
+@keyframes reef-swim {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(100vw + 320px)); }
+}
+
+@keyframes reef-swim-back {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-100vw - 320px)); }
+}
+
+@keyframes reef-bob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-5px) rotate(2deg); }
+}
+
+@keyframes reef-bubble {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 1; }
+  50% { transform: translate(12px, -50vh); }
+  100% { transform: translate(-8px, -105vh); opacity: 0; }
+}
+
+@keyframes reef-alert {
+  0%, 100% { box-shadow: 0 8px 22px rgba($deep, 0.07); }
+  50% { box-shadow: 0 0 0 4px rgba($coral, 0.25), 0 8px 22px rgba($coral, 0.25); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reef-decor .fish, .reef-decor .bubble { display: none; }
+  .tile_count .tile_stats_count.error { animation: none; }
+  .site_title .reef-logo img, body.login .login_content h1 img { animation: none; }
+}
+
+@media (max-width: 768px) {
+  .reef-decor .fish { width: 54px; }
+  .reef-decor .reef-bottom { height: 140px; background-size: auto 140px; }
+}
+
+// --- Retouches ------------------------------------------------------------------------------------------
+// la marge du formulaire ne doit pas « traverser » le body (bande claire en haut de la page de connexion)
+body.login {
+  margin: 0;
+  padding-top: 8vh;
+
+  .login_wrapper { margin-top: 0 !important; }
+}
+
+// anciens séparateurs du thème Gentelella sous les tuiles
+.tile_count, .row.tile_count {
+  border: 0 !important;
+  box-shadow: none !important;
+
+  &::before, &::after { display: none !important; }
+}
+
+.tile_count .tile_stats_count {
+  border-bottom: 1px solid rgba($seaweed, 0.25);
+  &.error { border-bottom-color: rgba($coral, 0.4); }
+}
+
+.heure {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px !important;
+  padding: 6px 16px !important;
+  line-height: 1.2;
+
+  p, span { margin: 0 !important; }
+}
+
+.logo-mobile {
+  @media (min-width: 769px) { display: none !important; }
+
+  .logo-m span { font-family: $font-title; color: $ocean; }
+}
+
+.alert {
+  border-radius: 12px;
+  border: 0;
+
+  &.alert-info { background: rgba($foam, 0.9); color: $ocean; }
+  &.alert-warning { background: rgba($anemone, 0.15); color: color.adjust($anemone, $lightness: -15%); }
+  &.alert-danger { background: rgba($coral, 0.15); color: $coral-dark; }
+}
+
+.input-conf .alert { margin-top: 6px; padding: 6px 12px; font-weight: 700; }
+
+.ln_solid { border-top: 1px dashed rgba($aqua, 0.35) !important; }
+
+
+code {
+  background: rgba($foam, 0.8);
+  color: $ocean;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+// --- Barre du haut : horloge jour/nuit et marque mobile -------------------------------------------------
+.top_nav nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 55px; // hauteur fixe de .nav_menu (Gentelella)
+  padding: 0 24px 0 0;
+
+  .nav.toggle { float: none !important; padding-top: 0 !important; margin: 0; }
+}
+
+.reef-brand-mobile {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  font-family: $font-title;
+  font-size: 20px;
+  font-weight: 600;
+  color: $ocean !important;
+
+  img { width: 38px; animation: reef-bob 3s ease-in-out infinite; }
+
+  @media (max-width: 768px) { display: flex; }
+}
+
+.reef-clock {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 16px 0 5px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(120deg, $lagoon 0%, $aqua 100%);
+  box-shadow: 0 6px 16px rgba($lagoon, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: background 1s;
+  cursor: default;
+
+  .reef-clock-icon {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+
+    .fa-sun-o { color: #FFE066; animation: reef-spin 20s linear infinite; }
+    .fa-moon-o { display: none; color: #FFF3B0; }
+  }
+
+  .reef-clock-text { display: flex; flex-direction: column; line-height: 1.1; }
+
+  .reef-clock-date {
+    font-size: 10.5px;
+    font-weight: 700;
+    display: block;
+    opacity: 0.9;
+
+    &::first-letter { text-transform: uppercase; }
+    letter-spacing: 0.3px;
+  }
+
+  .reef-clock-time {
+    font-family: $font-title;
+    font-size: 19px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+
+    small { font-size: 12px; opacity: 0.75; margin-left: 1px; }
+  }
+
+  // nuit (22h30 → 10h) : ciel nocturne, lune
+  &.is-night {
+    background: linear-gradient(120deg, $abyss 0%, $deep 60%, $ocean 100%);
+    box-shadow: 0 6px 16px rgba($abyss, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+    .fa-sun-o { display: none; }
+    .fa-moon-o { display: inline-block; }
+  }
+
+  @media (max-width: 480px) {
+    height: 38px;
+    padding-right: 12px;
+    .reef-clock-date { display: none; }
+    .reef-clock-time { font-size: 17px; }
+    .reef-clock-icon { width: 28px; height: 28px; font-size: 14px; }
+  }
+}
+
+@keyframes reef-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .reef-clock .fa-sun-o, .reef-brand-mobile img { animation: none; }
+}
+
+// --- Faune supplémentaire : Chelmon rostratus, chirurgien jaune, crevette Lysmata debelius -----------------
+.reef-decor {
+  .fish {
+    &.f4 { top: 34%; width: 80px; animation-duration: 60s; animation-delay: -12s; }
+    &.f5 { top: 60%; width: 84px; animation-duration: 47s; animation-delay: -38s; }
+  }
+
+  // la crevette marche sur le sable, lentement, en se dandinant
+  .shrimp {
+    position: absolute;
+    bottom: 14px;
+    left: -140px;
+    width: 92px;
+    z-index: 1;
+    animation: reef-swim 95s linear infinite;
+    animation-delay: -30s;
+    filter: drop-shadow(0 4px 4px rgba($deep, 0.25));
+
+    img { width: 100%; display: block; animation: reef-crawl 0.9s ease-in-out infinite; transform-origin: 50% 90%; }
+  }
+}
+
+body.login .reef-decor .shrimp { bottom: 18px; }
+
+@keyframes reef-crawl {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-2px) rotate(-1.5deg); }
+  75% { transform: translateY(-1px) rotate(1.5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reef-decor .shrimp { display: none; }
+}
+
+@media (max-width: 768px) {
+  .reef-decor .fish.f3, .reef-decor .fish.f4 { display: none; }
+  .reef-decor .shrimp { width: 60px; }
+}
+
+// barre du haut ancrée entre le menu latéral et le bord droit (Gentelella la calcule depuis le bord gauche)
+.nav_menu {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 230px !important;
+  width: auto !important;
+  float: none !important;
+}
+.nav-sm .nav_menu { left: 70px !important; }
+@media (max-width: 991px) {
+  .nav_menu, .nav-sm .nav_menu { left: 0 !important; }
+}
+
+// --- Menu latéral réduit (☰) : barre d'icônes + libellé en bulle au survol -----------------------------
+.nav-sm {
+  .container.body .col-md-3.left_col.menu_fixed { overflow: visible !important; }
+
+  .navbar.nav_title {
+    width: 70px !important;
+    .site_title { justify-content: center; padding: 0 !important; width: 70px; }
+    .site-name { display: none; }
+  }
+
+  .profile, .menu_section h3 { display: none !important; }
+
+  .menu_section { margin-top: 18px; }
+
+  .nav.side-menu > li {
+    margin: 5px 9px !important;
+    position: relative;
+
+    > a {
+      width: 52px;
+      height: 54px;
+      padding: 0 !important;
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      border-radius: 14px;
+      font-size: 0 !important;
+
+      i {
+        font-size: 19px !important;
+        width: auto !important;
+        margin: 0 !important;
+      }
+
+      // libellé court en tout petit sous l'icône
+      .menu-short {
+        display: block !important;
+        font-size: 9px;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: 0.2px;
+        color: rgba($foam, 0.85);
+        white-space: nowrap;
+      }
+
+      &:hover { transform: none; background: rgba($aqua, 0.2) !important; }
+    }
+
+    // libellé en bulle à droite du menu
+    .menu-label {
+      position: absolute;
+      left: calc(100% + 16px);
+      top: 50%;
+      transform: translate(-6px, -50%);
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: $font;
+      color: #fff;
+      background: $deep;
+      padding: 7px 14px;
+      border-radius: 999px;
+      box-shadow: 0 8px 20px rgba($abyss, 0.35);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+      z-index: 10001;
+
+      &::before {
+        content: "";
+        position: absolute;
+        right: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 6px solid transparent;
+        border-right-color: $deep;
+      }
+    }
+
+    > a:hover .menu-label, > a:focus-visible .menu-label {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(0, -50%);
+    }
+
+    &.active, &.active-sm {
+      border-right: 0 !important;
+
+      > a {
+        background: linear-gradient(135deg, $coral, $anemone) !important;
+        box-shadow: 0 6px 16px rgba($coral, 0.4);
+        i { color: #fff !important; }
+      }
+
+      .menu-label { background: $coral-dark; &::before { border-right-color: $coral-dark; } }
+    }
+  }
+
+  .menu-logout { margin-top: 18px !important; }
+}
+
+// fond du menu porté par la colonne fixe uniquement (sinon le contenu dessine un 2e dégradé, plus court)
+.left_col.scroll-view { background: transparent !important; }
+// le thème masque tous les <span> du titre en mode réduit : on garde le logo
+.nav-sm .navbar.nav_title a span.reef-logo { display: flex !important; }
+
+// libellé court : uniquement en mode réduit
+.menu-short { display: none; }
+
+// --- Page « Câblage GPIO » ---------------------------------------------------------------------------------
+$gpio-colors: (
+  "power-3v3": #F59F00,
+  "power-5v": #E03131,
+  "ground": #343A40,
+  "onewire": $violet,
+  "sensor": $lagoon,
+  "relay": $coral,
+  "gpio": #ADB5BD,
+);
+
+.gpio-legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  padding: 0;
+  margin: 4px 0 18px;
+
+  li { display: flex; align-items: center; gap: 6px; font-weight: 600; color: $muted; }
+}
+
+.gpio-dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+
+.gpio-scroll { overflow-x: auto; padding-bottom: 6px; }
+
+.gpio-board {
+  min-width: 860px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 10px;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.08), transparent 40%),
+    linear-gradient(160deg, #1B7F4B 0%, #146C3E 60%, #0F5A33 100%);
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.08), 0 14px 30px rgba($deep, 0.18);
+}
+
+.gpio-board-title {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: $font-title;
+  font-size: 15px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.gpio-row {
+  display: grid;
+  grid-template-columns: 1fr 46px 30px 30px 46px 1fr;
+  align-items: center;
+  column-gap: 0;
+  height: 30px;
+}
+
+.gpio-pin {
+  width: 24px;
+  height: 24px;
+  margin: 0 3px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  opacity: 0.55;
+
+  &.is-used { opacity: 1; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25), 0 1px 3px rgba(0, 0, 0, 0.4); }
+}
+
+.gpio-wire {
+  height: 3px;
+  margin: 0 2px;
+  &.is-used { border-radius: 2px; }
+}
+
+.gpio-label {
+  font-size: 11px;
+  line-height: 1.15;
+  padding: 3px 10px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &.gpio-label-left { text-align: right; justify-self: end; }
+  &.gpio-label-right { text-align: left; justify-self: start; }
+
+  &.is-used {
+    color: #fff;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    max-width: 100%;
+  }
+
+  .gpio-label-title { display: block; font-weight: 800; font-size: 12px; }
+  .gpio-label-sub { display: block; font-size: 10px; opacity: 0.8; }
+}
+
+@each $type, $color in $gpio-colors {
+  .gpio-dot.gpio-#{$type}, .gpio-pin.gpio-#{$type}, .gpio-wire.gpio-#{$type} { background: $color; }
+  .gpio-label.is-used.gpio-#{$type} { border-left: 4px solid $color; border-right: 4px solid $color; }
+}
+
+.gpio-table .gpio-pin { opacity: 1; margin: 0; border-color: #fff; }
+
+// --- Graphiques (Chart.js) --------------------------------------------------------------------------------
+.reef-chart-box { position: relative; height: 300px; padding: 6px 4px 0; }
+
+.reef-chart-panel .x_title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+
+  h2 { float: none !important; margin-right: auto; }
+  .clearfix { display: none; }
+}
+
+.reef-chart-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.reef-chart-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+  background: rgba($foam, 0.8);
+  color: $ocean;
+
+  &.is-ok { background: rgba($seaweed, 0.12); color: $seaweed; }
+  &.is-alert { background: $coral; color: #fff; box-shadow: 0 4px 12px rgba($coral, 0.35); animation: reef-alert-badge 2s ease-in-out infinite; }
+  &.is-above { background: rgba($coral, 0.15); color: $coral-dark; }
+  &.is-below { background: rgba(#1D4E89, 0.12); color: #1D4E89; }
+}
+
+.reef-chart-panel.has-alert { border-color: rgba($coral, 0.45) !important; }
+
+.reef-chart-empty {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: $muted;
+  font-weight: 700;
+}
+
+@keyframes reef-alert-badge {
+  0%, 100% { box-shadow: 0 4px 12px rgba($coral, 0.35); }
+  50% { box-shadow: 0 0 0 4px rgba($coral, 0.2), 0 4px 12px rgba($coral, 0.35); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reef-chart-badge.is-alert { animation: none; }
+}
+
+// --- Bulle d'aide « i » (thème récif) ---------------------------------------------------------------------------
+// positionnement par public/build/js/reef-ui.js (bulle rattachée au <body>, au-dessus ou en dessous de l'icône)
+.x_panel::before { border-radius: $radius $radius 0 0; }
+
+// icône « i » à droite du champ (réglages) ou de l'interrupteur (statuts)
+.input-with-info, .switch-with-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .form-control { flex: 1 1 auto; min-width: 0; float: none; }
+  .reef-info { flex: 0 0 auto; }
+}
+
+.switch-with-info { justify-content: flex-end; }
+
+// sans icône (pas de description), le champ garde la même largeur que les autres
+.input-with-info:not(:has(.reef-info))::after { content: ""; flex: 0 0 18px; }
+
+.reef-info {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #90E0EF, $lagoon 75%);
+  color: #fff;
+  font-size: 10px;
+  cursor: help;
+  box-shadow: 0 2px 6px rgba($lagoon, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+  outline: none;
+
+  > .fa { line-height: 1; }
+
+  &:hover, &:focus-visible, &[aria-expanded="true"] {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 4px rgba($aqua, 0.25), 0 2px 6px rgba($lagoon, 0.35);
+  }
+
+  // avant l'activation du script, la bulle reste cachée dans l'icône
+  .reef-info-pop { display: none; }
+}
+
+.reef-info-pop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20000; // au-dessus de la barre du haut (10000)
+  width: 290px;
+  max-width: calc(100vw - 20px);
+  padding: 14px 16px 14px 58px;
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(144, 224, 239, 0.35) 0%, transparent 55%),
+    linear-gradient(150deg, $ocean 0%, $deep 60%, $abyss 100%);
+  border: 1px solid rgba($aqua, 0.45);
+  box-shadow: 0 18px 40px rgba($abyss, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
+  font-family: $font;
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.94);
+  transform-origin: var(--arrow-x, 24px) 100%;
+  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.2s;
+
+  &.is-open { opacity: 1; visibility: visible; transform: none; }
+
+  // pointe vers l'icône (sous la bulle, ou au-dessus quand la bulle s'ouvre vers le bas)
+  &::after {
+    content: "";
+    position: absolute;
+    left: var(--arrow-x, 24px);
+    top: 100%;
+    margin-left: -8px;
+    border: 8px solid transparent;
+    border-top-color: $deep;
+  }
+
+  &.is-below {
+    transform-origin: var(--arrow-x, 24px) 0;
+    transform: translateY(-8px) scale(0.94);
+
+    &.is-open { transform: none; }
+
+    &::after { top: auto; bottom: 100%; border-top-color: transparent; border-bottom-color: $ocean; }
+  }
+
+  // reflet de surface ondulé
+  &::before {
+    content: "";
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    top: 6px;
+    height: 6px;
+    background: radial-gradient(ellipse at 8px 0, rgba(255, 255, 255, 0.35) 4px, transparent 5px) repeat-x;
+    background-size: 16px 6px;
+    opacity: 0.5;
+  }
+
+  .reef-info-fish {
+    position: absolute;
+    left: 10px;
+    top: 16px;
+    width: 38px;
+    animation: reef-bob 2.5s ease-in-out infinite;
+  }
+
+  .reef-info-title {
+    display: block;
+    margin-bottom: 4px;
+    font-family: $font-title;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .reef-info-text { display: block; }
+
+  // bulles d'air qui montent à côté du poisson
+  .reef-info-bubbles {
+    position: absolute;
+    left: 40px;
+    top: 6px;
+
+    i {
+      position: absolute;
+      display: block;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.15);
+      animation: reef-info-bubble 2.4s ease-in infinite;
+
+      &:nth-child(1) { width: 6px; height: 6px; left: 0; }
+      &:nth-child(2) { width: 4px; height: 4px; left: 6px; animation-delay: 0.8s; }
+      &:nth-child(3) { width: 5px; height: 5px; left: 2px; animation-delay: 1.6s; }
+    }
+  }
+}
+
+@keyframes reef-info-bubble {
+  0% { transform: translateY(14px); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-6px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reef-info-pop .reef-info-fish, .reef-info-pop .reef-info-bubbles i { animation: none; }
+  .reef-info-pop { transition: opacity 0.15s; transform: none !important; }
+}
+
+// --- Page Configuration : cartes d'actions ---------------------------------------------------------------------
+.reef-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  @media (max-width: 1199px) { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 640px) { grid-template-columns: 1fr; }
+  gap: 16px;
+  padding: 6px 2px 4px;
+}
+
+.reef-action {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #FFFFFF 0%, rgba($foam, 0.35) 100%);
+  border: 1px solid rgba($aqua, 0.3);
+  box-shadow: 0 6px 18px rgba($deep, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba($deep, 0.12); }
+
+  form { margin-top: auto; }
+  .btn { margin: 0; }
+
+  &.is-due { border-color: rgba($anemone, 0.55); background: linear-gradient(180deg, #FFFFFF 0%, rgba($anemone, 0.08) 100%); }
+  &.is-danger { border-style: dashed; border-color: rgba($coral, 0.5); background: linear-gradient(180deg, #FFFFFF 0%, rgba($coral, 0.06) 100%); }
+}
+
+.reef-action-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  h3 { margin: 0; font-family: $font-title; font-size: 15px; font-weight: 600; color: $ocean; }
+  p { margin: 2px 0 0; font-size: 12px; color: $muted; }
+}
+
+.reef-action-icon {
+  flex: 0 0 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 19px;
+  box-shadow: 0 6px 14px rgba($deep, 0.15);
+
+  &.is-seaweed { background: linear-gradient(135deg, $seaweed, #52D3A8); }
+  &.is-lagoon { background: linear-gradient(135deg, $lagoon, $aqua); }
+  &.is-coral { background: linear-gradient(135deg, $coral-dark, $coral); }
+}
+
+.reef-action-gauge {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba($foam, 0.9);
+  overflow: hidden;
+
+  span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, $seaweed, #52D3A8); transition: width 0.6s; }
+}
+
+.reef-action.is-due .reef-action-gauge span { background: linear-gradient(90deg, $anemone, $coral); }
+
+.reef-action-meta {
+  margin: 0;
+  font-size: 12px;
+  color: $muted;
+
+  strong { color: $coral-dark; }
+}
+
+.reef-action-value {
+  font-family: $font-title;
+  font-size: 30px;
+  font-weight: 600;
+  color: $ocean;
+  text-align: center;
+  padding: 6px 0;
+  transition: opacity 0.2s;
+
+  &.is-loading { opacity: 0.35; }
+}
+
+// --- Messages flash : espacés des bords, comme les panneaux ---------------------------------------------------
+.right_col .messages {
+  margin: 0 5px 12px;
+  padding: 0;
+
+  .alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 12px 18px;
+    font-weight: 700;
+
+    .fa { font-size: 18px; flex: 0 0 auto; }
+  }
+}
+
+// --- Blocs côte à côte : même hauteur sur une même rangée (tablette et +) --------------------------------------
+@media (min-width: 768px) {
+  .right_col .row:not(.tile_count) {
+    display: flex;
+    flex-wrap: wrap;
+
+    // le clearfix Bootstrap deviendrait un élément flex parasite
+    &::before, &::after { display: none; }
+
+    > [class*="col-"] {
+      display: flex;
+      flex-direction: column;
+      float: none;
+
+      > .x_panel {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+
+        // le contenu occupe la hauteur gagnée (les boutons des cartes restent en bas)
+        > .x_content, > .x_content2 { flex: 1 1 auto; }
+      }
+    }
+  }
+}

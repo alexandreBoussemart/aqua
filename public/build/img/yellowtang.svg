@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 124">
+  <!-- chirurgien jaune (Zebrasoma flavescens), orienté vers la droite -->
+  <defs>
+    <linearGradient id="t-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFE45C"/><stop offset="0.55" stop-color="#FFD000"/><stop offset="1" stop-color="#F2B800"/>
+    </linearGradient>
+    <linearGradient id="t-fin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFE96E"/><stop offset="1" stop-color="#FFC800"/>
+    </linearGradient>
+  </defs>
+  <!-- queue en croissant -->
+  <path d="M28 54 C20 50 12 42 6 36 C9 50 9 74 6 88 C12 82 20 74 28 70 Z" fill="url(#t-fin)" stroke="#B98700" stroke-width="1.8" stroke-linejoin="round"/>
+  <!-- grande dorsale (de la nuque au pédoncule) -->
+  <path d="M100 30 C92 14 76 4 58 4 C44 5 34 14 28 30 C26 38 26 46 28 54 L46 44 C62 34 82 30 100 30 Z" fill="url(#t-fin)" stroke="#B98700" stroke-width="1.8"/>
+  <!-- grande anale -->
+  <path d="M104 86 C96 104 80 118 60 120 C44 120 32 110 28 94 C26 86 26 78 28 70 L46 80 C64 88 84 90 104 86 Z" fill="url(#t-fin)" stroke="#B98700" stroke-width="1.8"/>
+  <g fill="none" stroke="#C99A00" stroke-opacity="0.45" stroke-width="1">
+    <path d="M40 14 L44 32 M52 7 L54 28 M64 5 L65 27 M76 7 L76 27 M88 14 L87 29"/>
+    <path d="M40 110 L44 92 M52 116 L54 94 M64 119 L65 96 M76 117 L76 95 M88 108 L88 92"/>
+  </g>
+  <!-- corps haut et comprimé, front concave, museau pointu -->
+  <path d="M28 54 C40 40 62 30 86 30 C100 30 110 34 116 44 C120 50 126 56 140 60 L141 63 C128 66 120 72 114 80 C106 90 90 94 70 92 C50 90 36 80 28 70 Z" fill="url(#t-body)" stroke="#B98700" stroke-width="2"/>
+  <!-- opercule -->
+  <path d="M104 44 C98 54 98 72 104 82" fill="none" stroke="#C99A00" stroke-width="1.5"/>
+  <!-- scalpel blanc sur le pédoncule -->
+  <path d="M33 62 L44 59.5 L44 64.5 Z" fill="#FFFFFF" stroke="#B98700" stroke-width="1"/>
+  <!-- pectorale -->
+  <path d="M96 62 C86 64 80 70 82 74 C90 74 98 70 96 62 Z" fill="#FFE45C" stroke="#C99A00" stroke-width="1.2"/>
+  <!-- œil placé haut, loin de la bouche -->
+  <circle cx="111" cy="47" r="4.6" fill="#1B1B1B"/>
+  <circle cx="112.4" cy="45.6" r="1.4" fill="#FFFFFF"/>
+  <!-- bouche -->
+  <path d="M140 61.5 L136 62" stroke="#8A6400" stroke-width="1.2" stroke-linecap="round"/>
+</svg>

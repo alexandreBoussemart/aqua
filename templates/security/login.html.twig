@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reef Pi - Connexion</title>
+    {{ include('_partials/head_assets.html.twig') }}
+</head>
+<body class="login">
+{{ include('_partials/reef_decor.html.twig') }}
+<div class="login_wrapper">
+    <div class="animate form login_form">
+        <section class="login_content">
+            <form method="post" action="{{ path('app_login') }}">
+                <h1><img src="{{ asset('build/img/clownfish.svg') }}" alt=""/> Reef Pi</h1>
+                <p class="login-subtitle">Supervision de l'aquarium récifal</p>
+                {% if error %}
+                    <div class="alert alert-danger">Identifiants invalides.</div>
+                {% endif %}
+                <div><input type="text" name="_username" value="{{ last_username }}" class="form-control" placeholder="Utilisateur" required autofocus autocomplete="username"/></div>
+                <div><input type="password" name="_password" class="form-control" placeholder="Mot de passe" required autocomplete="current-password"/></div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <div><button class="btn btn-default submit" type="submit">Connexion</button></div>
+            </form>
+        </section>
+    </div>
+</div>
+</body>
+</html>

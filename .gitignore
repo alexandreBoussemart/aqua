@@ -1,21 +1,34 @@
-config.json
-.idea/
-raspberry.txt
-__pycache__/
-composer.phar
-scripts/functions.pyc
-*.pyc
-var/log/*
-config/*
-state/*
-statusRelais/*
-var/backup
-var/backup/*
-docs
-# Docker local
-docker/db/*.sql
+# Config et données locales
+/config.json
+/config.json.bak*
+/raspberry.txt
+/composer.phar
+/docs
+/docker/db/*.sql
 
-# Dépendances de build front (npm install dans web/ si besoin de recompiler les assets)
-node_modules/
-web/node_modules/
-web/.sass-cache/
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
+
+# Python
+__pycache__/
+*.pyc
+
+# Front (npm install dans assets/ pour recompiler)
+/node_modules/
+/assets/node_modules/
+/assets/.sass-cache/
+/web/.sass-cache/
+.idea/
+/docker/pi/pi.env

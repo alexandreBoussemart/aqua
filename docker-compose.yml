@@ -1,8 +1,9 @@
 services:
   web:
     build:
-      context: ./docker
-      dockerfile: php/Dockerfile
+      context: .
+      dockerfile: docker/php/Dockerfile
+      target: dev
     container_name: aqua-web
     ports:
       - "8080:80"
@@ -18,6 +19,26 @@ services:
         condition: service_healthy
       mailpit:
         condition: service_started
+
+  # Planificateur unique : remplace la crontab (planification modifiable sur /aqua/crons)
+  scheduler:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      target: dev
+    container_name: aqua-scheduler
+    command: ["php", "bin/console", "app:scheduler:work"]
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html/aqua
+      - ./docker/config.docker.json:/var/www/html/aqua/config.json:ro
+      - ./docker/sensors:/opt/sensors
+      - ./docker/gpio:/opt/gpio
+    environment:
+      TZ: Europe/Paris
+    depends_on:
+      db:
+        condition: service_healthy
 
   db:
     image: mariadb:11.8
@@ -60,5 +81,16 @@ services:
       MP_SMTP_TLS_CERT: "sans:mailpit"
       MP_SMTP_TLS_KEY: "sans:mailpit"
 
+  # Compilation du CSS (SCSS -> public/build/css) : docker compose run --rm assets [--watch]
+  assets:
+    image: node:22-alpine
+    profiles: ["tools"]
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - npm_cache:/root/.npm
+    entrypoint: ["sh", "/app/docker/assets/build-css.sh"]
+
 volumes:
   db_data:
+  npm_cache:

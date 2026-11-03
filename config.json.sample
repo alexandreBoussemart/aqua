@@ -15,11 +15,15 @@
             "host": "",
             "user": "",
             "passwd": "",
-            "database": "",
-            "base_url": "/"
+            "database": ""
         }
     ],
     "file_temperature_eau": "",
     "file_temperature_air": "",
-    "mailer_dsn": ""
+    "mailer_dsn": "",
+    "file_temperature_rpi": "/sys/class/thermal/thermal_zone0/temp",
+    "auth": {
+        "username": "admin",
+        "password_hash": "<docker compose exec web php bin/console security:hash-password>"
+    }
 }

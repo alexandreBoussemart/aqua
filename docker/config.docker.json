@@ -15,11 +15,14 @@
       "host": "db",
       "user": "root",
       "passwd": "root",
-      "database": "aqua",
-      "base_url": "http://localhost:8080/aqua/web/"
+      "database": "aqua"
     }
   ],
   "file_temperature_eau": "/opt/sensors/w1_slave_eau",
   "file_temperature_air": "/opt/sensors/w1_slave_air",
-  "mailer_dsn": "smtp://mailpit:1025?verify_peer=0"
+  "mailer_dsn": "smtp://mailpit:1025?verify_peer=0",
+  "auth": {
+    "username": "admin",
+    "password_hash": "$2y$12$8cJABVJD7zpjILQq/1aYwOj/5bbaAzCoLsVpMHG0FFh6cbRRodMWm"
+  }
 }

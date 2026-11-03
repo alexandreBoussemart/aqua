@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+{% block title %}Configuration{% endblock %}
+
+{% block body %}
+    <div class="row first-bloc">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title"><h2>Configuration</h2><div class="clearfix"></div></div>
+                <div class="x_content2">
+                    <form method="post" action="{{ path('configuration_save') }}" class="form-horizontal form-label-left switch-state">
+                        {{ include('_partials/csrf.html.twig') }}
+                        <br>
+                        {% for c in config %}
+                            {% if not loop.first and c.groupe != config[loop.index0 - 1].groupe %}<div class="ln_solid"></div>{% endif %}
+                            <div class="form-group">
+                                <label class="control-label col-md-6 col-sm-6 col-xs-6" for="cfg-{{ c.name }}">{{ c.label }}<span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-6 input-conf">
+                                    <div class="input-with-info">
+                                        {% set input_type = c.type == 'time' ? 'time' : (c.type == 'numeric' ? 'number' : 'text') %}
+                                        <input id="cfg-{{ c.name }}" value="{{ c.value }}" name="{{ c.name }}" class="form-control" required="required"
+                                               type="{{ input_type }}"{% if input_type == 'number' %} step="any" inputmode="decimal"{% elseif input_type == 'time' %} step="60"{% endif %}>
+                                        {% if c.description %}{{ include('_partials/info.html.twig', {text: c.description, title: c.label}) }}{% endif %}
+                                    </div>
+                                    {% if c.alert %}<div class="{{ c.alert.class }}" role="alert">{{ c.alert.text }}</div>{% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Enregistrer</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title"><h2>Statut <small>On/Off</small></h2><div class="clearfix"></div></div>
+                <div class="x_content2">
+                    <form id="form-status" method="post" action="{{ path('configuration_status') }}" class="form-horizontal form-label-left switch-state">
+                        {% for status in statuses %}
+                            {% if not loop.first and status.groupe != statuses[loop.index0 - 1].groupe %}<div class="ln_solid"></div>{% endif %}
+                            <div class="form-group">
+                                <label class="control-label col-md-6 col-sm-6 col-xs-6" for="st-{{ status.name }}">{{ status.label }}</label>
+                                <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                    <div class="switch-with-info">
+                                        <input id="st-{{ status.name }}" name="{{ status.name }}" type="checkbox" class="js-switch" {{ status.value ? 'checked' }}/>
+                                        {% if status.description %}{{ include('_partials/info.html.twig', {text: status.description, title: status.label}) }}{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title"><h2>Actions <small>entretien, mesures instantanées et maintenance</small></h2><div class="clearfix"></div></div>
+                <div class="x_content">
+                    <div class="reef-actions">
+                        {# nettoyages #}
+                        {% for c in cleanings %}
+                            <div class="reef-action{{ c.overdue ? ' is-due' }}">
+                                <div class="reef-action-head">
+                                    <span class="reef-action-icon is-seaweed"><i class="fa {{ c.icon }}"></i></span>
+                                    <div>
+                                        <h3>Nettoyage {{ c.label|lower }}</h3>
+                                        <p>{{ c.last ? 'Dernier : ' ~ c.ago : 'Jamais enregistré' }}</p>
+                                    </div>
+                                </div>
+                                <div class="reef-action-gauge" title="{{ c.days ?? '—' }} / {{ c.max }} jours avant rappel">
+                                    <span style="width: {{ c.percent }}%"></span>
+                                </div>
+                                <p class="reef-action-meta">
+                                    {% if c.days is not null %}{{ c.days }} / {{ c.max }} jours{% if c.overdue %} · <strong>à faire</strong>{% endif %}{% else %}rappel tous les {{ c.max }} jours{% endif %}
+                                </p>
+                                <form method="post" action="{{ path('configuration_clean', {type: c.type}) }}">
+                                    {{ include('_partials/csrf.html.twig') }}
+                                    <button onclick="return confirm('Marquer « {{ c.label|lower }} » comme nettoyé aujourd\'hui ?')" type="submit" class="btn btn-success btn-block">
+                                        <i class="fa fa-check"></i> C'est nettoyé
+                                    </button>
+                                </form>
+                            </div>
+                        {% endfor %}
+
+                        {# températures instantanées #}
+                        {% for sensor, t in {eau: {label: "Température de l'eau", value: water_temperature, icon: 'fa-tint'}, air: {label: "Température de l'air", value: air_temperature, icon: 'fa-cloud'}} %}
+                            <div class="reef-action">
+                                <div class="reef-action-head">
+                                    <span class="reef-action-icon is-lagoon"><i class="fa {{ t.icon }}"></i></span>
+                                    <div>
+                                        <h3>{{ t.label }}</h3>
+                                        <p>Lecture directe de la sonde</p>
+                                    </div>
+                                </div>
+                                <div class="reef-action-value" data-sensor-value="{{ sensor }}">{{ t.value }}</div>
+                                <button type="button" class="btn btn-default btn-block" data-sensor-refresh="{{ path('configuration_temperature', {sensor: sensor}) }}" data-sensor="{{ sensor }}">
+                                    <i class="fa fa-refresh"></i> Relire la sonde
+                                </button>
+                            </div>
+                        {% endfor %}
+
+                        {# maintenance #}
+                        <div class="reef-action is-danger">
+                            <div class="reef-action-head">
+                                <span class="reef-action-icon is-coral"><i class="fa fa-trash"></i></span>
+                                <div>
+                                    <h3>Purger l'historique</h3>
+                                    <p>Supprime mesures et logs de plus de 30 jours</p>
+                                </div>
+                            </div>
+                            <p class="reef-action-meta">{{ oldest_data ? 'Données conservées depuis le ' ~ oldest_data|date_short : 'Aucune donnée' }}</p>
+                            <form method="post" action="{{ path('configuration_purge') }}">
+                                {{ include('_partials/csrf.html.twig') }}
+                                <button onclick="return confirm('Supprimer définitivement les mesures et logs de plus de 30 jours ?')" type="submit" class="btn btn-danger btn-block">
+                                    <i class="fa fa-trash"></i> Purger > 30 jours
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var URL_SAVE_STATUS = '{{ path('configuration_status') }}';
+
+        // relecture d'une sonde : la valeur est mise à jour dans la carte
+        $(document).on('click', '[data-sensor-refresh]', function () {
+            var $btn = $(this), $value = $('[data-sensor-value="' + $btn.data('sensor') + '"]');
+            $btn.prop('disabled', true).find('.fa').addClass('fa-spin');
+            $value.addClass('is-loading');
+            $.post($btn.data('sensor-refresh')).done(function (result) {
+                $value.text(result);
+            }).fail(function () {
+                $value.text('Lecture impossible');
+            }).always(function () {
+                $btn.prop('disabled', false).find('.fa').removeClass('fa-spin');
+                $value.removeClass('is-loading');
+            });
+        });
+    </script>
+{% endblock %}
