@@ -32,3 +32,4 @@ __pycache__/
 /web/.sass-cache/
 .idea/
 /docker/pi/pi.env
+/docker/certs/*.pem

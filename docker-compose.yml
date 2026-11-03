@@ -12,8 +12,20 @@ services:
       - ./docker/config.docker.json:/var/www/html/aqua/config.json:ro
       - ./docker/sensors:/opt/sensors
       - ./docker/gpio:/opt/gpio
+      # HTTPS local : https://reef-pi.app.local (certificat : make certs)
+      - ./docker/php/aqua-ssl.conf:/etc/apache2/conf-enabled/aqua-ssl.conf:ro
+      - ./docker/certs:/etc/aqua-certs:ro
     environment:
       TZ: Europe/Paris
+    networks: [default, traefik]
+    labels:
+      # Traefik (projet OUTILS/TRAEFIKV2) relaie le TLS de reef-pi.app.local tel quel vers Apache:443
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.tcp.routers.aqua.rule=HostSNI(`reef-pi.app.local`)
+      - traefik.tcp.routers.aqua.entrypoints=https
+      - traefik.tcp.routers.aqua.tls.passthrough=true
+      - traefik.tcp.services.aqua.loadbalancer.server.port=443
     depends_on:
       db:
         condition: service_healthy
@@ -110,6 +122,11 @@ services:
       - ./:/app
       - npm_cache:/root/.npm
     entrypoint: ["sh", "/app/docker/assets/build-css.sh"]
+
+networks:
+  # réseau du Traefik local (docker network create traefik s'il n'existe pas)
+  traefik:
+    external: true
 
 volumes:
   db_data:

@@ -18,9 +18,16 @@ make up            # construit et démarre tous les conteneurs
 make migrate       # applique les migrations SQL
 ```
 
+**HTTPS local** (`https://reef-pi.app.local`) : passe par un Traefik local (réseau Docker externe `traefik`, ports 80/443) qui relaie le TLS jusqu'à Apache. Une fois pour toutes :
+
+```bash
+make certs                                                     # certificat mkcert (docker/certs/, non versionné)
+sudo sh -c 'printf "127.0.0.1 reef-pi.app.local\n::1 reef-pi.app.local\n" >> /etc/hosts'
+```
+
 | Service | URL |
 |---|---|
-| Application | http://localhost:8080/aqua/ — identifiants **admin / admin** |
+| Application | **https://reef-pi.app.local/** (ou http://localhost:8080/aqua/) — identifiants **admin / admin** |
 | phpMyAdmin | http://localhost:8081 |
 | Mailpit (mails interceptés) | http://localhost:8025 |
 | MariaDB | `localhost:3307` (root / root, base `aqua`) |

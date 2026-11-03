@@ -10,6 +10,8 @@ CONSOLE := $(EXEC) php bin/console
 URL     ?= http://localhost:8080/aqua
 
 .DEFAULT_GOAL := help
+
+.PHONY: certs
 .PHONY: help up start down stop restart reset build ps logs logs-web shell console migrate status-sync \
         cron crons gpio logs-gpio composer cc test test-php test-python e2e css css-watch db pma mail \
         pi-up pi-down pi-logs pi-migrate pi-shell pi-gpio
@@ -17,7 +19,7 @@ URL     ?= http://localhost:8080/aqua
 help: ## Affiche cette aide
 	@awk 'BEGIN {FS = ":.*## "} /^##@/ {printf "\n\033[1m%s\033[0m\n", substr($$0, 5)} /^[a-zA-Z0-9_-]+:.*## / {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 	@echo ""
-	@echo "  App : $(URL)/ (admin / admin) · phpMyAdmin : http://localhost:8081 · Mailpit : http://localhost:8025"
+	@echo "  App : https://reef-pi.app.local/ ou $(URL)/ (admin / admin) · phpMyAdmin : http://localhost:8081 · Mailpit : http://localhost:8025"
 
 ##@ Conteneurs
 up: ## Construit et démarre tout (web, scheduler, gpio, db, phpmyadmin, mailpit)
@@ -33,6 +35,8 @@ reset: ## ⚠ Supprime la BDD locale et repart du dump (+ migrations)
 	$(DC) up -d --build
 	@echo "Attente de la BDD…"; until docker exec aqua-db healthcheck.sh --connect --innodb_initialized >/dev/null 2>&1; do sleep 2; done
 	$(EXEC_T) php bin/console app:db:migrate
+certs: ## Génère le certificat HTTPS local (mkcert) pour https://reef-pi.app.local
+	mkcert -cert-file docker/certs/reef-pi.app.local.pem -key-file docker/certs/reef-pi.app.local-key.pem reef-pi.app.local
 build: ## Reconstruit les images sans cache
 	$(DC) build --no-cache
 ps: ## État des conteneurs

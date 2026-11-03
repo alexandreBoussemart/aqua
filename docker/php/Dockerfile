@@ -21,7 +21,8 @@ CMD ["apache2-foreground"]
 
 # --- développement local -------------------------------------------------------
 FROM base AS dev
-RUN printf "display_errors=On\nerror_reporting=E_ALL\n" > /usr/local/etc/php/conf.d/dev.ini
+RUN printf "display_errors=On\nerror_reporting=E_ALL\n" > /usr/local/etc/php/conf.d/dev.ini \
+    && a2enmod ssl
 # Faux RPi.GPIO pour le service GPIO : entrées lues dans /opt/gpio/<broche>, sorties tracées dans var/log/gpio-fake.log
 COPY docker/python/ /opt/fake_python/
 ENV PYTHONPATH=/opt/fake_python
